@@ -1,0 +1,10 @@
+package com.example.societyslam.societyslam.GameObjects;
+
+/**
+ * Created by Aoife Brown on 15/11/2016.
+ */
+
+public enum Level {
+
+    Basic, Level1, Level2
+}
