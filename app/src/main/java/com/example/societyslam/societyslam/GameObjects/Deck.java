@@ -1,18 +1,26 @@
 package com.example.societyslam.societyslam.GameObjects;
 
+import android.widget.EditText;
+
+import com.example.societyslam.societyslam.Game.Assets;
+import com.example.societyslam.societyslam.R;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Aoife Brown on 15/11/2016.
  */
 
 public class Deck {
+    private Random randomGenerator;
 
-    private ArrayList<Card> myDeck = new ArrayList<Card>();
+    public ArrayList<Card> myDeck = new ArrayList<Card>();
 
     public Deck(ArrayList<Card> myDeck) {
         this.myDeck = myDeck;
     }
+
 
     public ArrayList<Card> getMyDeck() {
         return myDeck;
@@ -21,4 +29,16 @@ public class Deck {
     public void setMyDeck(ArrayList<Card> myDeck) {
         this.myDeck = myDeck;
     }
+
+    public int randomCard(){
+        int index = randomGenerator.nextInt(myDeck.size());
+        Card card =  myDeck.get(index);
+        return card.getPicture();
+
+    }
+
+
 }
+
+
+

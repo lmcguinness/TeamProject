@@ -1,5 +1,7 @@
 package com.example.societyslam.societyslam.GameObjects;
 
+import com.example.societyslam.societyslam.Game.Assets;
+
 /**
  * Created by Aoife Brown on 15/11/2016.
  */
@@ -17,8 +19,8 @@ public class SocietyCard extends Card {
     private int retreatCost;
     private Level level;
 
-    public SocietyCard(String name, float x, float y, float height, float width, int hp,String attackName, int attackCost, int attackStrength, Type type, Type weakness, Type resistance, int retreatCost, Level level) {
-        super(name, x, y, height, width);
+    public SocietyCard(String name, float x, float y, float height, float width, int picture, int hp, String attackName, int attackCost, int attackStrength, Type type, Type weakness, Type resistance, int retreatCost, Level level) {
+        super(name, x, y, height, width, picture);
         this.hp = hp;
         this.attackName = attackName;
         this.attackCost = attackCost;

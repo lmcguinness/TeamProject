@@ -1,5 +1,7 @@
 package com.example.societyslam.societyslam.GameObjects;
 
+import com.example.societyslam.societyslam.Game.Assets;
+
 /**
  * Created by Aoife Brown on 15/11/2016.
  */
@@ -8,8 +10,8 @@ public class EnergyCard extends Card {
 
     private Type type;
 
-    public EnergyCard(String name, float x, float y, float height, float width, Type type) {
-        super(name, x, y, height, width);
+    public EnergyCard(String name, float x, float y, float height, float width, int picture, Type type) {
+        super(name, x, y, height, width, picture);
         this.type = type;
     }
 

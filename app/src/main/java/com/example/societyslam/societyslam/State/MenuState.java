@@ -44,13 +44,14 @@ public class MenuState extends State {
         if(e.getAction() == MotionEvent.ACTION_DOWN) {
             //Button has been pressed
             playDown = true;
+
         }
 
         if (e.getAction() == MotionEvent.ACTION_UP) {
             if(playDown && playRect.contains(scaledX,scaledY)){
                 //Button has been released
                 playDown = false;
-                Log.d("MenuState","Play button has been pressed");
+                setCurrentState(new PlayState());
             } else {
                 playDown = false;
             }
