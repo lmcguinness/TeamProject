@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -108,8 +109,8 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
 
-
     public void run() {
+
         long updateDurationMillis = 0;
         long sleepDurationMillis = 0;
 
@@ -127,10 +128,12 @@ public class GameView extends SurfaceView implements Runnable {
                 e.printStackTrace();
             }
         }
+
+
     }
 
     private void updateAndRender(long delta) {
-        currentState.update(delta/1000f);
+        currentState.update(delta / 1000f);
         currentState.render(graphics);
         renderGameImage();
 
@@ -143,12 +146,6 @@ public class GameView extends SurfaceView implements Runnable {
             screen.drawBitmap(gameImage,gameImageSrc,gameImageDst, null);
             getHolder().unlockCanvasAndPost(screen);
     }
-
-
-
-
-
-
 
     }
 }

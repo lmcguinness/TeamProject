@@ -13,7 +13,7 @@ public class StudentBehaviourCard extends Card {
 
 
     public StudentBehaviourCard(String name, float x, float y, float height, float width, StudentBehaviourType type) {
-        super(name, x, y, height, width);
+        super(name, x, y, height, width, 1);
 
         this.type = type;
     }
