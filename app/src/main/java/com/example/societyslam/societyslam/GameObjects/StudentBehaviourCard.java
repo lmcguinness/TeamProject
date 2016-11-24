@@ -1,5 +1,7 @@
 package com.example.societyslam.societyslam.GameObjects;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Aoife Brown on 15/11/2016.
  */
@@ -12,8 +14,8 @@ public class StudentBehaviourCard extends Card {
 
 
 
-    public StudentBehaviourCard(String name, float x, float y, float height, float width, StudentBehaviourType type) {
-        super(name, x, y, height, width, 1);
+    public StudentBehaviourCard(String name, float x, float y, float height, float width, Bitmap bitmap, StudentBehaviourType type) {
+        super(name, x, y, height, width, bitmap);
 
         this.type = type;
     }

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // hello world
+
         super.onCreate(savedInstanceState);
         assets = getAssets();
         myGame = new GameView(this,GAME_WIDTH,GAME_HEIGHT);

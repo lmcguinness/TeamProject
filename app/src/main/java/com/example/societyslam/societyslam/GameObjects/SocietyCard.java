@@ -1,5 +1,7 @@
 package com.example.societyslam.societyslam.GameObjects;
 
+import android.graphics.Bitmap;
+
 import com.example.societyslam.societyslam.Game.Assets;
 
 /**
@@ -19,8 +21,8 @@ public class SocietyCard extends Card {
     private int retreatCost;
     private Level level;
 
-    public SocietyCard(String name, float x, float y, float height, float width, int picture, int hp, String attackName, int attackCost, int attackStrength, Type type, Type weakness, Type resistance, int retreatCost, Level level) {
-        super(name, x, y, height, width, picture);
+    public SocietyCard(String name, float x, float y, float height, float width, Bitmap bitmap, int hp, String attackName, int attackCost, int attackStrength, Type type, Type weakness, Type resistance, int retreatCost, Level level) {
+        super(name, x, y, height, width,bitmap);
         this.hp = hp;
         this.attackName = attackName;
         this.attackCost = attackCost;

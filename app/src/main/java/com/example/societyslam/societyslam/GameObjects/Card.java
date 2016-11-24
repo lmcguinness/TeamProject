@@ -1,6 +1,9 @@
 package com.example.societyslam.societyslam.GameObjects;
 
 
+import android.graphics.Bitmap;
+
+;
 
 /**
  * Created by Aoife Brown on 15/11/2016.
@@ -9,24 +12,24 @@ package com.example.societyslam.societyslam.GameObjects;
 public abstract class Card {
     private String name;
     private float x, y, height, width;
-    private int picture;
+    private Bitmap bitmap;
 
 
 
-    public Card(String name, float x, float y, float height, float width, int picture) {
+    public Card(String name, float x, float y, float height, float width, Bitmap bitmap) {
         this.x = x;
         this.y = y;
         this.height = height;
         this.width = width;
-        this.picture = picture;
+        this.bitmap = bitmap;
     }
 
 
     public abstract void draw();
     public abstract void discard();
 
-    public int getPicture(){
-        return picture;
+    public Bitmap getPicture(){
+        return bitmap;
     }
 }
 

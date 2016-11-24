@@ -1,11 +1,11 @@
 package com.example.societyslam.societyslam.State;
 
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Util.Painter;
+import com.example.societyslam.societyslam.State.PlayState;
 
 /**
  * Created by Aoife Brown on 21/11/2016.
@@ -51,7 +51,7 @@ public class MenuState extends State {
             if(playDown && playRect.contains(scaledX,scaledY)){
                 //Button has been released
                 playDown = false;
-                setCurrentState(new PlayState());
+               setCurrentState(new PlayState());
             } else {
                 playDown = false;
             }

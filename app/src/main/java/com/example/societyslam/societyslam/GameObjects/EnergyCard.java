@@ -1,5 +1,7 @@
 package com.example.societyslam.societyslam.GameObjects;
 
+import android.graphics.Bitmap;
+
 import com.example.societyslam.societyslam.Game.Assets;
 
 /**
@@ -10,8 +12,8 @@ public class EnergyCard extends Card {
 
     private Type type;
 
-    public EnergyCard(String name, float x, float y, float height, float width, int picture, Type type) {
-        super(name, x, y, height, width, picture);
+    public EnergyCard(String name, float x, float y, float height, float width, Bitmap bitmap, Type type) {
+        super(name, x, y, height, width, bitmap);
         this.type = type;
     }
 

@@ -1,5 +1,6 @@
 package com.example.societyslam.societyslam.GameObjects;
 
+import android.graphics.Bitmap;
 import android.widget.EditText;
 
 import com.example.societyslam.societyslam.Game.Assets;
@@ -30,7 +31,7 @@ public class Deck {
         this.myDeck = myDeck;
     }
 
-    public int randomCard(){
+    public Bitmap randomCard(){
         int index = randomGenerator.nextInt(myDeck.size());
         Card card =  myDeck.get(index);
         return card.getPicture();
