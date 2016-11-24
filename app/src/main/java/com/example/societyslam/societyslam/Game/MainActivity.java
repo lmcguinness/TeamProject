@@ -17,10 +17,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 450;
     public static GameView myGame;
-
-
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

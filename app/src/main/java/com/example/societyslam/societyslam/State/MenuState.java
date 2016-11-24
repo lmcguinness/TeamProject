@@ -2,8 +2,10 @@ package com.example.societyslam.societyslam.State;
 
 import android.graphics.Rect;
 import android.view.MotionEvent;
+import android.widget.Button;
 
 import com.example.societyslam.societyslam.Game.Assets;
+import com.example.societyslam.societyslam.R;
 import com.example.societyslam.societyslam.Util.Painter;
 import com.example.societyslam.societyslam.State.PlayState;
 
@@ -15,11 +17,11 @@ public class MenuState extends State {
 
     private Rect playRect;
     private boolean playDown = false;
+    public Button startButton;
 
     @Override
     public void init() {
         playRect = new Rect(400,350,484,286);
-
     }
 
     @Override
@@ -41,20 +43,15 @@ public class MenuState extends State {
 
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
-        if(e.getAction() == MotionEvent.ACTION_DOWN) {
+        if (e.getAction() == MotionEvent.ACTION_DOWN) {
             //Button has been pressed
             playDown = true;
-
         }
 
-        if (e.getAction() == MotionEvent.ACTION_UP) {
-            if(playDown && playRect.contains(scaledX,scaledY)){
-                //Button has been released
-                playDown = false;
-               setCurrentState(new PlayState());
-            } else {
-                playDown = false;
-            }
+        if (playDown) {
+            //Button has been released
+            playDown = false;
+            setCurrentState(new PlayState());
         }
         return true;
     }

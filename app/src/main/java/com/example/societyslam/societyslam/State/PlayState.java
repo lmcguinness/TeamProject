@@ -46,12 +46,15 @@ public class PlayState extends State implements View.OnClickListener {
     }
     @Override
     public void render(Painter g){
+        g.drawImage(Assets.ssb, 0, 0);
     }
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY){
         return false;
     }
-    public void onClick(View v){drawCard();}
+
+    public void onClick(View v){ drawCard(); }
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -64,8 +67,6 @@ public class PlayState extends State implements View.OnClickListener {
         deckOfCards.add(waterEnergy);
         deckOfCards.add(electricEnergy);
         deckOfCards.add(earthEnergy);
-
-
     }
 
     private void drawCard(){

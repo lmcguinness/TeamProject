@@ -14,34 +14,36 @@ public class Assets {
 
     public static Bitmap welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
     electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
-    karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background;
+    karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb;
 
     public static void load() {
+        // Commented ones to be added at a later stage
+
         welcome = loadBitmap("welcome.jpg", false);
         start = loadBitmap("start_button.png", true);
         startDown = loadBitmap("start_button_down.png",true);
-        boxingSociety = loadBitmap("BoxingSociety.PNG", true);
-        cardBack = loadBitmap("CardBack.PNG", true);
-        cavingSociety = loadBitmap("CavingSociety.PNG", true);
-        computerSociety = loadBitmap("ComputerSociety.PNG", true);
-        divingSociety = loadBitmap("DivingSociety.PNG", true);
-        earthEnergy = loadBitmap("EarthEnergy.PNG", true);
-        electricEnergy = loadBitmap("ElectricEnergy.PNG", true);
-        engineeringSociety = loadBitmap("EngineeringSociety.PNG", true);
-        fencingSociety = loadBitmap("FencingSociety.PNG", true);
-        fightEngery = loadBitmap("FightEnergy.PNG", true);
-        friendsOfEarth = loadBitmap("FriendsOfEarth.PNG", true);
-        gardeningSociety = loadBitmap("GardeningSociety.PNG", true);
-        geographySociety = loadBitmap("GeographySociety.PNG", true);
-        judoSociety = loadBitmap("JudoSociety.PNG", true);
-        karateSociety = loadBitmap("KarateSociety.PNG", true);
-        physicsSociety = loadBitmap("PhysicsSociety.PNG", true);
-        rowingSociety = loadBitmap("RowingSociety.PNG", true);
-        surfingSociety = loadBitmap("SurfingSociety.PNG", true);
-        swimmingSociety = loadBitmap("SwimmingSociety.PNG", true);
-        waterEnergy = loadBitmap("WaterEnergy.PNG", true);
-        background = loadBitmap("pokemonboard.jpg", false);
+        boxingSociety = loadBitmap("boxingsociety.png", true);
+        cardBack = loadBitmap("CardBack.png", true);
+        cavingSociety = loadBitmap("CavingSociety.png", true);
+        computerSociety = loadBitmap("computersociety.png", true);
+        divingSociety = loadBitmap("divingsociety.png", true);
+        earthEnergy = loadBitmap("EarthEnergy.png", true);
+        electricEnergy = loadBitmap("ElectricEnergy.png", true);
+        engineeringSociety = loadBitmap("EngineeringSociety.png", true);
+        fencingSociety = loadBitmap("FencingSociety.png", true);
+        // fightEngery = loadBitmap("FightEnergy.png", true);
+        friendsOfEarth = loadBitmap("FriendsOfEarth.png", true);
+        gardeningSociety = loadBitmap("GardeningSociety.png", true);
+        geographySociety = loadBitmap("GeographySociety.png", true);
+        // judoSociety = loadBitmap("JudoSociety.png", true);
+        karateSociety = loadBitmap("KarateSociety.png", true);
+        // physicsSociety = loadBitmap("PhysicsSociety.png", true);
+        rowingSociety = loadBitmap("RowingSociety.png", true);
+        surfingSociety = loadBitmap("SurfingSociety.png", true);
+        swimmingSociety = loadBitmap("SwimmingSociety.png", true);
+        waterEnergy = loadBitmap("waterenergy.png", true);
 
+        ssb = loadBitmap("ssb.PNG", true);
     }
 
     private static Bitmap loadBitmap(String filename, boolean transparency) {

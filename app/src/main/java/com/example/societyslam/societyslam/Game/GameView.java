@@ -68,10 +68,33 @@ public class GameView extends SurfaceView implements Runnable {
         });
     }
 
+    public void run() {
+        Looper.prepare();
 
+        long updateDurationMillis = 0;
+        long sleepDurationMillis = 0;
 
-    public GameView(Context context) {
-        super(context);
+        while(running) {
+            long beforeUpdateRender = System.nanoTime();
+            long deltaMillis = sleepDurationMillis + updateDurationMillis;
+            updateAndRender(deltaMillis);
+
+            updateDurationMillis = (System.nanoTime() - beforeUpdateRender) /1000000L;
+            sleepDurationMillis = Math.max(2,17-updateDurationMillis);
+
+            try {
+                Thread.sleep(sleepDurationMillis);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setCurrentState(State newState) {
+        System.gc();
+        newState.init();
+        currentState = newState;
+        inputHandler.setCurrentState(currentState);
     }
 
     private void initInput() {
@@ -81,14 +104,6 @@ public class GameView extends SurfaceView implements Runnable {
         setOnTouchListener(inputHandler);
 
     }
-    public void setCurrentState(State newState) {
-        System.gc();
-        newState.init();
-        currentState = newState;
-        inputHandler.setCurrentState(currentState);
-    }
-
-
 
     private void initGame() {
         running = true;
@@ -108,44 +123,19 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-
-    public void run() {
-
-        long updateDurationMillis = 0;
-        long sleepDurationMillis = 0;
-
-        while(running) {
-            long beforeUpdateRender = System.nanoTime();
-            long deltaMillis = sleepDurationMillis + updateDurationMillis;
-            updateAndRender(deltaMillis);
-
-            updateDurationMillis = (System.nanoTime() - beforeUpdateRender) /1000000L;
-            sleepDurationMillis = Math.max(2,17-updateDurationMillis);
-
-            try {
-                Thread.sleep(sleepDurationMillis);
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-
-    }
-
     private void updateAndRender(long delta) {
         currentState.update(delta / 1000f);
         currentState.render(graphics);
         renderGameImage();
-
     }
 
     private void renderGameImage() {
         Canvas screen = getHolder().lockCanvas();
+
         if(screen != null) {
             screen.getClipBounds(gameImageDst);
             screen.drawBitmap(gameImage,gameImageSrc,gameImageDst, null);
             getHolder().unlockCanvasAndPost(screen);
-    }
-
+        }
     }
 }

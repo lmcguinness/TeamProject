@@ -22,7 +22,4 @@ public abstract class State extends AppCompatActivity {
     public abstract void update(float delta);
     public abstract void render(Painter g);
     public abstract boolean onTouch(MotionEvent e, int scaledX, int scaledY);
-
-
-
 }
