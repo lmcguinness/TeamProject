@@ -1,5 +1,6 @@
 package com.example.societyslam.societyslam.State;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,6 +38,7 @@ public class PlayState extends State implements View.OnClickListener {
 
     private ArrayList<Card> deckOfCards = new ArrayList<Card>();
     Deck myDeck = new Deck(deckOfCards);
+
     @Override
     public void init(){
 
@@ -46,7 +48,9 @@ public class PlayState extends State implements View.OnClickListener {
     }
     @Override
     public void render(Painter g){
+
         g.drawImage(Assets.ssb, 0, 0);
+
     }
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY){
