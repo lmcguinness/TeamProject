@@ -1,6 +1,8 @@
 package com.example.societyslam.societyslam.State;
 
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -26,6 +28,8 @@ import java.util.Arrays;
 
 public class PlayState extends State implements View.OnClickListener {
 
+
+
     private ImageButton drawButton;
     private ImageView cardImage;
     private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", 1, 30, Type.electric, Type.water, null, 2, Level.Basic);
@@ -39,6 +43,8 @@ public class PlayState extends State implements View.OnClickListener {
     Deck myDeck = new Deck(deckOfCards);
     @Override
     public void init(){
+
+
 
     }
     @Override

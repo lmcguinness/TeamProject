@@ -21,7 +21,7 @@ public class MenuState extends State {
 
     @Override
     public void init() {
-        playRect = new Rect(400,350,484,286);
+        playRect = new Rect(310,350,484,286);
     }
 
     @Override

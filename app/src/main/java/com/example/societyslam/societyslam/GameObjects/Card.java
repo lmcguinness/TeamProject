@@ -29,7 +29,7 @@ public abstract class Card {
     public abstract void discard();
 
     public Bitmap getPicture(){
-        return bitmap;
+        return this.bitmap;
     }
 }
 

@@ -109,6 +109,7 @@ public class GameView extends SurfaceView implements Runnable {
         running = true;
         gameThread = new Thread(this,"Game Thread");
         gameThread.start();
+
     }
 
     private void pauseGame() {

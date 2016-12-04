@@ -14,7 +14,7 @@ public class Assets {
 
     public static Bitmap welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
     electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
-    karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb;
+    karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1;
 
     public static void load() {
         // Commented ones to be added at a later stage
@@ -43,7 +43,8 @@ public class Assets {
         swimmingSociety = loadBitmap("SwimmingSociety.png", true);
         waterEnergy = loadBitmap("waterenergy.png", true);
 
-        ssb = loadBitmap("ssb.PNG", true);
+
+        ssb = loadBitmap("ssb (1).png", false);
     }
 
     private static Bitmap loadBitmap(String filename, boolean transparency) {

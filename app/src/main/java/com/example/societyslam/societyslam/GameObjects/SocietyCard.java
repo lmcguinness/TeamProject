@@ -22,7 +22,7 @@ public class SocietyCard extends Card {
     private Level level;
 
     public SocietyCard(String name, float x, float y, float height, float width, Bitmap bitmap, int hp, String attackName, int attackCost, int attackStrength, Type type, Type weakness, Type resistance, int retreatCost, Level level) {
-        super(name, x, y, height, width,bitmap);
+        super(name, x, y, height, width, bitmap);
         this.hp = hp;
         this.attackName = attackName;
         this.attackCost = attackCost;
