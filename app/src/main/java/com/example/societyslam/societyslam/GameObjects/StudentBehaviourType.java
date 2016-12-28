@@ -6,5 +6,5 @@ package com.example.societyslam.societyslam.GameObjects;
 
 public enum StudentBehaviourType {
 
-    support, item
+    support, item, stadium
 }
