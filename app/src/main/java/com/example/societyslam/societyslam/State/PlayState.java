@@ -87,11 +87,6 @@ public class PlayState extends State implements View.OnClickListener {
     //deck of cards
     private ArrayList<Card> deckOfCards = new ArrayList<Card>();
     Deck myDeck = new Deck(deckOfCards);
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     public void init() {
@@ -130,7 +125,6 @@ public class PlayState extends State implements View.OnClickListener {
         drawButton = (ImageButton) findViewById(R.id.drawButton);
         cardImage = (ImageView) findViewById(R.id.cardImage);
         drawButton.setOnClickListener(this);
-
 
         //add cards into the deck
         deckOfCards.add(computerSociety);
@@ -172,9 +166,7 @@ public class PlayState extends State implements View.OnClickListener {
         deckOfCards.add(waterEnergy);
         deckOfCards.add(electricEnergy);
         deckOfCards.add(earthEnergy);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
     }
 
     //draw a random card from the deck
@@ -182,40 +174,19 @@ public class PlayState extends State implements View.OnClickListener {
         myDeck.randomCard();
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("PlayState Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
+
     }
 }
 
