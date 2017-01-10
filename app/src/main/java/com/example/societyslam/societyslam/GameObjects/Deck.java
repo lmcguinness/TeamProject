@@ -31,10 +31,11 @@ public class Deck {
         this.myDeck = myDeck;
     }
 
-    public Bitmap randomCard(){
+    public Card randomCard(){
+        randomGenerator = new Random();
         int index = randomGenerator.nextInt(myDeck.size());
         Card card =  myDeck.get(index);
-        return card.getPicture();
+        return card;
 
     }
 

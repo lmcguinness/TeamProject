@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.GameObjects.Card;
@@ -38,6 +41,10 @@ public class PlayState extends State implements View.OnClickListener {
 
     private ImageButton drawButton;
     private ImageView cardImage;
+
+    private static int STARTING_CARD_NUMBER = 5;
+
+    private Rect playRect;
 
     //Society cards
     private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", 1, 30, Type.electric, Type.water, null, 2, Level.Basic);
@@ -88,45 +95,12 @@ public class PlayState extends State implements View.OnClickListener {
     private ArrayList<Card> deckOfCards = new ArrayList<Card>();
     Deck myDeck = new Deck(deckOfCards);
 
+    Deck playersCards = new Deck(new ArrayList<Card>());
+
     @Override
     public void init() {
+        playRect = new Rect(310,380,484,286);
 
-    }
-
-    @Override
-    public void update(float delta) {
-    }
-
-    @Override
-    public void render(Painter g) {
-        //drawing the game board
-        g.drawImage(Assets.ssb, 0, 0);
-
-        //draws the back of the card and changes its size and position
-       g.drawImage(Assets.cardBack, 225, 265, 90, 95);
-
-    }
-
-    @Override
-    public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
-        return false;
-    }
-
-    public void onClick(View v) {
-        drawCard();
-    }
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        //seting the view to the activity XML file
-        setContentView(R.layout.activity_main);
-        //setting the draw button to equal an image button set up in the xml file
-        drawButton = (ImageButton) findViewById(R.id.drawButton);
-        cardImage = (ImageView) findViewById(R.id.cardImage);
-        drawButton.setOnClickListener(this);
-
-        //add cards into the deck
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
         deckOfCards.add(gamingSociety);
@@ -166,8 +140,58 @@ public class PlayState extends State implements View.OnClickListener {
         deckOfCards.add(waterEnergy);
         deckOfCards.add(electricEnergy);
         deckOfCards.add(earthEnergy);
+    }
+
+    @Override
+    public void update(float delta) {
+    }
+
+    @Override
+    public void render(Painter g) {
+        //drawing the game board
+        g.drawImage(Assets.ssb, 0, 0);
+        g.drawImage(Assets.start, playRect.left, playRect.top);
+
+        if (playersCards.myDeck.size() > 0) {
+            drawCards(g);
+        }
 
     }
+
+    private void drawCards(Painter p) {
+        for (int i = 0; i < playersCards.myDeck.size(); i++) {
+            p.drawImage(playersCards.myDeck.get(i).getPicture(),0, (i +1)* 30 , 125 , 100);
+        }
+    }
+
+    @Override
+    public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
+        if (e.getAction() == MotionEvent.ACTION_DOWN) {
+            //Button has been pressed
+            for (int i = 0; i<STARTING_CARD_NUMBER; i++) {
+                playersCards.myDeck.add(myDeck.randomCard());
+            }
+        }
+
+        return false;
+    }
+
+    public void onClick(View v) {
+        drawCard();
+    }
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//        //seting the view to the activity XML file
+//        setContentView(R.layout.activity_main);
+//        //setting the draw button to equal an image button set up in the xml file
+//        drawButton = (ImageButton) findViewById(R.id.drawButton);
+//        cardImage = (ImageView) findViewById(R.id.cardImage);
+//        drawButton.setOnClickListener(this);
+//
+//    }
 
     //draw a random card from the deck
     private void drawCard() {
