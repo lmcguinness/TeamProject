@@ -59,7 +59,7 @@ public class Assets {
         paddle = loadBitmap("Paddle.png", true);
         redBull = loadBitmap("redBull.png", true);
         roboticsSociety = loadBitmap("roboticsSociety.png", true);
-        sailingSociety = loadBitmap(" sailingSocietyc.png", true);
+        sailingSociety = loadBitmap("sailingSociety.png", true);
         taekwando = loadBitmap("Taekwando.png", true);
         untidy = loadBitmap("untidy.png", true);
         water = loadBitmap("water.png", true);
