@@ -17,6 +17,7 @@ public abstract class Card {
 
 
     public Card(String name, float x, float y, float height, float width, Bitmap bitmap) {
+        this.name = name;
         this.x = x;
         this.y = y;
         this.height = height;
@@ -30,6 +31,9 @@ public abstract class Card {
 
     public Bitmap getPicture(){
         return this.bitmap;
+    }
+    public String getName() {
+        return this.name;
     }
 }
 

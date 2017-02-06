@@ -9,13 +9,13 @@ import java.util.ArrayList;
 public class Player {
 
    private  Deck myCards;
-    private Card activeCard;
+    private SocietyCard activeCard;
     private ArrayList<Card> hand;
     private ArrayList<Card> bench;
     private ArrayList<Card> prizeCards;
     private boolean myTurn;
 
-    public Player(Deck myCards, Card activeCard, ArrayList<Card> hand, ArrayList<Card> bench, ArrayList<Card> prizeCards, boolean myTurn) {
+    public Player(Deck myCards, SocietyCard activeCard, ArrayList<Card> hand, ArrayList<Card> bench, ArrayList<Card> prizeCards, boolean myTurn) {
         this.myCards = myCards;
         this.activeCard = activeCard;
         this.hand = hand;
@@ -32,11 +32,11 @@ public class Player {
         this.myCards = myCards;
     }
 
-    public Card getActiveCard() {
+    public SocietyCard getActiveCard() {
         return activeCard;
     }
 
-    public void setActiveCard(Card activeCard) {
+    public void setActiveCard(SocietyCard activeCard) {
         this.activeCard = activeCard;
     }
 
@@ -70,5 +70,38 @@ public class Player {
 
     public void setMyTurn(boolean myTurn) {
         this.myTurn = myTurn;
+    }
+
+    public void attack(Player opponent) {
+        if (this.getActiveCard().canAttack()) {
+            System.out.println(this.getActiveCard().getName() + " used " + this.getActiveCard().getAttackName());
+            int opponentNewHP;
+            if (opponent.getActiveCard().getWeakness() == this.getActiveCard().getType()) {
+                opponentNewHP = opponent.getActiveCard().getHp() - (2 * this.getActiveCard().getAttackStrength());
+            } else if (opponent.getActiveCard().getResistance() == this.getActiveCard().getType()) {
+                opponentNewHP = opponent.getActiveCard().getHp() - (this.getActiveCard().getAttackStrength() / 2);
+            } else {
+                opponentNewHP = (opponent.getActiveCard().getHp() - this.getActiveCard().getAttackStrength());
+            }
+            opponent.getActiveCard().setHp(opponentNewHP);
+            this.myTurn = false;
+
+        } else {
+            System.out.print(this.getActiveCard().getName() + " does not have enough energy cards to use this attack");
+        }
+
+    }
+
+    public void useStudentBehaviourCard(StudentBehaviourCard card, Player opponent) {
+        System.out.println("You used " + card.getName());
+        int newHP;
+        int opponentNewHP;
+        if(card.isEffect()) {
+            newHP = this.getActiveCard().getHp() + card.getCardPoints();
+            this.getActiveCard().setHp(newHP);
+        } else if(!card.isEffect()) {
+            opponentNewHP = opponent.getActiveCard().getHp() - card.getCardPoints();
+            opponent.getActiveCard().setHp(opponentNewHP);
+        }
     }
 }
