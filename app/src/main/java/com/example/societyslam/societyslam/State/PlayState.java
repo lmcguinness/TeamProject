@@ -41,6 +41,7 @@ public class PlayState extends State implements View.OnClickListener {
 
     private ImageButton drawButton;
     private ImageView cardImage;
+    private boolean isFirstPlay = false;
 
     private static int STARTING_CARD_NUMBER = 5;
 
@@ -96,6 +97,7 @@ public class PlayState extends State implements View.OnClickListener {
     Deck myDeck = new Deck(deckOfCards);
 
     Deck playersCards = new Deck(new ArrayList<Card>());
+    Deck player2Cards = new Deck(new ArrayList<Card>());
 
     @Override
     public void init() {
@@ -150,7 +152,9 @@ public class PlayState extends State implements View.OnClickListener {
     public void render(Painter g) {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
-        g.drawImage(Assets.start, playRect.left, playRect.top);
+        if (isFirstPlay == false) {
+            g.drawImage(Assets.start, playRect.left, playRect.top);
+        }
 
         if (playersCards.myDeck.size() > 0) {
             drawCards(g);
@@ -160,21 +164,30 @@ public class PlayState extends State implements View.OnClickListener {
 
     private void drawCards(Painter p) {
         for (int i = 0; i < playersCards.myDeck.size(); i++) {
-            p.drawImage(playersCards.myDeck.get(i).getPicture(),0, (i +1)* 30 , 125 , 100);
+            p.drawImage(playersCards.myDeck.get(i).getPicture(), 20, 100+ (i +1) * 45 , 125 , 100);
+        }
+
+        for (int i = 0; i < player2Cards.myDeck.size(); i++) {
+            p.drawImage(player2Cards.myDeck.get(i).getPicture(), 675, (i +1) * 40 , 125 , 100);
         }
     }
 
+
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
+
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             //Button has been pressed
+            isFirstPlay = true;
             for (int i = 0; i<STARTING_CARD_NUMBER; i++) {
                 playersCards.myDeck.add(myDeck.randomCard());
+                player2Cards.myDeck.add(myDeck.randomCard());
             }
         }
 
         return false;
     }
+
 
     public void onClick(View v) {
         drawCard();

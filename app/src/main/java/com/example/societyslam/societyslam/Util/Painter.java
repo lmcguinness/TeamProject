@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.provider.Settings;
 
 /**
  * Created by Aoife Brown on 21/11/2016.
@@ -52,9 +53,13 @@ public class Painter {
 
 
     public void drawImage(Bitmap bitmap, int x, int y, int width, int height) {
-        srcRect.set(0,0,bitmap.getWidth(), bitmap.getHeight());
-        dstRect.set(x,y,x+width, y+height);
-        canvas.drawBitmap(bitmap, srcRect, dstRect, paint);
+        try {
+            srcRect.set(0, 0, (bitmap != null ? bitmap.getWidth() : 205), (bitmap != null ? bitmap.getHeight() : 268));
+            dstRect.set(x, y, x + width, y + height);
+            canvas.drawBitmap(bitmap, srcRect, dstRect, paint);
+        } catch (Exception ex) {
+            System.out.println(bitmap);
+        }
     }
 
 }
