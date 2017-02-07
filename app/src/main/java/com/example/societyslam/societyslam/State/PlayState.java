@@ -170,6 +170,15 @@ public class PlayState extends State implements View.OnClickListener {
         for (int i = 0; i < player2Cards.myDeck.size(); i++) {
             p.drawImage(player2Cards.myDeck.get(i).getPicture(), 675, (i +1) * 40 , 125 , 100);
         }
+        //Attempt to add in the prize cards
+        for (int i =0; i< 3; i++) {
+            p.drawImage(Assets.cardBack, -65 +(i + 1) * 80, 62, 100, 60);
+            p.drawImage(Assets.cardBack, -65 +(i + 1) * 80, 6, 100, 60);
+            p.drawImage(Assets.cardBack, 440 +(i +1) * 80, 330, 100, 60);
+            p.drawImage(Assets.cardBack, 440 +(i+1) * 80, 380, 100, 60);
+
+
+        }
     }
 
 
