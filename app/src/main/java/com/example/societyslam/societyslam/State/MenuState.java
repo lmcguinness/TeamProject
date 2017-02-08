@@ -1,11 +1,13 @@
 package com.example.societyslam.societyslam.State;
 
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.Button;
+
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.R;
+import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 import com.example.societyslam.societyslam.State.PlayState;
 
@@ -21,7 +23,8 @@ public class MenuState extends State {
 
     @Override
     public void init() {
-        playRect = new Rect(310,350,484,286);
+        startButton = new Button(316, 345, 484, 404, Assets.start,
+                Assets.startDown);
     }
 
     @Override
@@ -33,25 +36,24 @@ public class MenuState extends State {
     public void render(Painter g) {
         g.drawImage(Assets.welcome,0,0);
 
-        if(playDown) {
-            g.drawImage(Assets.startDown, playRect.left, playRect.top);
-        } else {
-            g.drawImage(Assets.start, playRect.left, playRect.top);
-        }
+       startButton.render(g);
 
     }
 
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
-            //Button has been pressed
-            playDown = true;
-        }
+            startButton.onTouchDown(scaledX, scaledY);
 
-        if (playDown) {
-            //Button has been released
-            playDown = false;
-            setCurrentState(new PlayState());
+        }
+        if (e.getAction() == MotionEvent.ACTION_UP) {
+            if (startButton.isPressed(scaledX, scaledY)) {
+                startButton.cancel();
+                setCurrentState(new PlayState());
+            } else {
+                startButton.cancel();
+
+            }
         }
         return true;
     }

@@ -8,7 +8,8 @@ import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+//import android.widget.Button;
+import com.example.societyslam.societyslam.Util.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,7 +46,7 @@ public class PlayState extends State implements View.OnClickListener {
 
     private static int STARTING_CARD_NUMBER = 5;
 
-    private Rect playRect;
+    private Button playButton;
 
     //Society cards
     private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", null, 30, Type.electric, Type.water, null, null, Level.Basic, null);
@@ -101,7 +102,7 @@ public class PlayState extends State implements View.OnClickListener {
 
     @Override
     public void init() {
-        playRect = new Rect(310,380,484,286);
+        playButton = new Button(316, 385, 484, 444, Assets.start, Assets.startDown);
 
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
@@ -153,7 +154,7 @@ public class PlayState extends State implements View.OnClickListener {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
         if (isFirstPlay == false) {
-            g.drawImage(Assets.start, playRect.left, playRect.top);
+            playButton.render(g);
         }
 
         if (playersCards.myDeck.size() > 0) {
@@ -187,12 +188,24 @@ public class PlayState extends State implements View.OnClickListener {
 
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             //Button has been pressed
-            isFirstPlay = true;
-            for (int i = 0; i<STARTING_CARD_NUMBER; i++) {
-                playersCards.myDeck.add(myDeck.randomCard());
-                player2Cards.myDeck.add(myDeck.randomCard());
-            }
+            playButton.onTouchDown(scaledX,scaledY);
+
         }
+
+            if (playButton.isPressed(scaledX, scaledY)) {
+                playButton.cancel();
+                isFirstPlay = true;
+                for (int i = 0; i<STARTING_CARD_NUMBER; i++) {
+                    playersCards.myDeck.add(myDeck.randomCard());
+                    player2Cards.myDeck.add(myDeck.randomCard());
+                }
+
+            } else {
+                playButton.cancel();
+
+            }
+
+
 
         return false;
     }
