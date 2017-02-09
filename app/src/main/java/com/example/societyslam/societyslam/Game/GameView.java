@@ -94,6 +94,7 @@ public class GameView extends SurfaceView implements Runnable {
         System.gc();
         newState.init();
         currentState = newState;
+        currentState.setPainter(graphics);
         inputHandler.setCurrentState(currentState);
     }
 
