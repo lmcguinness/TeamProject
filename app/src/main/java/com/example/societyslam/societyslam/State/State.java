@@ -13,6 +13,8 @@ import com.example.societyslam.societyslam.Util.Painter;
 
 public abstract class State extends AppCompatActivity {
 
+    private Painter painter;
+
     public void setCurrentState(State newState)
     {
         MainActivity.myGame.setCurrentState(newState);
@@ -22,4 +24,12 @@ public abstract class State extends AppCompatActivity {
     public abstract void update(float delta);
     public abstract void render(Painter g);
     public abstract boolean onTouch(MotionEvent e, int scaledX, int scaledY);
+
+    public Painter getPainter() {
+        return painter;
+    }
+
+    public void setPainter(Painter painter) {
+        this.painter = painter;
+    }
 }

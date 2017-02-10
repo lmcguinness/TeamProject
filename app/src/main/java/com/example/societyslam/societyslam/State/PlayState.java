@@ -42,7 +42,9 @@ public class PlayState extends State implements View.OnClickListener {
 
     private ImageButton drawButton;
     private ImageView cardImage;
-    private boolean isFirstPlay = false;
+    private boolean isStart = true;
+    private boolean dealCards = true;
+    private Card currentCardInPlay = null, currentCardInPlay2 = null;
 
     private static int STARTING_CARD_NUMBER = 5;
 
@@ -87,7 +89,7 @@ public class PlayState extends State implements View.OnClickListener {
     private StudentBehaviourCard untidy = new StudentBehaviourCard("Untidy Accommodation", 0, 0, 3, 2, Assets.untidy, StudentBehaviourType.stadium, false);
     private StudentBehaviourCard water = new StudentBehaviourCard("Litre of water", 0, 0, 3, 2, Assets.water, StudentBehaviourType.support, true);
 
-    //Engery cards 
+    //Engery cards
     private EnergyCard waterEnergy = new EnergyCard("Water", 0, 0, 3, 2, Assets.waterEnergy, Type.water);
     private EnergyCard electricEnergy = new EnergyCard("Electric", 0, 0, 3, 2, Assets.electricEnergy, Type.electric);
     private EnergyCard earthEnergy = new EnergyCard("Earth", 0, 0, 3, 2, Assets.earthEnergy, Type.earth);
@@ -153,14 +155,21 @@ public class PlayState extends State implements View.OnClickListener {
     public void render(Painter g) {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
-        if (isFirstPlay == false) {
-            playButton.render(g);
+        if (isStart == true) {
+            g.drawImage(Assets.start, playRect.left, playRect.top);
+        } else {
+            //draw new button called deal
+            g.drawImage(Assets.dealButton, playRect.left, playRect.top);
+            //Now that we have references to the cards that have to be moved, we can change the
+            //location of them on the screen. Done here as opposed to update().
+            if (currentCardInPlay != null && currentCardInPlay2 != null) {
+                super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
+                super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+            }
         }
-
         if (playersCards.myDeck.size() > 0) {
             drawCards(g);
         }
-
     }
 
     private void drawCards(Painter p) {
@@ -177,19 +186,32 @@ public class PlayState extends State implements View.OnClickListener {
             p.drawImage(Assets.cardBack, -65 +(i + 1) * 80, 6, 100, 60);
             p.drawImage(Assets.cardBack, 440 +(i +1) * 80, 330, 100, 60);
             p.drawImage(Assets.cardBack, 440 +(i+1) * 80, 380, 100, 60);
-
-
         }
     }
 
 
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
-
+        //If it is the start of the game then this touch event is registered as inital setup.
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
-            //Button has been pressed
-            playButton.onTouchDown(scaledX,scaledY);
-
+            if (isStart == false && dealCards) {
+                //TO DO: move cards currently in the middle of screen to dump pile
+                //move new card of deck into middle of the screen
+                if (!playersCards.myDeck.isEmpty()) {
+                    currentCardInPlay = playersCards.myDeck.remove(0);
+                }
+                if (!player2Cards.myDeck.isEmpty()) {
+                    currentCardInPlay2 = player2Cards.myDeck.remove(0);
+                }
+                dealCards = false;
+            } else {
+                //Button has been pressed
+                isStart = false;
+                for (int i = 0; i < STARTING_CARD_NUMBER; i++) {
+                    playersCards.myDeck.add(myDeck.randomCard());
+                    player2Cards.myDeck.add(myDeck.randomCard());
+                }
+            }
         }
 
             if (playButton.isPressed(scaledX, scaledY)) {
@@ -248,4 +270,3 @@ public class PlayState extends State implements View.OnClickListener {
 
     }
 }
-
