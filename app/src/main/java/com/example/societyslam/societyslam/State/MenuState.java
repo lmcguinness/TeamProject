@@ -23,7 +23,7 @@ public class MenuState extends State {
 
     @Override
     public void init() {
-        startButton = new Button(316, 345, 484, 404, Assets.start,
+        startButton = new Button(316, 385, 484, 424, Assets.start,
                 Assets.startDown);
     }
 
@@ -49,7 +49,7 @@ public class MenuState extends State {
         if (e.getAction() == MotionEvent.ACTION_UP) {
             if (startButton.isPressed(scaledX, scaledY)) {
                 startButton.cancel();
-                setCurrentState(new PlayState());
+                setCurrentState(new CoinTossState());
             } else {
                 startButton.cancel();
 

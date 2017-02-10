@@ -158,6 +158,7 @@ public class PlayState extends State implements View.OnClickListener {
     public void render(Painter g) {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
+
         if (isStart == true) {
            playButton.render(g);
         } else {
