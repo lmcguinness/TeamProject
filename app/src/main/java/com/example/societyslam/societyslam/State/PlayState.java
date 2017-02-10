@@ -49,6 +49,8 @@ public class PlayState extends State implements View.OnClickListener {
     private static int STARTING_CARD_NUMBER = 5;
 
     private Button playButton;
+    private Button dealButton;
+    private Rect playRect;
 
     //Society cards
     private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", null, 30, Type.electric, Type.water, null, null, Level.Basic, null);
@@ -105,6 +107,7 @@ public class PlayState extends State implements View.OnClickListener {
     @Override
     public void init() {
         playButton = new Button(316, 385, 484, 444, Assets.start, Assets.startDown);
+        dealButton = new Button(316, 385, 484, 444, Assets.dealButton, Assets.dealButton);
 
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
@@ -156,10 +159,10 @@ public class PlayState extends State implements View.OnClickListener {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
         if (isStart == true) {
-            g.drawImage(Assets.start, playRect.left, playRect.top);
+           playButton.render(g);
         } else {
             //draw new button called deal
-            g.drawImage(Assets.dealButton, playRect.left, playRect.top);
+            dealButton.render(g);
             //Now that we have references to the cards that have to be moved, we can change the
             //location of them on the screen. Done here as opposed to update().
             if (currentCardInPlay != null && currentCardInPlay2 != null) {
@@ -194,38 +197,33 @@ public class PlayState extends State implements View.OnClickListener {
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         //If it is the start of the game then this touch event is registered as inital setup.
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
-            if (isStart == false && dealCards) {
-                //TO DO: move cards currently in the middle of screen to dump pile
-                //move new card of deck into middle of the screen
-                if (!playersCards.myDeck.isEmpty()) {
-                    currentCardInPlay = playersCards.myDeck.remove(0);
+           // if (playButton.isPressed(scaledX, scaledY)) {
+                if (isStart == false && dealCards) {
+                    //TO DO: move cards currently in the middle of screen to dump pile
+                    //move new card of deck into middle of the screen
+                    if (!playersCards.myDeck.isEmpty()) {
+                        currentCardInPlay = playersCards.myDeck.remove(0);
+                    }
+                    if (!player2Cards.myDeck.isEmpty()) {
+                        currentCardInPlay2 = player2Cards.myDeck.remove(0);
+                    }
+                    dealCards = false;
+                } else {
+                    //Button has been pressed
+                    isStart = false;
+                    for (int i = 0; i < STARTING_CARD_NUMBER; i++) {
+                        playersCards.myDeck.add(myDeck.randomCard());
+                        player2Cards.myDeck.add(myDeck.randomCard());
+                    }
                 }
-                if (!player2Cards.myDeck.isEmpty()) {
-                    currentCardInPlay2 = player2Cards.myDeck.remove(0);
-                }
-                dealCards = false;
-            } else {
-                //Button has been pressed
-                isStart = false;
-                for (int i = 0; i < STARTING_CARD_NUMBER; i++) {
-                    playersCards.myDeck.add(myDeck.randomCard());
-                    player2Cards.myDeck.add(myDeck.randomCard());
-                }
-            }
+            //}
         }
+       // else {
+       //     playButton.cancel();
 
-            if (playButton.isPressed(scaledX, scaledY)) {
-                playButton.cancel();
-                isFirstPlay = true;
-                for (int i = 0; i<STARTING_CARD_NUMBER; i++) {
-                    playersCards.myDeck.add(myDeck.randomCard());
-                    player2Cards.myDeck.add(myDeck.randomCard());
-                }
+       // }
 
-            } else {
-                playButton.cancel();
 
-            }
 
 
 
