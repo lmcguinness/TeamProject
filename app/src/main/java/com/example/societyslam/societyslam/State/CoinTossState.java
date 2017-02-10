@@ -15,9 +15,8 @@ public class CoinTossState extends State {
 
     public Button flipCoin , continueButton;
     private boolean isFirstToss = false;
-
     private Coin coin;
-
+    private boolean flipResult;
 
     @Override
     public void init() {
@@ -36,24 +35,29 @@ public class CoinTossState extends State {
         g.drawImage(Assets.welcome, 0, 0);
         if (isFirstToss == false) {
             flipCoin.render(g);
-
         } else {
+            if(coin.result == 0){
+
+                super.getPainter().drawImage(Assets.player1, 155, 135, 525 , 125);
+            }else if(coin.result == 1){
+
+                super.getPainter().drawImage(Assets.player2, 155, 135, 525 , 125);
+            }
             continueButton.render(g);
         }
     }
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
-
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             //Button has been pressed
             flipCoin.onTouchDown(scaledX, scaledY);
 
         }
-
         if (flipCoin.isPressed(scaledX, scaledY)) {
             flipCoin.cancel();
             isFirstToss= true;
             coin.flip();
+
 
         } else {
             flipCoin.cancel();

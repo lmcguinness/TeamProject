@@ -9,7 +9,7 @@ import java.util.Random;
 public class Coin {
 
     Random randomNum = new Random();
-    private int result;
+    public int result;
     private int heads = 0;
     private int tails = 1;
 
