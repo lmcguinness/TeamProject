@@ -32,16 +32,17 @@ public class CoinTossState extends State {
 
     @Override
     public void render(Painter g) {
-        g.drawImage(Assets.welcome, 0, 0);
+        g.drawImage(Assets.coinTossBackground, 0, 0);
+        super.getPainter().drawImage(Assets.heads, 155, 185, 525 , 195);
         if (isFirstToss == false) {
             flipCoin.render(g);
         } else {
             if(coin.result == 0){
-
-                super.getPainter().drawImage(Assets.player1, 155, 135, 525 , 125);
+                super.getPainter().drawImage(Assets.heads, 155, 185, 525 , 195);
+                super.getPainter().drawImage(Assets.player1, 135, 85, 565 , 65);
             }else if(coin.result == 1){
-
-                super.getPainter().drawImage(Assets.player2, 155, 135, 525 , 125);
+                super.getPainter().drawImage(Assets.tails, 155, 185, 525 , 195);
+                super.getPainter().drawImage(Assets.player2, 135, 85, 565 , 65);
             }
             continueButton.render(g);
         }
@@ -49,9 +50,7 @@ public class CoinTossState extends State {
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
-            //Button has been pressed
             flipCoin.onTouchDown(scaledX, scaledY);
-
         }
         if (flipCoin.isPressed(scaledX, scaledY)) {
             flipCoin.cancel();
@@ -64,11 +63,8 @@ public class CoinTossState extends State {
 
         }
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
-            //Button has been pressed
             continueButton.onTouchDown(scaledX, scaledY);
-
         }
-
         if (continueButton.isPressed(scaledX, scaledY)) {
             continueButton.cancel();
             setCurrentState(new PlayState());

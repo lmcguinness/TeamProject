@@ -12,7 +12,7 @@ import java.io.InputStream;
 
 public class Assets {
 
-    public static Bitmap player1, player2, continueDown, continueButton, flipCoin, flipCoinDown, welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
+    public static Bitmap coinTossBackground, heads, tails, player1, player2, continueDown, continueButton, flipCoin, flipCoinDown, welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
     electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
     karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
     disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library,
@@ -20,6 +20,9 @@ public class Assets {
 
     public static void load() {
         // Commented ones to be added at a later stage
+        coinTossBackground = loadBitmap("CoinTossBackground.png", true);
+        heads = loadBitmap("heads.png", true);
+        tails = loadBitmap("tails.png", true);
         player1 = loadBitmap("player1.png", true);
         player2 = loadBitmap("player2.png", true);
         continueDown = loadBitmap("continueDown.png", true);
