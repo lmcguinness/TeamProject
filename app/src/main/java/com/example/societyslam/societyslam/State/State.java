@@ -1,5 +1,6 @@
 package com.example.societyslam.societyslam.State;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -32,4 +33,5 @@ public abstract class State extends AppCompatActivity {
     public void setPainter(Painter painter) {
         this.painter = painter;
     }
+
 }

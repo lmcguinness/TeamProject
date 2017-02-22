@@ -1,5 +1,7 @@
 package com.example.societyslam.societyslam.State;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -38,19 +40,28 @@ import java.util.Arrays;
  * Created by Aoife Brown on 21/11/2016.
  */
 
-public class PlayState extends State implements View.OnClickListener {
+public class PlayState extends State {
 
     private ImageButton drawButton;
     private ImageView cardImage;
     private boolean isStart = true;
     private boolean dealCards = true;
     private Card currentCardInPlay = null, currentCardInPlay2 = null;
+   // private boolean drawCards = false;
+
 
     private static int STARTING_CARD_NUMBER = 5;
 
     private Button playButton;
     private Button dealButton;
+    private Button continueButton;
+    boolean isMenu;
     private Rect playRect;
+
+    private Button attackButton;
+    private Button retreatButton;
+    private Button evolveButton;
+    private Button useSocietyCardButton;
 
     //Society cards
     private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", null, 30, Type.electric, Type.water, null, null, Level.Basic, null);
@@ -108,6 +119,12 @@ public class PlayState extends State implements View.OnClickListener {
     public void init() {
         playButton = new Button(316, 385, 484, 444, Assets.start, Assets.startDown);
         dealButton = new Button(316, 385, 484, 444, Assets.dealButton, Assets.dealButton);
+        continueButton = new Button(316, 385, 484, 444, Assets.continueButton, Assets.continueButton);
+        attackButton = new Button(316, 115, 484, 155, Assets.attackButton, Assets.attackButton);
+        retreatButton = new Button(316, 175, 484, 220, Assets.retreatButton, Assets.retreatButton);
+        evolveButton = new Button(316, 235, 484, 285, Assets.evolveButton, Assets.evolveButton);
+        useSocietyCardButton = new Button(316, 295, 484, 350, Assets.societyCardButton, Assets.societyCardButton);
+
 
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
@@ -150,6 +167,8 @@ public class PlayState extends State implements View.OnClickListener {
         deckOfCards.add(earthEnergy);
     }
 
+
+
     @Override
     public void update(float delta) {
     }
@@ -159,22 +178,38 @@ public class PlayState extends State implements View.OnClickListener {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
 
+
         if (isStart == true) {
            playButton.render(g);
+
         } else {
             //draw new button called deal
-            dealButton.render(g);
+            if (dealCards) {
+                dealButton.render(g);
+            } else {
+                continueButton.render(g);
+            }
             //Now that we have references to the cards that have to be moved, we can change the
-            //location of them on the screen. Done here as opposed to update().
+            //location of them on the screen. Done here as opposed to update();
             if (currentCardInPlay != null && currentCardInPlay2 != null) {
                 super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
                 super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
             }
+
         }
         if (playersCards.myDeck.size() > 0) {
             drawCards(g);
         }
+
+        if (isMenu) {
+            g.drawImage(Assets.menubg, 100, 50);
+            attackButton.render(g);
+            retreatButton.render(g);
+            evolveButton.render(g);
+            useSocietyCardButton.render(g);
+        }
     }
+
 
     private void drawCards(Painter p) {
         for (int i = 0; i < playersCards.myDeck.size(); i++) {
@@ -191,12 +226,45 @@ public class PlayState extends State implements View.OnClickListener {
             p.drawImage(Assets.cardBack, 440 +(i +1) * 80, 330, 100, 60);
             p.drawImage(Assets.cardBack, 440 +(i+1) * 80, 380, 100, 60);
         }
-    }
 
+    }
 
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         //If it is the start of the game then this touch event is registered as inital setup.
+
+        if (e.getAction() == MotionEvent.ACTION_DOWN) {
+            continueButton.onTouchDown(scaledX, scaledY);
+            attackButton.onTouchDown(scaledX, scaledY);
+            retreatButton.onTouchDown(scaledX, scaledY);
+            evolveButton.onTouchDown(scaledX, scaledY);
+            useSocietyCardButton.onTouchDown(scaledX, scaledY);
+
+            if (!isStart && !dealCards) {
+                if (continueButton.isPressed(scaledX, scaledY)) {
+                    isMenu = true;
+                } else {
+                    continueButton.cancel();
+                }
+                if (attackButton.isPressed(scaledX, scaledY)) {
+                    isMenu = false;
+                    //TODO: attack method goes here
+                }
+                if (retreatButton.isPressed(scaledX, scaledY)) {
+                    isMenu = false;
+                    //TODO: retreat method goes here
+                }
+                if (evolveButton.isPressed(scaledX, scaledY)) {
+                    isMenu = false;
+                    //TODO: evolve method goes here
+                }
+                if (useSocietyCardButton.isPressed(scaledX, scaledY)) {
+                    isMenu = false;
+                    //TODO: use society card method goes here
+
+                }
+            }
+        }
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
            // if (playButton.isPressed(scaledX, scaledY)) {
                 if (isStart == false && dealCards) {
@@ -209,16 +277,26 @@ public class PlayState extends State implements View.OnClickListener {
                         currentCardInPlay2 = player2Cards.myDeck.remove(0);
                     }
                     dealCards = false;
+
                 } else {
                     //Button has been pressed
-                    isStart = false;
-                    for (int i = 0; i < STARTING_CARD_NUMBER; i++) {
-                        playersCards.myDeck.add(myDeck.randomCard());
-                        player2Cards.myDeck.add(myDeck.randomCard());
+                    if (dealCards) {
+                        for (int i = 0; i < STARTING_CARD_NUMBER; i++) {
+                                playersCards.myDeck.add(myDeck.randomCard());
+                                player2Cards.myDeck.add(myDeck.randomCard());
+                                //start game button now shows
+
+                            isStart = false;
+                        }
                     }
+
+
                 }
+
+
+            }
             //}
-        }
+
        // else {
        //     playButton.cancel();
 
@@ -232,27 +310,27 @@ public class PlayState extends State implements View.OnClickListener {
     }
 
 
-    public void onClick(View v) {
-        drawCard();
-    }
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        //seting the view to the activity XML file
-//        setContentView(R.layout.activity_main);
-//        //setting the draw button to equal an image button set up in the xml file
-//        drawButton = (ImageButton) findViewById(R.id.drawButton);
-//        cardImage = (ImageView) findViewById(R.id.cardImage);
-//        drawButton.setOnClickListener(this);
-//
+//    public void onClick(View v) {
+//        drawCard();
 //    }
-
-    //draw a random card from the deck
-    private void drawCard() {
-        myDeck.randomCard();
-    }
+//
+////    @Override
+////    protected void onCreate(Bundle savedInstanceState) {
+////        super.onCreate(savedInstanceState);
+////
+////        //seting the view to the activity XML file
+////        setContentView(R.layout.activity_main);
+////        //setting the draw button to equal an image button set up in the xml file
+////        drawButton = (ImageButton) findViewById(R.id.drawButton);
+////        cardImage = (ImageView) findViewById(R.id.cardImage);
+////        drawButton.setOnClickListener(this);
+////
+////    }
+//
+//    //draw a random card from the deck
+//    private void drawCard() {
+//        myDeck.randomCard();
+//    }
 
 
     @Override
