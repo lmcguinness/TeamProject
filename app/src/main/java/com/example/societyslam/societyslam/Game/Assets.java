@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static android.R.attr.path;
+
 /**
  * Created by Aoife Brown on 15/11/2016.
  */
@@ -92,11 +94,15 @@ public class Assets {
         }
 
         BitmapFactory.Options options = new BitmapFactory.Options();
+
+
         if(transparency) {
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         } else {
             options.inPreferredConfig = Bitmap.Config.RGB_565;
         }
+        options.inScaled = false;
+
 
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, new BitmapFactory.Options());
         return bitmap;
