@@ -120,10 +120,10 @@ public class PlayState extends State {
         playButton = new Button(316, 385, 484, 444, Assets.start, Assets.startDown);
         dealButton = new Button(316, 385, 484, 444, Assets.dealButton, Assets.dealButton);
         continueButton = new Button(316, 385, 484, 444, Assets.continueButton, Assets.continueButton);
-        attackButton = new Button(316, 115, 484, 155, Assets.attackButton, Assets.attackButton);
-        retreatButton = new Button(316, 175, 484, 220, Assets.retreatButton, Assets.retreatButton);
-        evolveButton = new Button(316, 235, 484, 285, Assets.evolveButton, Assets.evolveButton);
-        useSocietyCardButton = new Button(316, 295, 484, 350, Assets.societyCardButton, Assets.societyCardButton);
+        attackButton = new Button(316, 125, 484, 165, Assets.attackButton, Assets.attackButton);
+        retreatButton = new Button(316, 185, 484, 225, Assets.retreatButton, Assets.retreatButton);
+        evolveButton = new Button(316, 245, 484, 285, Assets.evolveButton, Assets.evolveButton);
+        useSocietyCardButton = new Button(316, 305, 484, 345, Assets.societyCardButton, Assets.societyCardButton);
 
 
         deckOfCards.add(computerSociety);
