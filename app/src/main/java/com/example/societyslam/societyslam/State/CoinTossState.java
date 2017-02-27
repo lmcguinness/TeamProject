@@ -30,6 +30,10 @@ public class CoinTossState extends State {
 
     }
 
+    public boolean getFlipResult() {
+        return flipResult;
+    }
+
     @Override
     public void render(Painter g) {
         g.drawImage(Assets.coinTossBackground, 0, 0);

@@ -10,16 +10,16 @@ public class StudentBehaviourCard extends Card {
 
     private StudentBehaviourType type;
     private int cardPoints;
-    private boolean effect;
+    private boolean positiveEffect;
 
 
 
 
-    public StudentBehaviourCard(String name, float x, float y, float height, float width, Bitmap bitmap, StudentBehaviourType type, boolean effect) {
+    public StudentBehaviourCard(String name, float x, float y, float height, float width, Bitmap bitmap, StudentBehaviourType type, boolean positiveEffect) {
         super(name, x, y, height, width, bitmap);
 
         this.type = type;
-        this.effect = effect;
+        this.positiveEffect = positiveEffect;
     }
 
     public int getCardPoints() {
@@ -30,12 +30,12 @@ public class StudentBehaviourCard extends Card {
         this.cardPoints = cardPoints;
     }
 
-    public boolean isEffect() {
-        return effect;
+    public boolean hasPositiveEffect() {
+        return positiveEffect;
     }
 
-    public void setEffect(boolean effect) {
-        this.effect = effect;
+    public void setPositiveEffect(boolean positiveEffect) {
+        this.positiveEffect = positiveEffect;
     }
 
     public StudentBehaviourType getType() {

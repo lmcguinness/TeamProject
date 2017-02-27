@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 //import android.widget.Button;
+import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.Util.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,50 +34,64 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Created by Aoife Brown on 21/11/2016.
  */
 
-public class PlayState extends State implements View.OnClickListener {
+public class PlayState extends State {
 
     private ImageButton drawButton;
     private ImageView cardImage;
     private boolean isStart = true;
     private boolean dealCards = true;
-    private Card currentCardInPlay = null, currentCardInPlay2 = null;
+    private SocietyCard currentCardInPlay, currentCardInPlay2;
+    private ArrayList<EnergyCard> energyCards = new ArrayList<EnergyCard>();
+
+   // private boolean drawCards = false;
+
 
     private static int STARTING_CARD_NUMBER = 5;
 
     private Button playButton;
     private Button dealButton;
+    private Button continueButton;
+    boolean isMenu;
     private Rect playRect;
 
+    private Button attackButton;
+    private Button retreatButton;
+    private Button evolveButton;
+    private Button useStudentBehaviourCardButton;
+
+
+
     //Society cards
-    private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", null, 30, Type.electric, Type.water, null, null, Level.Basic, null);
-    private SocietyCard artificialInt = new SocietyCard("Artificial Intelligence", 0, 0, 3, 2, Assets.artificialIntel, 150, "Mind Swap", null, 40, Type.electric, Type.water, Type.fighting, null, Level.Basic, null);
-    private SocietyCard gamingSociety = new SocietyCard("Gaming Society", 0, 0, 3, 2, Assets.gamingSociety, 80, "Zap Cannon", null, 25, Type.electric, Type.water, Type.fighting, null, Level.Basic, null);
-    private SocietyCard physicsSociety = new SocietyCard("Physics Society", 0, 0, 3, 2, Assets.physicsSociety, 120, "Acid Spray", null, 30, Type.electric, null, Type.water, null, Level.Basic, null);
-    private SocietyCard engineeringSociety = new SocietyCard("Engineering Society", 0, 0, 3, 2, Assets.engineeringSociety, 90, "Shift Gear", null, 25, Type.electric, null, null, null, Level.Basic, null);
-    private SocietyCard roboticsSociety = new SocietyCard("roboticsSociety", 0, 0, 3, 2, Assets.roboticsSociety, 100, "Electric Shock", null, 30, Type.electric, Type.water, Type.fighting, null, Level.Basic, null);
-    private SocietyCard boxingSociety = new SocietyCard("Boxing Society", 0, 0, 3, 2, Assets.boxingSociety, 120, "Force Punce", null, 40, Type.fighting, Type.electric, Type.water, null, Level.Basic, null);
-    private SocietyCard karateSociety = new SocietyCard("Karate Society", 0, 0, 3, 2, Assets.karateSociety, 100, "Karate Chop", null, 20, Type.fighting, null, null, null, Level.Basic, null);
-    private SocietyCard fencingSociety = new SocietyCard("Fencing Society", 0, 0, 3, 2, Assets.fencingSociety, 120, "Low Sweep", null, 25, Type.fighting, null, null, null, Level.Basic, null);
-    private SocietyCard judoSociety = new SocietyCard("Judo Society", 0, 0, 3, 2, Assets.judoSociety, 90, "Arm Trust", null, 25, Type.fighting, Type.water, null, null, Level.Basic, null);
-    private SocietyCard jujistoSociety = new SocietyCard("jujisto Society", 0, 0, 3, 2, Assets.jujistoSociety, 90, "Shoulder Lock", null, 25, Type.fighting, Type.water, null, null, Level.Basic, null);
-    private SocietyCard taekwandoSociety = new SocietyCard("TaekwandoSociety", 0, 0, 3, 2, Assets.taekwando, 60, "Side Kick", null, 25, Type.fighting, Type.water, null, null, Level.Basic, null);
-    private SocietyCard rowingSociety = new SocietyCard("Rowing Society", 0, 0, 3, 2, Assets.rowingSociety, 100, "Paddle Pound", null, 20, Type.water, Type.electric, Type.fighting, null, Level.Basic, null);
-    private SocietyCard divingSociety = new SocietyCard("Diving Society", 0, 0, 3, 2, Assets.divingSociety, 75, "Dive", null, 10, Type.water, Type.electric, null, null, Level.Basic, null);
-    private SocietyCard surfingSociety = new SocietyCard("Surfing Society ", 0, 0, 3, 2, Assets.surfingSociety, 90, "Surf", null, 20, Type.water, null, null, null, Level.Basic, null);
-    private SocietyCard swimmingSociety = new SocietyCard("Swimming Society ", 0, 0, 3, 2, Assets.swimmingSociety, 110, "Bubble Bust", null, 30, Type.water, Type.electric, null, null, Level.Basic, null);
-    private SocietyCard paddleSociety = new SocietyCard("Paddle Society", 0, 0, 3, 2, Assets.paddle, 65, "Paddle Strike", null, 15, Type.water, null, null, null, Level.Basic, null);
-    private SocietyCard sailingSociety = new SocietyCard("SailingSociety", 0, 0, 3, 2, Assets.sailingSociety, 60, "AnchorDrop", null, 10, Type.water, Type.electric, null, null, Level.Basic, null);
-    private SocietyCard gardeningSociety = new SocietyCard("Gardening Society", 0, 0, 3, 2, Assets.gardeningSociety, 60, "Magical Leaf", null, 10, Type.earth, null, Type.water, null, Level.Basic, null);
-    private SocietyCard geographySociety = new SocietyCard("Geography Society", 0, 0, 3, 2, Assets.geographySociety, 55, "Leaf Storm", null, 15, Type.earth, null, Type.water, null, Level.Basic, null);
-    private SocietyCard friendsOfTheEarth = new SocietyCard("Friends of the Earth", 0, 0, 3, 2, Assets.friendsOfEarth, 75, "Cotton Guard", null, 25, Type.earth, Type.fighting, null, null, Level.Basic,null);
-    private SocietyCard cavingSociety = new SocietyCard("Caving Society", 0, 0, 3, 2, Assets.cavingSociety, 85, "Drill Run", null, 30, Type.earth, null, Type.fighting, null, Level.Basic, null);
-    private SocietyCard environmentalSociety = new SocietyCard("Environmental Society", 0, 0, 3, 2, Assets.environmentalSociety, 70, "Worry Seed", null, 10, Type.earth, null, null, null, Level.Basic, null);
-    private SocietyCard greenPeace = new SocietyCard("Green Peace", 0, 0, 3, 2, Assets.greenPeace, 70, "Flower Shield", null, 10, Type.earth, null, null, null, Level.Basic, null);
+    private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", energyCards, 30, Type.electric, Type.water, null, energyCards, Level.Basic, energyCards);
+    private SocietyCard artificialInt = new SocietyCard("Artificial Intelligence", 0, 0, 3, 2, Assets.artificialIntel, 150, "Mind Swap", energyCards, 40, Type.electric, Type.water, Type.fighting, energyCards, Level.Basic, energyCards);
+    private SocietyCard gamingSociety = new SocietyCard("Gaming Society", 0, 0, 3, 2, Assets.gamingSociety, 80, "Zap Cannon",energyCards, 25, Type.electric, Type.water, Type.fighting, energyCards, Level.Basic, energyCards);
+    private SocietyCard physicsSociety = new SocietyCard("Physics Society", 0, 0, 3, 2, Assets.physicsSociety, 120, "Acid Spray", energyCards, 30, Type.electric, null, Type.water, energyCards, Level.Basic, energyCards);
+    private SocietyCard engineeringSociety = new SocietyCard("Engineering Society", 0, 0, 3, 2, Assets.engineeringSociety, 90, "Shift Gear", energyCards, 25, Type.electric, null, null, energyCards, Level.Basic, energyCards);
+    private SocietyCard roboticsSociety = new SocietyCard("roboticsSociety", 0, 0, 3, 2, Assets.roboticsSociety, 100, "Electric Shock", energyCards, 30, Type.electric, Type.water, Type.fighting, energyCards, Level.Basic, energyCards);
+    private SocietyCard boxingSociety = new SocietyCard("Boxing Society", 0, 0, 3, 2, Assets.boxingSociety, 120, "Force Punce", energyCards, 40, Type.fighting, Type.electric, Type.water, energyCards, Level.Basic, energyCards);
+    private SocietyCard karateSociety = new SocietyCard("Karate Society", 0, 0, 3, 2, Assets.karateSociety, 100, "Karate Chop", energyCards, 20, Type.fighting, null, null, energyCards, Level.Basic, energyCards);
+    private SocietyCard fencingSociety = new SocietyCard("Fencing Society", 0, 0, 3, 2, Assets.fencingSociety, 120, "Low Sweep", energyCards, 25, Type.fighting, null, null, energyCards, Level.Basic, energyCards);
+    private SocietyCard judoSociety = new SocietyCard("Judo Society", 0, 0, 3, 2, Assets.judoSociety, 90, "Arm Trust", energyCards, 25, Type.fighting, Type.water, null, energyCards, Level.Basic, energyCards);
+    private SocietyCard jujistoSociety = new SocietyCard("jujisto Society", 0, 0, 3, 2, Assets.jujistoSociety, 90, "Shoulder Lock", energyCards, 25, Type.fighting, Type.water, null,energyCards, Level.Basic, energyCards);
+    private SocietyCard taekwandoSociety = new SocietyCard("TaekwandoSociety", 0, 0, 3, 2, Assets.taekwando, 60, "Side Kick", energyCards, 25, Type.fighting, Type.water, null, energyCards, Level.Basic, energyCards);
+    private SocietyCard rowingSociety = new SocietyCard("Rowing Society", 0, 0, 3, 2, Assets.rowingSociety, 100, "Paddle Pound", energyCards, 20, Type.water, Type.electric, Type.fighting, energyCards, Level.Basic, energyCards);
+    private SocietyCard divingSociety = new SocietyCard("Diving Society", 0, 0, 3, 2, Assets.divingSociety, 75, "Dive", energyCards, 10, Type.water, Type.electric, null, energyCards, Level.Basic, energyCards);
+    private SocietyCard surfingSociety = new SocietyCard("Surfing Society ", 0, 0, 3, 2, Assets.surfingSociety, 90, "Surf", energyCards, 20, Type.water, null, null, energyCards, Level.Basic, energyCards);
+    private SocietyCard swimmingSociety = new SocietyCard("Swimming Society ", 0, 0, 3, 2, Assets.swimmingSociety, 110, "Bubble Bust", energyCards, 30, Type.water, Type.electric, null, energyCards, Level.Basic, energyCards);
+    private SocietyCard paddleSociety = new SocietyCard("Paddle Society", 0, 0, 3, 2, Assets.paddle, 65, "Paddle Strike", energyCards, 15, Type.water, null, null, energyCards, Level.Basic, energyCards);
+    private SocietyCard sailingSociety = new SocietyCard("SailingSociety", 0, 0, 3, 2, Assets.sailingSociety, 60, "AnchorDrop", energyCards, 10, Type.water, Type.electric, null,energyCards, Level.Basic, energyCards);
+    private SocietyCard gardeningSociety = new SocietyCard("Gardening Society", 0, 0, 3, 2, Assets.gardeningSociety, 60, "Magical Leaf", energyCards, 10, Type.earth, null, Type.water, energyCards, Level.Basic, energyCards);
+    private SocietyCard geographySociety = new SocietyCard("Geography Society", 0, 0, 3, 2, Assets.geographySociety, 55, "Leaf Storm", energyCards, 15, Type.earth, null, Type.water, energyCards, Level.Basic, energyCards);
+    private SocietyCard friendsOfTheEarth = new SocietyCard("Friends of the Earth", 0, 0, 3, 2, Assets.friendsOfEarth, 75, "Cotton Guard", energyCards, 25, Type.earth, Type.fighting, null,energyCards, Level.Basic,energyCards);
+    private SocietyCard cavingSociety = new SocietyCard("Caving Society", 0, 0, 3, 2, Assets.cavingSociety, 85, "Drill Run", energyCards, 30, Type.earth, null, Type.fighting, energyCards, Level.Basic, energyCards);
+    private SocietyCard environmentalSociety = new SocietyCard("Environmental Society", 0, 0, 3, 2, Assets.environmentalSociety, 70, "Worry Seed", energyCards, 10, Type.earth, null, null, energyCards, Level.Basic, energyCards);
+    private SocietyCard greenPeace = new SocietyCard("Green Peace", 0, 0, 3, 2, Assets.greenPeace, 70, "Flower Shield", energyCards, 10, Type.earth, null, null, energyCards, Level.Basic, energyCards);
 
     //Student behaviour cards
     private StudentBehaviourCard disruptive = new StudentBehaviourCard("Disruptive in class", 0, 0, 3, 2, Assets.disruptve, StudentBehaviourType.stadium, false);
@@ -97,17 +112,36 @@ public class PlayState extends State implements View.OnClickListener {
     private EnergyCard earthEnergy = new EnergyCard("Earth", 0, 0, 3, 2, Assets.earthEnergy, Type.earth);
     private EnergyCard fightEngery = new EnergyCard("Fight", 0, 0, 3, 2, Assets.fightEngery, Type.fighting);
 
+
+
+
+
+
+
     //deck of cards
-    private ArrayList<Card> deckOfCards = new ArrayList<Card>();
+    private ArrayList<SocietyCard> deckOfCards = new ArrayList<SocietyCard>();
     Deck myDeck = new Deck(deckOfCards);
 
-    Deck playersCards = new Deck(new ArrayList<Card>());
-    Deck player2Cards = new Deck(new ArrayList<Card>());
+    ArrayList<SocietyCard> playersCards = new ArrayList<SocietyCard>();
+    ArrayList<SocietyCard> player2Cards = new ArrayList<SocietyCard>();
+
+    ArrayList<StudentBehaviourCard> prizeCards1 = new ArrayList<StudentBehaviourCard>();
+    ArrayList<StudentBehaviourCard> prizeCards2 = new ArrayList<StudentBehaviourCard>();
+
+
+    Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCards1, true);
+    Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCards2, false);
 
     @Override
     public void init() {
         playButton = new Button(316, 385, 484, 444, Assets.start, Assets.startDown);
         dealButton = new Button(316, 385, 484, 444, Assets.dealButton, Assets.dealButton);
+        continueButton = new Button(316, 385, 484, 444, Assets.continueButton, Assets.continueButton);
+        attackButton = new Button(316, 115, 484, 155, Assets.attackButton, Assets.attackButton);
+        retreatButton = new Button(316, 175, 484, 220, Assets.retreatButton, Assets.retreatButton);
+        evolveButton = new Button(316, 235, 484, 285, Assets.evolveButton, Assets.evolveButton);
+        useStudentBehaviourCardButton = new Button(316, 295, 484, 350, Assets.societyCardButton, Assets.societyCardButton);
+
 
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
@@ -133,22 +167,28 @@ public class PlayState extends State implements View.OnClickListener {
         deckOfCards.add(cavingSociety);
         deckOfCards.add(environmentalSociety);
         deckOfCards.add(greenPeace);
-        deckOfCards.add(disruptive);
-        deckOfCards.add(fail);
-        deckOfCards.add(freeEntry);
-        deckOfCards.add(freeShots);
-        deckOfCards.add(hangover);
-        deckOfCards.add(late);
-        deckOfCards.add(lecture);
-        deckOfCards.add(library);
-        deckOfCards.add(redBull);
-        deckOfCards.add(untidy);
-        deckOfCards.add(water);
-        deckOfCards.add(fightEngery);
-        deckOfCards.add(waterEnergy);
-        deckOfCards.add(electricEnergy);
-        deckOfCards.add(earthEnergy);
+       // deckOfCards.add(disruptive);
+       // deckOfCards.add(fail);
+        //deckOfCards.add(freeEntry);
+        //deckOfCards.add(freeShots);
+        //deckOfCards.add(hangover);
+        //deckOfCards.add(late);
+        //deckOfCards.add(lecture);
+        //deckOfCards.add(library);
+        //deckOfCards.add(redBull);
+        //deckOfCards.add(untidy);
+        //deckOfCards.add(water);
+        //deckOfCards.add(fightEngery);
+        //deckOfCards.add(waterEnergy);
+        //deckOfCards.add(electricEnergy);
+        //deckOfCards.add(earthEnergy);
+        energyCards.add(waterEnergy);
+        int i =0;
+
+
     }
+
+
 
     @Override
     public void update(float delta) {
@@ -159,30 +199,46 @@ public class PlayState extends State implements View.OnClickListener {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
 
+
         if (isStart == true) {
            playButton.render(g);
+
         } else {
             //draw new button called deal
-            dealButton.render(g);
+            if (dealCards) {
+                dealButton.render(g);
+            } else {
+                continueButton.render(g);
+            }
             //Now that we have references to the cards that have to be moved, we can change the
-            //location of them on the screen. Done here as opposed to update().
+            //location of them on the screen. Done here as opposed to update();
             if (currentCardInPlay != null && currentCardInPlay2 != null) {
                 super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
                 super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
             }
+
         }
-        if (playersCards.myDeck.size() > 0) {
+        if (player1.getMyCards().getMyDeck().size() > 0) {
             drawCards(g);
+        }
+
+        if (isMenu) {
+            g.drawImage(Assets.menubg, 100, 50);
+            attackButton.render(g);
+            retreatButton.render(g);
+            evolveButton.render(g);
+            useStudentBehaviourCardButton.render(g);
         }
     }
 
+
     private void drawCards(Painter p) {
-        for (int i = 0; i < playersCards.myDeck.size(); i++) {
-            p.drawImage(playersCards.myDeck.get(i).getPicture(), 20, 100+ (i +1) * 45 , 125 , 100);
+        for (int i = 0; i < player1.getBench().size(); i++) {
+            p.drawImage(player1.getBench().get(i).getPicture(), 20, 100+ (i +1) * 45 , 125 , 100);
         }
 
-        for (int i = 0; i < player2Cards.myDeck.size(); i++) {
-            p.drawImage(player2Cards.myDeck.get(i).getPicture(), 675, (i +1) * 40 , 125 , 100);
+        for (int i = 0; i < player2.getBench().size(); i++) {
+            p.drawImage(player2.getBench().get(i).getPicture(), 675, (i +1) * 40 , 125 , 100);
         }
         //Attempt to add in the prize cards
         for (int i =0; i< 3; i++) {
@@ -191,43 +247,130 @@ public class PlayState extends State implements View.OnClickListener {
             p.drawImage(Assets.cardBack, 440 +(i +1) * 80, 330, 100, 60);
             p.drawImage(Assets.cardBack, 440 +(i+1) * 80, 380, 100, 60);
         }
-    }
 
+    }
 
 
 
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         //If it is the start of the game then this touch event is registered as inital setup.
+
+        if(e.getAction() == MotionEvent.ACTION_DOWN) {
+
+            continueButton.onTouchDown(scaledX, scaledY);
+            attackButton.onTouchDown(scaledX, scaledY);
+            retreatButton.onTouchDown(scaledX, scaledY);
+            evolveButton.onTouchDown(scaledX, scaledY);
+            useStudentBehaviourCardButton.onTouchDown(scaledX, scaledY);
+
+            if (!isStart && !dealCards) {
+                if (continueButton.isPressed(scaledX, scaledY)) {
+                    isMenu = true;
+                    continueButton.cancel();
+
+                } else {
+                    continueButton.cancel();
+                }
+                if (attackButton.isPressed(scaledX, scaledY)) {
+                    isMenu = false;
+                    attackButton.cancel();
+                    if (player1.isMyTurn()) {
+                        player1.attack(player2);
+                    } else {
+                        player2.attack(player1);
+                    }
+                } else {
+                    attackButton.cancel();
+                }
+                if (retreatButton.isPressed(scaledX, scaledY)) {
+                    isMenu = false;
+                    retreatButton.cancel();
+                    if (player1.isMyTurn()) {
+                        player1.getActiveCard().retreat(player1.getActiveCard().getEnergyCards(), player1);
+                    } else {
+                        player2.getActiveCard().retreat(player2.getActiveCard().getEnergyCards(), player2);
+                    }
+                } else {
+                    retreatButton.cancel();
+                }
+                if (evolveButton.isPressed(scaledX, scaledY)) {
+                    isMenu = false;
+                    evolveButton.cancel();
+                    if (player1.isMyTurn()) {
+                        player1.getActiveCard().evolve();
+                    } else {
+                        player2.getActiveCard().evolve();
+                    }
+                } else {
+                    evolveButton.cancel();
+                }
+                if (useStudentBehaviourCardButton.isPressed(scaledX, scaledY)) {
+                    isMenu = false;
+                    useStudentBehaviourCardButton.cancel();
+                    if (player1.isMyTurn()) {
+                        player1.useStudentBehaviourCard(player1.getPrizeCards().get(0), player2);
+
+                    } else {
+                        player2.useStudentBehaviourCard(player2.getPrizeCards().get(0), player1);
+                    }
+
+                } else {
+                    useStudentBehaviourCardButton.cancel();
+                }
+            }
+        }
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
+
+            dealButton.onTouchDown(scaledX,scaledY);
             playButton.onTouchDown(scaledX, scaledY);
-            if (playButton.isPressed(scaledX, scaledY)) {
-                playButton.cancel();
+            if(dealButton.isPressed(scaledX,scaledY)) {
+                dealButton.cancel();
                 if (isStart == false && dealCards) {
                     //TO DO: move cards currently in the middle of screen to dump pile
                     //move new card of deck into middle of the screen
-                    if (!playersCards.myDeck.isEmpty()) {
-                        currentCardInPlay = playersCards.myDeck.remove(0);
+                    if (!player1.getMyCards().getMyDeck().isEmpty()) {
+                        player1.setActiveCard(player1.getBench().remove(0));
+                        currentCardInPlay = player1.getActiveCard();
+
+
                     }
-                    if (!player2Cards.myDeck.isEmpty()) {
-                        currentCardInPlay2 = player2Cards.myDeck.remove(0);
+                    if (!player2.getMyCards().getMyDeck().isEmpty()) {
+                        player2.setActiveCard(player2.getBench().remove(0));
+                        currentCardInPlay2 = player2.getActiveCard();
+
+
+
                     }
                     dealCards = false;
+
                 } else {
-                    //Button has been pressed
-                    isStart = false;
-                    for (int i = 0; i < STARTING_CARD_NUMBER; i++) {
-                        playersCards.myDeck.add(myDeck.randomCard());
-                        player2Cards.myDeck.add(myDeck.randomCard());
+
+                    if (playButton.isPressed(scaledX, scaledY)) {
+                        playButton.cancel();
+                        if (dealCards) {
+                            for (int i = 0; i < STARTING_CARD_NUMBER; i++) {
+                                player1.getBench().add(myDeck.randomCard());
+                                player2.getBench().add(myDeck.randomCard());
+                                //start game button now shows
+
+                                isStart = false;
+                            }
+                        }
+
+                    } else {
+                        playButton.cancel();
                     }
+
                 }
-
-
             } else {
-                playButton.cancel();
+                dealButton.cancel();
             }
 
+
         }
+
+
 
 
 
@@ -241,27 +384,29 @@ public class PlayState extends State implements View.OnClickListener {
     }
 
 
-    public void onClick(View v) {
-        drawCard();
-    }
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
+//    public void onClick(View v) {
+//        drawCard();
+//    }
 //
-//        //seting the view to the activity XML file
-//        setContentView(R.layout.activity_main);
-//        //setting the draw button to equal an image button set up in the xml file
-//        drawButton = (ImageButton) findViewById(R.id.drawButton);
-//        cardImage = (ImageView) findViewById(R.id.cardImage);
-//        drawButton.setOnClickListener(this);
+////    @Override
+////    protected void onCreate(Bundle savedInstanceState) {
+////        super.onCreate(savedInstanceState);
+////
+////        //seting the view to the activity XML file
+////        setContentView(R.layout.activity_main);
+////        //setting the draw button to equal an image button set up in the xml file
+////        drawButton = (ImageButton) findViewById(R.id.drawButton);
+////        cardImage = (ImageView) findViewById(R.id.cardImage);
+////        drawButton.setOnClickListener(this);
+////
+////    }
 //
+//    //draw a random card from the deck
+//    private void drawCard() {
+//        myDeck.randomCard();
 //    }
 
-    //draw a random card from the deck
-    private void drawCard() {
-        myDeck.randomCard();
-    }
+
 
 
     @Override
@@ -277,4 +422,7 @@ public class PlayState extends State implements View.OnClickListener {
 
 
     }
+
+
 }
+
