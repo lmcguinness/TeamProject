@@ -223,7 +223,7 @@ public class PlayState extends State {
             evolveButton.render(g);
             useStudentBehaviourCardButton.render(g);
         }
-        if(retreatError == true){
+        if(retreatError){
             super.getPainter().drawImage(Assets.retreatError, 75, 85, 685 , 65);
         }
     }
