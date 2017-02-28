@@ -17,7 +17,8 @@ public class CoinTossState extends State {
     private Button flipCoinButton , continueButton, chooseHeadsButton, chooseTailsButton;
     private boolean isFirstToss = false;
     private Coin coin;
-    public boolean isPlayer1Heads, isPlayer1Turn, isPlayer2Turn, decided =false;
+    private boolean isPlayer1Heads, decided =false;
+    private static boolean  isPlayer1Turn, isPlayer2Turn;
 
     @Override
     public void init() {
@@ -33,11 +34,11 @@ public class CoinTossState extends State {
 
     }
 
-    public boolean getIsPlayer1Turn() {
+    public static boolean getIsPlayer1Turn() {
         return isPlayer1Turn;
     }
 
-    public boolean getIsPlayer2Turn() {
+    public static boolean getIsPlayer2Turn() {
         return isPlayer2Turn;
     }
 
@@ -69,7 +70,7 @@ public class CoinTossState extends State {
                     super.getPainter().drawImage(Assets.player2H, 135, 85, 565, 65);
                     isPlayer2Turn =true;
                 }
-                //Result of CoinFlip: tails
+                // tails
                if (coin.result == 1 && isPlayer1Heads == false) {
                     super.getPainter().drawImage(Assets.tails, 155, 185, 525, 195);
                     // player 1 is tails, player 1s go

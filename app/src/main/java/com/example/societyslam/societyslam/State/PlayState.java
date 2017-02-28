@@ -3,6 +3,8 @@ package com.example.societyslam.societyslam.State;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
+
+import com.example.societyslam.societyslam.GameObjects.Coin;
 import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.Util.Button;
 import android.widget.ImageButton;
@@ -113,8 +115,8 @@ public class PlayState extends State {
     ArrayList<StudentBehaviourCard> prizeCards2 = new ArrayList<StudentBehaviourCard>();
 
 
-    Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCards1, true);
-    Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCards2, false);
+    Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCards1, CoinTossState.getIsPlayer1Turn());
+    Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCards2, CoinTossState.getIsPlayer2Turn());
 
     @Override
     public void init() {
