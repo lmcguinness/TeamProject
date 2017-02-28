@@ -16,7 +16,8 @@ public class Assets {
     electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
     karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
     disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library,
-    paddle, redBull, roboticsSociety, sailingSociety, taekwando, untidy, water, gamingSociety, dealButton;
+    paddle, redBull, roboticsSociety, sailingSociety, taekwando, untidy, water, gamingSociety, dealButton, howToPlay, howToPlayDown, howToPlayBackground,
+            backArrowButton;
 
     public static void load() {
         // Commented ones to be added at a later stage
@@ -29,7 +30,13 @@ public class Assets {
         continueButton = loadBitmap("continueButton.png", true);
         flipCoin = loadBitmap("flipCoin.png", true);
         flipCoinDown = loadBitmap("flipCoinDown.png", true);
+        //ADDED BY LEANNE
+        backArrowButton = loadBitmap("backArrowButton.png", true);
+        howToPlayBackground = loadBitmap("howToPlayBackground.png", true);
+        howToPlay = loadBitmap("howToPlay.png", true);
+        howToPlayDown = loadBitmap("howToPlayDown.png", true);
         dealButton = loadBitmap("dealButton.png", true);
+
         welcome = loadBitmap("welcome.jpg", false);
         start = loadBitmap("start_button.png", true);
         startDown = loadBitmap("start_button_down.png",true);
