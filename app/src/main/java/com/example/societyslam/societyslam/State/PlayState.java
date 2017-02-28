@@ -1,22 +1,13 @@
 package com.example.societyslam.societyslam.State;
 
-import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Looper;
+import android.graphics.Typeface;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-//import android.widget.Button;
 import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.Util.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-
 import com.example.societyslam.societyslam.Game.Assets;
-import com.example.societyslam.societyslam.GameObjects.Card;
 import com.example.societyslam.societyslam.GameObjects.Deck;
 import com.example.societyslam.societyslam.GameObjects.EnergyCard;
 import com.example.societyslam.societyslam.GameObjects.Level;
@@ -24,17 +15,9 @@ import com.example.societyslam.societyslam.GameObjects.SocietyCard;
 import com.example.societyslam.societyslam.GameObjects.StudentBehaviourCard;
 import com.example.societyslam.societyslam.GameObjects.StudentBehaviourType;
 import com.example.societyslam.societyslam.GameObjects.Type;
-import com.example.societyslam.societyslam.R;
-import com.example.societyslam.societyslam.State.State;
 import com.example.societyslam.societyslam.Util.Painter;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+
 
 /**
  * Created by Aoife Brown on 21/11/2016.
@@ -199,6 +182,10 @@ public class PlayState extends State {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
 
+        //Displaying the players on the board
+        g.setFont(Typeface.DEFAULT_BOLD, 25);
+        g.drawString("Player 1", 303, 20);
+        g.drawString("PLayer 2", 425,20);
 
         if (isStart == true) {
            playButton.render(g);
@@ -215,6 +202,10 @@ public class PlayState extends State {
             if (currentCardInPlay != null && currentCardInPlay2 != null) {
                 super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
                 super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+
+                //Set HP levels of the active cards to the players score on the screen
+                g.drawString("  "+ player1.getActiveCard().getHp(), 320,40 );
+                g.drawString("  "+ player2.getActiveCard().getHp(),440,40);
             }
 
         }
