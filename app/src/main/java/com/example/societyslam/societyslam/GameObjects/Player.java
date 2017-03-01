@@ -11,11 +11,11 @@ public class Player {
    private  Deck myCards;
     private SocietyCard activeCard;
     private ArrayList<Card> hand;
-    private ArrayList<Card> bench;
-    private ArrayList<Card> prizeCards;
+    private ArrayList<SocietyCard> bench;
+    private ArrayList<StudentBehaviourCard> prizeCards;
     private boolean myTurn;
 
-    public Player(Deck myCards, SocietyCard activeCard, ArrayList<Card> hand, ArrayList<Card> bench, ArrayList<Card> prizeCards, boolean myTurn) {
+    public Player(Deck myCards, SocietyCard activeCard, ArrayList<SocietyCard> bench, ArrayList<StudentBehaviourCard> prizeCards, boolean myTurn) {
         this.myCards = myCards;
         this.activeCard = activeCard;
         this.hand = hand;
@@ -48,19 +48,19 @@ public class Player {
         this.hand = hand;
     }
 
-    public ArrayList<Card> getBench() {
+    public ArrayList<SocietyCard> getBench() {
         return bench;
     }
 
-    public void setBench(ArrayList<Card> bench) {
+    public void setBench(ArrayList<SocietyCard> bench) {
         this.bench = bench;
     }
 
-    public ArrayList<Card> getPrizeCards() {
+    public ArrayList<StudentBehaviourCard> getPrizeCards() {
         return prizeCards;
     }
 
-    public void setPrizeCards(ArrayList<Card> prizeCards) {
+    public void setPrizeCards(ArrayList<StudentBehaviourCard> prizeCards) {
         this.prizeCards = prizeCards;
     }
 
@@ -84,6 +84,7 @@ public class Player {
                 opponentNewHP = (opponent.getActiveCard().getHp() - this.getActiveCard().getAttackStrength());
             }
             opponent.getActiveCard().setHp(opponentNewHP);
+            System.out.println(opponent.getActiveCard().getName() + " 's HP is now " + opponent.getActiveCard().getHp());
             this.myTurn = false;
 
         } else {
@@ -96,10 +97,10 @@ public class Player {
         System.out.println("You used " + card.getName());
         int newHP;
         int opponentNewHP;
-        if(card.isEffect()) {
+        if(card.hasPositiveEffect()) {
             newHP = this.getActiveCard().getHp() + card.getCardPoints();
             this.getActiveCard().setHp(newHP);
-        } else if(!card.isEffect()) {
+        } else if(!card.hasPositiveEffect()) {
             opponentNewHP = opponent.getActiveCard().getHp() - card.getCardPoints();
             opponent.getActiveCard().setHp(opponentNewHP);
         }

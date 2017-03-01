@@ -24,6 +24,7 @@ public class SocietyCard extends Card {
     private ArrayList<EnergyCard> retreatCost;
     private Level level;
     private ArrayList<EnergyCard> energyCards;
+   
 
     public SocietyCard(String name, float x, float y, float height, float width, Bitmap bitmap,
                        int hp, String attackName, ArrayList<EnergyCard> attackCost, int attackStrength, Type type,
@@ -40,6 +41,7 @@ public class SocietyCard extends Card {
         this.retreatCost = retreatCost;
         this.level = level;
         this.energyCards = energyCards;
+
 
     }
 
@@ -136,11 +138,13 @@ public class SocietyCard extends Card {
 
     }
 
-    public void evolve(Player player) {
+    public void evolve() {
         if(this.getLevel().equals(Level.Basic)) {
             this.setLevel(Level.Level1);
+            System.out.println(this.getName() + " evolved to Level 1");
         } else if (this.getLevel().equals(Level.Level1)) {
             this.setLevel(Level.Level2);
+            System.out.println(this.getName() + " evolved to level 2");
         } else if(this.getLevel().equals(Level.Level2)) {
             System.out.println("This card cannot be evolved anymore");
         }

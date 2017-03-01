@@ -16,25 +16,25 @@ import java.util.Random;
 public class Deck {
     private Random randomGenerator;
 
-    public ArrayList<Card> myDeck = new ArrayList<Card>();
+    public ArrayList<SocietyCard> myDeck = new ArrayList<SocietyCard>();
 
-    public Deck(ArrayList<Card> myDeck) {
+    public Deck(ArrayList<SocietyCard> myDeck) {
         this.myDeck = myDeck;
     }
 
 
-    public ArrayList<Card> getMyDeck() {
+    public ArrayList<SocietyCard> getMyDeck() {
         return myDeck;
     }
 
-    public void setMyDeck(ArrayList<Card> myDeck) {
+    public void setMyDeck(ArrayList<SocietyCard> myDeck) {
         this.myDeck = myDeck;
     }
 
-    public Card randomCard(){
+    public SocietyCard randomCard(){
         randomGenerator = new Random();
         int index = randomGenerator.nextInt(myDeck.size());
-        Card card =  myDeck.get(index);
+        SocietyCard card =  myDeck.get(index);
         return card;
 
     }

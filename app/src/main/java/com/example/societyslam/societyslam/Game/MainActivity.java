@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.Window;
@@ -19,6 +20,7 @@ public class MainActivity extends Activity {
     public static AssetManager assets;
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 450;
+
     public static GameView myGame;
     
     @Override
@@ -26,7 +28,7 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         assets = getAssets();
-        myGame = new GameView(this,GAME_WIDTH,GAME_HEIGHT);
+        myGame = new GameView(this,this.GAME_WIDTH,this.GAME_HEIGHT);
         setContentView(myGame);
 
         //ADDED BY Leanne McGuinness 26/11/2016
