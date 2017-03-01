@@ -1,5 +1,7 @@
 package com.example.societyslam.societyslam.GameObjects;
 
+import com.example.societyslam.societyslam.Game.Assets;
+
 import java.util.ArrayList;
 
 /**
@@ -73,6 +75,8 @@ public class Player {
     }
 
     public void attack(Player opponent) {
+        //Play attack sound effect
+        Assets.playSound(Assets.attackID);
         if (this.getActiveCard().canAttack()) {
             System.out.println(this.getActiveCard().getName() + " used " + this.getActiveCard().getAttackName());
             int opponentNewHP;

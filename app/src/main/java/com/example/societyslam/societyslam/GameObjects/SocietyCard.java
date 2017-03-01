@@ -176,7 +176,6 @@ public class SocietyCard extends Card {
     }
 
 
-
     @Override
     public void draw() {
 

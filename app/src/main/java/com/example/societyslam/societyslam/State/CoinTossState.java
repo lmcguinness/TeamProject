@@ -57,6 +57,8 @@ public class CoinTossState extends State {
             flipCoin.onTouchDown(scaledX, scaledY);
         }
         if (flipCoin.isPressed(scaledX, scaledY)) {
+            //Play coin flip sound effect
+            Assets.playSound(Assets.coinID);
             flipCoin.cancel();
             isFirstToss= true;
             coin.flip();

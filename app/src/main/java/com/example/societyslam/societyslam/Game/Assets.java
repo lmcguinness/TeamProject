@@ -2,12 +2,10 @@ package com.example.societyslam.societyslam.Game;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import java.io.IOException;
 import java.io.InputStream;
-
-import static android.R.attr.path;
-
+import android.media.AudioManager;
+import android.media.SoundPool;
 /**
  * Created by Aoife Brown on 15/11/2016.
  */
@@ -15,13 +13,16 @@ import static android.R.attr.path;
 public class Assets {
 
     public static Bitmap coinTossBackground, heads, tails, player1, player2, continueDown, continueButton, flipCoin, flipCoinDown, welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
-    electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
-    karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
-    disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library,
-    paddle, redBull, roboticsSociety, sailingSociety, taekwando, untidy, water, gamingSociety, dealButton, menubg, attackButton, retreatButton, evolveButton, societyCardButton;
+            electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
+            karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
+            disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library,
+            paddle, redBull, roboticsSociety, sailingSociety, taekwando, untidy, water, gamingSociety, dealButton, menubg, attackButton, retreatButton, evolveButton, societyCardButton;
+
+    private static SoundPool soundPool;
+
+    public static int coinID, dealingCardsID, oneCardID, attackID, backgroundMusicID;
 
     public static void load() {
-        // Commented ones to be added at a later stage
         coinTossBackground = loadBitmap("CoinTossBackground.png", true);
         heads = loadBitmap("heads.png", true);
         tails = loadBitmap("tails.png", true);
@@ -40,7 +41,7 @@ public class Assets {
 
         welcome = loadBitmap("welcome.jpg", false);
         start = loadBitmap("start_button.png", true);
-        startDown = loadBitmap("start_button_down.png",true);
+        startDown = loadBitmap("start_button_down.png", true);
         boxingSociety = loadBitmap("boxingsociety.png", true);
         cardBack = loadBitmap("CardBack.png", true);
         cavingSociety = loadBitmap("CavingSociety.png", true);
@@ -65,12 +66,12 @@ public class Assets {
         disruptve = loadBitmap("Disruptive.png", true);
         environmentalSociety = loadBitmap("environmentalSociety.png", true);
         fail = loadBitmap("fail.png", true);
-        freeEntry= loadBitmap("freeEntry.png", true);
-        freeShots=loadBitmap("freeShots.png", true);
-        greenPeace= loadBitmap("greenPeace.png", true);
+        freeEntry = loadBitmap("freeEntry.png", true);
+        freeShots = loadBitmap("freeShots.png", true);
+        greenPeace = loadBitmap("greenPeace.png", true);
         hangover = loadBitmap("hangover.png", true);
-        jujistoSociety= loadBitmap("jujistoSociety.png", true);
-        late = loadBitmap("late.png" ,true);
+        jujistoSociety = loadBitmap("jujistoSociety.png", true);
+        late = loadBitmap("late.png", true);
         lecture = loadBitmap("lecture.png", true);
         library = loadBitmap("library.png", true);
         paddle = loadBitmap("Paddle.png", true);
@@ -81,22 +82,28 @@ public class Assets {
         untidy = loadBitmap("untidy.png", true);
         water = loadBitmap("water.png", true);
         gamingSociety = loadBitmap("gamingSociety.png", true);
-
         ssb = loadBitmap("ssb (1).png", false);
+
+        //load sound files
+        coinID = loadSound("CoinFlip.mp3");
+        dealingCardsID = loadSound("DealingCards.wav");
+        oneCardID = loadSound("OneCard.wav");
+        attackID = loadSound("Attack.wav");
+        backgroundMusicID = loadSound("backgroundMusic.mp3");
     }
 
     private static Bitmap loadBitmap(String filename, boolean transparency) {
         InputStream inputStream = null;
         try {
             inputStream = MainActivity.assets.open(filename);
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         BitmapFactory.Options options = new BitmapFactory.Options();
 
 
-        if(transparency) {
+        if (transparency) {
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         } else {
             options.inPreferredConfig = Bitmap.Config.RGB_565;
@@ -107,4 +114,42 @@ public class Assets {
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, new BitmapFactory.Options());
         return bitmap;
     }
+
+    private static int loadSound(String filename){
+        int soundID =0;
+        if(soundPool == null){
+            soundPool = new SoundPool(25,AudioManager.STREAM_MUSIC,0);
+        }
+        try{
+            soundID = soundPool.load(MainActivity.assets.openFd(filename),1);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return soundID;
+    }
+
+
+    //play sounds that dont need to be looped
+    public static void playSound(int soundID){
+        soundPool.play(soundID,1,1,1,0,1);
+
+    }
+
+    //Set the background music to loop forever
+    public static void playBackground(int soundID) {
+        soundPool.play(soundID, 1, 1, 1, -1, 1);
+
+
+    }
+
+
+
 }
+
+
+
+
+
+
+
+

@@ -34,4 +34,5 @@ public abstract class State extends AppCompatActivity {
         this.painter = painter;
     }
 
+
 }

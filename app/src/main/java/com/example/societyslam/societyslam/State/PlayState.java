@@ -1,5 +1,6 @@
 package com.example.societyslam.societyslam.State;
 
+
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
@@ -17,7 +18,6 @@ import com.example.societyslam.societyslam.GameObjects.StudentBehaviourType;
 import com.example.societyslam.societyslam.GameObjects.Type;
 import com.example.societyslam.societyslam.Util.Painter;
 import java.util.ArrayList;
-
 
 /**
  * Created by Aoife Brown on 21/11/2016.
@@ -41,14 +41,16 @@ public class PlayState extends State {
     private Button dealButton;
     private Button continueButton;
     boolean isMenu;
+    boolean attackPlayer1;
+    boolean attackPlayer2;
     private Rect playRect;
+    int dealCardSound =1;
+    int cardMove =1;
 
     private Button attackButton;
     private Button retreatButton;
     private Button evolveButton;
     private Button useStudentBehaviourCardButton;
-
-
 
     //Society cards
     private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", energyCards, 30, Type.electric, Type.water, null, energyCards, Level.Basic, energyCards);
@@ -95,12 +97,6 @@ public class PlayState extends State {
     private EnergyCard earthEnergy = new EnergyCard("Earth", 0, 0, 3, 2, Assets.earthEnergy, Type.earth);
     private EnergyCard fightEngery = new EnergyCard("Fight", 0, 0, 3, 2, Assets.fightEngery, Type.fighting);
 
-
-
-
-
-
-
     //deck of cards
     private ArrayList<SocietyCard> deckOfCards = new ArrayList<SocietyCard>();
     Deck myDeck = new Deck(deckOfCards);
@@ -115,8 +111,14 @@ public class PlayState extends State {
     Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCards1, true);
     Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCards2, false);
 
+
+
     @Override
     public void init() {
+
+        //Set the background music to keep playing
+       Assets.playBackground(Assets.backgroundMusicID);
+
         playButton = new Button(316, 385, 484, 444, Assets.start, Assets.startDown);
         dealButton = new Button(316, 385, 484, 444, Assets.dealButton, Assets.dealButton);
         continueButton = new Button(316, 385, 484, 444, Assets.continueButton, Assets.continueButton);
@@ -124,7 +126,6 @@ public class PlayState extends State {
         retreatButton = new Button(316, 175, 484, 220, Assets.retreatButton, Assets.retreatButton);
         evolveButton = new Button(316, 235, 484, 285, Assets.evolveButton, Assets.evolveButton);
         useStudentBehaviourCardButton = new Button(316, 295, 484, 350, Assets.societyCardButton, Assets.societyCardButton);
-
 
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
@@ -167,11 +168,7 @@ public class PlayState extends State {
         //deckOfCards.add(earthEnergy);
         energyCards.add(waterEnergy);
         int i =0;
-
-
     }
-
-
 
     @Override
     public void update(float delta) {
@@ -182,10 +179,10 @@ public class PlayState extends State {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
 
-        //Displaying the players on the board
+        //Displaying both of the players on the board
         g.setFont(Typeface.DEFAULT_BOLD, 25);
         g.drawString("Player 1", 303, 20);
-        g.drawString("PLayer 2", 425,20);
+        g.drawString("Player 2", 425,20);
 
         if (isStart == true) {
            playButton.render(g);
@@ -194,12 +191,21 @@ public class PlayState extends State {
             //draw new button called deal
             if (dealCards) {
                 dealButton.render(g);
+                //Play sound of the cards being delt only once
+               while(dealCardSound ==1) {
+                  dealCardSound--;
+                    Assets.playSound(Assets.dealingCardsID);
+                }
             } else {
                 continueButton.render(g);
             }
             //Now that we have references to the cards that have to be moved, we can change the
             //location of them on the screen. Done here as opposed to update();
             if (currentCardInPlay != null && currentCardInPlay2 != null) {
+                while(cardMove ==1) {
+                    cardMove--;
+                    Assets.playSound(Assets.oneCardID);
+                }
                 super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
                 super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
 
@@ -213,6 +219,18 @@ public class PlayState extends State {
             drawCards(g);
         }
 
+        //If player one clicks attack, display their attack and how many points player2 loses on the board
+        if(attackPlayer1){
+            g.setFont(Typeface.DEFAULT_BOLD,22);
+            g.drawString("You attacked with "+ player1.getActiveCard().getAttackName(), 270, 60);
+            g.drawString("minus "+ player1.getActiveCard().getAttackStrength()+ " points player2", 315,80);
+        }
+        //If player two attacks, display their attack and how many points player1 loses
+        if(attackPlayer2){
+            g.drawString("You attacked with "+ player2.getActiveCard().getAttackName(), 270, 60);
+            g.drawString("minus "+ player2.getActiveCard().getAttackStrength()+ " points player2", 315,80);
+        }
+
         if (isMenu) {
             g.drawImage(Assets.menubg, 100, 50);
             attackButton.render(g);
@@ -222,8 +240,8 @@ public class PlayState extends State {
         }
     }
 
-
     private void drawCards(Painter p) {
+
         for (int i = 0; i < player1.getBench().size(); i++) {
             p.drawImage(player1.getBench().get(i).getPicture(), 20, 100+ (i +1) * 45 , 125 , 100);
         }
@@ -231,17 +249,14 @@ public class PlayState extends State {
         for (int i = 0; i < player2.getBench().size(); i++) {
             p.drawImage(player2.getBench().get(i).getPicture(), 675, (i +1) * 40 , 125 , 100);
         }
-        //Attempt to add in the prize cards
+        //prize cards added to board
         for (int i =0; i< 3; i++) {
             p.drawImage(Assets.cardBack, -65 +(i + 1) * 80, 62, 100, 60);
             p.drawImage(Assets.cardBack, -65 +(i + 1) * 80, 6, 100, 60);
             p.drawImage(Assets.cardBack, 440 +(i +1) * 80, 330, 100, 60);
             p.drawImage(Assets.cardBack, 440 +(i+1) * 80, 380, 100, 60);
         }
-
     }
-
-
 
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
@@ -258,6 +273,8 @@ public class PlayState extends State {
             if (!isStart && !dealCards) {
                 if (continueButton.isPressed(scaledX, scaledY)) {
                     isMenu = true;
+                    attackPlayer1 = false;
+                    attackPlayer2=false;
                     continueButton.cancel();
 
                 } else {
@@ -268,8 +285,10 @@ public class PlayState extends State {
                     attackButton.cancel();
                     if (player1.isMyTurn()) {
                         player1.attack(player2);
+                        attackPlayer1 = true;
                     } else {
                         player2.attack(player1);
+                        attackPlayer2 = true;
                     }
                 } else {
                     attackButton.cancel();
@@ -361,16 +380,6 @@ public class PlayState extends State {
 
         }
 
-
-
-
-
-
-
-
-
-
-
         return false;
     }
 
@@ -397,13 +406,9 @@ public class PlayState extends State {
 //        myDeck.randomCard();
 //    }
 
-
-
-
     @Override
     public void onStart() {
         super.onStart();
-
 
     }
 
@@ -411,8 +416,8 @@ public class PlayState extends State {
     public void onStop() {
         super.onStop();
 
-
     }
+
 
 
 }
