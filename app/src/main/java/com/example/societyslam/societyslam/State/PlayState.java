@@ -205,10 +205,14 @@ public class PlayState extends State {
             //Now that we have references to the cards that have to be moved, we can change the
             //location of them on the screen. Done here as opposed to update();
             if (currentCardInPlay != null && currentCardInPlay2 != null) {
-                while(cardMove ==1) {
+                while (cardMove == 1) {
                     cardMove--;
                     Assets.playSound(Assets.oneCardID);
                 }
+            }
+            // has to be seperate from above as when retreat method is called and it is player 2s turn, both cards are removed
+            //from the middle as the above if statement is not satisfied.
+                if(currentCardInPlay != null){
                 super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
                 //Set HP levels of the active cards to the players score on the screen
                 g.drawString("  "+ player1.getActiveCard().getHp(), 320,40 );
