@@ -4,6 +4,8 @@ package com.example.societyslam.societyslam.State;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
+
+import com.example.societyslam.societyslam.GameObjects.Coin;
 import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.Util.Button;
 import android.widget.ImageButton;
@@ -29,6 +31,7 @@ public class PlayState extends State {
     private ImageView cardImage;
     private boolean isStart = true;
     private boolean dealCards = true;
+    private boolean retreatError;
     private SocietyCard currentCardInPlay, currentCardInPlay2;
     private ArrayList<EnergyCard> energyCards = new ArrayList<EnergyCard>();
 
@@ -108,8 +111,8 @@ public class PlayState extends State {
     ArrayList<StudentBehaviourCard> prizeCards2 = new ArrayList<StudentBehaviourCard>();
 
 
-    Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCards1, true);
-    Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCards2, false);
+    Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCards1, CoinTossState.getIsPlayer1Turn());
+    Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCards2, CoinTossState.getIsPlayer2Turn());
 
 
 
@@ -207,10 +210,12 @@ public class PlayState extends State {
                     Assets.playSound(Assets.oneCardID);
                 }
                 super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
-                super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
-
                 //Set HP levels of the active cards to the players score on the screen
                 g.drawString("  "+ player1.getActiveCard().getHp(), 320,40 );
+            }
+            if (currentCardInPlay2 != null) {
+                super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+                //Set HP levels of the active cards to the players score on the screen
                 g.drawString("  "+ player2.getActiveCard().getHp(),440,40);
             }
 
@@ -237,6 +242,9 @@ public class PlayState extends State {
             retreatButton.render(g);
             evolveButton.render(g);
             useStudentBehaviourCardButton.render(g);
+        }
+        if(retreatError){
+            super.getPainter().drawImage(Assets.retreatError, 75, 85, 685 , 65);
         }
     }
 
@@ -272,6 +280,7 @@ public class PlayState extends State {
 
             if (!isStart && !dealCards) {
                 if (continueButton.isPressed(scaledX, scaledY)) {
+                    retreatError = false;
                     isMenu = true;
                     attackPlayer1 = false;
                     attackPlayer2=false;
@@ -294,12 +303,40 @@ public class PlayState extends State {
                     attackButton.cancel();
                 }
                 if (retreatButton.isPressed(scaledX, scaledY)) {
-                    isMenu = false;
-                    retreatButton.cancel();
+                    //isMenu = false;
+                    //retreatButton.cancel();
                     if (player1.isMyTurn()) {
-                        player1.getActiveCard().retreat(player1.getActiveCard().getEnergyCards(), player1);
+                        if(currentCardInPlay != null){
+                           // move the current card back to bench
+                            player1.getActiveCard().retreat(player1.getActiveCard().getEnergyCards(), player1);
+                      // remove previous active card from board
+                            currentCardInPlay = null;
+                            retreatError = false;
+                            isMenu = false;
+                        }else {
+                            // Validation for if the user selects retreat option and no cards are in play
+                            System.out.println("Sorry, there must be a card in play in order to retreat");
+                            //display to the user that there must be a card in play in order to retreat
+                            retreatError = true;
+                            //remove menu screen
+                            isMenu = false;
+                        }
                     } else {
-                        player2.getActiveCard().retreat(player2.getActiveCard().getEnergyCards(), player2);
+
+                        if(currentCardInPlay2 != null){
+                            player2.getActiveCard().retreat(player2.getActiveCard().getEnergyCards(), player2);
+                            currentCardInPlay2 = null;
+                            isMenu = false;
+                            retreatError = false;
+                        }else{
+                            // Validation for if the user selects retreat option and no cards are in play
+                            System.out.println("Sorry, there must be a card in play in order to retreat");
+                            //remove menu screen
+                            isMenu = false;
+                            //display to the user that there must be a card in play in order to retreat
+                            retreatError = true;
+                            System.out.println("ayo");
+                        }
                     }
                 } else {
                     retreatButton.cancel();

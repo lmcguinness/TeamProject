@@ -17,14 +17,20 @@ import com.example.societyslam.societyslam.State.PlayState;
 
 public class MenuState extends State {
 
-    private Rect playRect;
-    private boolean playDown = false;
-    public Button startButton;
+    private Button startButton, howToPlayButton;
+    //private Rect playRect;
+    //private boolean playDown = false;
+    //public Button startButton;
+    //public Button howToPlayButton;
+
 
     @Override
     public void init() {
-        startButton = new Button(316, 385, 484, 424, Assets.start,
+        startButton = new Button(316, 339, 484, 366, Assets.start,
                 Assets.startDown);
+        howToPlayButton = new Button (316, 370, 484, 400, Assets.howToPlay,
+                Assets.howToPlayDown);
+
     }
 
     @Override
@@ -37,6 +43,7 @@ public class MenuState extends State {
         g.drawImage(Assets.welcome,0,0);
 
        startButton.render(g);
+       howToPlayButton.render(g);
 
     }
 
@@ -44,15 +51,23 @@ public class MenuState extends State {
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             startButton.onTouchDown(scaledX, scaledY);
+            howToPlayButton.onTouchDown(scaledX, scaledY);
 
         }
         if (e.getAction() == MotionEvent.ACTION_UP) {
             if (startButton.isPressed(scaledX, scaledY)) {
                 startButton.cancel();
                 setCurrentState(new CoinTossState());
+
+            } else if (howToPlayButton.isPressed(scaledX, scaledY)) {
+                howToPlayButton.cancel();
+                //Log.d("MENU STATE", "HOW TO PLAY BUTTON PRESSED");
+                setCurrentState(new HowToPlayState());
+
+
             } else {
                 startButton.cancel();
-
+                howToPlayButton.cancel();
             }
         }
         return true;
