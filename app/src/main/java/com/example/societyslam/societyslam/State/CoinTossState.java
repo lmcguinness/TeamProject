@@ -1,5 +1,6 @@
 package com.example.societyslam.societyslam.State;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
@@ -15,17 +16,16 @@ import com.example.societyslam.societyslam.Util.Painter;
 
 public class CoinTossState extends State {
     private Button flipCoinButton , continueButton, chooseHeadsButton, chooseTailsButton;
-    private boolean isFirstToss = false;
     private Coin coin;
-    private boolean isPlayer1Heads, decided =false;
+    private boolean isPlayer1Heads, decided =false, isFirstToss = false;
     private static boolean  isPlayer1Turn, isPlayer2Turn;
 
     @Override
     public void init() {
         flipCoinButton = new Button(316, 385, 484, 424, Assets.flipCoin, Assets.flipCoinDown);
         continueButton = new Button(316, 15, 484, 65, Assets.continueButton, Assets.continueDown);
-        chooseHeadsButton = new Button(116, 225, 284, 274 , Assets.headsText, Assets.headsText);
-        chooseTailsButton = new Button(516, 225, 684, 274 , Assets.tailsText, Assets.tailsText);
+        chooseHeadsButton = new Button(116, 225, 284, 324 , Assets.heads, Assets.heads);
+        chooseTailsButton = new Button(516, 225, 684, 324 , Assets.tails, Assets.tails);
         coin = new Coin();
     }
 
@@ -37,7 +37,6 @@ public class CoinTossState extends State {
     public static boolean getIsPlayer1Turn() {
         return isPlayer1Turn;
     }
-
     public static boolean getIsPlayer2Turn() {
         return isPlayer2Turn;
     }
@@ -53,31 +52,44 @@ public class CoinTossState extends State {
             g.drawImage(Assets.coinTossBackground, 0, 0);
             chooseTailsButton.cancel();
             chooseTailsButton.cancel();
+            // display who is assigned to what side of coin
+            g.setFont(Typeface.DEFAULT_BOLD, 25);
+            g.drawString("Player 1:", 213, 108);
+            g.drawString("Player 2:", 455, 108);
 
-            super.getPainter().drawImage(Assets.heads, 155, 185, 525, 195);
+            if(isPlayer1Heads){
+                g.drawString("Heads", 313,108);
+                g.drawString("Tails", 555,108);
+            }else{
+                g.drawString("Tails", 313,108);
+                g.drawString("Heads", 555,108);
+            }
+
+            super.getPainter().drawImage(Assets.heads, 185, 165, 415, 195);
+
             if (isFirstToss == false) {
                 flipCoinButton.render(g);
             } else {
                 //Result of Coin Flip: heads
                 if (coin.result == 0 && isPlayer1Heads) {
-                    super.getPainter().drawImage(Assets.heads, 155, 185, 525, 195);
+                    super.getPainter().drawImage(Assets.heads,  185, 165, 415, 195);
                     //player 1 is heads, player1s go
                     super.getPainter().drawImage(Assets.player1, 135, 85, 565, 65);
                     isPlayer1Turn = true;
                 }else if(coin.result == 0 && isPlayer1Heads == false ){
-                    super.getPainter().drawImage(Assets.heads, 155, 185, 525, 195);
+                    super.getPainter().drawImage(Assets.heads,  185, 165, 415, 195);
                     //player 2 is heads, player 2s go
                     super.getPainter().drawImage(Assets.player2H, 135, 85, 565, 65);
                     isPlayer2Turn =true;
                 }
-                // tails
+                //Result of Coin Flip: tails
                if (coin.result == 1 && isPlayer1Heads == false) {
-                    super.getPainter().drawImage(Assets.tails, 155, 185, 525, 195);
+                    super.getPainter().drawImage(Assets.tails,  185, 165, 415, 195);
                     // player 1 is tails, player 1s go
                    super.getPainter().drawImage(Assets.player1T, 135, 85, 565, 65);
                    isPlayer1Turn = true;
                 }else if(coin.result == 1 && isPlayer1Heads){
-                   super.getPainter().drawImage(Assets.heads, 155, 185, 525, 195);
+                   super.getPainter().drawImage(Assets.heads,  185, 165, 415, 195);
                    // player 2 is tails, player 2s go
                    super.getPainter().drawImage(Assets.player1, 135, 85, 565, 65);
                    isPlayer2Turn = true;
@@ -91,7 +103,7 @@ public class CoinTossState extends State {
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             flipCoinButton.onTouchDown(scaledX, scaledY);
         }
-        if (flipCoinButton.isPressed(scaledX, scaledY)) {
+        if (flipCoinButton.isPressed(scaledX, scaledY) && decided) {
             //Play coin flip sound effect
             Assets.playSound(Assets.coinID);
             flipCoinButton.cancel();

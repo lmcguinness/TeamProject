@@ -54,6 +54,8 @@ public class PlayState extends State {
     private Button retreatButton;
     private Button evolveButton;
     private Button useStudentBehaviourCardButton;
+    private Button pauseButton, restartButton, resumeButton, quitButton, instructionsButton;
+    private boolean isPause = false;
 
     //Society cards
     private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", energyCards, 30, Type.electric, Type.water, null, energyCards, Level.Basic, energyCards);
@@ -122,13 +124,18 @@ public class PlayState extends State {
         //Set the background music to keep playing
        Assets.playBackground(Assets.backgroundMusicID);
 
-        playButton = new Button(316, 385, 484, 444, Assets.start, Assets.startDown);
-        dealButton = new Button(316, 385, 484, 444, Assets.dealButton, Assets.dealButton);
-        continueButton = new Button(316, 385, 484, 444, Assets.continueButton, Assets.continueButton);
+        playButton = new Button(336, 385, 504, 444, Assets.start, Assets.startDown);
+        dealButton = new Button(336, 385, 504, 444, Assets.dealButton, Assets.dealButton);
+        continueButton = new Button(336, 385, 504, 444, Assets.continueButton, Assets.continueButton);
         attackButton = new Button(316, 115, 484, 155, Assets.attackButton, Assets.attackButton);
         retreatButton = new Button(316, 175, 484, 220, Assets.retreatButton, Assets.retreatButton);
         evolveButton = new Button(316, 235, 484, 285, Assets.evolveButton, Assets.evolveButton);
         useStudentBehaviourCardButton = new Button(316, 295, 484, 350, Assets.societyCardButton, Assets.societyCardButton);
+        pauseButton = new Button(266,385,326,444,Assets.pause, Assets.pause);
+        resumeButton = new Button(316, 115, 484, 155, Assets.resume, Assets.resume);
+        restartButton = new Button(316, 175, 484, 220, Assets.restart, Assets.restart);
+        instructionsButton = new Button(316, 235, 484, 285, Assets.instructions, Assets.instructions);
+        quitButton = new Button(316, 295, 484, 350, Assets.quit, Assets.quit);
 
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
@@ -186,7 +193,7 @@ public class PlayState extends State {
         g.setFont(Typeface.DEFAULT_BOLD, 25);
         g.drawString("Player 1", 303, 20);
         g.drawString("Player 2", 425,20);
-
+        pauseButton.render(g);
         if (isStart == true) {
            playButton.render(g);
 
@@ -250,6 +257,13 @@ public class PlayState extends State {
         if(retreatError){
             super.getPainter().drawImage(Assets.retreatError, 75, 85, 685 , 65);
         }
+        if(isPause){
+            super.getPainter().drawImage(Assets.pauseMenu,100,50);
+            resumeButton.render(g);
+            restartButton.render(g);
+            quitButton.render(g);
+            instructionsButton.render(g);
+        }
     }
 
     private void drawCards(Painter p) {
@@ -293,7 +307,8 @@ public class PlayState extends State {
                 } else {
                     continueButton.cancel();
                 }
-                if (attackButton.isPressed(scaledX, scaledY)) {
+                // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
+                if (attackButton.isPressed(scaledX, scaledY) && isMenu) {
                     isMenu = false;
                     attackButton.cancel();
                     if (player1.isMyTurn()) {
@@ -306,7 +321,8 @@ public class PlayState extends State {
                 } else {
                     attackButton.cancel();
                 }
-                if (retreatButton.isPressed(scaledX, scaledY)) {
+                // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
+                if (retreatButton.isPressed(scaledX, scaledY) && isMenu) {
                     //isMenu = false;
                     //retreatButton.cancel();
                     if (player1.isMyTurn()) {
@@ -345,7 +361,8 @@ public class PlayState extends State {
                 } else {
                     retreatButton.cancel();
                 }
-                if (evolveButton.isPressed(scaledX, scaledY)) {
+                // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
+                if (evolveButton.isPressed(scaledX, scaledY) && isMenu) {
                     isMenu = false;
                     evolveButton.cancel();
                     if (player1.isMyTurn()) {
@@ -356,7 +373,8 @@ public class PlayState extends State {
                 } else {
                     evolveButton.cancel();
                 }
-                if (useStudentBehaviourCardButton.isPressed(scaledX, scaledY)) {
+                // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
+                if (useStudentBehaviourCardButton.isPressed(scaledX, scaledY) && isMenu) {
                     isMenu = false;
                     useStudentBehaviourCardButton.cancel();
                     if (player1.isMyTurn()) {
@@ -369,6 +387,7 @@ public class PlayState extends State {
                 } else {
                     useStudentBehaviourCardButton.cancel();
                 }
+
             }
         }
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
@@ -377,7 +396,7 @@ public class PlayState extends State {
             playButton.onTouchDown(scaledX, scaledY);
             if(dealButton.isPressed(scaledX,scaledY)) {
                 dealButton.cancel();
-                if (isStart == false && dealCards) {
+                if (!isStart && dealCards) {
                     //TO DO: move cards currently in the middle of screen to dump pile
                     //move new card of deck into middle of the screen
                     if (!player1.getMyCards().getMyDeck().isEmpty()) {
@@ -420,7 +439,43 @@ public class PlayState extends State {
 
 
         }
+        if (e.getAction() == MotionEvent.ACTION_DOWN) {
+            pauseButton.onTouchDown(scaledX, scaledY);
+            restartButton.onTouchDown(scaledX, scaledY);
+            resumeButton.onTouchDown(scaledX, scaledY);
+            quitButton.onTouchDown(scaledX, scaledY);
+            instructionsButton.onTouchDown(scaledX, scaledY);
+            if (pauseButton.isPressed(scaledX, scaledY)) {
+                isPause = true;
+                pauseButton.cancel();
 
+            } else {
+                pauseButton.cancel();
+            }
+            if (resumeButton.isPressed(scaledX, scaledY)  && isPause) {
+                isPause=false;
+            }else{
+                resumeButton.cancel();
+            }
+            if (restartButton.isPressed(scaledX, scaledY)  && isPause) {
+                isPause=false;
+                setCurrentState(new CoinTossState());
+            }else{
+                restartButton.cancel();
+            }
+            if (instructionsButton.isPressed(scaledX, scaledY) && isPause) {
+                isPause=false;
+
+            }else{
+                instructionsButton.cancel();
+            }
+            if (quitButton.isPressed(scaledX, scaledY)  && isPause) {
+                isPause=false;
+                setCurrentState(new MenuState());
+            }else{
+                quitButton.cancel();
+            }
+        }
         return false;
     }
 
