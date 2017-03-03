@@ -16,6 +16,7 @@ public class Player {
     private ArrayList<SocietyCard> bench;
     private ArrayList<StudentBehaviourCard> prizeCards;
     private boolean myTurn;
+    
 
     public Player(Deck myCards, SocietyCard activeCard, ArrayList<SocietyCard> bench, ArrayList<StudentBehaviourCard> prizeCards, boolean myTurn) {
         this.myCards = myCards;
@@ -24,7 +25,10 @@ public class Player {
         this.bench = bench;
         this.prizeCards = prizeCards;
         this.myTurn = myTurn;
+
     }
+
+
 
     public Deck getMyCards() {
         return myCards;

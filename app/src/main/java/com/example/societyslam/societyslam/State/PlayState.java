@@ -194,6 +194,7 @@ public class PlayState extends State {
         g.drawString("Player 1", 303, 20);
         g.drawString("Player 2", 425,20);
         pauseButton.render(g);
+
         if (isStart == true) {
            playButton.render(g);
 
@@ -221,13 +222,57 @@ public class PlayState extends State {
             //from the middle as the above if statement is not satisfied.
                 if(currentCardInPlay != null){
                 super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
+
+                    // TEST TO FIND OUT THE TYPE OF THE ACTIVE SOCIETY CARD WHEN MOVED TO SCREEN
+                    //g.drawString(" " + player1.getActiveCard().getType(), 320, 40);
+
                 //Set HP levels of the active cards to the players score on the screen
                 g.drawString("  "+ player1.getActiveCard().getHp(), 320,40 );
+
+                    //will attach matching energyCard to the activeCard
+                    if (player1.getActiveCard().getType() == Type.earth ){
+                        super.getPainter().drawImage(Assets.earthEnergy, 240,160,125,100);
+                        super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
+                    }//end of new if statement
+                    if (player1.getActiveCard().getType() == Type.electric ){
+                        super.getPainter().drawImage(Assets.electricEnergy, 240,160,125,100);
+                        super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
+                    }//end of new if statement
+                    if (player1.getActiveCard().getType() == Type.water ){
+                        super.getPainter().drawImage(Assets.waterEnergy, 240,160,125,100);
+                        super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
+                    }//end of new if statement
+                    if (player1.getActiveCard().getType() == Type.fighting ){
+                        super.getPainter().drawImage(Assets.fightEngery, 240,160,125,100);
+                        super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
+                    }//end of new if statement
+
             }
             if (currentCardInPlay2 != null) {
                 super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+
                 //Set HP levels of the active cards to the players score on the screen
                 g.drawString("  "+ player2.getActiveCard().getHp(),440,40);
+
+                //Attach matching energyCard to player2 active society Card
+                if (player2.getActiveCard().getType() == Type.earth ){
+                    super.getPainter().drawImage(Assets.earthEnergy, 440,160,125,100);
+                    super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+                }//end of new if statement
+                if (player2.getActiveCard().getType() == Type.electric ){
+                    super.getPainter().drawImage(Assets.electricEnergy, 440,160,125,100);
+                    super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+                }//end of new if statement
+                if (player2.getActiveCard().getType() == Type.water ){
+                    super.getPainter().drawImage(Assets.waterEnergy, 440,160,125,100);
+                    super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+                }//end of new if statement
+                if (player2.getActiveCard().getType() == Type.fighting ){
+                    super.getPainter().drawImage(Assets.fightEngery, 440,160,125,100);
+                    super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+                }//end of new if statement
+
+
             }
 
         }
