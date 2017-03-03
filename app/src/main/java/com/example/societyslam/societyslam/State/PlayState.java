@@ -20,6 +20,7 @@ import com.example.societyslam.societyslam.GameObjects.StudentBehaviourType;
 import com.example.societyslam.societyslam.GameObjects.Type;
 import com.example.societyslam.societyslam.Util.Painter;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Aoife Brown on 21/11/2016.
@@ -34,6 +35,7 @@ public class PlayState extends State {
     private boolean retreatError;
     private SocietyCard currentCardInPlay, currentCardInPlay2;
     private ArrayList<EnergyCard> energyCards = new ArrayList<EnergyCard>();
+    private ArrayList<StudentBehaviourCard> prizeCardDeck = new ArrayList<StudentBehaviourCard>();
 
    // private boolean drawCards = false;
 
@@ -120,7 +122,8 @@ public class PlayState extends State {
     public void init() {
 
         //Set the background music to keep playing
-       Assets.playBackground(Assets.backgroundMusicID);
+        Assets.playBackground(Assets.backgroundMusicID);
+        setUpPrizeCards();
 
         playButton = new Button(316, 385, 484, 444, Assets.start, Assets.startDown);
         dealButton = new Button(316, 385, 484, 444, Assets.dealButton, Assets.dealButton);
@@ -154,17 +157,17 @@ public class PlayState extends State {
         deckOfCards.add(cavingSociety);
         deckOfCards.add(environmentalSociety);
         deckOfCards.add(greenPeace);
-       // deckOfCards.add(disruptive);
-       // deckOfCards.add(fail);
-        //deckOfCards.add(freeEntry);
-        //deckOfCards.add(freeShots);
-        //deckOfCards.add(hangover);
-        //deckOfCards.add(late);
-        //deckOfCards.add(lecture);
-        //deckOfCards.add(library);
-        //deckOfCards.add(redBull);
-        //deckOfCards.add(untidy);
-        //deckOfCards.add(water);
+        prizeCardDeck.add(disruptive);
+        prizeCardDeck.add(fail);
+        prizeCardDeck.add(freeEntry);
+        prizeCardDeck.add(freeShots);
+        prizeCardDeck.add(hangover);
+        prizeCardDeck.add(late);
+        prizeCardDeck.add(lecture);
+        prizeCardDeck.add(library);
+        prizeCardDeck.add(redBull);
+        prizeCardDeck.add(untidy);
+        prizeCardDeck.add(water);
         //deckOfCards.add(fightEngery);
         //deckOfCards.add(waterEnergy);
         //deckOfCards.add(electricEnergy);
@@ -261,12 +264,23 @@ public class PlayState extends State {
         for (int i = 0; i < player2.getBench().size(); i++) {
             p.drawImage(player2.getBench().get(i).getPicture(), 675, (i +1) * 40 , 125 , 100);
         }
-        //prize cards added to board
-        for (int i =0; i< 3; i++) {
-            p.drawImage(Assets.cardBack, -65 +(i + 1) * 80, 62, 100, 60);
-            p.drawImage(Assets.cardBack, -65 +(i + 1) * 80, 6, 100, 60);
-            p.drawImage(Assets.cardBack, 440 +(i +1) * 80, 330, 100, 60);
-            p.drawImage(Assets.cardBack, 440 +(i+1) * 80, 380, 100, 60);
+
+        for (int i =0; i<player1.getPrizeCards().size(); i++) {
+            StudentBehaviourCard card = player1.getPrizeCards().get(i);
+            if (i > 2) {
+                p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), -65 +(i + 1) * 80, 62, 100, 60);
+            } else {
+                p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), -65 +(i + 1) * 80, 6, 100, 60);
+            }
+        }
+        // draw player 2 prize cards
+        for (int i =0; i< player2.getPrizeCards().size(); i++) {
+            StudentBehaviourCard card = player2.getPrizeCards().get(i);
+            if (i > 2) {
+                p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), 440 +(i +1) * 80, 330, 100, 60);
+            } else {
+                p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), 440 +(i+1) * 80, 380, 100, 60);
+            }
         }
     }
 
@@ -422,6 +436,27 @@ public class PlayState extends State {
         }
 
         return false;
+    }
+
+    private void setUpPrizeCards() {
+        ArrayList<StudentBehaviourCard> player1PrizeCards = new ArrayList<StudentBehaviourCard>();
+        ArrayList<StudentBehaviourCard> player2PrizeCards = new ArrayList<StudentBehaviourCard>();
+        for (int i = 0; i< 6; i++) {
+            Random generator = new Random();
+            int random = generator.nextInt(10) + 1;
+            player1PrizeCards.add(prizeCardDeck.get(random));
+        }
+
+        for (int i = 0; i< 6; i++) {
+            Random generator = new Random();
+            int random = generator.nextInt(10) + 1;
+
+            player2PrizeCards.add(prizeCardDeck.get(random));
+
+        }
+
+        player1.setPrizeCards(player1PrizeCards);
+        player2.setPrizeCards(player2PrizeCards);
     }
 
 

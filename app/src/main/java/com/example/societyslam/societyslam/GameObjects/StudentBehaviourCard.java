@@ -11,9 +11,7 @@ public class StudentBehaviourCard extends Card {
     private StudentBehaviourType type;
     private int cardPoints;
     private boolean positiveEffect;
-
-
-
+    private boolean flipped;
 
     public StudentBehaviourCard(String name, float x, float y, float height, float width, Bitmap bitmap, StudentBehaviourType type, boolean positiveEffect) {
         super(name, x, y, height, width, bitmap);
@@ -44,6 +42,14 @@ public class StudentBehaviourCard extends Card {
 
     public void setType(StudentBehaviourType type) {
         this.type = type;
+    }
+
+    public boolean isFlipped() {
+        return flipped;
+    }
+
+    public void flipCard() {
+        flipped = true;
     }
 
     @Override
