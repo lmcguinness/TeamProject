@@ -35,7 +35,8 @@ public class PlayState extends State {
     private boolean retreatError;
     private SocietyCard currentCardInPlay, currentCardInPlay2;
     private ArrayList<EnergyCard> energyCards = new ArrayList<EnergyCard>();
-    private ArrayList<StudentBehaviourCard> prizeCardDeck = new ArrayList<StudentBehaviourCard>();
+    private ArrayList<StudentBehaviourCard> prizeCardDeck1 = new ArrayList<StudentBehaviourCard>();
+    private ArrayList<StudentBehaviourCard> prizeCardDeck2 = new ArrayList<StudentBehaviourCard>();
 
    // private boolean drawCards = false;
 
@@ -98,6 +99,20 @@ public class PlayState extends State {
     private StudentBehaviourCard untidy = new StudentBehaviourCard("Untidy Accommodation", 0, 0, 3, 2, Assets.untidy, StudentBehaviourType.stadium, false);
     private StudentBehaviourCard water = new StudentBehaviourCard("Litre of water", 0, 0, 3, 2, Assets.water, StudentBehaviourType.support, true);
 
+    //Student behaviour cards
+    private StudentBehaviourCard disruptive1 = new StudentBehaviourCard("Disruptive in class", 0, 0, 3, 2, Assets.disruptve, StudentBehaviourType.stadium, false);
+    private StudentBehaviourCard fail1 = new StudentBehaviourCard("Fail Assignment", 0, 0, 3, 2, Assets.fail, StudentBehaviourType.support, false);
+    private StudentBehaviourCard freeEntry1 = new StudentBehaviourCard("Free Entry", 0, 0, 3, 2, Assets.freeEntry, StudentBehaviourType.support, true);
+    private StudentBehaviourCard freeShots1 = new StudentBehaviourCard("Free Shots", 0, 0, 3, 2, Assets.freeShots, StudentBehaviourType.item, true);
+    private StudentBehaviourCard hangover1 = new StudentBehaviourCard("hangover", 0, 0, 3, 2, Assets.hangover, StudentBehaviourType.stadium, false);
+    private StudentBehaviourCard late1 = new StudentBehaviourCard("Late to class", 0, 0, 3, 2, Assets.late, StudentBehaviourType.item, false);
+    private StudentBehaviourCard lecture1 = new StudentBehaviourCard("Go to a lecture", 0, 0, 3, 2, Assets.lecture, StudentBehaviourType.item, true);
+    private StudentBehaviourCard library1 = new StudentBehaviourCard("Go to library", 0, 0, 3, 2, Assets.library, StudentBehaviourType.stadium, true);
+    private StudentBehaviourCard redBull1 = new StudentBehaviourCard("Drink Red Bull", 0, 0, 3, 2, Assets.redBull, StudentBehaviourType.support, true);
+    private StudentBehaviourCard untidy1 = new StudentBehaviourCard("Untidy Accommodation", 0, 0, 3, 2, Assets.untidy, StudentBehaviourType.stadium, false);
+    private StudentBehaviourCard water1 = new StudentBehaviourCard("Litre of water", 0, 0, 3, 2, Assets.water, StudentBehaviourType.support, true);
+
+
     //Engery cards
     private EnergyCard waterEnergy = new EnergyCard("Water", 0, 0, 3, 2, Assets.waterEnergy, Type.water);
     private EnergyCard electricEnergy = new EnergyCard("Electric", 0, 0, 3, 2, Assets.electricEnergy, Type.electric);
@@ -125,15 +140,14 @@ public class PlayState extends State {
 
         //Set the background music to keep playing
         Assets.playBackground(Assets.backgroundMusicID);
-        setUpPrizeCards();
 
         playButton = new Button(336, 385, 504, 444, Assets.start, Assets.startDown);
         dealButton = new Button(336, 385, 504, 444, Assets.dealButton, Assets.dealButton);
         continueButton = new Button(336, 385, 504, 444, Assets.continueButton, Assets.continueButton);
-        attackButton = new Button(316, 115, 484, 155, Assets.attackButton, Assets.attackButton);
-        retreatButton = new Button(316, 175, 484, 220, Assets.retreatButton, Assets.retreatButton);
-        evolveButton = new Button(316, 235, 484, 285, Assets.evolveButton, Assets.evolveButton);
-        useStudentBehaviourCardButton = new Button(316, 295, 484, 350, Assets.societyCardButton, Assets.societyCardButton);
+        attackButton = new Button(316, 125, 484, 165, Assets.attackButton, Assets.attackButton);
+        retreatButton = new Button(316, 185, 484, 225, Assets.retreatButton, Assets.retreatButton);
+        evolveButton = new Button(316, 245, 484, 285, Assets.evolveButton, Assets.evolveButton);
+        useStudentBehaviourCardButton = new Button(316, 305, 484, 350, Assets.societyCardButton, Assets.societyCardButton);
         pauseButton = new Button(266,385,326,444,Assets.pause, Assets.pause);
         resumeButton = new Button(316, 115, 484, 155, Assets.resume, Assets.resume);
         restartButton = new Button(316, 175, 484, 220, Assets.restart, Assets.restart);
@@ -164,22 +178,35 @@ public class PlayState extends State {
         deckOfCards.add(cavingSociety);
         deckOfCards.add(environmentalSociety);
         deckOfCards.add(greenPeace);
-        prizeCardDeck.add(disruptive);
-        prizeCardDeck.add(fail);
-        prizeCardDeck.add(freeEntry);
-        prizeCardDeck.add(freeShots);
-        prizeCardDeck.add(hangover);
-        prizeCardDeck.add(late);
-        prizeCardDeck.add(lecture);
-        prizeCardDeck.add(library);
-        prizeCardDeck.add(redBull);
-        prizeCardDeck.add(untidy);
-        prizeCardDeck.add(water);
+        prizeCardDeck1.add(disruptive);
+        prizeCardDeck1.add(fail);
+        prizeCardDeck1.add(freeEntry);
+        prizeCardDeck1.add(freeShots);
+        prizeCardDeck1.add(hangover);
+        prizeCardDeck1.add(late);
+        prizeCardDeck1.add(lecture);
+        prizeCardDeck1.add(library);
+        prizeCardDeck1.add(redBull);
+        prizeCardDeck1.add(untidy);
+        prizeCardDeck1.add(water);
+
+        prizeCardDeck2.add(disruptive1);
+        prizeCardDeck2.add(fail1);
+        prizeCardDeck2.add(freeEntry1);
+        prizeCardDeck2.add(freeShots1);
+        prizeCardDeck2.add(hangover1);
+        prizeCardDeck2.add(late1);
+        prizeCardDeck2.add(lecture1);
+        prizeCardDeck2.add(library1);
+        prizeCardDeck2.add(redBull1);
+        prizeCardDeck2.add(untidy1);
+        prizeCardDeck2.add(water1);
         //deckOfCards.add(fightEngery);
         //deckOfCards.add(waterEnergy);
         //deckOfCards.add(electricEnergy);
         //deckOfCards.add(earthEnergy);
         energyCards.add(waterEnergy);
+        setUpPrizeCards();
         int i =0;
     }
 
@@ -327,7 +354,7 @@ public class PlayState extends State {
         for (int i =0; i<player1.getPrizeCards().size(); i++) {
             StudentBehaviourCard card = player1.getPrizeCards().get(i);
             if (i > 2) {
-                p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), -65 +(i + 1) * 80, 62, 100, 60);
+                p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), -300 +(i + 1) * 80, 62, 100, 60);
             } else {
                 p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), -65 +(i + 1) * 80, 6, 100, 60);
             }
@@ -336,7 +363,7 @@ public class PlayState extends State {
         for (int i =0; i< player2.getPrizeCards().size(); i++) {
             StudentBehaviourCard card = player2.getPrizeCards().get(i);
             if (i > 2) {
-                p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), 440 +(i +1) * 80, 330, 100, 60);
+                p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), 200 +(i +1) * 80, 330, 100, 60);
             } else {
                 p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), 440 +(i+1) * 80, 380, 100, 60);
             }
@@ -372,9 +399,11 @@ public class PlayState extends State {
                     attackButton.cancel();
                     if (player1.isMyTurn()) {
                         player1.attack(player2);
+                        checkPrizeCardState(player2);
                         attackPlayer1 = true;
                     } else {
                         player2.attack(player1);
+                        checkPrizeCardState(player1);
                         attackPlayer2 = true;
                     }
                 } else {
@@ -544,20 +573,37 @@ public class PlayState extends State {
         for (int i = 0; i< 6; i++) {
             Random generator = new Random();
             int random = generator.nextInt(10) + 1;
-            player1PrizeCards.add(prizeCardDeck.get(random));
+            player1PrizeCards.add(prizeCardDeck1.get(random));
         }
 
         for (int i = 0; i< 6; i++) {
             Random generator = new Random();
             int random = generator.nextInt(10) + 1;
-
-            player2PrizeCards.add(prizeCardDeck.get(random));
+            player2PrizeCards.add(prizeCardDeck2.get(random));
 
         }
 
         player1.setPrizeCards(player1PrizeCards);
         player2.setPrizeCards(player2PrizeCards);
     }
+
+    public void checkPrizeCardState(Player p) {
+        if (p.getActiveCard().getHp() <= 0) {
+            flipPrizeCard(p);
+            p.getActiveCard().setHp(100);
+        }
+    }
+
+    public void flipPrizeCard(Player p) {
+        for (int i= 0; i <p.getPrizeCards().size(); i++) {
+            if (!p.getPrizeCards().get(i).isFlipped()) {
+                p.getPrizeCards().get(i).flipCard();
+                break;
+            }
+        }
+    }
+
+
 
 
 //    public void onClick(View v) {

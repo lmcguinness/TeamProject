@@ -94,7 +94,6 @@ public class Player {
             opponent.getActiveCard().setHp(opponentNewHP);
             System.out.println(opponent.getActiveCard().getName() + " 's HP is now " + opponent.getActiveCard().getHp());
             this.myTurn = false;
-            opponent.checkPrizeCardState();
 
         } else {
             System.out.print(this.getActiveCard().getName() + " does not have enough energy cards to use this attack");
@@ -102,21 +101,6 @@ public class Player {
 
     }
 
-    public void checkPrizeCardState() {
-        if (this.getActiveCard().getHp() == 0) {
-            flipPrizeCard();
-            this.getActiveCard().setHp(100);
-        }
-    }
-
-    public void flipPrizeCard() {
-        for (int i= 0; i <prizeCards.size(); i++) {
-            if (!prizeCards.get(i).isFlipped()) {
-                prizeCards.get(i).flipCard();
-                break;
-            }
-        }
-    }
 
     public void useStudentBehaviourCard(StudentBehaviourCard card, Player opponent) {
         System.out.println("You used " + card.getName());
