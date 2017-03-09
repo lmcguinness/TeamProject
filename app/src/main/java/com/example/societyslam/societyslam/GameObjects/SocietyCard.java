@@ -141,9 +141,15 @@ public class SocietyCard extends Card {
     public void evolve() {
         if(this.getLevel().equals(Level.Basic)) {
             this.setLevel(Level.Level1);
+            int currentAttackStrength = this.getAttackStrength();
+            int newAttackStrength = (currentAttackStrength += 10);
+            this.setAttackStrength(newAttackStrength);
             System.out.println(this.getName() + " evolved to Level 1");
         } else if (this.getLevel().equals(Level.Level1)) {
             this.setLevel(Level.Level2);
+            int currentAttackStrength = this.getAttackStrength();
+            int newAttackStrength = (currentAttackStrength += 20);
+            this.setAttackStrength(newAttackStrength);
             System.out.println(this.getName() + " evolved to level 2");
         } else if(this.getLevel().equals(Level.Level2)) {
             System.out.println("This card cannot be evolved anymore");

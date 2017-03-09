@@ -2,6 +2,7 @@ package com.example.societyslam.societyslam.Game;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import android.media.AudioManager;
@@ -22,6 +23,7 @@ public class Assets {
     public static int coinID, dealingCardsID, oneCardID, attackID, backgroundMusicID;
 
     public static void load() {
+        // Commented ones to be added at a later stage
         coinTossBackground = loadBitmap("CoinTossBackground.png", true);
         heads = loadBitmap("heads.png", true);
         tails = loadBitmap("tails.png", true);
@@ -56,7 +58,7 @@ public class Assets {
 
         welcome = loadBitmap("welcome.jpg", false);
         start = loadBitmap("start_button.png", true);
-        startDown = loadBitmap("start_button_down.png", true);
+        startDown = loadBitmap("start_button_down.png",true);
         boxingSociety = loadBitmap("boxingsociety.png", true);
         cardBack = loadBitmap("CardBack.png", true);
         cavingSociety = loadBitmap("CavingSociety.png", true);
@@ -81,12 +83,12 @@ public class Assets {
         disruptve = loadBitmap("Disruptive.png", true);
         environmentalSociety = loadBitmap("environmentalSociety.png", true);
         fail = loadBitmap("fail.png", true);
-        freeEntry = loadBitmap("freeEntry.png", true);
-        freeShots = loadBitmap("freeShots.png", true);
-        greenPeace = loadBitmap("greenPeace.png", true);
+        freeEntry= loadBitmap("freeEntry.png", true);
+        freeShots=loadBitmap("freeShots.png", true);
+        greenPeace= loadBitmap("greenPeace.png", true);
         hangover = loadBitmap("hangover.png", true);
-        jujistoSociety = loadBitmap("jujistoSociety.png", true);
-        late = loadBitmap("late.png", true);
+        jujistoSociety= loadBitmap("jujistoSociety.png", true);
+        late = loadBitmap("late.png" ,true);
         lecture = loadBitmap("lecture.png", true);
         library = loadBitmap("library.png", true);
         paddle = loadBitmap("Paddle.png", true);
@@ -97,6 +99,7 @@ public class Assets {
         untidy = loadBitmap("untidy.png", true);
         water = loadBitmap("water.png", true);
         gamingSociety = loadBitmap("gamingSociety.png", true);
+
         ssb = loadBitmap("ssb (1).png", false);
 
         //load sound files
@@ -107,18 +110,24 @@ public class Assets {
         backgroundMusicID = loadSound("backgroundMusic.mp3");
     }
 
+
+
+
+
+
+
     private static Bitmap loadBitmap(String filename, boolean transparency) {
         InputStream inputStream = null;
         try {
             inputStream = MainActivity.assets.open(filename);
-        } catch (IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
         }
 
         BitmapFactory.Options options = new BitmapFactory.Options();
 
 
-        if (transparency) {
+        if(transparency) {
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         } else {
             options.inPreferredConfig = Bitmap.Config.RGB_565;

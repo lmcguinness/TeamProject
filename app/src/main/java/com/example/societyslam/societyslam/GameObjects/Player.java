@@ -94,6 +94,7 @@ public class Player {
             opponent.getActiveCard().setHp(opponentNewHP);
             System.out.println(opponent.getActiveCard().getName() + " 's HP is now " + opponent.getActiveCard().getHp());
             this.myTurn = false;
+            opponent.setMyTurn(true);
 
         } else {
             System.out.print(this.getActiveCard().getName() + " does not have enough energy cards to use this attack");

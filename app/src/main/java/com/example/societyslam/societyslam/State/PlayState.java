@@ -49,6 +49,8 @@ public class PlayState extends State {
     boolean isMenu;
     boolean attackPlayer1;
     boolean attackPlayer2;
+    boolean evolvePlayer1;
+    boolean evolvePlayer2;
     private Rect playRect;
     int dealCardSound =1;
     int cardMove =1;
@@ -126,12 +128,8 @@ public class PlayState extends State {
     ArrayList<SocietyCard> playersCards = new ArrayList<SocietyCard>();
     ArrayList<SocietyCard> player2Cards = new ArrayList<SocietyCard>();
 
-    ArrayList<StudentBehaviourCard> prizeCards1 = new ArrayList<StudentBehaviourCard>();
-    ArrayList<StudentBehaviourCard> prizeCards2 = new ArrayList<StudentBehaviourCard>();
-
-
-    Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCards1, CoinTossState.getIsPlayer1Turn());
-    Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCards2, CoinTossState.getIsPlayer2Turn());
+    Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCardDeck1, CoinTossState.getIsPlayer1Turn());
+    Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCardDeck2, CoinTossState.getIsPlayer2Turn());
 
 
 
@@ -153,6 +151,7 @@ public class PlayState extends State {
         restartButton = new Button(316, 175, 484, 220, Assets.restart, Assets.restart);
         instructionsButton = new Button(316, 235, 484, 285, Assets.instructions, Assets.instructions);
         quitButton = new Button(316, 295, 484, 350, Assets.quit, Assets.quit);
+
 
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
@@ -201,10 +200,7 @@ public class PlayState extends State {
         prizeCardDeck2.add(redBull1);
         prizeCardDeck2.add(untidy1);
         prizeCardDeck2.add(water1);
-        //deckOfCards.add(fightEngery);
-        //deckOfCards.add(waterEnergy);
-        //deckOfCards.add(electricEnergy);
-        //deckOfCards.add(earthEnergy);
+
         energyCards.add(waterEnergy);
         setUpPrizeCards();
         int i =0;
@@ -232,14 +228,14 @@ public class PlayState extends State {
             //draw new button called deal
             if (dealCards) {
                 dealButton.render(g);
-                //Play sound of the cards being delt only once
+                //Play sound of the cards being dealt only once
                while(dealCardSound ==1) {
                   dealCardSound--;
                     Assets.playSound(Assets.dealingCardsID);
                 }
             } else {
                 continueButton.render(g);
-            }
+          }
             //Now that we have references to the cards that have to be moved, we can change the
             //location of them on the screen. Done here as opposed to update();
             if (currentCardInPlay != null && currentCardInPlay2 != null) {
@@ -319,7 +315,16 @@ public class PlayState extends State {
         //If player two attacks, display their attack and how many points player1 loses
         if(attackPlayer2){
             g.drawString("You attacked with "+ player2.getActiveCard().getAttackName(), 270, 60);
-            g.drawString("minus "+ player2.getActiveCard().getAttackStrength()+ " points player2", 315,80);
+            g.drawString("minus "+ player2.getActiveCard().getAttackStrength()+ " points player1", 315,80);
+        }
+
+
+        if(evolvePlayer1) {
+            g.drawString(player1.getActiveCard().getName() + " evolved to " + player1.getActiveCard().getLevel(), 270, 60);
+        }
+
+        if(evolvePlayer2) {
+            g.drawString(player2.getActiveCard().getName() + " evolved to " + player2.getActiveCard().getLevel(), 270, 60);
         }
 
         if (isMenu) {
@@ -388,6 +393,8 @@ public class PlayState extends State {
                     isMenu = true;
                     attackPlayer1 = false;
                     attackPlayer2=false;
+                    evolvePlayer1 = false;
+                    evolvePlayer2 = false;
                     continueButton.cancel();
 
                 } else {
@@ -455,8 +462,10 @@ public class PlayState extends State {
                     evolveButton.cancel();
                     if (player1.isMyTurn()) {
                         player1.getActiveCard().evolve();
+                        evolvePlayer1 = true;
                     } else {
                         player2.getActiveCard().evolve();
+                        evolvePlayer2 = true;
                     }
                 } else {
                     evolveButton.cancel();
@@ -628,11 +637,6 @@ public class PlayState extends State {
 //        myDeck.randomCard();
 //    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
 
     @Override
     public void onStop() {
