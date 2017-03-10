@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import android.media.AudioManager;
 import android.media.SoundPool;
+
 /**
  * Created by Aoife Brown on 15/11/2016.
  */
@@ -20,7 +21,7 @@ public class Assets {
 
     private static SoundPool soundPool;
 
-    public static int coinID, dealingCardsID, oneCardID, attackID, backgroundMusicID;
+    public static int coinID, dealingCardsID, oneCardID, attackID, backgroundMusicID, buttonClickID, prizeID;
 
     public static void load() {
         // Commented ones to be added at a later stage
@@ -85,7 +86,7 @@ public class Assets {
         fail = loadBitmap("fail.png", true);
         freeEntry= loadBitmap("freeEntry.png", true);
         freeShots=loadBitmap("freeShots.png", true);
-        greenPeace= loadBitmap("greenPeace.png", true);
+        greenPeace= loadBitmap("GreenPeace.png", true);
         hangover = loadBitmap("hangover.png", true);
         jujistoSociety= loadBitmap("jujistoSociety.png", true);
         late = loadBitmap("late.png" ,true);
@@ -108,13 +109,9 @@ public class Assets {
         oneCardID = loadSound("OneCard.wav");
         attackID = loadSound("Attack.wav");
         backgroundMusicID = loadSound("backgroundMusic.mp3");
+        buttonClickID = loadSound("ButtonClick.wav");
+        prizeID = loadSound("Prize.wav");
     }
-
-
-
-
-
-
 
     private static Bitmap loadBitmap(String filename, boolean transparency) {
         InputStream inputStream = null;
@@ -123,17 +120,13 @@ public class Assets {
         } catch(IOException e) {
             e.printStackTrace();
         }
-
         BitmapFactory.Options options = new BitmapFactory.Options();
-
-
         if(transparency) {
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         } else {
             options.inPreferredConfig = Bitmap.Config.RGB_565;
         }
         options.inScaled = false;
-
 
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, new BitmapFactory.Options());
         return bitmap;

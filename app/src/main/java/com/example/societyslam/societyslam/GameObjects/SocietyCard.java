@@ -1,7 +1,6 @@
 package com.example.societyslam.societyslam.GameObjects;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import com.example.societyslam.societyslam.Game.Assets;
 
@@ -129,6 +128,7 @@ public class SocietyCard extends Card {
 
     public void retreat(ArrayList<EnergyCard> retreatCost, Player player) {
         if(this.canRetreat()) {
+            Assets.playSound(Assets.oneCardID);
             System.out.println(this.getName() + " has retreated");
             player.getBench().add(this);
             player.setActiveCard(null);

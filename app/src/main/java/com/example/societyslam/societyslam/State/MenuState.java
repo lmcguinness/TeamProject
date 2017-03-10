@@ -56,10 +56,12 @@ public class MenuState extends State {
         }
         if (e.getAction() == MotionEvent.ACTION_UP) {
             if (startButton.isPressed(scaledX, scaledY)) {
+                Assets.playSound(Assets.buttonClickID);
                 startButton.cancel();
                 setCurrentState(new CoinTossState());
 
             } else if (howToPlayButton.isPressed(scaledX, scaledY)) {
+                Assets.playSound(Assets.buttonClickID);
                 howToPlayButton.cancel();
                 //Log.d("MENU STATE", "HOW TO PLAY BUTTON PRESSED");
                 setCurrentState(new HowToPlayState());

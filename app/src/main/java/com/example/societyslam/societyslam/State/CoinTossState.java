@@ -117,6 +117,7 @@ public class CoinTossState extends State {
             continueButton.onTouchDown(scaledX, scaledY);
         }
         if (continueButton.isPressed(scaledX, scaledY)) {
+            Assets.playSound(Assets.buttonClickID);
             continueButton.cancel();
             setCurrentState(new PlayState());
         } else {
@@ -127,6 +128,7 @@ public class CoinTossState extends State {
             chooseHeadsButton.onTouchDown(scaledX, scaledY);
         }
         if (chooseHeadsButton.isPressed(scaledX, scaledY)) {
+            Assets.playSound(Assets.coinID);
             chooseHeadsButton.cancel();
             isPlayer1Heads = true;
             System.out.println("Player 1 is heads");
@@ -139,6 +141,7 @@ public class CoinTossState extends State {
             chooseTailsButton.onTouchDown(scaledX, scaledY);
         }
         if (chooseTailsButton.isPressed(scaledX, scaledY)) {
+            Assets.playSound(Assets.coinID);
             chooseTailsButton.cancel();
             isPlayer1Heads = false;
             System.out.println("Player 1 is tails");

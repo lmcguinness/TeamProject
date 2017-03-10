@@ -43,6 +43,7 @@ public class HowToPlayState extends State {
             backArrowButton.onTouchDown(scaledX, scaledY);
 
         } if(backArrowButton.isPressed(scaledX, scaledY)){
+            Assets.playSound(Assets.buttonClickID);
             backArrowButton.cancel();
             setCurrentState(new MenuState());
 

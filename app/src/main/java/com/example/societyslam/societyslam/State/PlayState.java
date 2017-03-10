@@ -1,11 +1,8 @@
 package com.example.societyslam.societyslam.State;
 
-
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
-
-import com.example.societyslam.societyslam.GameObjects.Coin;
 import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.Util.Button;
 import android.widget.ImageButton;
@@ -54,6 +51,12 @@ public class PlayState extends State {
     private Rect playRect;
     int dealCardSound =1;
     int cardMove =1;
+    int player1Score;
+    int player2Score;
+    int player1Wins=0;
+    int player2Wins=0;
+    boolean displayWin1 = false;
+    boolean displayWin2 = false;
 
     private Button attackButton;
     private Button retreatButton;
@@ -61,6 +64,7 @@ public class PlayState extends State {
     private Button useStudentBehaviourCardButton;
     private Button pauseButton, restartButton, resumeButton, quitButton, instructionsButton;
     private boolean isPause = false;
+
 
     //Society cards
     private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", energyCards, 30, Type.electric, Type.water, null, energyCards, Level.Basic, energyCards);
@@ -152,7 +156,6 @@ public class PlayState extends State {
         instructionsButton = new Button(316, 235, 484, 285, Assets.instructions, Assets.instructions);
         quitButton = new Button(316, 295, 484, 350, Assets.quit, Assets.quit);
 
-
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
         deckOfCards.add(gamingSociety);
@@ -219,11 +222,18 @@ public class PlayState extends State {
         g.setFont(Typeface.DEFAULT_BOLD, 25);
         g.drawString("Player 1", 303, 20);
         g.drawString("Player 2", 425,20);
+
+        //Display how many rounds each player has won throughout the game
+        g.setFont(Typeface.DEFAULT, 20);
+        g.drawString("Rounds won ", 150,150);
+        g.drawString(player1Wins + " ", 200,175);
+        g.drawString("Rounds won ", 535,300);
+        g.drawString(" "+ player2Wins, 585,317);
+
         pauseButton.render(g);
 
         if (isStart == true) {
            playButton.render(g);
-
         } else {
             //draw new button called deal
             if (dealCards) {
@@ -253,7 +263,18 @@ public class PlayState extends State {
                     //g.drawString(" " + player1.getActiveCard().getType(), 320, 40);
 
                 //Set HP levels of the active cards to the players score on the screen
-                g.drawString("  "+ player1.getActiveCard().getHp(), 320,40 );
+                    player1Score = player1.getActiveCard().getHp();
+                    g.setFont(Typeface.DEFAULT_BOLD, 25);
+                g.drawString("  "+ player1Score, 320,40 );
+
+                    //If player ones score falls below zero tell them that player 2 has won this round
+                    //change the card in the middle for player1 and give player 2 a prize card
+                    if(player1Score <=0){
+                        g.setFont(Typeface.DEFAULT, 25);
+                        checkPrizeCardState(player2, player1);
+                        player2Wins++;
+                        displayWin1 = true;
+                    }
 
                     //will attach matching energyCard to the activeCard
                     if (player1.getActiveCard().getType() == Type.earth ){
@@ -272,13 +293,23 @@ public class PlayState extends State {
                         super.getPainter().drawImage(Assets.fightEngery, 240,160,125,100);
                         super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
                     }//end of new if statement
-
             }
             if (currentCardInPlay2 != null) {
                 super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
 
                 //Set HP levels of the active cards to the players score on the screen
-                g.drawString("  "+ player2.getActiveCard().getHp(),440,40);
+                player2Score = player2.getActiveCard().getHp();
+                g.setFont(Typeface.DEFAULT_BOLD, 25);
+                g.drawString("  "+ player2Score,440,40);
+
+                //If player 2 score falls below zero tell them that player 1 has won this round
+                //give player 2 a new card in the middle and give player 1 a prize card
+                if(player2Score <=0){
+                    g.setFont(Typeface.DEFAULT, 25);
+                    checkPrizeCardState(player1, player2);
+                    player1Wins++;
+                    displayWin2 = true;
+                }
 
                 //Attach matching energyCard to player2 active society Card
                 if (player2.getActiveCard().getType() == Type.earth ){
@@ -297,10 +328,7 @@ public class PlayState extends State {
                     super.getPainter().drawImage(Assets.fightEngery, 440,160,125,100);
                     super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
                 }//end of new if statement
-
-
             }
-
         }
         if (player1.getMyCards().getMyDeck().size() > 0) {
             drawCards(g);
@@ -314,6 +342,7 @@ public class PlayState extends State {
         }
         //If player two attacks, display their attack and how many points player1 loses
         if(attackPlayer2){
+            g.setFont(Typeface.DEFAULT_BOLD,22);
             g.drawString("You attacked with "+ player2.getActiveCard().getAttackName(), 270, 60);
             g.drawString("minus "+ player2.getActiveCard().getAttackStrength()+ " points player1", 315,80);
         }
@@ -343,6 +372,16 @@ public class PlayState extends State {
             restartButton.render(g);
             quitButton.render(g);
             instructionsButton.render(g);
+        }
+        //If player ones score falls below zero
+        if(displayWin1){
+            g.drawString("Player 2 wins this round!", 300,115);
+            g.drawString("Player 1 you have been given another card ", 245, 130);
+        }
+        //If player twos score fall below zero
+        if(displayWin2){
+            g.drawString("Player 1 wins this round!", 300,115);
+            g.drawString("Player 2 you have been given another card ", 245, 130);
         }
     }
 
@@ -389,6 +428,9 @@ public class PlayState extends State {
 
             if (!isStart && !dealCards) {
                 if (continueButton.isPressed(scaledX, scaledY)) {
+                    Assets.playSound(Assets.buttonClickID);
+                    displayWin1=false;
+                    displayWin2 = false;
                     retreatError = false;
                     isMenu = true;
                     attackPlayer1 = false;
@@ -405,12 +447,12 @@ public class PlayState extends State {
                     isMenu = false;
                     attackButton.cancel();
                     if (player1.isMyTurn()) {
+                        //checkPrizeCardState(player2, player1);
                         player1.attack(player2);
-                        checkPrizeCardState(player2);
                         attackPlayer1 = true;
                     } else {
+                       // checkPrizeCardState(player1, player2);
                         player2.attack(player1);
-                        checkPrizeCardState(player1);
                         attackPlayer2 = true;
                     }
                 } else {
@@ -480,7 +522,6 @@ public class PlayState extends State {
                     } else {
                         player2.useStudentBehaviourCard(player2.getPrizeCards().get(0), player1);
                     }
-
                 } else {
                     useStudentBehaviourCardButton.cancel();
                 }
@@ -488,7 +529,6 @@ public class PlayState extends State {
             }
         }
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
-
             dealButton.onTouchDown(scaledX,scaledY);
             playButton.onTouchDown(scaledX, scaledY);
             if(dealButton.isPressed(scaledX,scaledY)) {
@@ -499,20 +539,13 @@ public class PlayState extends State {
                     if (!player1.getMyCards().getMyDeck().isEmpty()) {
                         player1.setActiveCard(player1.getBench().remove(0));
                         currentCardInPlay = player1.getActiveCard();
-
-
                     }
                     if (!player2.getMyCards().getMyDeck().isEmpty()) {
                         player2.setActiveCard(player2.getBench().remove(0));
                         currentCardInPlay2 = player2.getActiveCard();
-
-
-
                     }
                     dealCards = false;
-
                 } else {
-
                     if (playButton.isPressed(scaledX, scaledY)) {
                         playButton.cancel();
                         if (dealCards) {
@@ -520,21 +553,16 @@ public class PlayState extends State {
                                 player1.getBench().add(myDeck.randomCard());
                                 player2.getBench().add(myDeck.randomCard());
                                 //start game button now shows
-
                                 isStart = false;
                             }
                         }
-
                     } else {
                         playButton.cancel();
                     }
-
                 }
             } else {
                 dealButton.cancel();
             }
-
-
         }
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             pauseButton.onTouchDown(scaledX, scaledY);
@@ -596,10 +624,16 @@ public class PlayState extends State {
         player2.setPrizeCards(player2PrizeCards);
     }
 
-    public void checkPrizeCardState(Player p) {
-        if (p.getActiveCard().getHp() <= 0) {
-            flipPrizeCard(p);
-            p.getActiveCard().setHp(100);
+    public void checkPrizeCardState(Player winner, Player loser) {
+        if (loser.getActiveCard().getHp() <= 0) {
+            // If the hp of the active card gets below zero, retreat it
+            loser.getActiveCard().retreat(loser.getActiveCard().getEnergyCards(), loser);
+            //move another card from the bench to replace it
+            loser.setActiveCard(loser.getBench().remove(0));
+            currentCardInPlay = loser.getActiveCard();
+
+            //give a prize card to the winner of the round
+            flipPrizeCard(winner);
         }
     }
 
@@ -607,12 +641,11 @@ public class PlayState extends State {
         for (int i= 0; i <p.getPrizeCards().size(); i++) {
             if (!p.getPrizeCards().get(i).isFlipped()) {
                 p.getPrizeCards().get(i).flipCard();
+                Assets.playSound(Assets.prizeID);
                 break;
             }
         }
     }
-
-
 
 
 //    public void onClick(View v) {
