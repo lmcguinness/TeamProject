@@ -14,14 +14,12 @@ public class Coin {
     //Tails = 1
     private int isHeads = 0;
 
-    public boolean flip() {
+    public void flip() {
         result = randomNum.nextInt(2);
         if (result == isHeads) {
             System.out.println("You flipped Heads!");
-            return true;
         } else {
             System.out.println("You flipped Tails!");
-            return false;
         }
     }
 }

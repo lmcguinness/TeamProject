@@ -1,12 +1,8 @@
 package com.example.societyslam.societyslam.State;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
-
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.GameObjects.Coin;
-import com.example.societyslam.societyslam.GameObjects.Deck;
-import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 
@@ -28,10 +24,8 @@ public class CoinTossState extends State {
         chooseTailsButton = new Button(516, 225, 684, 324 , Assets.tails, Assets.tails);
         coin = new Coin();
     }
-
     @Override
     public void update(float delta) {
-
     }
 
     public static boolean getIsPlayer1Turn() {
@@ -51,7 +45,7 @@ public class CoinTossState extends State {
         if (decided) {
             g.drawImage(Assets.coinTossBackground, 0, 0);
             chooseTailsButton.cancel();
-            chooseTailsButton.cancel();
+            chooseHeadsButton.cancel();
             // display who is assigned to what side of coin
             g.setFont(Typeface.DEFAULT_BOLD, 25);
             g.drawString("Player 1:", 213, 108);
@@ -67,31 +61,32 @@ public class CoinTossState extends State {
 
             super.getPainter().drawImage(Assets.heads, 185, 165, 415, 195);
 
-            if (isFirstToss == false) {
+            if (!isFirstToss) {
                 flipCoinButton.render(g);
             } else {
                 //Result of Coin Flip: heads
                 if (coin.result == 0 && isPlayer1Heads) {
+
                     super.getPainter().drawImage(Assets.heads,  185, 165, 415, 195);
                     //player 1 is heads, player1s go
                     super.getPainter().drawImage(Assets.player1, 135, 85, 565, 65);
                     isPlayer1Turn = true;
-                }else if(coin.result == 0 && isPlayer1Heads == false ){
+                }else if(coin.result == 0 && !isPlayer1Heads){
                     super.getPainter().drawImage(Assets.heads,  185, 165, 415, 195);
                     //player 2 is heads, player 2s go
                     super.getPainter().drawImage(Assets.player2H, 135, 85, 565, 65);
                     isPlayer2Turn =true;
                 }
                 //Result of Coin Flip: tails
-               if (coin.result == 1 && isPlayer1Heads == false) {
+               if (coin.result == 1 && !isPlayer1Heads) {
                     super.getPainter().drawImage(Assets.tails,  185, 165, 415, 195);
                     // player 1 is tails, player 1s go
                    super.getPainter().drawImage(Assets.player1T, 135, 85, 565, 65);
                    isPlayer1Turn = true;
                 }else if(coin.result == 1 && isPlayer1Heads){
-                   super.getPainter().drawImage(Assets.heads,  185, 165, 415, 195);
+                   super.getPainter().drawImage(Assets.tails,  185, 165, 415, 195);
                    // player 2 is tails, player 2s go
-                   super.getPainter().drawImage(Assets.player1, 135, 85, 565, 65);
+                   super.getPainter().drawImage(Assets.player2, 135, 85, 565, 65);
                    isPlayer2Turn = true;
                }
                 continueButton.render(g);
@@ -151,4 +146,10 @@ public class CoinTossState extends State {
         }
         return false;
     }
+
+
+
+
+
+
 }

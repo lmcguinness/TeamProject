@@ -65,6 +65,12 @@ public class PlayState extends State {
     private Button pauseButton, restartButton, resumeButton, quitButton, instructionsButton;
     private boolean isPause = false;
 
+    private boolean isChooseCard =false;
+    private Button useCardButton, cancelButton;
+    private int positionOfCardChosen;
+    private Button p1Card0,p1Card1, p1Card2,p1Card3, p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4;
+    private boolean areCardsDrawn = false;
+    private boolean isCardRetreated = false;
 
     //Society cards
     private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", energyCards, 30, Type.electric, Type.water, null, energyCards, Level.Basic, energyCards);
@@ -151,10 +157,24 @@ public class PlayState extends State {
         evolveButton = new Button(316, 245, 484, 285, Assets.evolveButton, Assets.evolveButton);
         useStudentBehaviourCardButton = new Button(316, 305, 484, 350, Assets.societyCardButton, Assets.societyCardButton);
         pauseButton = new Button(266,385,326,444,Assets.pause, Assets.pause);
-        resumeButton = new Button(316, 115, 484, 155, Assets.resume, Assets.resume);
-        restartButton = new Button(316, 175, 484, 220, Assets.restart, Assets.restart);
-        instructionsButton = new Button(316, 235, 484, 285, Assets.instructions, Assets.instructions);
-        quitButton = new Button(316, 295, 484, 350, Assets.quit, Assets.quit);
+        resumeButton = new Button(316, 125, 484, 165, Assets.resume, Assets.resume);
+        restartButton = new Button(316, 185, 484, 225, Assets.restart, Assets.restart);
+        instructionsButton = new Button(316, 245, 484, 285, Assets.instructions, Assets.instructions);
+        quitButton = new Button(316, 305, 484, 350, Assets.quit, Assets.quit);
+        useCardButton = new Button(456,165, 634, 205, Assets.useCard, Assets.useCard);
+        cancelButton = new Button(456,225,634,265,Assets.cancel,Assets.cancel);
+        // placing buttons in the position of where player 1's cards are on the bench so they can choose which card to attack with
+        p1Card0 = new Button(20, 145, 125, 190, null, null);
+        p1Card1 = new Button(20, 190, 125, 235, null, null);
+        p1Card2 = new Button(20, 235, 125, 280, null, null);
+        p1Card3 = new Button(20, 280, 125, 325, null, null);
+        p1Card4 = new Button(20, 325, 165, 425, null, null);
+        // placing buttons in the position of where player 2's cards are on the bench so they can choose which card to attack with
+        p2Card0 = new Button(675, 40, 780 , 80, null, null);
+        p2Card1 = new Button(675, 80, 780 , 120, null, null);
+        p2Card2 = new Button(675, 120, 780 , 160, null, null);
+        p2Card3 = new Button(675, 160, 780 , 200, null, null);
+        p2Card4 = new Button(675, 200, 780 , 300, null, null);
 
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
@@ -211,13 +231,13 @@ public class PlayState extends State {
 
     @Override
     public void update(float delta) {
+
     }
 
     @Override
     public void render(Painter g) {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
-
         //Displaying both of the players on the board
         g.setFont(Typeface.DEFAULT_BOLD, 25);
         g.drawString("Player 1", 303, 20);
@@ -231,6 +251,19 @@ public class PlayState extends State {
         g.drawString(" "+ player2Wins, 585,317);
 
         pauseButton.render(g);
+        // when card has been retreated -- render buttons
+        if(isCardRetreated) {
+            p1Card0.render(g);
+            p1Card1.render(g);
+            p1Card2.render(g);
+            p1Card3.render(g);
+            p1Card4.render(g);
+            p2Card0.render(g);
+            p2Card1.render(g);
+            p2Card2.render(g);
+            p2Card3.render(g);
+            p2Card4.render(g);
+        }
 
         if (isStart == true) {
            playButton.render(g);
@@ -332,7 +365,9 @@ public class PlayState extends State {
         }
         if (player1.getMyCards().getMyDeck().size() > 0) {
             drawCards(g);
+
         }
+
 
         //If player one clicks attack, display their attack and how many points player2 loses on the board
         if(attackPlayer1){
@@ -383,8 +418,18 @@ public class PlayState extends State {
             g.drawString("Player 1 wins this round!", 300,115);
             g.drawString("Player 2 you have been given another card ", 245, 130);
         }
+        // screen which pops up to allow player to look at cards in more detail before choosing which one to play with
+        if(isChooseCard){
+            super.getPainter().drawImage(Assets.chooseCardMenu,75, 95, 685 , 235);
+            useCardButton.render(g);
+            cancelButton.render(g);
+            if(player1.isMyTurn()) {
+                super.getPainter().drawImage(player1.getBench().get(positionOfCardChosen).getPicture(), 116, 105, 284, 224);
+            }else{
+                super.getPainter().drawImage(player2.getBench().get(positionOfCardChosen).getPicture(), 116, 105, 284, 224);
+            }
+        }
     }
-
     private void drawCards(Painter p) {
 
         for (int i = 0; i < player1.getBench().size(); i++) {
@@ -410,6 +455,7 @@ public class PlayState extends State {
                 p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), 200 +(i +1) * 80, 330, 100, 60);
             } else {
                 p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), 440 +(i+1) * 80, 380, 100, 60);
+
             }
         }
     }
@@ -469,6 +515,7 @@ public class PlayState extends State {
                       // remove previous active card from board
                             currentCardInPlay = null;
                             retreatError = false;
+                            isCardRetreated = true;
                             isMenu = false;
                         }else {
                             // Validation for if the user selects retreat option and no cards are in play
@@ -479,10 +526,10 @@ public class PlayState extends State {
                             isMenu = false;
                         }
                     } else {
-
                         if(currentCardInPlay2 != null){
                             player2.getActiveCard().retreat(player2.getActiveCard().getEnergyCards(), player2);
                             currentCardInPlay2 = null;
+                            isCardRetreated = true;
                             isMenu = false;
                             retreatError = false;
                         }else{
@@ -492,7 +539,6 @@ public class PlayState extends State {
                             isMenu = false;
                             //display to the user that there must be a card in play in order to retreat
                             retreatError = true;
-                            System.out.println("ayo");
                         }
                     }
                 } else {
@@ -554,6 +600,7 @@ public class PlayState extends State {
                                 player2.getBench().add(myDeck.randomCard());
                                 //start game button now shows
                                 isStart = false;
+                                areCardsDrawn = true;
                             }
                         }
                     } else {
@@ -590,7 +637,7 @@ public class PlayState extends State {
             }
             if (instructionsButton.isPressed(scaledX, scaledY) && isPause) {
                 isPause=false;
-
+                isChooseCard = true;
             }else{
                 instructionsButton.cancel();
             }
@@ -600,6 +647,122 @@ public class PlayState extends State {
             }else{
                 quitButton.cancel();
             }
+        }
+
+        if (e.getAction() == MotionEvent.ACTION_DOWN  ) {
+            useCardButton.onTouchDown(scaledX, scaledY);
+            cancelButton.onTouchDown(scaledX, scaledY);
+            if (cancelButton.isPressed(scaledX, scaledY)&& isChooseCard) {
+                isChooseCard = false;
+                cancelButton.cancel();
+
+            } else {
+                cancelButton.cancel();
+            }
+            if (useCardButton.isPressed(scaledX, scaledY)&& isChooseCard) {
+                if (player1.isMyTurn()) {
+                    player1.setActiveCard(player1.getBench().remove(positionOfCardChosen));
+                    currentCardInPlay = player1.getActiveCard();
+                    isCardRetreated = false;
+                    isChooseCard = false;
+                }else{
+                    player2.setActiveCard(player2.getBench().remove(positionOfCardChosen));
+                    currentCardInPlay2 = player2.getActiveCard();
+                    isCardRetreated = false;
+                    isChooseCard = false;
+                }
+                isChooseCard = false;
+                useCardButton.cancel();
+
+            } else {
+                useCardButton.cancel();
+            }
+        }
+        if (e.getAction() == MotionEvent.ACTION_DOWN && player1.isMyTurn() ) {
+            p1Card0.onTouchDown(scaledX, scaledY);
+            p1Card1.onTouchDown(scaledX, scaledY);
+            p1Card2.onTouchDown(scaledX, scaledY);
+            p1Card3.onTouchDown(scaledX, scaledY);
+            p1Card4.onTouchDown(scaledX, scaledY);
+            if (p1Card0.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay == null) {
+                isChooseCard = true;
+                positionOfCardChosen = 0;
+                p1Card0.cancel();
+            } else {
+                p1Card0.cancel();
+            }
+            if (p1Card1.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay == null) {
+                isChooseCard = true;
+                positionOfCardChosen = 1;
+                p1Card1.cancel();
+            } else {
+                p1Card1.cancel();
+            }
+            if (p1Card2.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay == null) {
+                isChooseCard = true;
+                positionOfCardChosen = 2;
+                p1Card2.cancel();
+            } else {
+                p1Card2.cancel();
+            }
+            if (p1Card3.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay == null) {
+                isChooseCard = true;
+                positionOfCardChosen = 3;
+                p1Card3.cancel();
+            } else {
+                p1Card3.cancel();
+            }
+            if (p1Card4.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay == null) {
+                isChooseCard = true;
+                positionOfCardChosen = 4;
+                p1Card4.cancel();
+            } else {
+                p1Card4.cancel();
+            }
+
+        }
+        if (e.getAction() == MotionEvent.ACTION_DOWN && player2.isMyTurn() ) {
+            p2Card0.onTouchDown(scaledX, scaledY);
+            p2Card1.onTouchDown(scaledX, scaledY);
+            p2Card2.onTouchDown(scaledX, scaledY);
+            p2Card3.onTouchDown(scaledX, scaledY);
+            p2Card4.onTouchDown(scaledX, scaledY);
+            if (p2Card0.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay2 == null &&player2.isMyTurn()) {
+                isChooseCard = true;
+                positionOfCardChosen = 0;
+                p2Card0.cancel();
+            } else {
+                p2Card0.cancel();
+            }
+            if (p2Card1.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay2 == null) {
+                isChooseCard = true;
+                positionOfCardChosen = 1;
+                p2Card1.cancel();
+            } else {
+                p2Card1.cancel();
+            }
+            if (p2Card2.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay2 == null) {
+                isChooseCard = true;
+                positionOfCardChosen = 2;
+                p2Card2.cancel();
+            } else {
+                p2Card2.cancel();
+            }
+            if (p2Card3.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay2 == null) {
+                isChooseCard = true;
+                positionOfCardChosen = 3;
+                p2Card3.cancel();
+            } else {
+                p2Card3.cancel();
+            }
+            if (p2Card4.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay2 == null) {
+                isChooseCard = true;
+                positionOfCardChosen = 4;
+                p2Card4.cancel();
+            } else {
+                p2Card4.cancel();
+            }
+
         }
         return false;
     }
