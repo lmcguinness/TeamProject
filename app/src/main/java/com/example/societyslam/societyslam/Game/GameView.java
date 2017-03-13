@@ -29,6 +29,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Rect gameImageDst;
     private Canvas gameCanvas;
     private Painter graphics;
+    private Context context;
 
     private Thread gameThread;
     private volatile boolean running = false;
@@ -37,6 +38,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public GameView(Context context, int gameWidth, int gameHeight) {
         super(context);
+        this.context = context;
         gameImage = Bitmap.createBitmap(gameWidth,gameHeight, Bitmap.Config.RGB_565);
         gameImageSrc = new Rect(0,0, gameImage.getWidth(), gameImage.getHeight());
         gameImageDst = new Rect();
@@ -92,6 +94,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void setCurrentState(State newState) {
         System.gc();
+        newState.setContext(this.context);
         newState.init();
         currentState = newState;
         currentState.setPainter(graphics);
