@@ -28,6 +28,8 @@ public class Painter {
         dstRectF = new RectF();
     }
 
+
+
     public void setColor(int color) {
         paint.setColor(color);
     }

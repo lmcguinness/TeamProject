@@ -16,7 +16,7 @@ public class Player {
     private ArrayList<SocietyCard> bench;
     private ArrayList<StudentBehaviourCard> prizeCards;
     private boolean myTurn;
-    
+
 
     public Player(Deck myCards, SocietyCard activeCard, ArrayList<SocietyCard> bench, ArrayList<StudentBehaviourCard> prizeCards, boolean myTurn) {
         this.myCards = myCards;

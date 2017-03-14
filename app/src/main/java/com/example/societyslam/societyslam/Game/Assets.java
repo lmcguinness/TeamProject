@@ -17,13 +17,22 @@ public class Assets {
             electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
             karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
             disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library, howToPlay, howToPlayDown, howToPlayBackground, backArrowButton,
-            paddle, redBull, roboticsSociety, sailingSociety, taekwando, untidy, water, gamingSociety, dealButton, menubg, attackButton, retreatButton, evolveButton, societyCardButton;
+            paddle, redBull, roboticsSociety, sailingSociety, taekwando, untidy, water, gamingSociety, dealButton, menubg, attackButton, retreatButton, evolveButton,
+            societyCardButton, SettingsButton, SettingsButton_down, minusButton, plusButton, english_Button, polish_Button, polish_Button_Down, english_Button_down;
 
     private static SoundPool soundPool;
 
     public static int coinID, dealingCardsID, oneCardID, attackID, backgroundMusicID, buttonClickID, prizeID;
 
     public static void load() {
+        english_Button_down = loadBitmap("english_Button_down.png", true);
+        polish_Button_Down = loadBitmap("polish_Button_Down.png", true);
+        polish_Button = loadBitmap("polish_Button.png", true);
+        english_Button = loadBitmap("english_Button.png", true);
+        plusButton = loadBitmap("plusButton.png", true);
+        minusButton = loadBitmap("minusButton.png", true);
+        SettingsButton = loadBitmap("SettingsButton.png", true);
+        SettingsButton_down = loadBitmap("SettingsButton_down.png", true);
         // Commented ones to be added at a later stage
         chooseCardMenu = loadBitmap("chooseCardMenu.png", true);
         useCard = loadBitmap("useCard.png", true);

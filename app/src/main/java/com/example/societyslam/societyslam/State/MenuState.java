@@ -17,7 +17,7 @@ import com.example.societyslam.societyslam.State.PlayState;
 
 public class MenuState extends State {
 
-    private Button startButton, howToPlayButton;
+    private Button startButton, howToPlayButton, SettingsButton;
     //private Rect playRect;
     //private boolean playDown = false;
     //public Button startButton;
@@ -28,8 +28,10 @@ public class MenuState extends State {
     public void init() {
         startButton = new Button(316, 339, 484, 366, Assets.start,
                 Assets.startDown);
-        howToPlayButton = new Button (316, 370, 484, 400, Assets.howToPlay,
+        howToPlayButton = new Button (316, 370, 484, 397, Assets.howToPlay,
                 Assets.howToPlayDown);
+        SettingsButton = new Button(316, 401, 484, 431, Assets.SettingsButton,
+                Assets.SettingsButton_down);
 
     }
 
@@ -44,17 +46,21 @@ public class MenuState extends State {
 
        startButton.render(g);
        howToPlayButton.render(g);
+        SettingsButton.render(g);
 
     }
 
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
+
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             startButton.onTouchDown(scaledX, scaledY);
             howToPlayButton.onTouchDown(scaledX, scaledY);
+            SettingsButton.onTouchDown(scaledX, scaledY);
 
         }
         if (e.getAction() == MotionEvent.ACTION_UP) {
+
             if (startButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
                 startButton.cancel();
@@ -66,12 +72,21 @@ public class MenuState extends State {
                 //Log.d("MENU STATE", "HOW TO PLAY BUTTON PRESSED");
                 setCurrentState(new HowToPlayState());
 
-
             } else {
-                startButton.cancel();
-                howToPlayButton.cancel();
+                if (SettingsButton.isPressed(scaledX, scaledY)) {
+                    Assets.playSound(Assets.buttonClickID);
+                    SettingsButton.cancel();
+                    setCurrentState(new SettingsState());
+
+                } else {
+                    startButton.cancel();
+                    howToPlayButton.cancel();
+                    SettingsButton.cancel();
+                }
             }
         }
-        return true;
-    }
+            return true;
+        }
+
+
 }

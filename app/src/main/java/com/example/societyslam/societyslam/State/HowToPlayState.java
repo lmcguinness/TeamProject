@@ -1,12 +1,14 @@
 package com.example.societyslam.societyslam.State;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Game.MainActivity;
 import com.example.societyslam.societyslam.GameObjects.Type;
+import com.example.societyslam.societyslam.R;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 
@@ -14,14 +16,22 @@ import com.example.societyslam.societyslam.Util.Painter;
  * Created by Leanne on 27/02/2017.
  */
 
+
 public class HowToPlayState extends State {
 
     public Button backArrowButton;
+
+    private String[] instructions;
+    protected Paint paint;
+
+
 
     @Override
     public void init() {
         backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton,
                 Assets.backArrowButton);
+
+
     }
 
     @Override
