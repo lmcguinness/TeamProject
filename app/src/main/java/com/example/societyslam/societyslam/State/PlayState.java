@@ -1,7 +1,9 @@
 package com.example.societyslam.societyslam.State;
 
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.Util.Button;
@@ -141,10 +143,17 @@ public class PlayState extends State {
     Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCardDeck1, CoinTossState.getIsPlayer1Turn());
     Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCardDeck2, CoinTossState.getIsPlayer2Turn());
 
+    private String player1Name;
+    private String player2Name;
+
 
 
     @Override
     public void init() {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        player1Name = sharedPreferences.getString("player1name", "");
+        player2Name = sharedPreferences.getString("player2name", "");
 
         //Set the background music to keep playing
         Assets.playBackground(Assets.backgroundMusicID);
@@ -240,8 +249,8 @@ public class PlayState extends State {
         g.drawImage(Assets.ssb, 0, 0);
         //Displaying both of the players on the board
         g.setFont(Typeface.DEFAULT_BOLD, 25);
-        g.drawString("Player 1", 303, 20);
-        g.drawString("Player 2", 425,20);
+        g.drawString(player1Name, 303, 20);
+        g.drawString(player2Name, 425,20);
 
         //Display how many rounds each player has won throughout the game
         g.setFont(Typeface.DEFAULT, 20);
@@ -373,13 +382,13 @@ public class PlayState extends State {
         if(attackPlayer1){
             g.setFont(Typeface.DEFAULT_BOLD,22);
             g.drawString("You attacked with "+ player1.getActiveCard().getAttackName(), 270, 60);
-            g.drawString("minus "+ player1.getActiveCard().getAttackStrength()+ " points player2", 315,80);
+            g.drawString("minus "+ player1.getActiveCard().getAttackStrength()+ " points " + player2Name, 315,80);
         }
         //If player two attacks, display their attack and how many points player1 loses
         if(attackPlayer2){
             g.setFont(Typeface.DEFAULT_BOLD,22);
             g.drawString("You attacked with "+ player2.getActiveCard().getAttackName(), 270, 60);
-            g.drawString("minus "+ player2.getActiveCard().getAttackStrength()+ " points player1", 315,80);
+            g.drawString("minus "+ player2.getActiveCard().getAttackStrength()+ " points " + player1Name, 315,80);
         }
 
 
@@ -410,13 +419,13 @@ public class PlayState extends State {
         }
         //If player ones score falls below zero
         if(displayWin1){
-            g.drawString("Player 2 wins this round!", 300,115);
-            g.drawString("Player 1 you have been given another card ", 245, 130);
+            g.drawString(player2Name + " wins this round!", 300,115);
+            g.drawString(player1Name + " you have been given another card ", 245, 130);
         }
         //If player twos score fall below zero
         if(displayWin2){
-            g.drawString("Player 1 wins this round!", 300,115);
-            g.drawString("Player 2 you have been given another card ", 245, 130);
+            g.drawString(player1Name + " wins this round!", 300,115);
+            g.drawString(player2Name + " you have been given another card ", 245, 130);
         }
         // screen which pops up to allow player to look at cards in more detail before choosing which one to play with
         if(isChooseCard){
