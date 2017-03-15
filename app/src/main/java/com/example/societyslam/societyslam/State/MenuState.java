@@ -1,11 +1,14 @@
 package com.example.societyslam.societyslam.State;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 
 
 import com.example.societyslam.societyslam.Game.Assets;
+import com.example.societyslam.societyslam.PlayerDetailsActivity;
 import com.example.societyslam.societyslam.R;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
@@ -64,7 +67,9 @@ public class MenuState extends State {
             if (startButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
                 startButton.cancel();
-                setCurrentState(new CoinTossState());
+                Intent i = new Intent(this.getContext(), PlayerDetailsActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                this.getContext().startActivity(i);
 
             } else if (howToPlayButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);

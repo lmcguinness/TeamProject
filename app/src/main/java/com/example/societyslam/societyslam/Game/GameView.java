@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.societyslam.societyslam.R;
+import com.example.societyslam.societyslam.State.CoinTossState;
 import com.example.societyslam.societyslam.State.LoadState;
 import com.example.societyslam.societyslam.State.State;
 import com.example.societyslam.societyslam.Util.InputHandler;
@@ -29,14 +30,18 @@ public class GameView extends SurfaceView implements Runnable {
     private Rect gameImageDst;
     private Canvas gameCanvas;
     private Painter graphics;
+    private Context context;
 
     private Thread gameThread;
     private volatile boolean running = false;
     private volatile State currentState;
     private InputHandler inputHandler;
+    boolean isPlayerDetailsSet;
 
-    public GameView(Context context, int gameWidth, int gameHeight) {
+    public GameView(Context context, int gameWidth, int gameHeight, final boolean isPlayerDetailsSet) {
         super(context);
+        this.context = context;
+        this.isPlayerDetailsSet = isPlayerDetailsSet;
         gameImage = Bitmap.createBitmap(gameWidth,gameHeight, Bitmap.Config.RGB_565);
         gameImageSrc = new Rect(0,0, gameImage.getWidth(), gameImage.getHeight());
         gameImageDst = new Rect();
@@ -50,7 +55,11 @@ public class GameView extends SurfaceView implements Runnable {
             public void surfaceCreated(SurfaceHolder holder) {
                 initInput();
                 if (currentState == null) {
-                    setCurrentState(new LoadState());
+                    if (!isPlayerDetailsSet) {
+                        setCurrentState(new LoadState());
+                    } else {
+                        setCurrentState(new CoinTossState());
+                    }
                 }
                 initGame();
             }
@@ -92,6 +101,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void setCurrentState(State newState) {
         System.gc();
+        newState.setContext(this.context);
         newState.init();
         currentState = newState;
         currentState.setPainter(graphics);

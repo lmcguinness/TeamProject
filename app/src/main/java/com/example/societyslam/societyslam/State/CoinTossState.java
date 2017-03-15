@@ -1,5 +1,8 @@
 package com.example.societyslam.societyslam.State;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.GameObjects.Coin;
@@ -15,6 +18,9 @@ public class CoinTossState extends State {
     private Coin coin;
     private boolean isPlayer1Heads, decided =false, isFirstToss = false;
     private static boolean  isPlayer1Turn, isPlayer2Turn;
+    private String player1Name = "";
+    private String player2Name = "";
+
 
     @Override
     public void init() {
@@ -23,6 +29,10 @@ public class CoinTossState extends State {
         chooseHeadsButton = new Button(116, 225, 284, 324 , Assets.heads, Assets.heads);
         chooseTailsButton = new Button(516, 225, 684, 324 , Assets.tails, Assets.tails);
         coin = new Coin();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        player1Name = sharedPreferences.getString("player1name", "");
+        player2Name = sharedPreferences.getString("player2name", "");
+
     }
     @Override
     public void update(float delta) {
@@ -38,7 +48,10 @@ public class CoinTossState extends State {
     @Override
     public void render(Painter g) {
         g.drawImage(Assets.coinTossBackground, 0, 0);
-        super.getPainter().drawImage(Assets.choose, 135, 85, 565, 65);
+        //super.getPainter().drawImage(Assets.choose, 135, 85, 565, 65);
+        g.setFont(Typeface.DEFAULT_BOLD, 25);
+        g.setColor(Color.WHITE);
+        g.drawString(player1Name + ", choose heads or tails", 230, 140);
         chooseHeadsButton.render(g);
         chooseTailsButton.render(g);
 
@@ -48,15 +61,17 @@ public class CoinTossState extends State {
             chooseHeadsButton.cancel();
             // display who is assigned to what side of coin
             g.setFont(Typeface.DEFAULT_BOLD, 25);
-            g.drawString("Player 1:", 213, 108);
-            g.drawString("Player 2:", 455, 108);
+            if (!isFirstToss) {
+                g.drawString(player1Name + " is ", 213, 108);
+                g.drawString("and  " + player2Name + " is ", 385, 108);
 
-            if(isPlayer1Heads){
-                g.drawString("Heads", 313,108);
-                g.drawString("Tails", 555,108);
-            }else{
-                g.drawString("Tails", 313,108);
-                g.drawString("Heads", 555,108);
+                if (isPlayer1Heads) {
+                    g.drawString("heads", 300, 108);
+                    g.drawString("tails", 515, 108);
+                } else {
+                    g.drawString("tails", 300, 108);
+                    g.drawString("heads", 515, 108);
+                }
             }
 
             super.getPainter().drawImage(Assets.heads, 185, 165, 415, 195);
@@ -69,24 +84,28 @@ public class CoinTossState extends State {
 
                     super.getPainter().drawImage(Assets.heads,  185, 165, 415, 195);
                     //player 1 is heads, player1s go
-                    super.getPainter().drawImage(Assets.player1, 135, 85, 565, 65);
+                    //super.getPainter().drawImage(Assets.player1, 135, 85, 565, 65);
+                    g.drawString("Heads! " + player1Name +  " goes first!", 270, 130);
                     isPlayer1Turn = true;
                 }else if(coin.result == 0 && !isPlayer1Heads){
                     super.getPainter().drawImage(Assets.heads,  185, 165, 415, 195);
                     //player 2 is heads, player 2s go
-                    super.getPainter().drawImage(Assets.player2H, 135, 85, 565, 65);
+                    //super.getPainter().drawImage(Assets.player2H, 135, 85, 565, 65);
+                    g.drawString("Heads! " + player2Name +  " goes first!", 270, 130);
                     isPlayer2Turn =true;
                 }
                 //Result of Coin Flip: tails
                if (coin.result == 1 && !isPlayer1Heads) {
                     super.getPainter().drawImage(Assets.tails,  185, 165, 415, 195);
                     // player 1 is tails, player 1s go
-                   super.getPainter().drawImage(Assets.player1T, 135, 85, 565, 65);
+                   g.drawString("Tails! " + player1Name +  " goes first!", 270, 130);
+                   //super.getPainter().drawImage(Assets.player1T, 135, 85, 565, 65);
                    isPlayer1Turn = true;
                 }else if(coin.result == 1 && isPlayer1Heads){
                    super.getPainter().drawImage(Assets.tails,  185, 165, 415, 195);
                    // player 2 is tails, player 2s go
-                   super.getPainter().drawImage(Assets.player2, 135, 85, 565, 65);
+                   //super.getPainter().drawImage(Assets.player2, 135, 85, 565, 65);
+                   g.drawString("Tails! " + player2Name +  " goes first!", 270, 130);
                    isPlayer2Turn = true;
                }
                 continueButton.render(g);
@@ -126,7 +145,8 @@ public class CoinTossState extends State {
             Assets.playSound(Assets.coinID);
             chooseHeadsButton.cancel();
             isPlayer1Heads = true;
-            System.out.println("Player 1 is heads");
+            System.out.println(player1Name + " " +
+                    " is heads");
             decided =true;
         } else {
             chooseHeadsButton.cancel();

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.societyslam.societyslam">
-
     //ADDED BY Leanne McGuinness 26/11/16
 
     //For this specfic application it will ask user weather they can keep
     //screen on so it wont dim out
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     //if we want to save our game to sk storage
-    <uses-permission android:name= "android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     //screen that supports multi-touch on screen as we have two players
-    <uses-feature android:name="android.hardware.touchscreen.multitouch.distinct" android:required="true"/>
-
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch.distinct"
+        android:required="true" />
 
     <application
-        android:installLocation="preferExternal"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:installLocation="preferExternal"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Game.MainActivity"
+        <activity
+            android:name=".Game.MainActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
@@ -29,11 +29,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        </activity>
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".PlayerDetailsActivity"></activity>
     </application>
 
 </manifest>

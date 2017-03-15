@@ -1,6 +1,7 @@
 package com.example.societyslam.societyslam.State;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -15,16 +16,19 @@ import com.example.societyslam.societyslam.Util.Painter;
 public abstract class State extends AppCompatActivity {
 
     private Painter painter;
+    private Context context;
+
 
     public void setCurrentState(State newState)
     {
         MainActivity.myGame.setCurrentState(newState);
     }
-
+    public void setContext(Context context) { this.context = context; }
     public abstract void init();
     public abstract void update(float delta);
     public abstract void render(Painter g);
     public abstract boolean onTouch(MotionEvent e, int scaledX, int scaledY);
+    public Context getContext() { return this.context;}
 
     public Painter getPainter() {
         return painter;

@@ -1,5 +1,6 @@
 package com.example.societyslam.societyslam.Util;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -7,6 +8,10 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.provider.Settings;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by Aoife Brown on 21/11/2016.

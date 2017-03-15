@@ -1,6 +1,7 @@
 package com.example.societyslam.societyslam.Game;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.Window;
@@ -28,7 +29,9 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         assets = getAssets();
-        myGame = new GameView(this, this.GAME_WIDTH, this.GAME_HEIGHT);
+        Intent intent = getIntent();
+        boolean isPlayerDetsSet = intent.getBooleanExtra("isPlayerDetsSet", false);
+        myGame = new GameView(this, this.GAME_WIDTH, this.GAME_HEIGHT, isPlayerDetsSet);
         setContentView(myGame);
 
         //ADDED BY Leanne McGuinness 26/11/2016
