@@ -9,7 +9,7 @@ import com.example.societyslam.societyslam.Util.Painter;
  * Created by ChloeMullan on 12/03/2017.
  */
 
-public class PlayerDetailsState extends State {
+public class PLayerDetailsState extends State {
 
 
     @Override

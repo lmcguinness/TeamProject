@@ -25,6 +25,8 @@ public class Assets {
     public static int coinID, dealingCardsID, oneCardID, attackID, backgroundMusicID, buttonClickID, prizeID;
 
     public static void load() {
+
+
         english_Button_down = loadBitmap("english_Button_down.png", true);
         polish_Button_Down = loadBitmap("polish_Button_Down.png", true);
         polish_Button = loadBitmap("polish_Button.png", true);
@@ -33,6 +35,7 @@ public class Assets {
         minusButton = loadBitmap("minusButton.png", true);
         SettingsButton = loadBitmap("SettingsButton.png", true);
         SettingsButton_down = loadBitmap("SettingsButton_down.png", true);
+
         // Commented ones to be added at a later stage
         chooseCardMenu = loadBitmap("chooseCardMenu.png", true);
         useCard = loadBitmap("useCard.png", true);

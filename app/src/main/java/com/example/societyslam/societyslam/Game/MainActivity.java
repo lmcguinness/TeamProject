@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         //ADDED BY LEANNE
-        settings = new Settings(getApplicationContext());
+       settings = new Settings(getApplicationContext());
         language = settings.getLanguage();
 
     }
