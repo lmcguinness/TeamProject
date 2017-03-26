@@ -1,14 +1,7 @@
 package com.example.societyslam.societyslam.State;
-
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.view.MotionEvent;
-
 import com.example.societyslam.societyslam.Game.Assets;
-import com.example.societyslam.societyslam.Game.MainActivity;
-import com.example.societyslam.societyslam.GameObjects.Type;
-import com.example.societyslam.societyslam.R;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 
@@ -18,20 +11,16 @@ import com.example.societyslam.societyslam.Util.Painter;
 
 
 public class HowToPlayState extends State {
-
     public Button backArrowButton;
 
     private String[] instructions;
     protected Paint paint;
 
 
-
     @Override
     public void init() {
         backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton,
                 Assets.backArrowButton);
-
-
     }
 
     @Override
@@ -44,7 +33,9 @@ public class HowToPlayState extends State {
         g.drawImage(Assets.howToPlayBackground, 0,0);
         backArrowButton.render(g);
 
+
     }
+
 
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
@@ -56,11 +47,12 @@ public class HowToPlayState extends State {
             Assets.playSound(Assets.buttonClickID);
             backArrowButton.cancel();
             setCurrentState(new MenuState());
-
         } else {
             backArrowButton.cancel();
         }
 
         return true;
     }
+
+
 }

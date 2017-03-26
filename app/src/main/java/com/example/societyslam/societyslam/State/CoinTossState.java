@@ -21,13 +21,12 @@ public class CoinTossState extends State {
     private String player1Name = "";
     private String player2Name = "";
 
-
     @Override
     public void init() {
         flipCoinButton = new Button(316, 385, 484, 424, Assets.flipCoin, Assets.flipCoinDown);
         continueButton = new Button(316, 15, 484, 65, Assets.continueButton, Assets.continueDown);
-        chooseHeadsButton = new Button(116, 225, 284, 324 , Assets.heads, Assets.heads);
-        chooseTailsButton = new Button(516, 225, 684, 324 , Assets.tails, Assets.tails);
+        chooseHeadsButton = new Button(116, 225, 284, 324 , Assets.coin4, Assets.coin4);
+        chooseTailsButton = new Button(516, 225, 684, 324 , Assets.coin3, Assets.coin3);
         coin = new Coin();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         player1Name = sharedPreferences.getString("player1name", "");
@@ -36,6 +35,8 @@ public class CoinTossState extends State {
     }
     @Override
     public void update(float delta) {
+        //flip coin animation update
+        Assets.coinAnim.update(delta);
     }
 
     public static boolean getIsPlayer1Turn() {
@@ -47,8 +48,8 @@ public class CoinTossState extends State {
 
     @Override
     public void render(Painter g) {
+
         g.drawImage(Assets.coinTossBackground, 0, 0);
-        //super.getPainter().drawImage(Assets.choose, 135, 85, 565, 65);
         g.setFont(Typeface.DEFAULT_BOLD, 25);
         g.setColor(Color.WHITE);
         g.drawString(player1Name + ", choose heads or tails", 230, 140);
@@ -66,45 +67,40 @@ public class CoinTossState extends State {
                 g.drawString("and  " + player2Name + " is ", 385, 108);
 
                 if (isPlayer1Heads) {
-                    g.drawString("heads", 300, 108);
-                    g.drawString("tails", 515, 108);
+                    g.drawString(" heads", 300, 108);
+                    g.drawString(" tails", 515, 108);
                 } else {
-                    g.drawString("tails", 300, 108);
-                    g.drawString("heads", 515, 108);
+                    g.drawString(" tails", 300, 108);
+                    g.drawString(" heads", 515, 108);
                 }
             }
 
-            super.getPainter().drawImage(Assets.heads, 185, 165, 415, 195);
-
             if (!isFirstToss) {
                 flipCoinButton.render(g);
+                //Coin animation added to the screen
+                Assets.coinAnim.render(g, 185, 165, 415, 195);
             } else {
                 //Result of Coin Flip: heads
                 if (coin.result == 0 && isPlayer1Heads) {
-
-                    super.getPainter().drawImage(Assets.heads,  185, 165, 415, 195);
+                    super.getPainter().drawImage(Assets.coin4,  185, 165, 415, 195);
                     //player 1 is heads, player1s go
-                    //super.getPainter().drawImage(Assets.player1, 135, 85, 565, 65);
                     g.drawString("Heads! " + player1Name +  " goes first!", 270, 130);
                     isPlayer1Turn = true;
                 }else if(coin.result == 0 && !isPlayer1Heads){
-                    super.getPainter().drawImage(Assets.heads,  185, 165, 415, 195);
+                    super.getPainter().drawImage(Assets.coin4,  185, 165, 415, 195);
                     //player 2 is heads, player 2s go
-                    //super.getPainter().drawImage(Assets.player2H, 135, 85, 565, 65);
                     g.drawString("Heads! " + player2Name +  " goes first!", 270, 130);
                     isPlayer2Turn =true;
                 }
                 //Result of Coin Flip: tails
                if (coin.result == 1 && !isPlayer1Heads) {
-                    super.getPainter().drawImage(Assets.tails,  185, 165, 415, 195);
+                    super.getPainter().drawImage(Assets.coin3,  185, 165, 415, 195);
                     // player 1 is tails, player 1s go
                    g.drawString("Tails! " + player1Name +  " goes first!", 270, 130);
-                   //super.getPainter().drawImage(Assets.player1T, 135, 85, 565, 65);
                    isPlayer1Turn = true;
                 }else if(coin.result == 1 && isPlayer1Heads){
-                   super.getPainter().drawImage(Assets.tails,  185, 165, 415, 195);
+                   super.getPainter().drawImage(Assets.coin3,  185, 165, 415, 195);
                    // player 2 is tails, player 2s go
-                   //super.getPainter().drawImage(Assets.player2, 135, 85, 565, 65);
                    g.drawString("Tails! " + player2Name +  " goes first!", 270, 130);
                    isPlayer2Turn = true;
                }
@@ -123,6 +119,7 @@ public class CoinTossState extends State {
             flipCoinButton.cancel();
             isFirstToss= true;
             coin.flip();
+
         } else {
             flipCoinButton.cancel();
         }

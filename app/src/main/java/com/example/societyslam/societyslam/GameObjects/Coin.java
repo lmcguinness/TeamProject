@@ -1,5 +1,8 @@
 package com.example.societyslam.societyslam.GameObjects;
 
+import com.example.societyslam.societyslam.Game.Assets;
+import com.example.societyslam.societyslam.Util.Animation;
+
 import java.util.Random;
 
 /**

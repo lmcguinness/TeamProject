@@ -2,7 +2,6 @@ package com.example.societyslam.societyslam.Util;
 
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-
 /**
  * Created by aoife on 08/02/2017.
  */

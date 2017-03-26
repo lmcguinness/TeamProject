@@ -26,13 +26,13 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         assets = getAssets();
         Intent intent = getIntent();
         boolean isPlayerDetsSet = intent.getBooleanExtra("isPlayerDetsSet", false);
         myGame = new GameView(this, this.GAME_WIDTH, this.GAME_HEIGHT, isPlayerDetsSet);
         setContentView(myGame);
+
 
         //ADDED BY Leanne McGuinness 26/11/2016
 
@@ -47,5 +47,6 @@ public class MainActivity extends Activity {
         language = settings.getLanguage();
 
     }
+
 
 }

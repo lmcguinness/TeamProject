@@ -29,6 +29,7 @@ public class MenuState extends State {
 
     @Override
     public void init() {
+
         startButton = new Button(316, 339, 484, 366, Assets.start,
                 Assets.startDown);
         howToPlayButton = new Button (316, 370, 484, 397, Assets.howToPlay,

@@ -8,6 +8,9 @@ import java.io.InputStream;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
+import com.example.societyslam.societyslam.Util.Animation;
+import com.example.societyslam.societyslam.Util.Frame;
+
 /**
  * Created by Aoife Brown on 15/11/2016.
  */
@@ -18,11 +21,13 @@ public class Assets {
             karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
             disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library, howToPlay, howToPlayDown, howToPlayBackground, backArrowButton,
             paddle, redBull, roboticsSociety, sailingSociety, taekwando, untidy, water, gamingSociety, dealButton, menubg, attackButton, retreatButton, evolveButton,
-            societyCardButton, SettingsButton, SettingsButton_down, minusButton, plusButton, english_Button, polish_Button, polish_Button_Down, english_Button_down;
+            societyCardButton, SettingsButton, SettingsButton_down, minusButton, plusButton, english_Button, polish_Button, polish_Button_Down, english_Button_down, coin2, coin3, coin4;
 
     private static SoundPool soundPool;
 
     public static int coinID, dealingCardsID, oneCardID, attackID, backgroundMusicID, buttonClickID, prizeID;
+
+    public static Animation coinAnim;
 
     public static void load() {
 
@@ -126,7 +131,21 @@ public class Assets {
         backgroundMusicID = loadSound("backgroundMusic.mp3");
         buttonClickID = loadSound("ButtonClick.wav");
         prizeID = loadSound("Prize.wav");
+
+        //Animation of coin
+        coin2 = loadBitmap("coin2.png", true);
+        coin3 = loadBitmap("coin3.png", true);
+        coin4 = loadBitmap("coin4.png", true);
+
+        Frame f1 = new Frame(coin2, .1f);
+        Frame f2 = new Frame(coin3, .1f);
+        Frame f3 = new Frame(coin4, .1f);
+
+        coinAnim = new Animation(f1,f2,f3,f2,f1);
+
+
     }
+
 
     private static Bitmap loadBitmap(String filename, boolean transparency) {
         InputStream inputStream = null;
