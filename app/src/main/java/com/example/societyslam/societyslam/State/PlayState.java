@@ -3,6 +3,7 @@ package com.example.societyslam.societyslam.State;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import com.example.societyslam.societyslam.GameObjects.Player;
@@ -44,8 +45,8 @@ public class PlayState extends State {
 
     private Button playButton;
     private Button dealButton;
-    private Button continueButton;
-    boolean isMenu;
+  //  private Button continueButton;
+    boolean isMenu = false;
     boolean attackPlayer1;
     boolean attackPlayer2;
     boolean evolvePlayer1;
@@ -70,7 +71,7 @@ public class PlayState extends State {
     private boolean isChooseCard =false;
     private Button useCardButton, cancelButton;
     private int positionOfCardChosen;
-    private Button p1Card0,p1Card1, p1Card2,p1Card3, p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4;
+    private Button p1Card0,p1Card1, p1Card2,p1Card3, p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4, currentCard1Button,currentCard2Button;
     private boolean areCardsDrawn = false;
     private boolean isCardRetreated = false;
 
@@ -160,7 +161,7 @@ public class PlayState extends State {
 
         playButton = new Button(336, 385, 504, 444, Assets.start, Assets.startDown);
         dealButton = new Button(336, 385, 504, 444, Assets.dealButton, Assets.dealButton);
-        continueButton = new Button(336, 385, 504, 444, Assets.continueButton, Assets.continueButton);
+        //continueButton = new Button(336, 385, 504, 444, Assets.continueButton, Assets.continueButton);
         attackButton = new Button(316, 125, 484, 165, Assets.attackButton, Assets.attackButton);
         retreatButton = new Button(316, 185, 484, 225, Assets.retreatButton, Assets.retreatButton);
         evolveButton = new Button(316, 245, 484, 285, Assets.evolveButton, Assets.evolveButton);
@@ -184,6 +185,9 @@ public class PlayState extends State {
         p2Card2 = new Button(675, 120, 780 , 160, null, null);
         p2Card3 = new Button(675, 160, 780 , 200, null, null);
         p2Card4 = new Button(675, 200, 780 , 300, null, null);
+        //placing buttons in the position of where current card in play is
+        currentCard1Button = new Button(280, 175, 395, 275,null,null);
+        currentCard2Button = new Button(410, 175, 525 , 275,null,null);
 
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
@@ -247,6 +251,7 @@ public class PlayState extends State {
     public void render(Painter g) {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
+
         //Displaying both of the players on the board
         g.setFont(Typeface.DEFAULT_BOLD, 25);
         g.drawString(player1Name, 303, 20);
@@ -286,7 +291,7 @@ public class PlayState extends State {
                     Assets.playSound(Assets.dealingCardsID);
                 }
             } else {
-                continueButton.render(g);
+                //continueButton.render(g);
           }
             //Now that we have references to the cards that have to be moved, we can change the
             //location of them on the screen. Done here as opposed to update();
@@ -294,6 +299,13 @@ public class PlayState extends State {
                 while (cardMove == 1) {
                     cardMove--;
                     Assets.playSound(Assets.oneCardID);
+                }
+                currentCard1Button.render(g);
+                currentCard2Button.render(g);
+                if(player1.isMyTurn()){
+                    super.getPainter().drawImage(Assets.yourTurn, 280,140,117,130);
+                }else{
+                    super.getPainter().drawImage(Assets.yourTurn, 410, 140, 125 , 130);
                 }
             }
             // has to be seperate from above as when retreat method is called and it is player 2s turn, both cards are removed
@@ -472,17 +484,17 @@ public class PlayState extends State {
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         //If it is the start of the game then this touch event is registered as inital setup.
-
         if(e.getAction() == MotionEvent.ACTION_DOWN) {
 
-            continueButton.onTouchDown(scaledX, scaledY);
+            currentCard1Button.onTouchDown(scaledX, scaledY);
+            currentCard2Button.onTouchDown(scaledX, scaledY);
             attackButton.onTouchDown(scaledX, scaledY);
             retreatButton.onTouchDown(scaledX, scaledY);
             evolveButton.onTouchDown(scaledX, scaledY);
             useStudentBehaviourCardButton.onTouchDown(scaledX, scaledY);
 
             if (!isStart && !dealCards) {
-                if (continueButton.isPressed(scaledX, scaledY)) {
+                if (currentCard1Button.isPressed(scaledX, scaledY) && player1.isMyTurn()  || currentCard2Button.isPressed(scaledX, scaledY) && player2.isMyTurn()) {
                     Assets.playSound(Assets.buttonClickID);
                     displayWin1=false;
                     displayWin2 = false;
@@ -492,10 +504,12 @@ public class PlayState extends State {
                     attackPlayer2=false;
                     evolvePlayer1 = false;
                     evolvePlayer2 = false;
-                    continueButton.cancel();
-
+                    currentCard1Button.cancel();
+                    currentCard2Button.cancel();
+                    return true;
                 } else {
-                    continueButton.cancel();
+                    currentCard1Button.cancel();
+                    currentCard2Button.cancel();
                 }
                 // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
                 if (attackButton.isPressed(scaledX, scaledY) && isMenu) {
@@ -515,7 +529,7 @@ public class PlayState extends State {
                 }
                 // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
                 if (retreatButton.isPressed(scaledX, scaledY) && isMenu) {
-                    //isMenu = false;
+                    isMenu = false;
                     //retreatButton.cancel();
                     if (player1.isMyTurn()) {
                         if(currentCardInPlay != null){

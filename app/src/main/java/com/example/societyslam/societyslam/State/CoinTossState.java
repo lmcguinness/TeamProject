@@ -86,11 +86,13 @@ public class CoinTossState extends State {
                     //player 1 is heads, player1s go
                     g.drawString("Heads! " + player1Name +  " goes first!", 270, 130);
                     isPlayer1Turn = true;
+                    isPlayer2Turn = false;
                 }else if(coin.result == 0 && !isPlayer1Heads){
                     super.getPainter().drawImage(Assets.coin4,  185, 165, 415, 195);
                     //player 2 is heads, player 2s go
                     g.drawString("Heads! " + player2Name +  " goes first!", 270, 130);
                     isPlayer2Turn =true;
+                    isPlayer1Turn = false;
                 }
                 //Result of Coin Flip: tails
                if (coin.result == 1 && !isPlayer1Heads) {
@@ -98,13 +100,15 @@ public class CoinTossState extends State {
                     // player 1 is tails, player 1s go
                    g.drawString("Tails! " + player1Name +  " goes first!", 270, 130);
                    isPlayer1Turn = true;
+                   isPlayer2Turn = false;
                 }else if(coin.result == 1 && isPlayer1Heads){
                    super.getPainter().drawImage(Assets.coin3,  185, 165, 415, 195);
                    // player 2 is tails, player 2s go
                    g.drawString("Tails! " + player2Name +  " goes first!", 270, 130);
                    isPlayer2Turn = true;
+                   isPlayer1Turn = false;
                }
-                continueButton.render(g);
+             continueButton.render(g);
             }
         }
     }
