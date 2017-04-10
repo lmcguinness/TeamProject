@@ -23,10 +23,10 @@ public class CoinTossState extends State {
 
     @Override
     public void init() {
-        flipCoinButton = new Button(316, 385, 484, 424, Assets.flipCoin, Assets.flipCoinDown);
-        continueButton = new Button(316, 15, 484, 65, Assets.continueButton, Assets.continueDown);
-        chooseHeadsButton = new Button(116, 225, 284, 324 , Assets.coin4, Assets.coin4);
-        chooseTailsButton = new Button(516, 225, 684, 324 , Assets.coin3, Assets.coin3);
+        flipCoinButton = new Button(316, 385, 484, 424, Assets.flipCoin);
+        continueButton = new Button(316, 15, 484, 65, Assets.continueButton);
+        chooseHeadsButton = new Button(116, 225, 284, 324 , Assets.coin4);
+        chooseTailsButton = new Button(516, 225, 684, 324 , Assets.coin3);
         coin = new Coin();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         player1Name = sharedPreferences.getString("player1name", "");

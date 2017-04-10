@@ -19,8 +19,7 @@ public class HowToPlayState extends State {
 
     @Override
     public void init() {
-        backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton,
-                Assets.backArrowButton);
+        backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton);
     }
 
     @Override

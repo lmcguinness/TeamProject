@@ -21,7 +21,7 @@ public class Assets {
             karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
             disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library, howToPlay, howToPlayDown, howToPlayBackground, backArrowButton,
             paddle, redBull, roboticsSociety, sailingSociety, taekwando, untidy, water, gamingSociety, dealButton, menubg, attackButton, retreatButton, evolveButton,
-            societyCardButton, SettingsButton, SettingsButton_down, minusButton, plusButton, english_Button, polish_Button, polish_Button_Down, english_Button_down, coin2, coin3, coin4;
+            societyCardButton, SettingsButton, SettingsButton_down, minusButton, plusButton, english_Button, polish_Button, polish_Button_Down, english_Button_down, coin2, coin3, coin4, playAgainButton, homeButton;
 
     private static SoundPool soundPool;
 
@@ -32,14 +32,14 @@ public class Assets {
     public static void load() {
 
 
-        english_Button_down = loadBitmap("english_Button_down.png", true);
-        polish_Button_Down = loadBitmap("polish_Button_Down.png", true);
-        polish_Button = loadBitmap("polish_Button.png", true);
-        english_Button = loadBitmap("english_Button.png", true);
+        homeButton = loadBitmap("home-button.png", true);
+        playAgainButton = loadBitmap("play-again-button.png",true);
+        polish_Button = loadBitmap("polish-button.png", true);
+        english_Button = loadBitmap("english-button.png", true);
         plusButton = loadBitmap("plusButton.png", true);
         minusButton = loadBitmap("minusButton.png", true);
-        SettingsButton = loadBitmap("SettingsButton.png", true);
-        SettingsButton_down = loadBitmap("SettingsButton_down.png", true);
+        SettingsButton = loadBitmap("settings-button.png", true);
+
 
         // Commented ones to be added at a later stage
         yourTurn = loadBitmap("YourTurn.png", true);
@@ -51,21 +51,18 @@ public class Assets {
         tails = loadBitmap("tails.png", true);
         player1 = loadBitmap("player1.png", true);
         player2 = loadBitmap("player2.png", true);
-        continueDown = loadBitmap("continueDown.png", true);
-        continueButton = loadBitmap("continueButton.png", true);
-        flipCoin = loadBitmap("flipCoin.png", true);
-        flipCoinDown = loadBitmap("flipCoinDown.png", true);
+        continueButton = loadBitmap("continue-button.png", true);
+        flipCoin = loadBitmap("flip-coin-button.png", true);
         backArrowButton = loadBitmap("backArrowButton.png", true);
         howToPlayBackground = loadBitmap("howToPlayBackground.png", true);
-        howToPlay = loadBitmap("howToPlay.png", true);
-        howToPlayDown = loadBitmap("howToPlayDown.png", true);
+        howToPlay = loadBitmap("how-to-play-button.png", true);
         headsText = loadBitmap("headsText.png", true);
         tailsText = loadBitmap("tailsText.png", true);
         choose = loadBitmap("choose.png" ,true);
         player1T = loadBitmap("player1T.png",true);
         player2H = loadBitmap("player2H.png",true);
         pause = loadBitmap("pause.png",true);
-        dealButton = loadBitmap("dealButton.png", true);
+        dealButton = loadBitmap("deal-cards-button.png", true);
         pauseMenu = loadBitmap("pauseMenu.png",true);
         menubg = loadBitmap("pikachuMenu.png", true);
         attackButton = loadBitmap("attack.png", true);
@@ -79,8 +76,7 @@ public class Assets {
         instructions = loadBitmap("instructions.png", true);
 
         welcome = loadBitmap("welcome.jpg", false);
-        start = loadBitmap("start_button.png", true);
-        startDown = loadBitmap("start_button_down.png",true);
+        start = loadBitmap("start-button.png", true);
         boxingSociety = loadBitmap("boxingsociety.png", true);
         cardBack = loadBitmap("CardBack.png", true);
         cavingSociety = loadBitmap("CavingSociety.png", true);

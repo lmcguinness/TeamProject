@@ -45,8 +45,8 @@ public class PlayState extends State {
 
     private Button playButton;
     private Button dealButton;
-  //  private Button continueButton;
-    boolean isMenu = false;
+    private Button continueButton;
+    boolean isMenu;
     boolean attackPlayer1;
     boolean attackPlayer2;
     boolean evolvePlayer1;
@@ -56,8 +56,8 @@ public class PlayState extends State {
     int cardMove =1;
     int player1Score;
     int player2Score;
-    int player1Wins=0;
-    int player2Wins=0;
+    static int player1Wins=0;
+    static int player2Wins=0;
     boolean displayWin1 = false;
     boolean displayWin2 = false;
 
@@ -71,7 +71,7 @@ public class PlayState extends State {
     private boolean isChooseCard =false;
     private Button useCardButton, cancelButton;
     private int positionOfCardChosen;
-    private Button p1Card0,p1Card1, p1Card2,p1Card3, p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4, currentCard1Button,currentCard2Button;
+    private Button p1Card0,p1Card1, p1Card2,p1Card3, p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4;
     private boolean areCardsDrawn = false;
     private boolean isCardRetreated = false;
 
@@ -141,8 +141,10 @@ public class PlayState extends State {
     ArrayList<SocietyCard> playersCards = new ArrayList<SocietyCard>();
     ArrayList<SocietyCard> player2Cards = new ArrayList<SocietyCard>();
 
-    Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCardDeck1, CoinTossState.getIsPlayer1Turn());
-    Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCardDeck2, CoinTossState.getIsPlayer2Turn());
+   private Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCardDeck1, CoinTossState.getIsPlayer1Turn());
+    private Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCardDeck2, CoinTossState.getIsPlayer2Turn());
+
+    public static boolean player1Winner, player2Winner;
 
     private String player1Name;
     private String player2Name;
@@ -159,32 +161,33 @@ public class PlayState extends State {
         //Set the background music to keep playing
         Assets.playBackground(Assets.backgroundMusicID);
 
-        playButton = new Button(336, 385, 504, 444, Assets.start, Assets.startDown);
-        dealButton = new Button(336, 385, 504, 444, Assets.dealButton, Assets.dealButton);
-        //continueButton = new Button(336, 385, 504, 444, Assets.continueButton, Assets.continueButton);
-        attackButton = new Button(316, 125, 484, 165, Assets.attackButton, Assets.attackButton);
-        retreatButton = new Button(316, 185, 484, 225, Assets.retreatButton, Assets.retreatButton);
-        evolveButton = new Button(316, 245, 484, 285, Assets.evolveButton, Assets.evolveButton);
-        useStudentBehaviourCardButton = new Button(316, 305, 484, 350, Assets.societyCardButton, Assets.societyCardButton);
-        pauseButton = new Button(266,385,326,444,Assets.pause, Assets.pause);
-        resumeButton = new Button(316, 125, 484, 165, Assets.resume, Assets.resume);
-        restartButton = new Button(316, 185, 484, 225, Assets.restart, Assets.restart);
-        instructionsButton = new Button(316, 245, 484, 285, Assets.instructions, Assets.instructions);
-        quitButton = new Button(316, 305, 484, 350, Assets.quit, Assets.quit);
-        useCardButton = new Button(456,165, 634, 205, Assets.useCard, Assets.useCard);
-        cancelButton = new Button(456,225,634,265,Assets.cancel,Assets.cancel);
+        playButton = new Button(336, 385, 504, 444, Assets.start);
+        dealButton = new Button(336, 385, 504, 444, Assets.dealButton);
+        continueButton = new Button(336, 385, 504, 444, Assets.continueButton);
+        attackButton = new Button(316, 125, 484, 165, Assets.attackButton);
+        retreatButton = new Button(316, 185, 484, 225, Assets.retreatButton);
+        evolveButton = new Button(316, 245, 484, 285, Assets.evolveButton);
+        useStudentBehaviourCardButton = new Button(316, 305, 484, 350, Assets.societyCardButton);
+        pauseButton = new Button(266,385,326,444,Assets.pause);
+        resumeButton = new Button(316, 125, 484, 165, Assets.resume);
+        restartButton = new Button(316, 185, 484, 225, Assets.restart);
+        instructionsButton = new Button(316, 245, 484, 285, Assets.instructions);
+        quitButton = new Button(316, 305, 484, 350, Assets.quit);
+        useCardButton = new Button(456,165, 634, 205, Assets.useCard);
+        cancelButton = new Button(456,225,634,265,Assets.cancel);
         // placing buttons in the position of where player 1's cards are on the bench so they can choose which card to attack with
-        p1Card0 = new Button(20, 145, 125, 190, null, null);
-        p1Card1 = new Button(20, 190, 125, 235, null, null);
-        p1Card2 = new Button(20, 235, 125, 280, null, null);
-        p1Card3 = new Button(20, 280, 125, 325, null, null);
-        p1Card4 = new Button(20, 325, 165, 425, null, null);
+        p1Card0 = new Button(20, 145, 125, 190, null);
+        p1Card1 = new Button(20, 190, 125, 235, null);
+        p1Card2 = new Button(20, 235, 125, 280, null);
+        p1Card3 = new Button(20, 280, 125, 325, null);
+        p1Card4 = new Button(20, 325, 165, 425, null);
         // placing buttons in the position of where player 2's cards are on the bench so they can choose which card to attack with
-        p2Card0 = new Button(675, 40, 780 , 80, null, null);
-        p2Card1 = new Button(675, 80, 780 , 120, null, null);
-        p2Card2 = new Button(675, 120, 780 , 160, null, null);
-        p2Card3 = new Button(675, 160, 780 , 200, null, null);
-        p2Card4 = new Button(675, 200, 780 , 300, null, null);
+        p2Card0 = new Button(675, 40, 780 , 80, null);
+        p2Card1 = new Button(675, 80, 780 , 120, null);
+        p2Card2 = new Button(675, 120, 780 , 160, null);
+        p2Card3 = new Button(675, 160, 780 , 200, null);
+        p2Card4 = new Button(675, 200, 780 , 300, null);
+
         //placing buttons in the position of where current card in play is
         currentCard1Button = new Button(280, 175, 395, 275,null,null);
         currentCard2Button = new Button(410, 175, 525 , 275,null,null);
@@ -251,7 +254,6 @@ public class PlayState extends State {
     public void render(Painter g) {
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
-
         //Displaying both of the players on the board
         g.setFont(Typeface.DEFAULT_BOLD, 25);
         g.drawString(player1Name, 303, 20);
@@ -291,7 +293,7 @@ public class PlayState extends State {
                     Assets.playSound(Assets.dealingCardsID);
                 }
             } else {
-                //continueButton.render(g);
+                continueButton.render(g);
           }
             //Now that we have references to the cards that have to be moved, we can change the
             //location of them on the screen. Done here as opposed to update();
@@ -328,6 +330,10 @@ public class PlayState extends State {
                         checkPrizeCardState(player2, player1);
                         player2Wins++;
                         displayWin1 = true;
+                        if(player2Wins >= player2.getPrizeCards().size()) {
+                            setPlayer2Winner(true);
+                            setCurrentState(new GameOverState());
+                        }
                     }
 
                     //will attach matching energyCard to the activeCard
@@ -363,6 +369,10 @@ public class PlayState extends State {
                     checkPrizeCardState(player1, player2);
                     player1Wins++;
                     displayWin2 = true;
+                    if(player1Wins >= player1.getPrizeCards().size()){
+                        setPlayer1Winner(true);
+                        setCurrentState(new GameOverState());
+                    }
                 }
 
                 //Attach matching energyCard to player2 active society Card
@@ -484,6 +494,7 @@ public class PlayState extends State {
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         //If it is the start of the game then this touch event is registered as inital setup.
+
         if(e.getAction() == MotionEvent.ACTION_DOWN) {
 
             currentCard1Button.onTouchDown(scaledX, scaledY);
@@ -856,14 +867,27 @@ public class PlayState extends State {
 //        myDeck.randomCard();
 //    }
 
+    public static boolean isPlayer1Winner() {
+        return player1Winner;
+    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
+    public static boolean isPlayer2Winner() {
+        return player2Winner;
     }
 
 
+
+    public static void setPlayer1Winner(boolean player1Winner) {
+        PlayState.player1Winner = player1Winner;
+    }
+
+    public static void setPlayer2Winner(boolean player2Winner) {
+        PlayState.player2Winner = player2Winner;
+    }
+
+    public static int getPlayer1Wins() {
+        return player1Wins;
+    }
 
 }
 

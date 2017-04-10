@@ -27,12 +27,11 @@ public class SettingsState extends State {
 
     @Override
     public void init() {
-        backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton,
-                Assets.backArrowButton);
-        minusButton = new Button(260, 120, 364, 219, Assets.minusButton, Assets.minusButton);
-        plusButton = new Button(430, 120, 534, 219, Assets.plusButton,Assets.plusButton);
-        englishButton = new Button(260, 220, 428, 264, Assets.english_Button, Assets.english_Button_down);
-        polishButton = new Button(260, 275, 428, 319, Assets.polish_Button, Assets.polish_Button_Down);
+        backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton);
+        minusButton = new Button(260, 120, 364, 219, Assets.minusButton);
+        plusButton = new Button(430, 120, 534, 219, Assets.plusButton);
+        englishButton = new Button(260, 220, 428, 264, Assets.english_Button);
+        polishButton = new Button(260, 275, 428, 319, Assets.polish_Button);
         musicVol = MainActivity.settings.getVolume("musicValue");
     }
 

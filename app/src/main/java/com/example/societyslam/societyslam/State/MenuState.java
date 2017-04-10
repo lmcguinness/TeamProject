@@ -30,12 +30,9 @@ public class MenuState extends State {
     @Override
     public void init() {
 
-        startButton = new Button(316, 339, 484, 366, Assets.start,
-                Assets.startDown);
-        howToPlayButton = new Button (316, 370, 484, 397, Assets.howToPlay,
-                Assets.howToPlayDown);
-        SettingsButton = new Button(316, 401, 484, 431, Assets.SettingsButton,
-                Assets.SettingsButton_down);
+        startButton = new Button(316, 340, 484, 400, Assets.start);
+        howToPlayButton = new Button (132, 340, 300, 400, Assets.howToPlay);
+        SettingsButton = new Button(500, 340, 668, 400, Assets.SettingsButton);
 
     }
 
