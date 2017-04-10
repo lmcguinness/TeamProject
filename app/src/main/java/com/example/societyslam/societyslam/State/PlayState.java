@@ -61,6 +61,7 @@ public class PlayState extends State {
     boolean displayWin1 = false;
     boolean displayWin2 = false;
 
+
     private Button attackButton;
     private Button retreatButton;
     private Button evolveButton;
@@ -71,7 +72,7 @@ public class PlayState extends State {
     private boolean isChooseCard =false;
     private Button useCardButton, cancelButton;
     private int positionOfCardChosen;
-    private Button p1Card0,p1Card1, p1Card2,p1Card3, p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4;
+    private Button p1Card0,p1Card1, p1Card2,p1Card3, p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4, currentCard1Button, currentCard2Button;
     private boolean areCardsDrawn = false;
     private boolean isCardRetreated = false;
 
@@ -189,8 +190,8 @@ public class PlayState extends State {
         p2Card4 = new Button(675, 200, 780 , 300, null);
 
         //placing buttons in the position of where current card in play is
-        currentCard1Button = new Button(280, 175, 395, 275,null,null);
-        currentCard2Button = new Button(410, 175, 525 , 275,null,null);
+        currentCard1Button = new Button(280, 175, 395, 275,null);
+        currentCard2Button = new Button(410, 175, 525 , 275,null);
 
         deckOfCards.add(computerSociety);
         deckOfCards.add(artificialInt);
@@ -293,7 +294,7 @@ public class PlayState extends State {
                     Assets.playSound(Assets.dealingCardsID);
                 }
             } else {
-                continueButton.render(g);
+                //continueButton.render(g);
           }
             //Now that we have references to the cards that have to be moved, we can change the
             //location of them on the screen. Done here as opposed to update();
@@ -887,6 +888,10 @@ public class PlayState extends State {
 
     public static int getPlayer1Wins() {
         return player1Wins;
+    }
+
+    public static int getPlayer2Wins() {
+        return player2Wins;
     }
 
 }
