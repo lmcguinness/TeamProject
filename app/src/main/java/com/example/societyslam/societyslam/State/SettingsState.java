@@ -65,13 +65,11 @@ public class SettingsState extends State {
             englishButton.onTouchDown(scaledX, scaledY);
             polishButton.onTouchDown(scaledX,scaledY);
         }
-
         if (e.getAction() == MotionEvent.ACTION_UP) {
             if (backArrowButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
                 backArrowButton.cancel();
                 setCurrentState(new MenuState());
-
             } else if (minusButton.isPressed(scaledX, scaledY)) {
                 if (minusImage && musicVol > 0) {
                     minusButton.cancel();

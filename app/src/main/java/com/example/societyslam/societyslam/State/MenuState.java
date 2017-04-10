@@ -20,20 +20,14 @@ import com.example.societyslam.societyslam.State.PlayState;
 
 public class MenuState extends State {
 
-    private Button startButton, howToPlayButton, SettingsButton;
-    //private Rect playRect;
-    //private boolean playDown = false;
-    //public Button startButton;
-    //public Button howToPlayButton;
-
+    private Button startButton, howToPlayButton, SettingsButton, scoreButton;
 
     @Override
     public void init() {
-
-        startButton = new Button(316, 340, 484, 400, Assets.start);
-        howToPlayButton = new Button (132, 340, 300, 400, Assets.howToPlay);
-        SettingsButton = new Button(500, 340, 668, 400, Assets.SettingsButton);
-
+        howToPlayButton = new Button(85, 340, 225, 400, Assets.howToPlay);
+        startButton = new Button(240, 340, 380, 400, Assets.start);
+        scoreButton = new Button(405, 340, 545, 400, Assets.highScoreButton);
+        SettingsButton = new Button(560, 340, 680, 400, Assets.SettingsButton);
     }
 
     @Override
@@ -44,24 +38,21 @@ public class MenuState extends State {
     @Override
     public void render(Painter g) {
         g.drawImage(Assets.welcome,0,0);
-
        startButton.render(g);
        howToPlayButton.render(g);
         SettingsButton.render(g);
-
+        scoreButton.render(g);
     }
 
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
-
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             startButton.onTouchDown(scaledX, scaledY);
             howToPlayButton.onTouchDown(scaledX, scaledY);
             SettingsButton.onTouchDown(scaledX, scaledY);
-
+            scoreButton.onTouchDown(scaledX, scaledY);
         }
         if (e.getAction() == MotionEvent.ACTION_UP) {
-
             if (startButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
                 startButton.cancel();
@@ -75,12 +66,15 @@ public class MenuState extends State {
                 //Log.d("MENU STATE", "HOW TO PLAY BUTTON PRESSED");
                 setCurrentState(new HowToPlayState());
 
+            } else if (SettingsButton.isPressed(scaledX, scaledY)) {
+                Assets.playSound(Assets.buttonClickID);
+                SettingsButton.cancel();
+                setCurrentState(new SettingsState());
             } else {
-                if (SettingsButton.isPressed(scaledX, scaledY)) {
-                    Assets.playSound(Assets.buttonClickID);
-                    SettingsButton.cancel();
-                    setCurrentState(new SettingsState());
-
+                if (scoreButton.isPressed(scaledX,scaledY)){
+                Assets.playSound(Assets.buttonClickID);
+                scoreButton.cancel();
+                setCurrentState(new ScoreState());
                 } else {
                     startButton.cancel();
                     howToPlayButton.cancel();

@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
+import com.example.societyslam.societyslam.Game.MainActivity;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 
@@ -22,7 +23,22 @@ public class GameOverState extends State {
     private int player1Wins;
     private int player2Wins;
     private String endScore;
+    private String winnersName = " ";
 
+    /**
+     * This is the constructor for the gameOverState
+     * @param playerScore- the score the  winning player has received
+     * @param winnerPlayer- the player with the highest score
+     */
+    public GameOverState(int playerScore, String winnerPlayer){
+        endScore = playerScore + ""; //conver int to string
+        winnersName = winnerPlayer;
+        //check to see if the new score is higher than the saved highest score
+        if(playerScore >= MainActivity.getHighScore()){
+            MainActivity.setHighScore(playerScore);
+            MainActivity.setHighScorePlayer(winnersName);
+        }
+    }
 
     /**
      * This method initialises the two players names, the two players' scores, a button to start a new game
@@ -40,7 +56,13 @@ public class GameOverState extends State {
         player1Wins = PlayState.getPlayer1Wins();
         player2Wins = PlayState.getPlayer2Wins();
 
+        if(PlayState.isPlayer1Winner()) {
+            winnersName = player1Name;
+        } else if (PlayState.isPlayer2Winner()) {
+            winnersName = player2Name;
+        }
         endScore = (player1Wins + " - " + player2Wins);
+
 
 
     }
@@ -60,14 +82,9 @@ public class GameOverState extends State {
         g.drawImage(Assets.coinTossBackground,0,0);
         playAgainButton.render(g);
         homeButton.render(g);
-
         g.setFont(Typeface.DEFAULT_BOLD, 40);
-       if(PlayState.isPlayer1Winner()) {
-           g.drawString(player1Name + " has won the game!", 210, 140);
-       } else if (PlayState.isPlayer2Winner()) {
-           g.drawString(player2Name + " has won the game!", 210, 140);
-       }
-
+           g.drawString(winnersName + " has won the game!", 210, 140);
+           winnersName = player2Name;
        g.drawString(endScore, 350, 225);
     }
 

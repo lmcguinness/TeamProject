@@ -138,7 +138,6 @@ public class PlayState extends State {
     private String player1Name;
     private String player2Name;
 
-
     /**
      * This method will be called when we transition into the  playState.
      * It initializes any game objects that will be used throughout the playState
@@ -275,7 +274,7 @@ public class PlayState extends State {
         g.drawString(" "+ player2Wins, 585,317);
 
         pauseButton.render(g);
-        // when card has been retreated -- render buttons
+        // when card has been retreated - render buttons
         if(isCardRetreated) {
             p1Card0.render(g);
             p1Card1.render(g);
@@ -340,7 +339,7 @@ public class PlayState extends State {
                         displayWin1 = true;
                         if(player2Wins >= player2.getPrizeCards().size()) {
                             setPlayer2Winner(true);
-                            setCurrentState(new GameOverState());
+                            setCurrentState(new GameOverState(player2Wins, player2Name));
                         }
                     }
                     //will attach matching energyCard to the activeCard
@@ -378,7 +377,7 @@ public class PlayState extends State {
                     displayWin2 = true;
                     if(player1Wins >= player1.getPrizeCards().size()){
                         setPlayer1Winner(true);
-                        setCurrentState(new GameOverState());
+                        setCurrentState(new GameOverState(player1Wins, player1Name));
                     }
                 }
 

@@ -21,7 +21,7 @@ public class Assets {
             karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
             disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library, howToPlay, howToPlayDown, howToPlayBackground, backArrowButton,
             paddle, redBull, roboticsSociety, sailingSociety, taekwando, untidy, water, gamingSociety, dealButton, menubg, attackButton, retreatButton, evolveButton,
-            societyCardButton, SettingsButton, SettingsButton_down, minusButton, plusButton, english_Button, polish_Button, polish_Button_Down, english_Button_down, coin2, coin3, coin4, playAgainButton, homeButton;
+            societyCardButton, SettingsButton, SettingsButton_down, minusButton, plusButton, english_Button, polish_Button, polish_Button_Down, english_Button_down, coin2, coin3, coin4, playAgainButton, homeButton, highScoreButton;
 
     private static SoundPool soundPool;
 
@@ -31,7 +31,6 @@ public class Assets {
 
     public static void load() {
 
-
         homeButton = loadBitmap("home-button.png", true);
         playAgainButton = loadBitmap("play-again-button.png",true);
         polish_Button = loadBitmap("polish-button.png", true);
@@ -39,9 +38,7 @@ public class Assets {
         plusButton = loadBitmap("plusButton.png", true);
         minusButton = loadBitmap("minusButton.png", true);
         SettingsButton = loadBitmap("settings-button.png", true);
-
-
-        // Commented ones to be added at a later stage
+        highScoreButton = loadBitmap("highScore.png", true);
         yourTurn = loadBitmap("YourTurn.png", true);
         chooseCardMenu = loadBitmap("chooseCardMenu.png", true);
         useCard = loadBitmap("useCard.png", true);
@@ -74,7 +71,6 @@ public class Assets {
         resume = loadBitmap("resume.png", true);
         quit = loadBitmap("quit.png", true);
         instructions = loadBitmap("instructions.png", true);
-
         welcome = loadBitmap("welcome.jpg", false);
         start = loadBitmap("start-button.png", true);
         boxingSociety = loadBitmap("boxingsociety.png", true);
