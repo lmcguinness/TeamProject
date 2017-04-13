@@ -750,7 +750,7 @@ public class PlayState extends State {
                 useCardButton.cancel();
             }
         }
-        if (e.getAction() == MotionEvent.ACTION_DOWN && player1.isMyTurn() ) {
+        if (e.getAction() == MotionEvent.ACTION_DOWN && player1.isMyTurn() && isCardRetreated ) {
             //find out which card player 1  has chosen as their new card
             p1Card0.onTouchDown(scaledX, scaledY);
             p1Card1.onTouchDown(scaledX, scaledY);
@@ -794,7 +794,7 @@ public class PlayState extends State {
             }
 
         }
-        if (e.getAction() == MotionEvent.ACTION_DOWN && player2.isMyTurn() ) {
+        if (e.getAction() == MotionEvent.ACTION_DOWN && player2.isMyTurn() &&isCardRetreated ) {
             //find out which card player 2 has chosen as their new card
             p2Card0.onTouchDown(scaledX, scaledY);
             p2Card1.onTouchDown(scaledX, scaledY);

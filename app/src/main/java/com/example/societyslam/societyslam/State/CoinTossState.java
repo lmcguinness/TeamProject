@@ -135,11 +135,14 @@ public class CoinTossState extends State {
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             continueButton.onTouchDown(scaledX, scaledY);
         }
-        if (continueButton.isPressed(scaledX, scaledY)) {
+        if (continueButton.isPressed(scaledX, scaledY) && MenuState.getIsTwoPlayer()) {
             Assets.playSound(Assets.buttonClickID);
             continueButton.cancel();
             setCurrentState(new PlayState());
-        } else {
+        } else if(continueButton.isPressed(scaledX, scaledY) && !MenuState.getIsTwoPlayer()) {
+            Assets.playSound(Assets.buttonClickID);
+            continueButton.cancel();
+        }else{
             continueButton.cancel();
         }
 
