@@ -29,9 +29,13 @@ public class CoinTossState extends State {
         chooseTailsButton = new Button(516, 225, 684, 324 , Assets.coin3);
         coin = new Coin();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        player1Name = sharedPreferences.getString("player1name", "");
-        player2Name = sharedPreferences.getString("player2name", "");
-
+        if(MenuState.getIsTwoPlayer()) {
+            player1Name = sharedPreferences.getString("player1name", "");
+            player2Name = sharedPreferences.getString("player2name", "");
+        }else{
+            player1Name = "Player 1";
+            player2Name = "CPU1";
+        }
     }
     @Override
     public void update(float delta) {

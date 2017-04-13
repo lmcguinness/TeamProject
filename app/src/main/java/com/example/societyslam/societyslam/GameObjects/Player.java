@@ -16,8 +16,9 @@ public class Player {
     private ArrayList<SocietyCard> bench;
     private ArrayList<StudentBehaviourCard> prizeCards;
     private boolean myTurn;
+    private  int roundWins;
     private boolean winner;
-
+    private static int attackDamage = 0;
 
     /**
      * This constructor creates a player object
@@ -28,17 +29,28 @@ public class Player {
      * @param myTurn Set to true if it is this player's turn, a player's turn ends after they attack
      */
 
-    public Player(Deck myCards, SocietyCard activeCard, ArrayList<SocietyCard> bench, ArrayList<StudentBehaviourCard> prizeCards, boolean myTurn) {
+
+    public Player(Deck myCards, SocietyCard activeCard, ArrayList<SocietyCard> bench, ArrayList<StudentBehaviourCard> prizeCards, boolean myTurn, int roundWins) {
         this.myCards = myCards;
         this.activeCard = activeCard;
         this.bench = bench;
         this.prizeCards = prizeCards;
         this.myTurn = myTurn;
         this.winner = false;
-
+        this.roundWins = roundWins;
     }
-
-
+    public static int getAttackDamage(){
+        return  attackDamage;
+    }
+    public static void setAttackDamage(int attackDamage1){
+        attackDamage = attackDamage1;
+    }
+    public int getRoundWins(){
+        return roundWins;
+    }
+    public void setRoundWins(int wins){
+        roundWins = wins;
+    }
     /**
      * This method returns the player's deck of cards
      * @return the deck of cards
@@ -150,11 +162,14 @@ public class Player {
             System.out.println(this.getActiveCard().getName() + " used " + this.getActiveCard().getAttackName());
             int opponentNewHP;
             if (opponent.getActiveCard().getWeakness() == this.getActiveCard().getType()) {
-                opponentNewHP = opponent.getActiveCard().getHp() - (2 * this.getActiveCard().getAttackStrength());
+                attackDamage = (2 * this.getActiveCard().getAttackStrength());
+                opponentNewHP = opponent.getActiveCard().getHp() - attackDamage;
             } else if (opponent.getActiveCard().getResistance() == this.getActiveCard().getType()) {
-                opponentNewHP = opponent.getActiveCard().getHp() - (this.getActiveCard().getAttackStrength() / 2);
+                attackDamage = (this.getActiveCard().getAttackStrength() / 2);
+                opponentNewHP = opponent.getActiveCard().getHp() -attackDamage;
             } else {
-                opponentNewHP = (opponent.getActiveCard().getHp() - this.getActiveCard().getAttackStrength());
+                attackDamage = this.getActiveCard().getAttackStrength();
+                opponentNewHP = (opponent.getActiveCard().getHp() - attackDamage);
             }
             opponent.getActiveCard().setHp(opponentNewHP);
             System.out.println(opponent.getActiveCard().getName() + " 's HP is now " + opponent.getActiveCard().getHp());

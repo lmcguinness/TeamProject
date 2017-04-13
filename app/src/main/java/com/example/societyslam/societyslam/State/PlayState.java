@@ -129,8 +129,8 @@ public class PlayState extends State {
     ArrayList<SocietyCard> player2Cards = new ArrayList<SocietyCard>();
 
     //players
-    private Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCardDeck1, CoinTossState.getIsPlayer1Turn());
-    private Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCardDeck2, CoinTossState.getIsPlayer2Turn());
+    private Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCardDeck1, CoinTossState.getIsPlayer1Turn(),0);
+    private Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCardDeck2, CoinTossState.getIsPlayer2Turn(),0);
 
     public static boolean player1Winner, player2Winner;
 
@@ -336,6 +336,7 @@ public class PlayState extends State {
                         g.setFont(Typeface.DEFAULT, 25);
                         checkPrizeCardState(player2, player1);
                         player2Wins++;
+                        player2.setRoundWins(player2Wins);
                         displayWin1 = true;
                         if(player2Wins >= player2.getPrizeCards().size()) {
                             setPlayer2Winner(true);
@@ -374,6 +375,7 @@ public class PlayState extends State {
                     g.setFont(Typeface.DEFAULT, 25);
                     checkPrizeCardState(player1, player2);
                     player1Wins++;
+                    player1.setRoundWins(player1Wins);
                     displayWin2 = true;
                     if(player1Wins >= player1.getPrizeCards().size()){
                         setPlayer1Winner(true);
