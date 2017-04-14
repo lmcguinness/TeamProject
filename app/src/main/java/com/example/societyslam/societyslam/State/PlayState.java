@@ -4,139 +4,46 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
-import com.example.societyslam.societyslam.GameObjects.Player;
-import com.example.societyslam.societyslam.Util.Button;
+
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.GameObjects.Deck;
 import com.example.societyslam.societyslam.GameObjects.EnergyCard;
 import com.example.societyslam.societyslam.GameObjects.Level;
+import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.GameObjects.SocietyCard;
 import com.example.societyslam.societyslam.GameObjects.StudentBehaviourCard;
 import com.example.societyslam.societyslam.GameObjects.StudentBehaviourType;
 import com.example.societyslam.societyslam.GameObjects.Type;
+import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 import java.util.ArrayList;
 import java.util.Random;
-
 /**
  * The playstate acts as the games play screen for society slam, it displays the board and the cards for the game,
  * it extends state
  */
-
 public class PlayState extends State {
 
-    private boolean isStart = true;
-    private boolean dealCards = true;
-    private boolean retreatError;
-    private SocietyCard currentCardInPlay, currentCardInPlay2;
-    private ArrayList<EnergyCard> energyCards = new ArrayList<EnergyCard>();
-    private ArrayList<StudentBehaviourCard> prizeCardDeck1 = new ArrayList<StudentBehaviourCard>();
-    private ArrayList<StudentBehaviourCard> prizeCardDeck2 = new ArrayList<StudentBehaviourCard>();
-    private static int STARTING_CARD_NUMBER = 5;
-    private Button playButton;
-    private Button dealButton;
-    private Button continueButton;
-    boolean isMenu;
-    boolean attackPlayer1;
-    boolean attackPlayer2;
-    boolean evolvePlayer1;
-    boolean evolvePlayer2;
-    int dealCardSound =1;
-    int cardMove =1;
-    int player1Score;
-    int player2Score;
-    static int player1Wins=0;
-    static int player2Wins=0;
-    boolean displayWin1 = false;
-    boolean displayWin2 = false;
-    private Button attackButton;
-    private Button retreatButton;
-    private Button evolveButton;
-    private Button useStudentBehaviourCardButton;
-    private Button pauseButton, restartButton, resumeButton, quitButton, instructionsButton;
-    private boolean isPause = false;
-    private boolean isChooseCard =false;
-    private Button useCardButton, cancelButton;
-    private int positionOfCardChosen;
-    private Button p1Card0,p1Card1, p1Card2,p1Card3, p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4, currentCard1Button, currentCard2Button;
-    private boolean areCardsDrawn = false;
-    private boolean isCardRetreated = false;
-
-    //Society cards
-    private SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", energyCards, 30, Type.electric, Type.water, null, energyCards, Level.Basic, energyCards);
-    private SocietyCard artificialInt = new SocietyCard("Artificial Intelligence", 0, 0, 3, 2, Assets.artificialIntel, 150, "Mind Swap", energyCards, 40, Type.electric, Type.water, Type.fighting, energyCards, Level.Basic, energyCards);
-    private SocietyCard gamingSociety = new SocietyCard("Gaming Society", 0, 0, 3, 2, Assets.gamingSociety, 80, "Zap Cannon",energyCards, 25, Type.electric, Type.water, Type.fighting, energyCards, Level.Basic, energyCards);
-    private SocietyCard physicsSociety = new SocietyCard("Physics Society", 0, 0, 3, 2, Assets.physicsSociety, 120, "Acid Spray", energyCards, 30, Type.electric, null, Type.water, energyCards, Level.Basic, energyCards);
-    private SocietyCard engineeringSociety = new SocietyCard("Engineering Society", 0, 0, 3, 2, Assets.engineeringSociety, 90, "Shift Gear", energyCards, 25, Type.electric, null, null, energyCards, Level.Basic, energyCards);
-    private SocietyCard roboticsSociety = new SocietyCard("roboticsSociety", 0, 0, 3, 2, Assets.roboticsSociety, 100, "Electric Shock", energyCards, 30, Type.electric, Type.water, Type.fighting, energyCards, Level.Basic, energyCards);
-    private SocietyCard boxingSociety = new SocietyCard("Boxing Society", 0, 0, 3, 2, Assets.boxingSociety, 120, "Force Punce", energyCards, 40, Type.fighting, Type.electric, Type.water, energyCards, Level.Basic, energyCards);
-    private SocietyCard karateSociety = new SocietyCard("Karate Society", 0, 0, 3, 2, Assets.karateSociety, 100, "Karate Chop", energyCards, 20, Type.fighting, null, null, energyCards, Level.Basic, energyCards);
-    private SocietyCard fencingSociety = new SocietyCard("Fencing Society", 0, 0, 3, 2, Assets.fencingSociety, 120, "Low Sweep", energyCards, 25, Type.fighting, null, null, energyCards, Level.Basic, energyCards);
-    private SocietyCard judoSociety = new SocietyCard("Judo Society", 0, 0, 3, 2, Assets.judoSociety, 90, "Arm Trust", energyCards, 25, Type.fighting, Type.water, null, energyCards, Level.Basic, energyCards);
-    private SocietyCard jujistoSociety = new SocietyCard("jujisto Society", 0, 0, 3, 2, Assets.jujistoSociety, 90, "Shoulder Lock", energyCards, 25, Type.fighting, Type.water, null,energyCards, Level.Basic, energyCards);
-    private SocietyCard taekwandoSociety = new SocietyCard("TaekwandoSociety", 0, 0, 3, 2, Assets.taekwando, 60, "Side Kick", energyCards, 25, Type.fighting, Type.water, null, energyCards, Level.Basic, energyCards);
-    private SocietyCard rowingSociety = new SocietyCard("Rowing Society", 0, 0, 3, 2, Assets.rowingSociety, 100, "Paddle Pound", energyCards, 20, Type.water, Type.electric, Type.fighting, energyCards, Level.Basic, energyCards);
-    private SocietyCard divingSociety = new SocietyCard("Diving Society", 0, 0, 3, 2, Assets.divingSociety, 75, "Dive", energyCards, 10, Type.water, Type.electric, null, energyCards, Level.Basic, energyCards);
-    private SocietyCard surfingSociety = new SocietyCard("Surfing Society ", 0, 0, 3, 2, Assets.surfingSociety, 90, "Surf", energyCards, 20, Type.water, null, null, energyCards, Level.Basic, energyCards);
-    private SocietyCard swimmingSociety = new SocietyCard("Swimming Society ", 0, 0, 3, 2, Assets.swimmingSociety, 110, "Bubble Bust", energyCards, 30, Type.water, Type.electric, null, energyCards, Level.Basic, energyCards);
-    private SocietyCard paddleSociety = new SocietyCard("Paddle Society", 0, 0, 3, 2, Assets.paddle, 65, "Paddle Strike", energyCards, 15, Type.water, null, null, energyCards, Level.Basic, energyCards);
-    private SocietyCard sailingSociety = new SocietyCard("SailingSociety", 0, 0, 3, 2, Assets.sailingSociety, 60, "AnchorDrop", energyCards, 10, Type.water, Type.electric, null,energyCards, Level.Basic, energyCards);
-    private SocietyCard gardeningSociety = new SocietyCard("Gardening Society", 0, 0, 3, 2, Assets.gardeningSociety, 60, "Magical Leaf", energyCards, 10, Type.earth, null, Type.water, energyCards, Level.Basic, energyCards);
-    private SocietyCard geographySociety = new SocietyCard("Geography Society", 0, 0, 3, 2, Assets.geographySociety, 55, "Leaf Storm", energyCards, 15, Type.earth, null, Type.water, energyCards, Level.Basic, energyCards);
-    private SocietyCard friendsOfTheEarth = new SocietyCard("Friends of the Earth", 0, 0, 3, 2, Assets.friendsOfEarth, 75, "Cotton Guard", energyCards, 25, Type.earth, Type.fighting, null,energyCards, Level.Basic,energyCards);
-    private SocietyCard cavingSociety = new SocietyCard("Caving Society", 0, 0, 3, 2, Assets.cavingSociety, 85, "Drill Run", energyCards, 30, Type.earth, null, Type.fighting, energyCards, Level.Basic, energyCards);
-    private SocietyCard environmentalSociety = new SocietyCard("Environmental Society", 0, 0, 3, 2, Assets.environmentalSociety, 70, "Worry Seed", energyCards, 10, Type.earth, null, null, energyCards, Level.Basic, energyCards);
-    private SocietyCard greenPeace = new SocietyCard("Green Peace", 0, 0, 3, 2, Assets.greenPeace, 70, "Flower Shield", energyCards, 10, Type.earth, null, null, energyCards, Level.Basic, energyCards);
-
-    //Student behaviour cards
-    private StudentBehaviourCard disruptive = new StudentBehaviourCard("Disruptive in class", 0, 0, 3, 2, Assets.disruptve, StudentBehaviourType.stadium, false);
-    private StudentBehaviourCard fail = new StudentBehaviourCard("Fail Assignment", 0, 0, 3, 2, Assets.fail, StudentBehaviourType.support, false);
-    private StudentBehaviourCard freeEntry = new StudentBehaviourCard("Free Entry", 0, 0, 3, 2, Assets.freeEntry, StudentBehaviourType.support, true);
-    private StudentBehaviourCard freeShots = new StudentBehaviourCard("Free Shots", 0, 0, 3, 2, Assets.freeShots, StudentBehaviourType.item, true);
-    private StudentBehaviourCard hangover = new StudentBehaviourCard("hangover", 0, 0, 3, 2, Assets.hangover, StudentBehaviourType.stadium, false);
-    private StudentBehaviourCard late = new StudentBehaviourCard("Late to class", 0, 0, 3, 2, Assets.late, StudentBehaviourType.item, false);
-    private StudentBehaviourCard lecture = new StudentBehaviourCard("Go to a lecture", 0, 0, 3, 2, Assets.lecture, StudentBehaviourType.item, true);
-    private StudentBehaviourCard library = new StudentBehaviourCard("Go to library", 0, 0, 3, 2, Assets.library, StudentBehaviourType.stadium, true);
-    private StudentBehaviourCard redBull = new StudentBehaviourCard("Drink Red Bull", 0, 0, 3, 2, Assets.redBull, StudentBehaviourType.support, true);
-    private StudentBehaviourCard untidy = new StudentBehaviourCard("Untidy Accommodation", 0, 0, 3, 2, Assets.untidy, StudentBehaviourType.stadium, false);
-    private StudentBehaviourCard water = new StudentBehaviourCard("Litre of water", 0, 0, 3, 2, Assets.water, StudentBehaviourType.support, true);
-
-    //Student behaviour cards
-    private StudentBehaviourCard disruptive1 = new StudentBehaviourCard("Disruptive in class", 0, 0, 3, 2, Assets.disruptve, StudentBehaviourType.stadium, false);
-    private StudentBehaviourCard fail1 = new StudentBehaviourCard("Fail Assignment", 0, 0, 3, 2, Assets.fail, StudentBehaviourType.support, false);
-    private StudentBehaviourCard freeEntry1 = new StudentBehaviourCard("Free Entry", 0, 0, 3, 2, Assets.freeEntry, StudentBehaviourType.support, true);
-    private StudentBehaviourCard freeShots1 = new StudentBehaviourCard("Free Shots", 0, 0, 3, 2, Assets.freeShots, StudentBehaviourType.item, true);
-    private StudentBehaviourCard hangover1 = new StudentBehaviourCard("hangover", 0, 0, 3, 2, Assets.hangover, StudentBehaviourType.stadium, false);
-    private StudentBehaviourCard late1 = new StudentBehaviourCard("Late to class", 0, 0, 3, 2, Assets.late, StudentBehaviourType.item, false);
-    private StudentBehaviourCard lecture1 = new StudentBehaviourCard("Go to a lecture", 0, 0, 3, 2, Assets.lecture, StudentBehaviourType.item, true);
-    private StudentBehaviourCard library1 = new StudentBehaviourCard("Go to library", 0, 0, 3, 2, Assets.library, StudentBehaviourType.stadium, true);
-    private StudentBehaviourCard redBull1 = new StudentBehaviourCard("Drink Red Bull", 0, 0, 3, 2, Assets.redBull, StudentBehaviourType.support, true);
-    private StudentBehaviourCard untidy1 = new StudentBehaviourCard("Untidy Accommodation", 0, 0, 3, 2, Assets.untidy, StudentBehaviourType.stadium, false);
-    private StudentBehaviourCard water1 = new StudentBehaviourCard("Litre of water", 0, 0, 3, 2, Assets.water, StudentBehaviourType.support, true);
-
-    //Engery cards
-    private EnergyCard waterEnergy = new EnergyCard("Water", 0, 0, 3, 2, Assets.waterEnergy, Type.water);
-    private EnergyCard electricEnergy = new EnergyCard("Electric", 0, 0, 3, 2, Assets.electricEnergy, Type.electric);
-    private EnergyCard earthEnergy = new EnergyCard("Earth", 0, 0, 3, 2, Assets.earthEnergy, Type.earth);
-    private EnergyCard fightEngery = new EnergyCard("Fight", 0, 0, 3, 2, Assets.fightEngery, Type.fighting);
-
-    //Deck of cards
-    private ArrayList<SocietyCard> deckOfCards = new ArrayList<SocietyCard>();
-    Deck myDeck = new Deck(deckOfCards);
-
-    //Separate cards for both players
-    ArrayList<SocietyCard> playersCards = new ArrayList<SocietyCard>();
-    ArrayList<SocietyCard> player2Cards = new ArrayList<SocietyCard>();
-
-    //players
-    private Player player1 = new Player(myDeck,currentCardInPlay,playersCards,prizeCardDeck1, CoinTossState.getIsPlayer1Turn(),0);
-    private Player player2 = new Player(myDeck, currentCardInPlay2, player2Cards, prizeCardDeck2, CoinTossState.getIsPlayer2Turn(),0);
-
+    private boolean isStart = true, dealCards = true, retreatError;
+    boolean isMenu,attackPlayer1, attackPlayer2,evolvePlayer1,evolvePlayer2, displayWin1 = false,displayWin2 = false;
+    private boolean isPause = false,isChooseCard =false,areCardsDrawn = false,isCardRetreated = false;
     public static boolean player1Winner, player2Winner;
 
+    private Button pauseButton, restartButton, resumeButton, quitButton, instructionsButton,useCardButton, cancelButton, p1Card0,p1Card1, p1Card2,p1Card3,
+                   p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4, currentCard1Button, currentCard2Button, playButton, dealButton, attackButton, retreatButton,
+                    evolveButton,useStudentBehaviourCardButton;
+
+    private static int STARTING_CARD_NUMBER = 5;
+    int dealCardSound =1, cardMove =1,player1Score, player2Score;
+    static int player1Wins=0, player2Wins=0;
+    private int positionOfCardChosen;
+
+    //players
+    private Player player1,player2;
+
     //The names of the players
-    private String player1Name;
-    private String player2Name;
+    private String player1Name, player2Name;
+
 
     /**
      * This method will be called when we transition into the  playState.
@@ -145,6 +52,10 @@ public class PlayState extends State {
      */
     @Override
     public void init() {
+        Assets.InitialiseCards();
+        player1 = new Player(Assets.myDeck,Assets.currentCardInPlay,Assets.playersCards,Assets.prizeCardDeck1, CoinTossState.getIsPlayer1Turn(),0);
+        player2 = new Player(Assets.myDeck, Assets.currentCardInPlay2, Assets.player2Cards, Assets.prizeCardDeck2, CoinTossState.getIsPlayer2Turn(),0);
+
         //Set the players names
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         player1Name = sharedPreferences.getString("player1name", "");
@@ -156,7 +67,6 @@ public class PlayState extends State {
         //initializing buttons
         playButton = new Button(336, 385, 504, 444, Assets.start);
         dealButton = new Button(336, 385, 504, 444, Assets.dealButton);
-        continueButton = new Button(336, 385, 504, 444, Assets.continueButton);
         attackButton = new Button(316, 125, 484, 165, Assets.attackButton);
         retreatButton = new Button(316, 185, 484, 225, Assets.retreatButton);
         evolveButton = new Button(316, 245, 484, 285, Assets.evolveButton);
@@ -186,60 +96,6 @@ public class PlayState extends State {
         //placing buttons in the position of where current card in play is
         currentCard1Button = new Button(280, 175, 395, 275,null);
         currentCard2Button = new Button(410, 175, 525 , 275,null);
-
-        //Adding cards to the main deck
-        deckOfCards.add(computerSociety);
-        deckOfCards.add(artificialInt);
-        deckOfCards.add(gamingSociety);
-        deckOfCards.add(physicsSociety);
-        deckOfCards.add(engineeringSociety);
-        deckOfCards.add(roboticsSociety);
-        deckOfCards.add(karateSociety);
-        deckOfCards.add(boxingSociety);
-        deckOfCards.add(fencingSociety);
-        deckOfCards.add(judoSociety);
-        deckOfCards.add(jujistoSociety);
-        deckOfCards.add(taekwandoSociety);
-        deckOfCards.add(divingSociety);
-        deckOfCards.add(rowingSociety);
-        deckOfCards.add(surfingSociety);
-        deckOfCards.add(swimmingSociety);
-        deckOfCards.add(paddleSociety);
-        deckOfCards.add(sailingSociety);
-        deckOfCards.add(gardeningSociety);
-        deckOfCards.add(geographySociety);
-        deckOfCards.add(friendsOfTheEarth);
-        deckOfCards.add(cavingSociety);
-        deckOfCards.add(environmentalSociety);
-        deckOfCards.add(greenPeace);
-
-        //Adding cards to player 1's deck
-        prizeCardDeck1.add(disruptive);
-        prizeCardDeck1.add(fail);
-        prizeCardDeck1.add(freeEntry);
-        prizeCardDeck1.add(freeShots);
-        prizeCardDeck1.add(hangover);
-        prizeCardDeck1.add(late);
-        prizeCardDeck1.add(lecture);
-        prizeCardDeck1.add(library);
-        prizeCardDeck1.add(redBull);
-        prizeCardDeck1.add(untidy);
-        prizeCardDeck1.add(water);
-
-        //Adding cards to player 2's deck
-        prizeCardDeck2.add(disruptive1);
-        prizeCardDeck2.add(fail1);
-        prizeCardDeck2.add(freeEntry1);
-        prizeCardDeck2.add(freeShots1);
-        prizeCardDeck2.add(hangover1);
-        prizeCardDeck2.add(late1);
-        prizeCardDeck2.add(lecture1);
-        prizeCardDeck2.add(library1);
-        prizeCardDeck2.add(redBull1);
-        prizeCardDeck2.add(untidy1);
-        prizeCardDeck2.add(water1);
-
-        energyCards.add(waterEnergy);
         setUpPrizeCards();
         int i =0;
     }
@@ -289,22 +145,22 @@ public class PlayState extends State {
         }
 
         if (isStart == true) {
-           playButton.render(g);
+            playButton.render(g);
         } else {
             //draw new button called deal
             if (dealCards) {
                 dealButton.render(g);
                 //Play sound of the cards being dealt only once
-               while(dealCardSound ==1) {
-                  dealCardSound--;
+                while(dealCardSound ==1) {
+                    dealCardSound--;
                     Assets.playSound(Assets.dealingCardsID);
                 }
             } else {
                 //continueButton.render(g);
-          }
+            }
             //Now that we have references to the cards that have to be moved, we can change the
             //location of them on the screen. Done here as opposed to update();
-            if (currentCardInPlay != null && currentCardInPlay2 != null) {
+            if (Assets.currentCardInPlay != null && Assets.currentCardInPlay2 != null) {
                 while (cardMove == 1) {
                     cardMove--;
                     Assets.playSound(Assets.oneCardID);
@@ -319,50 +175,50 @@ public class PlayState extends State {
             }
             // has to be separate from above as when retreat method is called and it is player 2s turn, both cards are removed
             //from the middle as the above if statement is not satisfied.
-                if(currentCardInPlay != null){
-                super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
+            if(Assets.currentCardInPlay != null){
+                super.getPainter().drawImage(Assets.currentCardInPlay.getPicture(), 280, 175, 125 , 100);
 
-                    // TEST TO FIND OUT THE TYPE OF THE ACTIVE SOCIETY CARD WHEN MOVED TO SCREEN
-                    //g.drawString(" " + player1.getActiveCard().getType(), 320, 40);
+                // TEST TO FIND OUT THE TYPE OF THE ACTIVE SOCIETY CARD WHEN MOVED TO SCREEN
+                //g.drawString(" " + player1.getActiveCard().getType(), 320, 40);
 
                 //Set HP levels of the active cards to the players score on the screen
-                    player1Score = player1.getActiveCard().getHp();
-                    g.setFont(Typeface.DEFAULT_BOLD, 25);
+                player1Score = player1.getActiveCard().getHp();
+                g.setFont(Typeface.DEFAULT_BOLD, 25);
                 g.drawString("  "+ player1Score, 320,40 );
 
-                    //If player ones score falls below zero tell them that player 2 has won this round
-                    //change the card in the middle for player1 and give player 2 a prize card
-                    if(player1Score <=0){
-                        g.setFont(Typeface.DEFAULT, 25);
-                        checkPrizeCardState(player2, player1);
-                        player2Wins++;
-                        player2.setRoundWins(player2Wins);
-                        displayWin1 = true;
-                        if(player2Wins >= player2.getPrizeCards().size()) {
-                            setPlayer2Winner(true);
-                            setCurrentState(new GameOverState(player2Wins, player2Name));
-                        }
+                //If player ones score falls below zero tell them that player 2 has won this round
+                //change the card in the middle for player1 and give player 2 a prize card
+                if(player1Score <=0){
+                    g.setFont(Typeface.DEFAULT, 25);
+                    checkPrizeCardState(player2, player1);
+                    player2Wins++;
+                    player2.setRoundWins(player2Wins);
+                    displayWin1 = true;
+                    if(player2Wins >= player2.getPrizeCards().size()) {
+                        setPlayer2Winner(true);
+                        setCurrentState(new GameOverState(player2Wins, player2Name));
                     }
-                    //will attach matching energyCard to the activeCard
-                    if (player1.getActiveCard().getType() == Type.earth ){
-                        super.getPainter().drawImage(Assets.earthEnergy, 240,160,125,100);
-                        super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
-                    }//end of new if statement
-                    if (player1.getActiveCard().getType() == Type.electric ){
-                        super.getPainter().drawImage(Assets.electricEnergy, 240,160,125,100);
-                        super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
-                    }//end of new if statement
-                    if (player1.getActiveCard().getType() == Type.water ){
-                        super.getPainter().drawImage(Assets.waterEnergy, 240,160,125,100);
-                        super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
-                    }//end of new if statement
-                    if (player1.getActiveCard().getType() == Type.fighting ){
-                        super.getPainter().drawImage(Assets.fightEngery, 240,160,125,100);
-                        super.getPainter().drawImage(currentCardInPlay.getPicture(), 280, 175, 125 , 100);
-                    }//end of new if statement
+                }
+                //will attach matching energyCard to the activeCard
+                if (player1.getActiveCard().getType() == Type.earth ){
+                    super.getPainter().drawImage(Assets.earthEnergy, 240,160,125,100);
+                    super.getPainter().drawImage(Assets.currentCardInPlay.getPicture(), 280, 175, 125 , 100);
+                }//end of new if statement
+                if (player1.getActiveCard().getType() == Type.electric ){
+                    super.getPainter().drawImage(Assets.electricEnergy, 240,160,125,100);
+                    super.getPainter().drawImage(Assets.currentCardInPlay.getPicture(), 280, 175, 125 , 100);
+                }//end of new if statement
+                if (player1.getActiveCard().getType() == Type.water ){
+                    super.getPainter().drawImage(Assets.waterEnergy, 240,160,125,100);
+                    super.getPainter().drawImage(Assets.currentCardInPlay.getPicture(), 280, 175, 125 , 100);
+                }//end of new if statement
+                if (player1.getActiveCard().getType() == Type.fighting ){
+                    super.getPainter().drawImage(Assets.fightEngery, 240,160,125,100);
+                    super.getPainter().drawImage(Assets.currentCardInPlay.getPicture(), 280, 175, 125 , 100);
+                }//end of new if statement
             }
-            if (currentCardInPlay2 != null) {
-                super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+            if (Assets.currentCardInPlay2 != null) {
+                super.getPainter().drawImage(Assets.currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
 
                 //Set HP levels of the active cards to the players score on the screen
                 player2Score = player2.getActiveCard().getHp();
@@ -386,23 +242,23 @@ public class PlayState extends State {
                 //Attach matching energyCard to player2 active society Card
                 if (player2.getActiveCard().getType() == Type.earth ){
                     super.getPainter().drawImage(Assets.earthEnergy, 440,160,125,100);
-                    super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+                    super.getPainter().drawImage(Assets.currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
                 }//end of new if statement
                 if (player2.getActiveCard().getType() == Type.electric ){
                     super.getPainter().drawImage(Assets.electricEnergy, 440,160,125,100);
-                    super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+                    super.getPainter().drawImage(Assets.currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
                 }//end of new if statement
                 if (player2.getActiveCard().getType() == Type.water ){
                     super.getPainter().drawImage(Assets.waterEnergy, 440,160,125,100);
-                    super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+                    super.getPainter().drawImage(Assets.currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
                 }//end of new if statement
                 if (player2.getActiveCard().getType() == Type.fighting ){
                     super.getPainter().drawImage(Assets.fightEngery, 440,160,125,100);
-                    super.getPainter().drawImage(currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
+                    super.getPainter().drawImage(Assets.currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
                 }//end of new if statement
             }
         }
-        if (player1.getMyCards().getMyDeck().size() > 0) {
+        if(player1.getMyCards().getMyDeck().size()>0){
             drawCards(g);
 
         }
@@ -411,13 +267,13 @@ public class PlayState extends State {
         if(attackPlayer1){
             g.setFont(Typeface.DEFAULT_BOLD,22);
             g.drawString("You attacked with "+ player1.getActiveCard().getAttackName(), 270, 60);
-            g.drawString("minus "+ player1.getActiveCard().getAttackStrength()+ " points " + player2Name, 315,80);
+            g.drawString("minus "+ player1.getAttackDamage()+ " points " + player2Name, 315,80);
         }
         //If player two attacks, display their attack and how many points player1 loses
         if(attackPlayer2){
             g.setFont(Typeface.DEFAULT_BOLD,22);
             g.drawString("You attacked with "+ player2.getActiveCard().getAttackName(), 270, 60);
-            g.drawString("minus "+ player2.getActiveCard().getAttackStrength()+ " points " + player1Name, 315,80);
+            g.drawString("minus "+ player2.getAttackDamage()+ " points " + player1Name, 315,80);
         }
 
 
@@ -556,7 +412,7 @@ public class PlayState extends State {
                         //set to true to display the attack which was used and how many points lost
                         attackPlayer1 = true;
                     } else {
-                       // checkPrizeCardState(player1, player2);
+                        // checkPrizeCardState(player1, player2);
                         //call the attack method
                         player2.attack(player1);
                         //set to true to display the attack which was used and how many points lost
@@ -571,11 +427,11 @@ public class PlayState extends State {
                     isMenu = false;
                     //retreatButton.cancel();
                     if (player1.isMyTurn()) {
-                        if(currentCardInPlay != null){
-                           // move the current card back to bench
+                        if(Assets.currentCardInPlay != null){
+                            // move the current card back to bench
                             player1.getActiveCard().retreat(player1.getActiveCard().getEnergyCards(), player1);
-                      // remove previous active card from board
-                            currentCardInPlay = null;
+                            // remove previous active card from board
+                            Assets.currentCardInPlay = null;
                             retreatError = false;
                             isCardRetreated = true;
                             isMenu = false;
@@ -588,10 +444,10 @@ public class PlayState extends State {
                             isMenu = false;
                         }
                     } else {
-                        if(currentCardInPlay2 != null){
+                        if(Assets.currentCardInPlay2 != null){
                             //call retreat method
                             player2.getActiveCard().retreat(player2.getActiveCard().getEnergyCards(), player2);
-                            currentCardInPlay2 = null;
+                            Assets.currentCardInPlay2 = null;
                             isCardRetreated = true;
                             isMenu = false;
                             retreatError = false;
@@ -651,11 +507,11 @@ public class PlayState extends State {
                     //move new card of deck into middle of the screen
                     if (!player1.getMyCards().getMyDeck().isEmpty()) {
                         player1.setActiveCard(player1.getBench().remove(0));
-                        currentCardInPlay = player1.getActiveCard();
+                        Assets.currentCardInPlay = player1.getActiveCard();
                     }
                     if (!player2.getMyCards().getMyDeck().isEmpty()) {
                         player2.setActiveCard(player2.getBench().remove(0));
-                        currentCardInPlay2 = player2.getActiveCard();
+                        Assets.currentCardInPlay2 = player2.getActiveCard();
                     }
                     dealCards = false;
                 } else {
@@ -663,8 +519,8 @@ public class PlayState extends State {
                         playButton.cancel();
                         if (dealCards) {
                             for (int i = 0; i < STARTING_CARD_NUMBER; i++) {
-                                player1.getBench().add(myDeck.randomCard());
-                                player2.getBench().add(myDeck.randomCard());
+                                player1.getBench().add(Assets.myDeck.randomCard());
+                                player2.getBench().add(Assets.myDeck.randomCard());
                                 //start game button now shows
                                 isStart = false;
                                 areCardsDrawn = true;
@@ -733,13 +589,13 @@ public class PlayState extends State {
                 if (player1.isMyTurn()) {
                     //give player 1 a new card of their choice and retreat their old card
                     player1.setActiveCard(player1.getBench().remove(positionOfCardChosen));
-                    currentCardInPlay = player1.getActiveCard();
+                    Assets.currentCardInPlay = player1.getActiveCard();
                     isCardRetreated = false;
                     isChooseCard = false;
                 }else{
                     //give player 2 a new card of their choice and retreat their old card
                     player2.setActiveCard(player2.getBench().remove(positionOfCardChosen));
-                    currentCardInPlay2 = player2.getActiveCard();
+                    Assets.currentCardInPlay2 = player2.getActiveCard();
                     isCardRetreated = false;
                     isChooseCard = false;
                 }
@@ -757,35 +613,35 @@ public class PlayState extends State {
             p1Card2.onTouchDown(scaledX, scaledY);
             p1Card3.onTouchDown(scaledX, scaledY);
             p1Card4.onTouchDown(scaledX, scaledY);
-            if (p1Card0.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay == null) {
+            if (p1Card0.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay == null) {
                 isChooseCard = true;
                 positionOfCardChosen = 0;
                 p1Card0.cancel();
             } else {
                 p1Card0.cancel();
             }
-            if (p1Card1.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay == null) {
+            if (p1Card1.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay == null) {
                 isChooseCard = true;
                 positionOfCardChosen = 1;
                 p1Card1.cancel();
             } else {
                 p1Card1.cancel();
             }
-            if (p1Card2.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay == null) {
+            if (p1Card2.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay == null) {
                 isChooseCard = true;
                 positionOfCardChosen = 2;
                 p1Card2.cancel();
             } else {
                 p1Card2.cancel();
             }
-            if (p1Card3.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay == null) {
+            if (p1Card3.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay == null) {
                 isChooseCard = true;
                 positionOfCardChosen = 3;
                 p1Card3.cancel();
             } else {
                 p1Card3.cancel();
             }
-            if (p1Card4.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay == null) {
+            if (p1Card4.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay == null) {
                 isChooseCard = true;
                 positionOfCardChosen = 4;
                 p1Card4.cancel();
@@ -801,35 +657,35 @@ public class PlayState extends State {
             p2Card2.onTouchDown(scaledX, scaledY);
             p2Card3.onTouchDown(scaledX, scaledY);
             p2Card4.onTouchDown(scaledX, scaledY);
-            if (p2Card0.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay2 == null &&player2.isMyTurn()) {
+            if (p2Card0.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null &&player2.isMyTurn()) {
                 isChooseCard = true;
                 positionOfCardChosen = 0;
                 p2Card0.cancel();
             } else {
                 p2Card0.cancel();
             }
-            if (p2Card1.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay2 == null) {
+            if (p2Card1.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
                 isChooseCard = true;
                 positionOfCardChosen = 1;
                 p2Card1.cancel();
             } else {
                 p2Card1.cancel();
             }
-            if (p2Card2.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay2 == null) {
+            if (p2Card2.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
                 isChooseCard = true;
                 positionOfCardChosen = 2;
                 p2Card2.cancel();
             } else {
                 p2Card2.cancel();
             }
-            if (p2Card3.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay2 == null) {
+            if (p2Card3.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
                 isChooseCard = true;
                 positionOfCardChosen = 3;
                 p2Card3.cancel();
             } else {
                 p2Card3.cancel();
             }
-            if (p2Card4.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && currentCardInPlay2 == null) {
+            if (p2Card4.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
                 isChooseCard = true;
                 positionOfCardChosen = 4;
                 p2Card4.cancel();
@@ -852,12 +708,12 @@ public class PlayState extends State {
         for (int i = 0; i< 6; i++) {
             Random generator = new Random();
             int random = generator.nextInt(10) + 1;
-            player1PrizeCards.add(prizeCardDeck1.get(random));
+            player1PrizeCards.add(Assets.prizeCardDeck1.get(random));
         }
         for (int i = 0; i< 6; i++) {
             Random generator = new Random();
             int random = generator.nextInt(10) + 1;
-            player2PrizeCards.add(prizeCardDeck2.get(random));
+            player2PrizeCards.add(Assets.prizeCardDeck2.get(random));
         }
         //set both players prize cards
         player1.setPrizeCards(player1PrizeCards);
@@ -875,7 +731,7 @@ public class PlayState extends State {
             loser.getActiveCard().retreat(loser.getActiveCard().getEnergyCards(), loser);
             //move another card from the bench to replace it
             loser.setActiveCard(loser.getBench().remove(0));
-            currentCardInPlay = loser.getActiveCard();
+            Assets.currentCardInPlay = loser.getActiveCard();
             //give a prize card to the winner of the round
             flipPrizeCard(winner);
         }
@@ -945,4 +801,5 @@ public class PlayState extends State {
     }
 
 }
+
 

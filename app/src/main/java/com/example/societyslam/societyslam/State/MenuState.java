@@ -104,7 +104,6 @@ public class MenuState extends State {
                     setCurrentState(new CoinTossState());
                 } else if (twoPlayerButton.isPressed(scaledX, scaledY)) {
                     isTwoPlayer = true;
-                    System.out.println("ayoooo");
                     Assets.playSound(Assets.buttonClickID);
                     twoPlayerButton.cancel();
                     Intent i = new Intent(this.getContext(), PlayerDetailsActivity.class);

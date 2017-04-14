@@ -115,13 +115,16 @@ public class CPU extends Player {
 
         cpu1.getActiveCard().evolve();
     }
-    public void talk(Player opponent) {
+    public void talk(Player opponent, CPU cpu1) {
         if (opponent.getAttackDamage() < 20) {
             System.out.println("Is that all you got?");
         } else if (opponent.getAttackDamage() >= 20 && opponent.getAttackDamage() <=40) {
             System.out.println("Good Move");
         }else{
             System.out.println("Well Done, great move");
+        }
+        if(cpu1.getActiveCard().getAttackStrength() > 20){
+            System.out.println("Are you ready for this?");
         }
     }
     public void scanBench(CPU cpu1){
@@ -177,7 +180,7 @@ public class CPU extends Player {
     }
 
     public void makeDecision(CPU cpu1, Player opponent){
-        cpu1.talk(opponent);
+        cpu1.talk(opponent, cpu1);
 
     }
 
