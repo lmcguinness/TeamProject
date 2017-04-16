@@ -36,6 +36,7 @@ public class CoinTossState extends State {
             player1Name = "Player 1";
             player2Name = "CPU1";
         }
+
     }
     @Override
     public void update(float delta) {
@@ -142,6 +143,7 @@ public class CoinTossState extends State {
         } else if(continueButton.isPressed(scaledX, scaledY) && !MenuState.getIsTwoPlayer()) {
             Assets.playSound(Assets.buttonClickID);
             continueButton.cancel();
+            setCurrentState(new OnePlayerState());
         }else{
             continueButton.cancel();
         }

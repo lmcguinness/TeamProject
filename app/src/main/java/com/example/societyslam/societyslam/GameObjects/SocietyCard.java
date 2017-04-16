@@ -23,6 +23,9 @@ public class SocietyCard extends Card {
     private ArrayList<EnergyCard> retreatCost;
     private Level level;
     private ArrayList<EnergyCard> energyCards;
+    private int identifier;
+    private int potentialAttackDamage;
+    private int overallPosition;
 
    
 
@@ -41,18 +44,32 @@ public class SocietyCard extends Card {
         this.retreatCost = retreatCost;
         this.level = level;
         this.energyCards = energyCards;
-
-
     }
 
     public ArrayList<EnergyCard> getEnergyCards() {
         return energyCards;
     }
-
+    public int getIdentifier(){
+        return identifier;
+    }
+    public void setIdentifier(int identifier1){
+        this.identifier = identifier1;
+    }
     public void setEnergyCards(ArrayList<EnergyCard> energyCards) {
         this.energyCards = energyCards;
     }
-
+    public int getOverallPosition(){
+        return overallPosition;
+    }
+    public void setOverallPosition(int overallPosition1){
+        this.overallPosition = overallPosition1;
+    }
+    public int getPotentialAttackDamage(){
+        return  potentialAttackDamage;
+    }
+    public void setPotentialAttackDamage(int potentialAttackDamage1){
+        this.potentialAttackDamage = potentialAttackDamage1;
+    }
     public int getHp() {
         return hp;
     }

@@ -123,7 +123,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
-    private void pauseGame() {
+    public void pauseGame() {
         running = false;
         while (gameThread.isAlive()) {
             try {
@@ -134,7 +134,15 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
     }
+    public void resumeGame(){
+        running = true;
 
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+    public boolean isRunning() {
+        return running;
+    }
     private void updateAndRender(long delta) {
         currentState.update(delta / 1000f);
         currentState.render(graphics);

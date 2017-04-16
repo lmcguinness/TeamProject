@@ -40,9 +40,12 @@ public class Deck {
      * @return card - a random society card taken from the deck
      */
     public SocietyCard randomCard(){
+        int identifier = 0;
         randomGenerator = new Random();
         int index = randomGenerator.nextInt(myDeck.size());
         SocietyCard card =  myDeck.get(index);
+        myDeck.get(index).setIdentifier(identifier);
+        identifier++;
         return card;
 
     }
