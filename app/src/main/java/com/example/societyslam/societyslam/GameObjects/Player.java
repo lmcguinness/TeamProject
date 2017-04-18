@@ -27,6 +27,7 @@ public class Player {
      * @param bench This player's bench, it consists of five society cards
      * @param prizeCards This player's six prize cards, one is flipped over and available to use after the player wins a round
      * @param myTurn Set to true if it is this player's turn, a player's turn ends after they attack
+     * @param roundWins This players number of rounds won
      */
 
 
@@ -39,15 +40,33 @@ public class Player {
         this.winner = false;
         this.roundWins = roundWins;
     }
+    /**
+     * This method returns the player's attack damage
+     * this is called in playstates to show on screen what players have attacked with
+     * @return the attack damage
+     */
     public static int getAttackDamage(){
         return  attackDamage;
     }
+    /**
+     * This method sets new information into the attackDamage variable
+     * @param attackDamage1
+     * @return attackDamage
+     */
     public static void setAttackDamage(int attackDamage1){
         attackDamage = attackDamage1;
     }
+    /**
+     * This method returns the number of rounds each player has won
+     * @return roundWins
+     */
     public int getRoundWins(){
         return roundWins;
     }
+    /**
+     * This method sets new information into the roundWins variable
+     * @param wins
+     */
     public void setRoundWins(int wins){
         roundWins = wins;
     }

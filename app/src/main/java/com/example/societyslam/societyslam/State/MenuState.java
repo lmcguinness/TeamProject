@@ -35,12 +35,10 @@ public class MenuState extends State {
         SettingsButton = new Button(560, 340, 680, 400, Assets.SettingsButton);
         onePlayerButton = new Button(156,225, 334, 265,Assets.onePlayerButton);
         twoPlayerButton = new Button(456,225,634,265,Assets.twoPlayerButton);
-
     }
 
     @Override
     public void update(float delta) {
-
     }
 
     @Override
@@ -101,7 +99,7 @@ public class MenuState extends State {
                     Assets.playSound(Assets.buttonClickID);
                     isTwoPlayer = false;
                     onePlayerButton.cancel();
-                    //setCurrentState(new CoinTossState());
+                   // setCurrentState(new CoinTossState());
                 } else if (twoPlayerButton.isPressed(scaledX, scaledY)) {
                     isTwoPlayer = true;
                     Assets.playSound(Assets.buttonClickID);
@@ -113,6 +111,4 @@ public class MenuState extends State {
             }
         return true;
     }
-
-
 }

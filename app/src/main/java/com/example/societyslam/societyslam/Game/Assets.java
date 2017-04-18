@@ -20,11 +20,14 @@ import com.example.societyslam.societyslam.GameObjects.Type;
 import com.example.societyslam.societyslam.Util.Animation;
 import com.example.societyslam.societyslam.Util.Frame;
 
-/**
- * Created by Aoife Brown on 15/11/2016.
- */
 
+/**
+ * This class allows us to load images and sounds into memory to be used throughout the game
+ */
 public class Assets {
+    /**
+     * Create variables used in this class
+     */
     public static Bitmap twoPlayerButton, onePlayerButton, yourTurn,chooseCardMenu, useCard, cancel, restart, resume, quit, instructions, pauseMenu, pause, player1T, player2H, headsText, tailsText, choose, retreatError, coinTossBackground, heads, tails, player1, player2, continueDown, continueButton, flipCoin, flipCoinDown, welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
             electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
             karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
@@ -53,8 +56,11 @@ public class Assets {
     public static  ArrayList<StudentBehaviourCard> prizeCardDeck1 = new ArrayList<StudentBehaviourCard>();
     public static  ArrayList<StudentBehaviourCard> prizeCardDeck2 = new ArrayList<StudentBehaviourCard>();
 
-
+    /**
+     * This method initialises local variables declared previously
+     */
     public static void load() {
+        //load images
         twoPlayerButton = loadBitmap("twoPlayerButton.png", true);
         onePlayerButton = loadBitmap("onePlayerButton.png", true);
         homeButton = loadBitmap("home-button.png", true);
@@ -164,6 +170,12 @@ public class Assets {
 
 
     }
+    /**
+     * This method is used to load Bitmaps into the Assets class to be used throughout the game
+     * @param filename - file to be loaded in
+     * @param transparency
+     * @return bitmap
+     */
     private static Bitmap loadBitmap(String filename, boolean transparency) {
         InputStream inputStream = null;
         try {
@@ -182,7 +194,11 @@ public class Assets {
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, new BitmapFactory.Options());
         return bitmap;
     }
-
+    /**
+     * This method is used to load Sounds into the Assets class to be used throughout the game
+     * @param filename - file to be loaded in
+     * @return soundID
+     */
     private static int loadSound(String filename){
         int soundID =0;
         if(soundPool == null){
@@ -195,16 +211,26 @@ public class Assets {
         }
         return soundID;
     }
-    //play sounds that dont need to be looped
+    /**
+     * This method is used to play Sounds that dont need to be looped
+     * @param soundID - ID of sound to be played
+     */
     public static void playSound(int soundID){
         soundPool.play(soundID,1,1,1,0,1);
 
     }
-    //Set the background music to loop forever
+    /**
+     * This method is used to play Sounds that loop continuously throughout the game i.e. backgroung music
+     * @param soundID - ID of sound to be played
+     */
     public static void playBackground(int soundID) {
         soundPool.play(soundID, 1, 1, 1, -1, 1);
 
     }
+    /**
+     * This method is used to initialise the cards used in the playstate, promotes code reusability
+     * This method also adds these cards to the deck, players prize cards and enrgy cards
+     */
    public static void InitialiseCards(){
 
        SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", energyCards, 30, Type.electric, Type.water, null, energyCards, Level.Basic, energyCards);

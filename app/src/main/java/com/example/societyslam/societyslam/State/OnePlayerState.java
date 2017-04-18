@@ -619,10 +619,10 @@ public class OnePlayerState extends State {
         return false;
     }
     /**
-     * This method gives each player a random set of student behaviour cards as their proze cards
+     * This method gives each player a random set of student behaviour cards as their prize cards
      */
     private void setUpPrizeCards() {
-        //cretes to separate decks for each players prize cards to type student behaviour card
+        //created to separate decks for each players prize cards to type student behaviour card
         ArrayList<StudentBehaviourCard> player1PrizeCards = new ArrayList<StudentBehaviourCard>();
         ArrayList<StudentBehaviourCard> player2PrizeCards = new ArrayList<StudentBehaviourCard>();
         //Each player should be given 6 random student behaviour cards
