@@ -180,7 +180,7 @@ public class CoinTossState extends State {
         } else if(continueButton.isPressed(scaledX, scaledY) && !MenuState.getIsTwoPlayer()) {
             Assets.playSound(Assets.buttonClickID);
             continueButton.cancel();
-            setCurrentState(new OnePlayerState());
+            //setCurrentState(new OnePlayerState());
         }else{
             continueButton.cancel();
         }
