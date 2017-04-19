@@ -10,11 +10,14 @@ import android.preference.PreferenceManager;
 
 public class Settings {
 
-
-    // Declaring Variables
     private SharedPreferences.Editor edit;
     private SharedPreferences pref;
 
+    /**
+     * Declares the Preference Manager and the Editor
+     *
+     * @param context
+     */
 
     public Settings(Context context) {
         pref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -57,8 +60,6 @@ public class Settings {
         edit.commit();
         return pref.getInt(string, 5);
     }
-
-
 
     public String getLanguage() {
         return pref.getString("languageString", "en");

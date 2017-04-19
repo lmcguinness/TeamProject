@@ -24,9 +24,9 @@ import java.io.IOException;
 public class MainActivity extends Activity {
 
     //Added by leanne
-    MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
     public static Settings settings;
-    public static float musicVolume = 0;
+    //public static float musicVolume = 0;
     public static String language;
 
 
@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
         //We need to ask permission in android manifest
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        //ADDED BY LEANNE
+
        settings = new Settings(getApplicationContext());
         language = settings.getLanguage();
 
@@ -138,7 +138,7 @@ public class MainActivity extends Activity {
     }
 
 
-    @Override
+   /* @Override
     protected void onStart() {
         super.onStart();
 
@@ -147,12 +147,16 @@ public class MainActivity extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
-    }
+    }*/
 
     @Override
     protected void onResume() {
         super.onResume();
+        int currentVol = MainActivity.settings.getVolume("musicValue");
         if(mediaPlayer != null){
+            if (currentVol == 0) {
+                mediaPlayer.setVolume(currentVol/10.0f, currentVol/10.f);
+            }
             mediaPlayer.start();
         }
     }
@@ -169,15 +173,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
 
 }

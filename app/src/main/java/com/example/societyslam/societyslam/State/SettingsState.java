@@ -101,20 +101,14 @@ public class SettingsState extends State {
                 if (minusImage && musicVol > 0) {
                     minusButton.cancel();
                     musicVol = MainActivity.settings.decreaseVolume("musicValue");
-                    //musicVol--;
-                } /*else{
-                    minusImage = false;
-                }*/
-
+                    MainActivity.mediaPlayer.setVolume(musicVol  / 10.0f, musicVol  / 10.0f);
+                }
             } else if (plusButton.isPressed(scaledX, scaledY)) {
                 if (plusImage && musicVol < 10) {
                     plusButton.cancel();
                     musicVol = MainActivity.settings.increaseVolume("musicValue");
-                    //musicVol++;
-
-                }  /*else {
-                    plusImage = false;
-                }*/
+                    MainActivity.mediaPlayer.setVolume(musicVol / 10.0f, musicVol  / 10.0f);
+                }
 
             } else if (englishButton.isPressed(scaledX, scaledY)) {
                 englishButton.cancel();
