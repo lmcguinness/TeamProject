@@ -7,17 +7,10 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.example.societyslam.societyslam.R;
 import com.example.societyslam.societyslam.io.Settings;
-
 import java.io.IOException;
 
 //Changed to activity by Leanne McGuinness 26/11/16
@@ -134,18 +127,7 @@ public class MainActivity extends Activity {
     public static String getHighScorePlayer(){
         return highScorePlayer;
     }
-
-
-   /* @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }*/
+    
 
     @Override
     protected void onResume() {
