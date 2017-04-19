@@ -1,31 +1,29 @@
 package com.example.societyslam.societyslam.State;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.MotionEvent;
-
-
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.PlayerDetailsActivity;
-import com.example.societyslam.societyslam.R;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
-import com.example.societyslam.societyslam.State.PlayState;
 
 /**
  * Created by Aoife Brown on 21/11/2016.
  */
 
 public class MenuState extends State {
-
-    private Button startButton, howToPlayButton, SettingsButton, scoreButton, onePlayerButton, twoPlayerButton;
-    private static boolean isTwoPlayer;
-    private boolean isStartPressed;
+    private Button startButton, howToPlayButton, SettingsButton, scoreButton, onePlayerButton, twoPlayerButton, hardButton, easyButton;
+    private static boolean isTwoPlayer , hard, easy;
+    private boolean isStartPressed = false, isModeChosen = false;
     public static boolean getIsTwoPlayer(){
         return isTwoPlayer;
+    }
+    public static boolean isHard(){
+        return hard;
+    }
+    public static boolean isEasy(){
+        return easy;
     }
     @Override
     public void init() {
@@ -35,6 +33,8 @@ public class MenuState extends State {
         SettingsButton = new Button(560, 360, 680, 420, Assets.SettingsButton);
         onePlayerButton = new Button(240,380, 380, 440,Assets.onePlayerButton);
         twoPlayerButton = new Button(405,380,545,440,Assets.twoPlayerButton);
+        easyButton = new Button(240,380, 380, 440,Assets.easyButton);
+        hardButton = new Button(405,380,545,440,Assets.hardButton);
     }
 
     @Override
@@ -55,6 +55,13 @@ public class MenuState extends State {
             g.setFont(Typeface.DEFAULT_BOLD, 30);
             g.drawString("Choose which mode you would like to play", 120, 375);
         }
+        if(isModeChosen){
+            super.getPainter().drawImage(Assets.welcome,0,0);
+            g.setFont(Typeface.DEFAULT_BOLD, 20);
+            g.drawString("Choose which difficulty level you would like to play against: ", 120, 375);
+            easyButton.render(g);
+            hardButton.render(g);
+        }
     }
 
     @Override
@@ -70,7 +77,7 @@ public class MenuState extends State {
             if (startButton.isPressed(scaledX, scaledY)) {
                 isStartPressed = true;
                 startButton.cancel();
-
+                return true;
             } else if (howToPlayButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
                 howToPlayButton.cancel();
@@ -95,13 +102,14 @@ public class MenuState extends State {
             onePlayerButton.onTouchDown(scaledX, scaledY);
             twoPlayerButton.onTouchDown(scaledX, scaledY);
         }
-            if (e.getAction() == MotionEvent.ACTION_UP) {
-                if (onePlayerButton.isPressed(scaledX, scaledY)) {
+            if (e.getAction() == MotionEvent.ACTION_UP && !isModeChosen) {
+                if (onePlayerButton.isPressed(scaledX, scaledY) && isStartPressed) {
                     Assets.playSound(Assets.buttonClickID);
                     isTwoPlayer = false;
+                    isModeChosen =true;
                     onePlayerButton.cancel();
-                   // setCurrentState(new CoinTossState());
-                } else if (twoPlayerButton.isPressed(scaledX, scaledY)) {
+                    return true;
+                } else if (twoPlayerButton.isPressed(scaledX, scaledY) && isStartPressed) {
                     isTwoPlayer = true;
                     Assets.playSound(Assets.buttonClickID);
                     twoPlayerButton.cancel();
@@ -110,6 +118,23 @@ public class MenuState extends State {
                     this.getContext().startActivity(i);
                 }
             }
+        if (e.getAction() == MotionEvent.ACTION_DOWN) {
+            easyButton.onTouchDown(scaledX, scaledY);
+            hardButton.onTouchDown(scaledX, scaledY);
+        }
+        if (e.getAction() == MotionEvent.ACTION_UP) {
+            if (easyButton.isPressed(scaledX, scaledY) && isModeChosen && !isTwoPlayer) {
+                Assets.playSound(Assets.buttonClickID);
+                easy = true;
+                easyButton.cancel();
+               // setCurrentState(new CoinTossState());
+            } else if (hardButton.isPressed(scaledX, scaledY) && isModeChosen &&!isTwoPlayer ) {
+                Assets.playSound(Assets.buttonClickID);
+                hard = true;
+                hardButton.cancel();
+               // setCurrentState(new CoinTossState());
+            }
+        }
         return true;
     }
 }

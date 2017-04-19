@@ -28,7 +28,7 @@ public class Assets {
     /**
      * Create variables used in this class
      */
-    public static Bitmap twoPlayerButton, onePlayerButton, yourTurn,chooseCardMenu, useCard, cancel, restart, resume, quit, instructions, pauseMenu, pause, player1T, player2H, headsText, tailsText, choose, retreatError, coinTossBackground, heads, tails, player1, player2, continueDown, continueButton, flipCoin, flipCoinDown, welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
+    public static Bitmap easyButton, hardButton,speechBubble1,speechBubble2,speechBubble3,speechBubble4,speechBubble5,speechBubble6,speechBubble7, robot, twoPlayerButton, onePlayerButton, yourTurn,chooseCardMenu, useCard, cancel, restart, resume, quit, instructions, pauseMenu, pause, player1T, player2H, headsText, tailsText, choose, retreatError, coinTossBackground, heads, tails, player1, player2, continueDown, continueButton, flipCoin, flipCoinDown, welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
             electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
             karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
             disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library, howToPlay, howToPlayDown, howToPlayBackground, backArrowButton,
@@ -61,6 +61,16 @@ public class Assets {
      */
     public static void load() {
         //load images
+        easyButton = loadBitmap("easyButton.png", true);
+        hardButton = loadBitmap("hardButton.png", true);
+        speechBubble1=loadBitmap("myNameIs.png",true);
+        speechBubble2=loadBitmap("allYouGot.png",true);
+        speechBubble3 = loadBitmap("goodMove.png",true);
+        speechBubble4 = loadBitmap("someCompetition.png", true);
+        speechBubble5 = loadBitmap("youReady.png", true);
+        speechBubble6 = loadBitmap("goodGame.png",true);
+        speechBubble7 = loadBitmap("nextTime.png",true);
+        robot = loadBitmap("robot.jpg", true);
         twoPlayerButton = loadBitmap("twoPlayerButton.png", true);
         onePlayerButton = loadBitmap("onePlayerButton.png", true);
         homeButton = loadBitmap("home-button.png", true);

@@ -5,7 +5,7 @@ import com.example.societyslam.societyslam.GameObjects.Deck;
 import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.GameObjects.SocietyCard;
 import com.example.societyslam.societyslam.GameObjects.StudentBehaviourCard;
-
+import com.example.societyslam.societyslam.State.MenuState;
 
 
 import java.util.ArrayList;
@@ -13,19 +13,22 @@ import java.util.ArrayList;
 /**
  * Created by James on 09/04/2017.
  */
+
 /**
  *This is a class for a CPU object
  *this class extends Player
  *an instance of this object is created in OnePlayerState
  * contains additional methods which allow for one player games
  */
+
 public class CPU extends Player {
     public static ArrayList<SocietyCard> inOrderOfHpLevel = new ArrayList<SocietyCard>();
     public static ArrayList<SocietyCard> inOrderOfAttackDamage = new ArrayList<SocietyCard>();
     public static ArrayList<SocietyCard> inOrderOfOverallPosition = new ArrayList<SocietyCard>();
     SocietyCard cardOfChoice;
-    private static boolean isTalking;
-    private  static int whichStatement;
+    private static boolean isTalking = true;
+    private  static int whichStatement = 6;
+
     /**
      * This constructor creates a player object
      * @param myCards This player's deck of cards
@@ -171,6 +174,7 @@ public class CPU extends Player {
     @Override
     public void attack(Player opponent) {
         super.attack(opponent);
+        isTalking = true;
     }
     /**
      * This method is implemented to allow the CPU to retreat a chosen card
@@ -205,9 +209,8 @@ public class CPU extends Player {
     /**
      * This method  is implemented to allow the CPU to evolve a card
      * @param cpu1
-     * @param Card
      */
-    public  void evolve(CPU cpu1, SocietyCard Card){
+    public  void evolve(CPU cpu1){
         cpu1.getActiveCard().evolve();
     }
     /**
@@ -228,6 +231,10 @@ public class CPU extends Player {
      */
     public void talk(Player opponent, CPU cpu1) {
         isTalking = true;
+        if(opponent.getActiveCard() == null && cpu1.getActiveCard() == null){
+            whichStatement = 6;
+            System.out.println("Hi my name is Berty, hope you're better than the last one!");
+        }
         if (opponent.getAttackDamage() < 20) {
             whichStatement=0;
             System.out.println("Is that all you got?");
@@ -236,7 +243,7 @@ public class CPU extends Player {
             System.out.println("Good Move");
         }else{
             whichStatement=2;
-            System.out.println("Well Done, great move");
+            System.out.println("Finally a bit of competition, great move");
         }
         if(cpu1.getActiveCard().getAttackStrength() > 20){
             whichStatement=3;
@@ -245,7 +252,7 @@ public class CPU extends Player {
         if(opponent.isWinner()){
             whichStatement=4;
             System.out.println("Well done, good game!");
-        }else{
+        }else if(cpu1.isWinner()){
             whichStatement=5;
             System.out.println("Better luck next time");
         }
@@ -303,6 +310,8 @@ public class CPU extends Player {
             }
         }
     }
+
+
     /**
      * This method  implements which card the CPU chooses to play in which scenario
      * @param cpu1
@@ -335,20 +344,48 @@ public class CPU extends Player {
                 }
             }
         }
-        // if opponent is in last round or
-        // if opponent is winning by three or more rounds
-        // if opponent has an active card with a better attack damage than that of the lat card in our array
-        // use card with best attack damage
-        if(opponent.getRoundWins() >= 5||(opponent.getRoundWins()-cpu1.getRoundWins())>=3 || opponent.getActiveCard().getAttackStrength() >= inOrderOfOverallPosition.get(inOrderOfAttackDamage.size()-1).getPotentialAttackDamage() ){
-            return inOrderOfAttackDamage.get(inOrderOfAttackDamage.size()-1);
-        }else {
-            //if the card chosen has a weakness to the opponents current card in play choose the second best card
-            if (opponent.getActiveCard().getType() != inOrderOfOverallPosition.get(inOrderOfOverallPosition.size()-1).getWeakness()) {
-                return inOrderOfOverallPosition.get(inOrderOfOverallPosition.size() -1);
-            } else {
-                return inOrderOfOverallPosition.get(inOrderOfOverallPosition.size() - 2);
-            }
-        }
+       //if mode chosen is hard
+       if(MenuState.isHard()) {
+           // if opponent is in last round or
+           // if opponent is winning by three or more rounds
+           // if opponent has an active card with a better attack damage than that of the lat card in our array
+           // use card with best attack damage
+           if (opponent.getRoundWins() >= 5 || (opponent.getRoundWins() - cpu1.getRoundWins()) >= 3 || opponent.getActiveCard().getAttackStrength() >= inOrderOfOverallPosition.get(inOrderOfAttackDamage.size() - 1).getPotentialAttackDamage()) {
+               return inOrderOfAttackDamage.get(inOrderOfAttackDamage.size() - 1);
+           } else {
+               //if the card chosen has a weakness to the opponents current card in play choose the second best card
+               if (opponent.getActiveCard().getType() != inOrderOfOverallPosition.get(inOrderOfOverallPosition.size() - 1).getWeakness()) {
+                   return inOrderOfOverallPosition.get(inOrderOfOverallPosition.size() - 1);
+               } else {
+                   return inOrderOfOverallPosition.get(inOrderOfOverallPosition.size() - 2);
+               }
+           }
+           //else: mode chosen is easy
+       }else {
+           // if opponent is in last round or
+           // if opponent is winning by three or more rounds
+           // if opponent has an active card with a better attack damage than that of the third last card in our array
+           // use card with best attack damage
+           if (opponent.getRoundWins() >= 5 || (opponent.getRoundWins() - cpu1.getRoundWins()) >= 3 || opponent.getActiveCard().getAttackStrength() >= inOrderOfOverallPosition.get(inOrderOfAttackDamage.size() - 3).getPotentialAttackDamage()) {
+               return inOrderOfAttackDamage.get(inOrderOfAttackDamage.size() - 3);
+           } else {
+               //if the card chosen has a weakness to the opponents current card in play choose the second best card
+               if (opponent.getActiveCard().getType() != inOrderOfOverallPosition.get(inOrderOfOverallPosition.size() - 3).getWeakness()) {
+                   // size minus three to return a weaker card reduce the level of difficulty
+                   return inOrderOfOverallPosition.get(inOrderOfOverallPosition.size() - 3);
+               } else {
+                   return inOrderOfOverallPosition.get(inOrderOfOverallPosition.size() - 4);
+               }
+           }
+       }
+    }
+    /**
+     * This method  is implemented to decide whether to evolve or use student behaviour card
+     */
+    public void evolveOrUseStudentBehaviourCard(Player opponent, CPU cpu1){
+    if((opponent.getActiveCard().getHp()- cpu1.getActiveCard().getHp())< 0 && (opponent.getActiveCard().getHp()-cpu1.getActiveCard().getHp()) <= opponent.getActiveCard().getAttackStrength()){
+        evolve(cpu1);
+    }
     }
     /**
      * This method  implements which move and in what order the CPU makes
@@ -361,14 +398,19 @@ public class CPU extends Player {
         cardOfChoice = chooseCard(opponent, cpu1);
         if(cardOfChoice == cpu1.getActiveCard()){
             cpu1.stall(3000);
+            isTalking = false;
             attack(opponent);
+            cpu1.talk(opponent, cpu1);
         }else{
             cpu1.stall(3000);
             retreat(cpu1);
-            cpu1.stall(3000);
+            isTalking=false;
             moveCard(cpu1, cardOfChoice);
-            cpu1.stall(3000);
+            stall(3000);
+            evolveOrUseStudentBehaviourCard(opponent,cpu1);
+            stall(3000);
             attack(opponent);
+            cpu1.talk(opponent,cpu1);
         }
     }
 

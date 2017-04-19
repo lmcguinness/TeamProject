@@ -129,6 +129,24 @@ public class OnePlayerState extends State {
             p1Card3.render(g);
             p1Card4.render(g);
         }
+        if(CPU.getIsTalking()){
+            super.getPainter().drawImage(Assets.robot, 575, 60, 125,100);
+            if(CPU.getWhichStatement() == 6){
+                super.getPainter().drawImage(Assets.speechBubble1,380,10,355,100);
+            }else if(CPU.getWhichStatement() == 0){
+                super.getPainter().drawImage(Assets.speechBubble2,480,10,200,100);
+            }else if(CPU.getWhichStatement() == 1){
+                super.getPainter().drawImage(Assets.speechBubble3,480,10,200,100);
+            }else if(CPU.getWhichStatement() == 2){
+                super.getPainter().drawImage(Assets.speechBubble4,380,10,355,100);
+            }else if(CPU.getWhichStatement() == 3){
+                super.getPainter().drawImage(Assets.speechBubble5,480,10,200,100);
+            }else if(CPU.getWhichStatement() == 4){
+                super.getPainter().drawImage(Assets.speechBubble6,480,10,200,100);
+            }else if(CPU.getWhichStatement() == 5) {
+                super.getPainter().drawImage(Assets.speechBubble7,480,10,200,100);
+            }
+        }
 
         if (isStart == true) {
             playButton.render(g);
@@ -394,6 +412,7 @@ public class OnePlayerState extends State {
                         player1.attack(cpu1);
                         //set to true to display the attack which was used and how many points lost
                         attackPlayer1 = true;
+                        cpu1.talk(player1, cpu1);
                         cpu1.makeMove(cpu1, player1);
                     } else {
                         // checkPrizeCardState(player1, player2);
