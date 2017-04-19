@@ -429,7 +429,7 @@ public class PlayState extends State {
                     if (player1.isMyTurn()) {
                         if(Assets.currentCardInPlay != null){
                             // move the current card back to bench
-                            player1.getActiveCard().retreat(player1.getActiveCard().getEnergyCards(), player1);
+                            player1.getActiveCard().retreat(player1);
                             // remove previous active card from board
                             Assets.currentCardInPlay = null;
                             retreatError = false;
@@ -446,7 +446,7 @@ public class PlayState extends State {
                     } else {
                         if(Assets.currentCardInPlay2 != null){
                             //call retreat method
-                            player2.getActiveCard().retreat(player2.getActiveCard().getEnergyCards(), player2);
+                            player2.getActiveCard().retreat(player2);
                             Assets.currentCardInPlay2 = null;
                             isCardRetreated = true;
                             isMenu = false;
@@ -728,7 +728,7 @@ public class PlayState extends State {
     public void checkPrizeCardState(Player winner, Player loser) {
         if (loser.getActiveCard().getHp() <= 0) {
             // If the hp of the active card gets below zero, retreat it
-            loser.getActiveCard().retreat(loser.getActiveCard().getEnergyCards(), loser);
+            loser.getActiveCard().retreat(loser);
             //move another card from the bench to replace it
             loser.setActiveCard(loser.getBench().remove(0));
             Assets.currentCardInPlay = loser.getActiveCard();

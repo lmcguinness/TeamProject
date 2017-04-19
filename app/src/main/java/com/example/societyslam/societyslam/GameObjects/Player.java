@@ -177,7 +177,7 @@ public class Player {
     public void attack(Player opponent) {
         //Play attack sound effect
         Assets.playSound(Assets.attackID);
-        if (this.getActiveCard().canAttack()) {
+
             System.out.println(this.getActiveCard().getName() + " used " + this.getActiveCard().getAttackName());
             int opponentNewHP;
             if (opponent.getActiveCard().getWeakness() == this.getActiveCard().getType()) {
@@ -198,10 +198,6 @@ public class Player {
                 this.myTurn = false;
                 opponent.setMyTurn(true);
             }
-
-        } else {
-            System.out.print(this.getActiveCard().getName() + " does not have enough energy cards to use this attack");
-        }
 
     }
 
@@ -230,7 +226,7 @@ public class Player {
     }
 
     /**
-     * This method checks if anyone has won the game after a player finishes their turn
+      * This method checks if anyone has won the game after a player finishes their turn
      * It check if the player has received all its prize cards, if it has this player
      * is the winner.
      * It check if the opponent's deck is empty, if it is then this player is the

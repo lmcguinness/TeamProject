@@ -177,7 +177,7 @@ public class CPU extends Player {
      * @param cpu1
      */
     public void retreat(CPU cpu1){
-        cpu1.getActiveCard().retreat(cpu1.getActiveCard().getEnergyCards(), cpu1);
+        cpu1.getActiveCard().retreat(cpu1);
     }
     /**
      * This method  is implemented to allow the CPU to move a card from the bench to the active slot
