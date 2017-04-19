@@ -34,7 +34,7 @@ public class Assets {
 
     private static SoundPool soundPool;
 
-    public static int coinID, dealingCardsID, oneCardID, attackID, backgroundMusicID, buttonClickID, prizeID;
+    public static int coinID, dealingCardsID, oneCardID, attackID, backgroundMusicID, buttonClickID, prizeID, musicAtBeginning;
 
     public static Animation coinAnim;
 
@@ -150,6 +150,7 @@ public class Assets {
         backgroundMusicID = loadSound("backgroundMusic.mp3");
         buttonClickID = loadSound("ButtonClick.wav");
         prizeID = loadSound("Prize.wav");
+        musicAtBeginning = loadSound("musicAtBeginning.wav");
 
         //Animation of coin
         coin2 = loadBitmap("coin2.png", true);

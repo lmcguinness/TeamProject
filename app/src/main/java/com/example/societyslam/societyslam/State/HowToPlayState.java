@@ -6,9 +6,10 @@ import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 
 /**
+ * This class displays a How to play state on screen
+ * Once the user clicks the how to play button on the menu screen
  * Created by Leanne on 27/02/2017.
  */
-
 
 public class HowToPlayState extends State {
     public Button backArrowButton;
@@ -17,6 +18,9 @@ public class HowToPlayState extends State {
     protected Paint paint;
 
 
+    /**
+     * This method initialises a button to return to the main menu
+     */
     @Override
     public void init() {
         backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton);
@@ -27,6 +31,11 @@ public class HowToPlayState extends State {
 
     }
 
+    /**
+     * The render method draws to the screen
+     * This method displays the button on screen
+     * @param g - the painter
+     */
     @Override
     public void render(Painter g) {
         g.drawImage(Assets.howToPlayBackground, 0,0);
@@ -35,7 +44,13 @@ public class HowToPlayState extends State {
 
     }
 
-
+    /**
+     * This method checks where the screen has been touched
+     * @param e - motion event(object used to report movement)
+     * @param scaledX - The scaled x co-ord
+     * @param scaledY - The scaled y co-ord
+     * @return false
+     */
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
 

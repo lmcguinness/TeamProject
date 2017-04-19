@@ -62,7 +62,7 @@ public class PlayState extends State {
         player2Name = sharedPreferences.getString("player2name", "");
 
         //Set the background music to keep playing
-        Assets.playBackground(Assets.backgroundMusicID);
+        //Assets.playBackground(Assets.backgroundMusicID);
 
         //initializing buttons
         playButton = new Button(336, 385, 504, 444, Assets.start);

@@ -11,6 +11,8 @@ import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 
 /**
+ * This class displays a Settings state on screen
+ * Once the user clicks the Settings button on the main menu
  * Created by Leanne on 03/03/2017.
  */
 
@@ -24,6 +26,15 @@ public class SettingsState extends State {
     public int musicVol;
     private boolean minusImage = true;
     private boolean plusImage = true;
+
+    /**
+     * This method initialises the music volume, a button to return to the main menu
+     * a button to decrease the volume
+     * a button to increase the volume
+     * a button to change the language to polish
+     * a button to change the language back to english
+     */
+
 
     @Override
     public void init() {
@@ -40,6 +51,14 @@ public class SettingsState extends State {
 
     }
 
+    /**
+     * This render method draws to the screen
+     * The method displays the current volume on screen
+     * Displays the language options
+     * and the five buttons
+     * @param g - the painter
+     */
+
     @Override
     public void render(Painter g) {
         g.drawImage(Assets.coinTossBackground, 0,0);
@@ -55,6 +74,14 @@ public class SettingsState extends State {
         g.drawString("Language: ", 120,250);
 
     }
+
+    /**
+     * This method determins what happens when the user touches the screen
+     * @param e - the event that is created when the user touches the screen
+     * @param scaledX - the scaledX co-ord of where the screen was touched
+     * @param scaledY - the scaledY co-ord of where the screen was touched
+     * @return false
+     */
 
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
@@ -73,19 +100,21 @@ public class SettingsState extends State {
             } else if (minusButton.isPressed(scaledX, scaledY)) {
                 if (minusImage && musicVol > 0) {
                     minusButton.cancel();
-                    musicVol--;
-                } else{
+                    musicVol = MainActivity.settings.decreaseVolume("musicValue");
+                    //musicVol--;
+                } /*else{
                     minusImage = false;
-                }
+                }*/
 
             } else if (plusButton.isPressed(scaledX, scaledY)) {
                 if (plusImage && musicVol < 10) {
                     plusButton.cancel();
-                    musicVol++;
+                    musicVol = MainActivity.settings.increaseVolume("musicValue");
+                    //musicVol++;
 
-                } else {
+                }  /*else {
                     plusImage = false;
-                }
+                }*/
 
             } else if (englishButton.isPressed(scaledX, scaledY)) {
                 englishButton.cancel();

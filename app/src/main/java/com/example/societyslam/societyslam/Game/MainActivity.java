@@ -3,21 +3,32 @@ package com.example.societyslam.societyslam.Game;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.societyslam.societyslam.R;
 import com.example.societyslam.societyslam.io.Settings;
+
+import java.io.IOException;
 
 //Changed to activity by Leanne McGuinness 26/11/16
 public class MainActivity extends Activity {
 
     //Added by leanne
+    MediaPlayer mediaPlayer;
     public static Settings settings;
     public static float musicVolume = 0;
     public static String language;
-    //end
+
 
     public static AssetManager assets;
     public static final int GAME_WIDTH = 800;
@@ -43,6 +54,19 @@ public class MainActivity extends Activity {
         myGame = new GameView(this, this.GAME_WIDTH, this.GAME_HEIGHT, isPlayerDetsSet);
         setContentView(myGame);
 
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        mediaPlayer = new MediaPlayer();
+
+        try{
+            AssetManager assetManager = getAssets();
+            AssetFileDescriptor descriptor = assetManager.openFd("musicAtBeginning.wav");
+            mediaPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(),descriptor.getLength());
+            mediaPlayer.prepare();
+            mediaPlayer.setLooping(true);
+        } catch (IOException e){
+            System.out.println("Couldnt load music file " + e.getMessage());
+            mediaPlayer = null;
+        }
 
         //ADDED BY Leanne McGuinness 26/11/2016
         //this will return the window that activity is using
@@ -112,4 +136,50 @@ public class MainActivity extends Activity {
     public static String getHighScorePlayer(){
         return highScorePlayer;
     }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mediaPlayer != null){
+            mediaPlayer.start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mediaPlayer != null){
+            mediaPlayer.pause();
+            if(isFinishing()){
+                mediaPlayer.stop();
+                mediaPlayer.release();
+            }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+
 }
+
+
