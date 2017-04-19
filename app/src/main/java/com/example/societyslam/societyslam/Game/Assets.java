@@ -20,11 +20,14 @@ import com.example.societyslam.societyslam.GameObjects.Type;
 import com.example.societyslam.societyslam.Util.Animation;
 import com.example.societyslam.societyslam.Util.Frame;
 
-/**
- * Created by Aoife Brown on 15/11/2016.
- */
 
+/**
+ * This class allows us to load images and sounds into memory to be used throughout the game
+ */
 public class Assets {
+    /**
+     * Create variables used in this class
+     */
     public static Bitmap twoPlayerButton, onePlayerButton, yourTurn,chooseCardMenu, useCard, cancel, restart, resume, quit, instructions, pauseMenu, pause, player1T, player2H, headsText, tailsText, choose, retreatError, coinTossBackground, heads, tails, player1, player2, continueDown, continueButton, flipCoin, flipCoinDown, welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
             electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
             karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
@@ -53,8 +56,11 @@ public class Assets {
     public static  ArrayList<StudentBehaviourCard> prizeCardDeck1 = new ArrayList<StudentBehaviourCard>();
     public static  ArrayList<StudentBehaviourCard> prizeCardDeck2 = new ArrayList<StudentBehaviourCard>();
 
-
+    /**
+     * This method initialises local variables declared previously
+     */
     public static void load() {
+        //load images
         twoPlayerButton = loadBitmap("twoPlayerButton.png", true);
         onePlayerButton = loadBitmap("onePlayerButton.png", true);
         homeButton = loadBitmap("home-button.png", true);
@@ -64,7 +70,7 @@ public class Assets {
         plusButton = loadBitmap("plusButton.png", true);
         minusButton = loadBitmap("minusButton.png", true);
         SettingsButton = loadBitmap("settings-button.png", true);
-        highScoreButton = loadBitmap("highScore.png", true);
+        highScoreButton = loadBitmap("highScoreButton.png", true);
         yourTurn = loadBitmap("YourTurn.png", true);
         chooseCardMenu = loadBitmap("chooseCardMenu.png", true);
         useCard = loadBitmap("useCard.png", true);
@@ -97,7 +103,7 @@ public class Assets {
         resume = loadBitmap("resume.png", true);
         quit = loadBitmap("quit.png", true);
         instructions = loadBitmap("instructions.png", true);
-        welcome = loadBitmap("welcome.jpg", false);
+        welcome = loadBitmap("menu-background.png", false);
         start = loadBitmap("start-button.png", true);
         boxingSociety = loadBitmap("boxingsociety.png", true);
         cardBack = loadBitmap("CardBack.png", true);
@@ -165,6 +171,12 @@ public class Assets {
 
 
     }
+    /**
+     * This method is used to load Bitmaps into the Assets class to be used throughout the game
+     * @param filename - file to be loaded in
+     * @param transparency
+     * @return bitmap
+     */
     private static Bitmap loadBitmap(String filename, boolean transparency) {
         InputStream inputStream = null;
         try {
@@ -183,7 +195,11 @@ public class Assets {
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, new BitmapFactory.Options());
         return bitmap;
     }
-
+    /**
+     * This method is used to load Sounds into the Assets class to be used throughout the game
+     * @param filename - file to be loaded in
+     * @return soundID
+     */
     private static int loadSound(String filename){
         int soundID =0;
         if(soundPool == null){
@@ -196,42 +212,52 @@ public class Assets {
         }
         return soundID;
     }
-    //play sounds that dont need to be looped
+    /**
+     * This method is used to play Sounds that dont need to be looped
+     * @param soundID - ID of sound to be played
+     */
     public static void playSound(int soundID){
         soundPool.play(soundID,1,1,1,0,1);
 
     }
-    //Set the background music to loop forever
+    /**
+     * This method is used to play Sounds that loop continuously throughout the game i.e. backgroung music
+     * @param soundID - ID of sound to be played
+     */
     public static void playBackground(int soundID) {
         soundPool.play(soundID, 1, 1, 1, -1, 1);
 
     }
+    /**
+     * This method is used to initialise the cards used in the playstate, promotes code reusability
+     * This method also adds these cards to the deck, players prize cards and enrgy cards
+     */
    public static void InitialiseCards(){
 
-       SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", energyCards, 30, Type.electric, Type.water, null, energyCards, Level.Basic, energyCards);
-       SocietyCard artificialInt = new SocietyCard("Artificial Intelligence", 0, 0, 3, 2, Assets.artificialIntel, 150, "Mind Swap", energyCards, 40, Type.electric, Type.water, Type.fighting, energyCards, Level.Basic, energyCards);
-       SocietyCard gamingSociety = new SocietyCard("Gaming Society", 0, 0, 3, 2, Assets.gamingSociety, 80, "Zap Cannon", energyCards, 25, Type.electric, Type.water, Type.fighting, energyCards, Level.Basic, energyCards);
-       SocietyCard physicsSociety = new SocietyCard("Physics Society", 0, 0, 3, 2, Assets.physicsSociety, 120, "Acid Spray", energyCards, 30, Type.electric, null, Type.water, energyCards, Level.Basic, energyCards);
-       SocietyCard engineeringSociety = new SocietyCard("Engineering Society", 0, 0, 3, 2, Assets.engineeringSociety, 90, "Shift Gear", energyCards, 25, Type.electric, null, null, energyCards, Level.Basic, energyCards);
-       SocietyCard roboticsSociety = new SocietyCard("roboticsSociety", 0, 0, 3, 2, Assets.roboticsSociety, 100, "Electric Shock", energyCards, 30, Type.electric, Type.water, Type.fighting, energyCards, Level.Basic, energyCards);
-       SocietyCard boxingSociety = new SocietyCard("Boxing Society", 0, 0, 3, 2, Assets.boxingSociety, 120, "Force Punce", energyCards, 40, Type.fighting, Type.electric, Type.water, energyCards, Level.Basic, energyCards);
-       SocietyCard karateSociety = new SocietyCard("Karate Society", 0, 0, 3, 2, Assets.karateSociety, 100, "Karate Chop", energyCards, 20, Type.fighting, null, null, energyCards, Level.Basic, energyCards);
-       SocietyCard fencingSociety = new SocietyCard("Fencing Society", 0, 0, 3, 2, Assets.fencingSociety, 120, "Low Sweep", energyCards, 25, Type.fighting, null, null, energyCards, Level.Basic, energyCards);
-       SocietyCard judoSociety = new SocietyCard("Judo Society", 0, 0, 3, 2, Assets.judoSociety, 90, "Arm Trust", energyCards, 25, Type.fighting, Type.water, null, energyCards, Level.Basic, energyCards);
-       SocietyCard jujistoSociety = new SocietyCard("jujisto Society", 0, 0, 3, 2, Assets.jujistoSociety, 90, "Shoulder Lock", energyCards, 25, Type.fighting, Type.water, null, energyCards, Level.Basic, energyCards);
-       SocietyCard taekwandoSociety = new SocietyCard("TaekwandoSociety", 0, 0, 3, 2, Assets.taekwando, 60, "Side Kick", energyCards, 25, Type.fighting, Type.water, null, energyCards, Level.Basic, energyCards);
-       SocietyCard rowingSociety = new SocietyCard("Rowing Society", 0, 0, 3, 2, Assets.rowingSociety, 100, "Paddle Pound", energyCards, 20, Type.water, Type.electric, Type.fighting, energyCards, Level.Basic, energyCards);
-       SocietyCard divingSociety = new SocietyCard("Diving Society", 0, 0, 3, 2, Assets.divingSociety, 75, "Dive", energyCards, 10, Type.water, Type.electric, null, energyCards, Level.Basic, energyCards);
-       SocietyCard surfingSociety = new SocietyCard("Surfing Society ", 0, 0, 3, 2, Assets.surfingSociety, 90, "Surf", energyCards, 20, Type.water, null, null, energyCards, Level.Basic, energyCards);
-       SocietyCard swimmingSociety = new SocietyCard("Swimming Society ", 0, 0, 3, 2, Assets.swimmingSociety, 110, "Bubble Bust", energyCards, 30, Type.water, Type.electric, null, energyCards, Level.Basic, energyCards);
-       SocietyCard paddleSociety = new SocietyCard("Paddle Society", 0, 0, 3, 2, Assets.paddle, 65, "Paddle Strike", energyCards, 15, Type.water, null, null, energyCards, Level.Basic, energyCards);
-       SocietyCard sailingSociety = new SocietyCard("SailingSociety", 0, 0, 3, 2, Assets.sailingSociety, 60, "AnchorDrop", energyCards, 10, Type.water, Type.electric, null, energyCards, Level.Basic, energyCards);
-       SocietyCard gardeningSociety = new SocietyCard("Gardening Society", 0, 0, 3, 2, Assets.gardeningSociety, 60, "Magical Leaf", energyCards, 10, Type.earth, null, Type.water, energyCards, Level.Basic, energyCards);
-       SocietyCard geographySociety = new SocietyCard("Geography Society", 0, 0, 3, 2, Assets.geographySociety, 55, "Leaf Storm", energyCards, 15, Type.earth, null, Type.water, energyCards, Level.Basic, energyCards);
-       SocietyCard friendsOfTheEarth = new SocietyCard("Friends of the Earth", 0, 0, 3, 2, Assets.friendsOfEarth, 75, "Cotton Guard", energyCards, 25, Type.earth, Type.fighting, null, energyCards, Level.Basic, energyCards);
-       SocietyCard cavingSociety = new SocietyCard("Caving Society", 0, 0, 3, 2, Assets.cavingSociety, 85, "Drill Run", energyCards, 30, Type.earth, null, Type.fighting, energyCards, Level.Basic, energyCards);
-       SocietyCard environmentalSociety = new SocietyCard("Environmental Society", 0, 0, 3, 2, Assets.environmentalSociety, 70, "Worry Seed", energyCards, 10, Type.earth, null, null, energyCards, Level.Basic, energyCards);
-       SocietyCard greenPeace = new SocietyCard("Green Peace", 0, 0, 3, 2, Assets.greenPeace, 70, "Flower Shield", energyCards, 10, Type.earth, null, null, energyCards, Level.Basic, energyCards);
+       SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", 30, Type.electric, Type.water, null);
+       SocietyCard artificialInt = new SocietyCard("Artificial Intelligence", 0, 0, 3, 2, Assets.artificialIntel, 150, "Mind Swap", 40, Type.electric, Type.water, Type.fighting);
+       SocietyCard gamingSociety = new SocietyCard("Gaming Society", 0, 0, 3, 2, Assets.gamingSociety, 80, "Zap Cannon", 25, Type.electric, Type.water, Type.fighting);
+       SocietyCard physicsSociety = new SocietyCard("Physics Society", 0, 0, 3, 2, Assets.physicsSociety, 120, "Acid Spray",  30, Type.electric, null, Type.water);
+       SocietyCard engineeringSociety = new SocietyCard("Engineering Society", 0, 0, 3, 2, Assets.engineeringSociety, 90, "Shift Gear", 25, Type.electric, null, null);
+       SocietyCard roboticsSociety = new SocietyCard("roboticsSociety", 0, 0, 3, 2, Assets.roboticsSociety, 100, "Electric Shock", 30, Type.electric, Type.water, Type.fighting);
+       SocietyCard boxingSociety = new SocietyCard("Boxing Society", 0, 0, 3, 2, Assets.boxingSociety, 120, "Force Punce", 40, Type.fighting, Type.electric, Type.water);
+       SocietyCard karateSociety = new SocietyCard("Karate Society", 0, 0, 3, 2, Assets.karateSociety, 100, "Karate Chop", 20, Type.fighting, null, null);
+       SocietyCard fencingSociety = new SocietyCard("Fencing Society", 0, 0, 3, 2, Assets.fencingSociety, 120, "Low Sweep", 25, Type.fighting, null, null);
+       SocietyCard judoSociety = new SocietyCard("Judo Society", 0, 0, 3, 2, Assets.judoSociety, 90, "Arm Trust", 25, Type.fighting, Type.water, null);
+       SocietyCard jujistoSociety = new SocietyCard("jujisto Society", 0, 0, 3, 2, Assets.jujistoSociety, 90, "Shoulder Lock", 25, Type.fighting, Type.water, null);
+       SocietyCard taekwandoSociety = new SocietyCard("TaekwandoSociety", 0, 0, 3, 2, Assets.taekwando, 60, "Side Kick", 25, Type.fighting, Type.water, null);
+       SocietyCard rowingSociety = new SocietyCard("Rowing Society", 0, 0, 3, 2, Assets.rowingSociety, 100, "Paddle Pound", 20, Type.water, Type.electric, Type.fighting);
+       SocietyCard divingSociety = new SocietyCard("Diving Society", 0, 0, 3, 2, Assets.divingSociety, 75, "Dive", 10, Type.water, Type.electric, null);
+       SocietyCard surfingSociety = new SocietyCard("Surfing Society ", 0, 0, 3, 2, Assets.surfingSociety, 90, "Surf", 20, Type.water, null, null);
+       SocietyCard swimmingSociety = new SocietyCard("Swimming Society ", 0, 0, 3, 2, Assets.swimmingSociety, 110, "Bubble Bust", 30, Type.water, Type.electric, null);
+       SocietyCard paddleSociety = new SocietyCard("Paddle Society", 0, 0, 3, 2, Assets.paddle, 65, "Paddle Strike", 15, Type.water, null, null);
+       SocietyCard sailingSociety = new SocietyCard("SailingSociety", 0, 0, 3, 2, Assets.sailingSociety, 60, "AnchorDrop",  10, Type.water, Type.electric, null);
+       SocietyCard gardeningSociety = new SocietyCard("Gardening Society", 0, 0, 3, 2, Assets.gardeningSociety, 60, "Magical Leaf", 10, Type.earth, null, Type.water);
+       SocietyCard geographySociety = new SocietyCard("Geography Society", 0, 0, 3, 2, Assets.geographySociety, 55, "Leaf Storm", 15, Type.earth, null, Type.water);
+       SocietyCard friendsOfTheEarth = new SocietyCard("Friends of the Earth", 0, 0, 3, 2, Assets.friendsOfEarth, 75, "Cotton Guard", 25, Type.earth, Type.fighting, null);
+       SocietyCard cavingSociety = new SocietyCard("Caving Society", 0, 0, 3, 2, Assets.cavingSociety, 85, "Drill Run",30, Type.earth, null, Type.fighting);
+       SocietyCard environmentalSociety = new SocietyCard("Environmental Society", 0, 0, 3, 2, Assets.environmentalSociety, 70, "Worry Seed",10, Type.earth, null, null);
+       SocietyCard greenPeace = new SocietyCard("Green Peace", 0, 0, 3, 2, Assets.greenPeace, 70, "Flower Shield", 10, Type.earth, null, null);
 
        //Student behaviour cards
        StudentBehaviourCard disruptive = new StudentBehaviourCard("Disruptive in class", 0, 0, 3, 2, Assets.disruptve, StudentBehaviourType.stadium, false);

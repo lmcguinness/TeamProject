@@ -6,32 +6,30 @@ import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
-import com.example.societyslam.societyslam.GameObjects.Deck;
-import com.example.societyslam.societyslam.GameObjects.EnergyCard;
-import com.example.societyslam.societyslam.GameObjects.Level;
 import com.example.societyslam.societyslam.GameObjects.Player;
-import com.example.societyslam.societyslam.GameObjects.SocietyCard;
 import com.example.societyslam.societyslam.GameObjects.StudentBehaviourCard;
-import com.example.societyslam.societyslam.GameObjects.StudentBehaviourType;
 import com.example.societyslam.societyslam.GameObjects.Type;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
+import com.example.societyslam.societyslam.ai.CPU;
+
 import java.util.ArrayList;
 import java.util.Random;
+
 /**
- * The playstate acts as the games play screen for society slam, it displays the board and the cards for the game,
- * it extends state
+ * Created by James on 14/04/2017.
  */
-public class PlayState extends State {
+
+public class OnePlayerState extends State {
 
     private boolean isStart = true, dealCards = true, retreatError;
     boolean isMenu,attackPlayer1, attackPlayer2,evolvePlayer1,evolvePlayer2, displayWin1 = false,displayWin2 = false;
-    private boolean isPause = false,isChooseCard =false,areCardsDrawn = false,isCardRetreated = false;
+    private boolean isPause = false,isChooseCard =false,areCardsDrawn = false,isCardRetreated = false, isFirstTurn = true;
     public static boolean player1Winner, player2Winner;
 
     private Button pauseButton, restartButton, resumeButton, quitButton, instructionsButton,useCardButton, cancelButton, p1Card0,p1Card1, p1Card2,p1Card3,
-                   p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4, currentCard1Button, currentCard2Button, playButton, dealButton, attackButton, retreatButton,
-                    evolveButton,useStudentBehaviourCardButton;
+            p1Card4, currentCard1Button, playButton, dealButton, attackButton, retreatButton,
+            evolveButton,useStudentBehaviourCardButton;
 
     private static int STARTING_CARD_NUMBER = 5;
     int dealCardSound =1, cardMove =1,player1Score, player2Score;
@@ -39,8 +37,8 @@ public class PlayState extends State {
     private int positionOfCardChosen;
 
     //players
-    private Player player1,player2;
-
+    private Player player1;
+    private CPU cpu1;
     //The names of the players
     private String player1Name, player2Name;
 
@@ -54,15 +52,14 @@ public class PlayState extends State {
     public void init() {
         Assets.InitialiseCards();
         player1 = new Player(Assets.myDeck,Assets.currentCardInPlay,Assets.playersCards,Assets.prizeCardDeck1, CoinTossState.getIsPlayer1Turn(),0);
-        player2 = new Player(Assets.myDeck, Assets.currentCardInPlay2, Assets.player2Cards, Assets.prizeCardDeck2, CoinTossState.getIsPlayer2Turn(),0);
+        cpu1 = new CPU(Assets.myDeck, Assets.currentCardInPlay2, Assets.player2Cards, Assets.prizeCardDeck2, CoinTossState.getIsPlayer2Turn(),0);
 
         //Set the players names
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        player1Name = sharedPreferences.getString("player1name", "");
-        player2Name = sharedPreferences.getString("player2name", "");
+        player1Name = "Player 1";
+        player2Name = "CPU1";
 
         //Set the background music to keep playing
-        //Assets.playBackground(Assets.backgroundMusicID);
+        Assets.playBackground(Assets.backgroundMusicID);
 
         //initializing buttons
         playButton = new Button(336, 385, 504, 444, Assets.start);
@@ -86,16 +83,10 @@ public class PlayState extends State {
         p1Card3 = new Button(20, 280, 125, 325, null);
         p1Card4 = new Button(20, 325, 165, 425, null);
 
-        // placing buttons in the position of where player 2's cards are on the bench so they can choose which card to attack with
-        p2Card0 = new Button(675, 40, 780 , 80, null);
-        p2Card1 = new Button(675, 80, 780 , 120, null);
-        p2Card2 = new Button(675, 120, 780 , 160, null);
-        p2Card3 = new Button(675, 160, 780 , 200, null);
-        p2Card4 = new Button(675, 200, 780 , 300, null);
 
         //placing buttons in the position of where current card in play is
         currentCard1Button = new Button(280, 175, 395, 275,null);
-        currentCard2Button = new Button(410, 175, 525 , 275,null);
+
         setUpPrizeCards();
         int i =0;
     }
@@ -137,11 +128,6 @@ public class PlayState extends State {
             p1Card2.render(g);
             p1Card3.render(g);
             p1Card4.render(g);
-            p2Card0.render(g);
-            p2Card1.render(g);
-            p2Card2.render(g);
-            p2Card3.render(g);
-            p2Card4.render(g);
         }
 
         if (isStart == true) {
@@ -166,11 +152,9 @@ public class PlayState extends State {
                     Assets.playSound(Assets.oneCardID);
                 }
                 currentCard1Button.render(g);
-                currentCard2Button.render(g);
+
                 if(player1.isMyTurn()){
                     super.getPainter().drawImage(Assets.yourTurn, 280,140,117,130);
-                }else{
-                    super.getPainter().drawImage(Assets.yourTurn, 410, 140, 125 , 130);
                 }
             }
             // has to be separate from above as when retreat method is called and it is player 2s turn, both cards are removed
@@ -190,11 +174,11 @@ public class PlayState extends State {
                 //change the card in the middle for player1 and give player 2 a prize card
                 if(player1Score <=0){
                     g.setFont(Typeface.DEFAULT, 25);
-                    checkPrizeCardState(player2, player1);
+                    checkPrizeCardState(cpu1, player1);
                     player2Wins++;
-                    player2.setRoundWins(player2Wins);
+                    cpu1.setRoundWins(player2Wins);
                     displayWin1 = true;
-                    if(player2Wins >= player2.getPrizeCards().size()) {
+                    if(player2Wins >= cpu1.getPrizeCards().size()) {
                         setPlayer2Winner(true);
                         setCurrentState(new GameOverState(player2Wins, player2Name));
                     }
@@ -221,7 +205,7 @@ public class PlayState extends State {
                 super.getPainter().drawImage(Assets.currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
 
                 //Set HP levels of the active cards to the players score on the screen
-                player2Score = player2.getActiveCard().getHp();
+                player2Score = cpu1.getActiveCard().getHp();
                 g.setFont(Typeface.DEFAULT_BOLD, 25);
                 g.drawString("  "+ player2Score,440,40);
 
@@ -229,7 +213,7 @@ public class PlayState extends State {
                 //give player 2 a new card in the middle and give player 1 a prize card
                 if(player2Score <=0){
                     g.setFont(Typeface.DEFAULT, 25);
-                    checkPrizeCardState(player1, player2);
+                    checkPrizeCardState(player1, cpu1);
                     player1Wins++;
                     player1.setRoundWins(player1Wins);
                     displayWin2 = true;
@@ -240,19 +224,19 @@ public class PlayState extends State {
                 }
 
                 //Attach matching energyCard to player2 active society Card
-                if (player2.getActiveCard().getType() == Type.earth ){
+                if (cpu1.getActiveCard().getType() == Type.earth ){
                     super.getPainter().drawImage(Assets.earthEnergy, 440,160,125,100);
                     super.getPainter().drawImage(Assets.currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
                 }//end of new if statement
-                if (player2.getActiveCard().getType() == Type.electric ){
+                if (cpu1.getActiveCard().getType() == Type.electric ){
                     super.getPainter().drawImage(Assets.electricEnergy, 440,160,125,100);
                     super.getPainter().drawImage(Assets.currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
                 }//end of new if statement
-                if (player2.getActiveCard().getType() == Type.water ){
+                if (cpu1.getActiveCard().getType() == Type.water ){
                     super.getPainter().drawImage(Assets.waterEnergy, 440,160,125,100);
                     super.getPainter().drawImage(Assets.currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
                 }//end of new if statement
-                if (player2.getActiveCard().getType() == Type.fighting ){
+                if (cpu1.getActiveCard().getType() == Type.fighting ){
                     super.getPainter().drawImage(Assets.fightEngery, 440,160,125,100);
                     super.getPainter().drawImage(Assets.currentCardInPlay2.getPicture(), 410, 175, 125 , 100);
                 }//end of new if statement
@@ -272,8 +256,8 @@ public class PlayState extends State {
         //If player two attacks, display their attack and how many points player1 loses
         if(attackPlayer2){
             g.setFont(Typeface.DEFAULT_BOLD,22);
-            g.drawString("You attacked with "+ player2.getActiveCard().getAttackName(), 270, 60);
-            g.drawString("minus "+ player2.getAttackDamage()+ " points " + player1Name, 315,80);
+            g.drawString("You attacked with "+ cpu1.getActiveCard().getAttackName(), 270, 60);
+            g.drawString("minus "+ cpu1.getAttackDamage()+ " points " + player1Name, 315,80);
         }
 
 
@@ -282,7 +266,7 @@ public class PlayState extends State {
         }
 
         if(evolvePlayer2) {
-            g.drawString(player2.getActiveCard().getName() + " evolved to " + player2.getActiveCard().getLevel(), 270, 60);
+            g.drawString(cpu1.getActiveCard().getName() + " evolved to " + cpu1.getActiveCard().getLevel(), 270, 60);
         }
 
         if (isMenu) {
@@ -320,7 +304,7 @@ public class PlayState extends State {
             if(player1.isMyTurn()) {
                 super.getPainter().drawImage(player1.getBench().get(positionOfCardChosen).getPicture(), 116, 105, 284, 224);
             }else{
-                super.getPainter().drawImage(player2.getBench().get(positionOfCardChosen).getPicture(), 116, 105, 284, 224);
+                super.getPainter().drawImage(cpu1.getBench().get(positionOfCardChosen).getPicture(), 116, 105, 284, 224);
             }
         }
     }
@@ -336,8 +320,8 @@ public class PlayState extends State {
         }
 
         //gives player 2 society cards in their bench
-        for (int i = 0; i < player2.getBench().size(); i++) {
-            p.drawImage(player2.getBench().get(i).getPicture(), 675, (i +1) * 40 , 125 , 100);
+        for (int i = 0; i < cpu1.getBench().size(); i++) {
+            p.drawImage(cpu1.getBench().get(i).getPicture(), 675, (i +1) * 40 , 125 , 100);
         }
 
         //draw player 1 prize cards
@@ -350,8 +334,8 @@ public class PlayState extends State {
             }
         }
         // draw player 2 prize cards
-        for (int i =0; i< player2.getPrizeCards().size(); i++) {
-            StudentBehaviourCard card = player2.getPrizeCards().get(i);
+        for (int i =0; i< cpu1.getPrizeCards().size(); i++) {
+            StudentBehaviourCard card = cpu1.getPrizeCards().get(i);
             if (i > 2) {
                 p.drawImage((card.isFlipped() ? card.getBitmap() : Assets.cardBack), 200 +(i +1) * 80, 330, 100, 60);
             } else {
@@ -374,7 +358,7 @@ public class PlayState extends State {
         if(e.getAction() == MotionEvent.ACTION_DOWN) {
             //current cards in plays
             currentCard1Button.onTouchDown(scaledX, scaledY);
-            currentCard2Button.onTouchDown(scaledX, scaledY);
+
             //buttons for menu options
             attackButton.onTouchDown(scaledX, scaledY);
             retreatButton.onTouchDown(scaledX, scaledY);
@@ -383,7 +367,7 @@ public class PlayState extends State {
 
             //Check to see which button has been pressed
             if (!isStart && !dealCards) {
-                if (currentCard1Button.isPressed(scaledX, scaledY) && player1.isMyTurn()  || currentCard2Button.isPressed(scaledX, scaledY) && player2.isMyTurn()) {
+                if (currentCard1Button.isPressed(scaledX, scaledY) && player1.isMyTurn() ) {
                     //play sound effect
                     Assets.playSound(Assets.buttonClickID);
                     displayWin1=false;
@@ -395,11 +379,10 @@ public class PlayState extends State {
                     evolvePlayer1 = false;
                     evolvePlayer2 = false;
                     currentCard1Button.cancel();
-                    currentCard2Button.cancel();
+
                     return true;
                 } else {
                     currentCard1Button.cancel();
-                    currentCard2Button.cancel();
                 }
                 // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
                 if (attackButton.isPressed(scaledX, scaledY) && isMenu) {
@@ -408,13 +391,14 @@ public class PlayState extends State {
                     if (player1.isMyTurn()) {
                         //checkPrizeCardState(player2, player1);
                         //call the attack method
-                        player1.attack(player2);
+                        player1.attack(cpu1);
                         //set to true to display the attack which was used and how many points lost
                         attackPlayer1 = true;
+                        cpu1.makeMove(cpu1, player1);
                     } else {
                         // checkPrizeCardState(player1, player2);
                         //call the attack method
-                        player2.attack(player1);
+                        cpu1.attack(player1);
                         //set to true to display the attack which was used and how many points lost
                         attackPlayer2 = true;
                     }
@@ -427,7 +411,7 @@ public class PlayState extends State {
                     isMenu = false;
                     //retreatButton.cancel();
                     if (player1.isMyTurn()) {
-                        if(Assets.currentCardInPlay != null){
+                        if (Assets.currentCardInPlay != null) {
                             // move the current card back to bench
                             player1.getActiveCard().retreat(player1);
                             // remove previous active card from board
@@ -435,29 +419,13 @@ public class PlayState extends State {
                             retreatError = false;
                             isCardRetreated = true;
                             isMenu = false;
-                        }else {
+                        } else {
                             // Validation for if the user selects retreat option and no cards are in play
                             System.out.println("Sorry, there must be a card in play in order to retreat");
                             //display to the user that there must be a card in play in order to retreat
                             retreatError = true;
                             //remove menu screen
                             isMenu = false;
-                        }
-                    } else {
-                        if(Assets.currentCardInPlay2 != null){
-                            //call retreat method
-                            player2.getActiveCard().retreat(player2);
-                            Assets.currentCardInPlay2 = null;
-                            isCardRetreated = true;
-                            isMenu = false;
-                            retreatError = false;
-                        }else{
-                            // Validation for if the user selects retreat option and no cards are in play
-                            System.out.println("Sorry, there must be a card in play in order to retreat");
-                            //remove menu screen
-                            isMenu = false;
-                            //display to the user that there must be a card in play in order to retreat
-                            retreatError = true;
                         }
                     }
                 } else {
@@ -473,34 +441,32 @@ public class PlayState extends State {
                         player1.getActiveCard().evolve();
                         evolvePlayer1 = true;
                     } else {
-                        //call evolve method for player 2's card
-                        player2.getActiveCard().evolve();
-                        evolvePlayer2 = true;
+                        //cancel the evolve button
+                        evolveButton.cancel();
                     }
-                } else {
-                    //cancel the evolve button
-                    evolveButton.cancel();
                 }
                 // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
                 if (useStudentBehaviourCardButton.isPressed(scaledX, scaledY) && isMenu) {
                     isMenu = false;
                     useStudentBehaviourCardButton.cancel();
                     if (player1.isMyTurn()) {
-                        player1.useStudentBehaviourCard(player1.getPrizeCards().get(0), player2);
-
-                    } else {
-                        player2.useStudentBehaviourCard(player2.getPrizeCards().get(0), player1);
+                        player1.useStudentBehaviourCard(player1.getPrizeCards().get(0), cpu1);
                     }
                 } else {
                     useStudentBehaviourCardButton.cancel();
                 }
-
             }
         }
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             dealButton.onTouchDown(scaledX,scaledY);
             playButton.onTouchDown(scaledX, scaledY);
             if(dealButton.isPressed(scaledX,scaledY)) {
+                if(CoinTossState.getIsPlayer2Turn() && isFirstTurn){
+                    isFirstTurn =false;
+                    cpu1.makeMove(cpu1, player1);
+                }else{
+                    isFirstTurn = false;
+                }
                 dealButton.cancel();
                 if (!isStart && dealCards) {
                     //TO DO: move cards currently in the middle of screen to dump pile
@@ -509,9 +475,9 @@ public class PlayState extends State {
                         player1.setActiveCard(player1.getBench().remove(0));
                         Assets.currentCardInPlay = player1.getActiveCard();
                     }
-                    if (!player2.getMyCards().getMyDeck().isEmpty()) {
-                        player2.setActiveCard(player2.getBench().remove(0));
-                        Assets.currentCardInPlay2 = player2.getActiveCard();
+                    if (!cpu1.getMyCards().getMyDeck().isEmpty()) {
+                        cpu1.setActiveCard(cpu1.getBench().remove(0));
+                        Assets.currentCardInPlay2 = cpu1.getActiveCard();
                     }
                     dealCards = false;
                 } else {
@@ -520,7 +486,7 @@ public class PlayState extends State {
                         if (dealCards) {
                             for (int i = 0; i < STARTING_CARD_NUMBER; i++) {
                                 player1.getBench().add(Assets.myDeck.randomCard());
-                                player2.getBench().add(Assets.myDeck.randomCard());
+                                cpu1.getBench().add(Assets.myDeck.randomCard());
                                 //start game button now shows
                                 isStart = false;
                                 areCardsDrawn = true;
@@ -594,8 +560,8 @@ public class PlayState extends State {
                     isChooseCard = false;
                 }else{
                     //give player 2 a new card of their choice and retreat their old card
-                    player2.setActiveCard(player2.getBench().remove(positionOfCardChosen));
-                    Assets.currentCardInPlay2 = player2.getActiveCard();
+                    cpu1.setActiveCard(cpu1.getBench().remove(positionOfCardChosen));
+                    Assets.currentCardInPlay2 = cpu1.getActiveCard();
                     isCardRetreated = false;
                     isChooseCard = false;
                 }
@@ -627,6 +593,7 @@ public class PlayState extends State {
             } else {
                 p1Card1.cancel();
             }
+
             if (p1Card2.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay == null) {
                 isChooseCard = true;
                 positionOfCardChosen = 2;
@@ -648,62 +615,16 @@ public class PlayState extends State {
             } else {
                 p1Card4.cancel();
             }
-
-        }
-        if (e.getAction() == MotionEvent.ACTION_DOWN && player2.isMyTurn() &&isCardRetreated ) {
-            //find out which card player 2 has chosen as their new card
-            p2Card0.onTouchDown(scaledX, scaledY);
-            p2Card1.onTouchDown(scaledX, scaledY);
-            p2Card2.onTouchDown(scaledX, scaledY);
-            p2Card3.onTouchDown(scaledX, scaledY);
-            p2Card4.onTouchDown(scaledX, scaledY);
-            if (p2Card0.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null &&player2.isMyTurn()) {
-                isChooseCard = true;
-                positionOfCardChosen = 0;
-                p2Card0.cancel();
-            } else {
-                p2Card0.cancel();
-            }
-            if (p2Card1.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 1;
-                p2Card1.cancel();
-            } else {
-                p2Card1.cancel();
-            }
-            if (p2Card2.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 2;
-                p2Card2.cancel();
-            } else {
-                p2Card2.cancel();
-            }
-            if (p2Card3.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 3;
-                p2Card3.cancel();
-            } else {
-                p2Card3.cancel();
-            }
-            if (p2Card4.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 4;
-                p2Card4.cancel();
-            } else {
-                p2Card4.cancel();
-            }
         }
         return false;
     }
-
     /**
-     * This method gives each player a random set of student behaviour cards as their proze cards
+     * This method gives each player a random set of student behaviour cards as their prize cards
      */
     private void setUpPrizeCards() {
-        //cretes to separate decks for each players prize cards to type student behaviour card
+        //created to separate decks for each players prize cards to type student behaviour card
         ArrayList<StudentBehaviourCard> player1PrizeCards = new ArrayList<StudentBehaviourCard>();
         ArrayList<StudentBehaviourCard> player2PrizeCards = new ArrayList<StudentBehaviourCard>();
-
         //Each player should be given 6 random student behaviour cards
         for (int i = 0; i< 6; i++) {
             Random generator = new Random();
@@ -717,9 +638,8 @@ public class PlayState extends State {
         }
         //set both players prize cards
         player1.setPrizeCards(player1PrizeCards);
-        player2.setPrizeCards(player2PrizeCards);
+        cpu1.setPrizeCards(player2PrizeCards);
     }
-
     /**
      * This method checks to see if a player should be awarded a prize card
      * @param winner - the winning player of the round
@@ -801,5 +721,7 @@ public class PlayState extends State {
     }
 
 }
+
+
 
 

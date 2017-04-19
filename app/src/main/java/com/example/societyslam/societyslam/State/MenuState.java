@@ -29,18 +29,16 @@ public class MenuState extends State {
     }
     @Override
     public void init() {
-        howToPlayButton = new Button(85, 340, 225, 400, Assets.howToPlay);
-        startButton = new Button(240, 340, 380, 400, Assets.start);
-        scoreButton = new Button(405, 340, 545, 400, Assets.highScoreButton);
-        SettingsButton = new Button(560, 340, 680, 400, Assets.SettingsButton);
-        onePlayerButton = new Button(156,225, 334, 265,Assets.onePlayerButton);
-        twoPlayerButton = new Button(456,225,634,265,Assets.twoPlayerButton);
-
+        howToPlayButton = new Button(85, 360, 225, 420, Assets.howToPlay);
+        startButton = new Button(240, 360, 380, 420, Assets.start);
+        scoreButton = new Button(405, 360, 545, 420, Assets.highScoreButton);
+        SettingsButton = new Button(560, 360, 680, 420, Assets.SettingsButton);
+        onePlayerButton = new Button(240,380, 380, 440,Assets.onePlayerButton);
+        twoPlayerButton = new Button(405,380,545,440,Assets.twoPlayerButton);
     }
 
     @Override
     public void update(float delta) {
-
     }
 
     @Override
@@ -55,12 +53,13 @@ public class MenuState extends State {
             onePlayerButton.render(g);
             twoPlayerButton.render(g);
             g.setFont(Typeface.DEFAULT_BOLD, 30);
-            g.drawString("Choose which mode you'd like to play", 120, 140);
+            g.drawString("Choose which mode you would like to play", 120, 375);
         }
     }
 
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
+
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             startButton.onTouchDown(scaledX, scaledY);
             howToPlayButton.onTouchDown(scaledX, scaledY);
@@ -101,7 +100,7 @@ public class MenuState extends State {
                     Assets.playSound(Assets.buttonClickID);
                     isTwoPlayer = false;
                     onePlayerButton.cancel();
-                    setCurrentState(new CoinTossState());
+                   // setCurrentState(new CoinTossState());
                 } else if (twoPlayerButton.isPressed(scaledX, scaledY)) {
                     isTwoPlayer = true;
                     Assets.playSound(Assets.buttonClickID);
@@ -113,6 +112,4 @@ public class MenuState extends State {
             }
         return true;
     }
-
-
 }

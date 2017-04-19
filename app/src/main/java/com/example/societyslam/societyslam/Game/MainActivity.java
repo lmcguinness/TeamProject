@@ -33,9 +33,7 @@ public class MainActivity extends Activity {
     public static AssetManager assets;
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 450;
-
     public static GameView myGame;
-
     private static SharedPreferences prefs;
     private static final String highScoreKey = "highScoreKey";
     private static int highScore;
@@ -176,5 +174,6 @@ public class MainActivity extends Activity {
 
 
 }
+
 
 

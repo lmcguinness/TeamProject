@@ -15,44 +15,52 @@ public class SocietyCard extends Card {
 
     private int hp;
     private String attackName;
-    private ArrayList<EnergyCard> attackCost;
     private int attackStrength;
     private Type type;
     private Type weakness;
     private Type resistance;
-    private ArrayList<EnergyCard> retreatCost;
     private Level level;
-    private ArrayList<EnergyCard> energyCards;
+    private int identifier;
+    private int potentialAttackDamage;
+    private int overallPosition;
 
    
 
     public SocietyCard(String name, float x, float y, float height, float width, Bitmap bitmap,
-                       int hp, String attackName, ArrayList<EnergyCard> attackCost, int attackStrength, Type type,
-                       Type weakness, Type resistance, ArrayList<EnergyCard> retreatCost, Level level, ArrayList<EnergyCard> energyCards) {
+                       int hp, String attackName, int attackStrength, Type type,
+                       Type weakness, Type resistance) {
         super(name, x, y, height, width, bitmap);
 
         this.hp = hp;
         this.attackName = attackName;
-        this.attackCost = attackCost;
         this.attackStrength = attackStrength;
         this.type = type;
         this.weakness = weakness;
         this.resistance = resistance;
-        this.retreatCost = retreatCost;
-        this.level = level;
-        this.energyCards = energyCards;
-
+        this.level = Level.Basic;
 
     }
 
-    public ArrayList<EnergyCard> getEnergyCards() {
-        return energyCards;
+
+    public int getIdentifier(){
+        return identifier;
+    }
+    public void setIdentifier(int identifier1){
+        this.identifier = identifier1;
     }
 
-    public void setEnergyCards(ArrayList<EnergyCard> energyCards) {
-        this.energyCards = energyCards;
+    public int getOverallPosition(){
+        return overallPosition;
     }
-
+    public void setOverallPosition(int overallPosition1){
+        this.overallPosition = overallPosition1;
+    }
+    public int getPotentialAttackDamage(){
+        return  potentialAttackDamage;
+    }
+    public void setPotentialAttackDamage(int potentialAttackDamage1){
+        this.potentialAttackDamage = potentialAttackDamage1;
+    }
     public int getHp() {
         return hp;
     }
@@ -69,13 +77,6 @@ public class SocietyCard extends Card {
         this.attackName = attackName;
     }
 
-    public ArrayList<EnergyCard> getAttackCost() {
-        return attackCost;
-    }
-
-    public void setAttackCost(ArrayList<EnergyCard> attackCost) {
-        this.attackCost = attackCost;
-    }
 
     public int getAttackStrength() {
         return attackStrength;
@@ -109,14 +110,6 @@ public class SocietyCard extends Card {
         this.resistance = resistance;
     }
 
-    public ArrayList<EnergyCard> getRetreatCost() {
-        return retreatCost;
-    }
-
-    public void setRetreatCost(ArrayList<EnergyCard> retreatCost) {
-        this.retreatCost = retreatCost;
-    }
-
     public Level getLevel() {
         return level;
     }
@@ -126,15 +119,13 @@ public class SocietyCard extends Card {
     }
 
 
-    public void retreat(ArrayList<EnergyCard> retreatCost, Player player) {
-        if(this.canRetreat()) {
+    public void retreat(Player player) {
+
             Assets.playSound(Assets.oneCardID);
             System.out.println(this.getName() + " has retreated");
             player.getBench().add(this);
             player.setActiveCard(null);
-        } else {
-            System.out.println("Not enough energy cards to retreat " + this.getName());
-        }
+
 
     }
 
@@ -144,43 +135,24 @@ public class SocietyCard extends Card {
             int currentAttackStrength = this.getAttackStrength();
             int newAttackStrength = (currentAttackStrength += 10);
             this.setAttackStrength(newAttackStrength);
-            System.out.println(this.getName() + " evolved to Level 1");
+            int currentHp = this.getHp();
+            int newHp = currentHp -= 5;
+            this.setHp(newHp);
+
         } else if (this.getLevel().equals(Level.Level1)) {
             this.setLevel(Level.Level2);
             int currentAttackStrength = this.getAttackStrength();
             int newAttackStrength = (currentAttackStrength += 20);
             this.setAttackStrength(newAttackStrength);
-            System.out.println(this.getName() + " evolved to level 2");
+            int currentHp = this.getHp();
+            int newHp = currentHp -= 10;
+            this.setHp(newHp);
         } else if(this.getLevel().equals(Level.Level2)) {
             System.out.println("This card cannot be evolved anymore");
         }
 
 
     }
-
-    public boolean canAttack() {
-        if(this.getEnergyCards().size() >= this.getAttackCost().size()) {
-           for(EnergyCard eachEnergyCard : attackCost) {
-               if(this.getEnergyCards().contains(eachEnergyCard)) {
-                   return true;
-               }
-           }
-        }
-        return false;
-    }
-
-    public boolean canRetreat() {
-        if(this.getEnergyCards().size() >= this.getRetreatCost().size()) {
-            for(EnergyCard eachEnergyCard : retreatCost) {
-                if(this.getEnergyCards().contains(eachEnergyCard)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-
-    }
-
 
     @Override
     public void draw() {
