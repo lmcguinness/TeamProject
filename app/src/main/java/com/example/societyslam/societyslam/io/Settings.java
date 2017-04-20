@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
+ * This class uses the SharedPreferences- its works in conjunction with the SettingsState
+ * Shared Preferences allow you to save and retrieve data in the form of key,value pair.
+ * This is done with the volume of the game.
  * Created by Leanne on 13/03/2017.
  */
 
@@ -60,17 +63,5 @@ public class Settings {
         edit.commit();
         return pref.getInt(string, 5);
     }
-
-    public String getLanguage() {
-        return pref.getString("languageString", "en");
-    }
-
-    public String setLanguage(String value) {
-        edit.putString("languageString", value);
-        edit.commit();
-        return pref.getString("languageString", "en");
-    }
-
-
 
 }

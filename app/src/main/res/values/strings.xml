@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">Society Slam</string>
 
-    <string-array name ="languageArray">
-        <item>en</item>
-        <item>pl</item>
-    </string-array>
 
 </resources>

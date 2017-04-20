@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
+import com.example.societyslam.societyslam.io.Settings;
 
 /**
  * This class displays a How to play state on screen
@@ -12,11 +13,8 @@ import com.example.societyslam.societyslam.Util.Painter;
  */
 
 public class HowToPlayState extends State {
+
     public Button backArrowButton;
-
-    private String[] instructions;
-    protected Paint paint;
-
 
     /**
      * This method initialises a button to return to the main menu
@@ -38,9 +36,14 @@ public class HowToPlayState extends State {
      */
     @Override
     public void render(Painter g) {
-        g.drawImage(Assets.howToPlayBackground, 0,0);
-        backArrowButton.render(g);
 
+        if(SettingsState.getCurrentLanguage() == "English"){
+            g.drawImage(Assets.howToPlayBackground, 0,0);
+        } else if (SettingsState.getCurrentLanguage() == "Polish"){
+            g.drawImage(Assets.howToPlayBackground_Polish, 0,0);
+        }
+
+        backArrowButton.render(g);
 
     }
 

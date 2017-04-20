@@ -16,12 +16,9 @@ import java.io.IOException;
 //Changed to activity by Leanne McGuinness 26/11/16
 public class MainActivity extends Activity {
 
-    //Added by leanne
     public static MediaPlayer mediaPlayer;
     public static Settings settings;
-    //public static float musicVolume = 0;
     public static String language;
-
 
     public static AssetManager assets;
     public static final int GAME_WIDTH = 800;
@@ -33,9 +30,11 @@ public class MainActivity extends Activity {
     private static final String highScorePlayerKey = "highScorePlayerKey";
     private static String highScorePlayer;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         prefs = getPreferences(Activity.MODE_PRIVATE);
         highScore = retrieveHighScore();
         highScorePlayer = retrieveHighScorePlayer();
@@ -44,6 +43,7 @@ public class MainActivity extends Activity {
         boolean isPlayerDetsSet = intent.getBooleanExtra("isPlayerDetsSet", false);
         myGame = new GameView(this, this.GAME_WIDTH, this.GAME_HEIGHT, isPlayerDetsSet);
         setContentView(myGame);
+
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mediaPlayer = new MediaPlayer();
@@ -66,11 +66,9 @@ public class MainActivity extends Activity {
         //We need to ask permission in android manifest
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-
-       settings = new Settings(getApplicationContext());
-        language = settings.getLanguage();
-
+        settings = new Settings(getApplicationContext());
     }
+
 
     /**
      * Method called when the players score is greater than the saved high score
@@ -127,7 +125,7 @@ public class MainActivity extends Activity {
     public static String getHighScorePlayer(){
         return highScorePlayer;
     }
-    
+
 
     @Override
     protected void onResume() {
@@ -135,7 +133,7 @@ public class MainActivity extends Activity {
         int currentVol = MainActivity.settings.getVolume("musicValue");
         if(mediaPlayer != null){
             if (currentVol == 0) {
-                mediaPlayer.setVolume(currentVol/10.0f, currentVol/10.f);
+                mediaPlayer.setVolume(currentVol/10.0f, currentVol/10.0f);
             }
             mediaPlayer.start();
         }

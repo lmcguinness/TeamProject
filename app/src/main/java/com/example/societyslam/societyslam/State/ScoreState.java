@@ -43,16 +43,30 @@ public class ScoreState extends State {
      */
     @Override
     public void render(Painter g) {
-        g.drawImage(Assets.coinTossBackground, 0, 0);
-        backArrowButton.render(g);
-        g.setFont(Typeface.DEFAULT, 40);
-        g.setColor(Color.WHITE);
-        g.drawString("Highest game score ", 200, 35);
-        g.setFont(Typeface.DEFAULT, 30);
-        g.drawString("Player ", 200, 100);
-        g.drawString(winnersName, 200, 140);
-        g.drawString("Score ", 400, 100);
-        g.drawString(highScore, 430, 140);
+        if(SettingsState.getCurrentLanguage() == "English"){
+            g.drawImage(Assets.coinTossBackground, 0, 0);
+            backArrowButton.render(g);
+            g.setFont(Typeface.DEFAULT, 40);
+            g.setColor(Color.WHITE);
+            g.drawString("Highest game score ", 200, 35);
+            g.setFont(Typeface.DEFAULT, 30);
+            g.drawString("Player ", 200, 100);
+            g.drawString(winnersName, 200, 140);
+            g.drawString("Score ", 400, 100);
+            g.drawString(highScore, 430, 140);
+        } else if(SettingsState.getCurrentLanguage() == "Polish"){
+            g.drawImage(Assets.coinTossBackground, 0, 0);
+            backArrowButton.render(g);
+            g.setFont(Typeface.DEFAULT, 40);
+            g.setColor(Color.WHITE);
+            g.drawString("Najwyższy wynik gry ", 200, 35);
+            g.setFont(Typeface.DEFAULT, 30);
+            g.drawString("Gracz ", 200, 100);
+            g.drawString(winnersName, 200, 140);
+            g.drawString("Wynik", 400, 100);
+            g.drawString(highScore, 430, 140);
+        }
+
 
     }
 

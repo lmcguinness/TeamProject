@@ -13,7 +13,7 @@ import com.example.societyslam.societyslam.Util.Painter;
  */
 
 public class MenuState extends State {
-    private Button startButton, howToPlayButton, SettingsButton, scoreButton, onePlayerButton, twoPlayerButton, hardButton, easyButton;
+    private Button startButton, howToPlayButton, SettingsButton, scoreButton, onePlayerButton, twoPlayerButton, hardButton, easyButton, startButtonPolish, howToPlayButtonPolish, settingsButtonPolish, scoreButtonPolish;
     private static boolean isTwoPlayer , hard, easy;
     private boolean isStartPressed = false, isModeChosen = false;
     public static boolean getIsTwoPlayer(){
@@ -31,6 +31,10 @@ public class MenuState extends State {
         startButton = new Button(240, 360, 380, 420, Assets.start);
         scoreButton = new Button(405, 360, 545, 420, Assets.highScoreButton);
         SettingsButton = new Button(560, 360, 680, 420, Assets.SettingsButton);
+        howToPlayButtonPolish = new Button(85,360,225,420, Assets.HowToPlayButton_Polish);
+        startButtonPolish = new Button(240,360,380,420, Assets.startButton_Polish);
+        scoreButtonPolish = new Button(405,360,545,420, Assets.highScoresButton_Polish);
+        settingsButtonPolish = new Button(560,360,680,420, Assets.SettingsButton_Polish);
         onePlayerButton = new Button(240,380, 380, 440,Assets.onePlayerButton);
         twoPlayerButton = new Button(405,380,545,440,Assets.twoPlayerButton);
         easyButton = new Button(240,380, 380, 440,Assets.easyButton);
@@ -44,10 +48,19 @@ public class MenuState extends State {
     @Override
     public void render(Painter g) {
         g.drawImage(Assets.welcome,0,0);
-        startButton.render(g);
-        howToPlayButton.render(g);
-        SettingsButton.render(g);
-        scoreButton.render(g);
+
+        if(SettingsState.getCurrentLanguage() == "English"){
+            startButton.render(g);
+            howToPlayButton.render(g);
+            SettingsButton.render(g);
+            scoreButton.render(g);
+        } else if(SettingsState.getCurrentLanguage() == "Polish"){
+            startButtonPolish.render(g);
+            howToPlayButtonPolish.render(g);
+            settingsButtonPolish.render(g);
+            scoreButtonPolish.render(g);
+        }
+
         if(isStartPressed) {
             super.getPainter().drawImage(Assets.welcome,0,0);
             onePlayerButton.render(g);

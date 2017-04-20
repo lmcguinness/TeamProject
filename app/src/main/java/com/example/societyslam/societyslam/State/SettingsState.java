@@ -7,8 +7,11 @@ import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Game.MainActivity;
+import com.example.societyslam.societyslam.R;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
+
+import java.util.ArrayList;
 
 /**
  * This class displays a Settings state on screen
@@ -26,6 +29,8 @@ public class SettingsState extends State {
     public int musicVol;
     private boolean minusImage = true;
     private boolean plusImage = true;
+    public static String currentLanguage = "English";
+
 
     /**
      * This method initialises the music volume, a button to return to the main menu
@@ -44,6 +49,7 @@ public class SettingsState extends State {
         englishButton = new Button(260, 220, 428, 264, Assets.english_Button);
         polishButton = new Button(260, 275, 428, 319, Assets.polish_Button);
         musicVol = MainActivity.settings.getVolume("musicValue");
+
     }
 
     @Override
@@ -61,17 +67,34 @@ public class SettingsState extends State {
 
     @Override
     public void render(Painter g) {
-        g.drawImage(Assets.coinTossBackground, 0,0);
-        backArrowButton.render(g);
-        minusButton.render(g);
-        plusButton.render(g);
-        englishButton.render(g);
-        polishButton.render(g);
-        g.setFont(Typeface.DEFAULT_BOLD, 25);
-        g.setColor(Color.WHITE);
-        g.drawString(String.valueOf(musicVol),385,178);
-        g.drawString("Volume: ", 120,170);
-        g.drawString("Language: ", 120,250);
+
+        if(currentLanguage == "English"){
+            g.drawImage(Assets.coinTossBackground, 0,0);
+            backArrowButton.render(g);
+            minusButton.render(g);
+            plusButton.render(g);
+            englishButton.render(g);
+            polishButton.render(g);
+            g.setFont(Typeface.DEFAULT_BOLD, 25);
+            g.setColor(Color.WHITE);
+            g.drawString(String.valueOf(musicVol),385,178);
+            g.drawString("Volume: ", 120,170);
+            g.drawString("Language: ", 120,250);
+
+        } else if (currentLanguage == "Polish") {
+            g.drawImage(Assets.coinTossBackground, 0,0);
+            backArrowButton.render(g);
+            minusButton.render(g);
+            plusButton.render(g);
+            englishButton.render(g);
+            polishButton.render(g);
+            g.setFont(Typeface.DEFAULT_BOLD, 25);
+            g.setColor(Color.WHITE);
+            g.drawString(String.valueOf(musicVol),385,178);
+            g.drawString("głośność: ", 120,170);
+            g.drawString("Język: ", 120,250);
+        }
+
 
     }
 
@@ -112,8 +135,10 @@ public class SettingsState extends State {
 
             } else if (englishButton.isPressed(scaledX, scaledY)) {
                 englishButton.cancel();
+                currentLanguage = "English";
 
             } else if(polishButton.isPressed(scaledX,scaledY)){
+                currentLanguage = "Polish";
                 polishButton.cancel();
 
             } else {
@@ -125,7 +150,16 @@ public class SettingsState extends State {
             }
         }
 
-    return true;
+        return true;
 
     }
+
+    public static String getCurrentLanguage() {
+        return currentLanguage;
+    }
+
+    public static void setCurrentLanguage(String currentLanguage) {
+        SettingsState.currentLanguage = currentLanguage;
+    }
 }
+
