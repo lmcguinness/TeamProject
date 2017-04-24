@@ -9,20 +9,20 @@ import com.example.societyslam.societyslam.Game.MainActivity;
 import com.example.societyslam.societyslam.State.PlayState;
 
 import junit.framework.Assert;
-
-import org.junit.Before;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
+import static org.mockito.Mockito.*;
 import org.junit.Test;
-//import org.mockito.Mockito;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import android.content.SharedPreferences;
 
 
 /**
  * Created by ChloeMullan on 19/04/2017.
  */
-
+@RunWith(MockitoJUnitRunner.class)
 public class PlayState_test {
 
     @Test
