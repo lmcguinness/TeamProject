@@ -33,7 +33,7 @@ public class Assets {
             karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
             disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library, howToPlay, howToPlayDown, howToPlayBackground, backArrowButton,
             paddle, redBull, roboticsSociety, sailingSociety, taekwando, untidy, water, gamingSociety, dealButton, menubg, attackButton, retreatButton, evolveButton,
-            societyCardButton, SettingsButton, SettingsButton_down, minusButton, plusButton, english_Button, polish_Button, polish_Button_Down, english_Button_down, coin2, coin3, coin4, playAgainButton, homeButton, highScoreButton, highScoresButton_Polish, HowToPlayButton_Polish, SettingsButton_Polish, startButton_Polish, howToPlayBackground_Polish;
+            societyCardButton, SettingsButton,needMoreHelp, SettingsButton_down, minusButton, plusButton, english_Button, polish_Button, polish_Button_Down, english_Button_down, coin2, coin3, coin4, playAgainButton, homeButton, highScoreButton, highScoresButton_Polish, HowToPlayButton_Polish, SettingsButton_Polish, startButton_Polish, howToPlayBackground_Polish;
 
     private static SoundPool soundPool;
 
@@ -61,6 +61,7 @@ public class Assets {
      */
     public static void load() {
         //load images
+        needMoreHelp = loadBitmap("needMoreHelp.png", true);
         howToPlayBackground_Polish = loadBitmap("howToPlayBackground_Polish.png", true);
         startButton_Polish = loadBitmap("startButton_Polish.png", true);
         SettingsButton_Polish = loadBitmap("SettingsButton_Polish.png", true);

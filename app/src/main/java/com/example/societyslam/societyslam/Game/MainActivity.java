@@ -10,11 +10,15 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.example.societyslam.societyslam.State.HowToPlayState;
 import com.example.societyslam.societyslam.io.Settings;
 import java.io.IOException;
 
 //Changed to activity by Leanne McGuinness 26/11/16
 public class MainActivity extends Activity {
+
+    //HowToPlayState startingEmailIntent;
 
     public static MediaPlayer mediaPlayer;
     public static Settings settings;
@@ -44,7 +48,8 @@ public class MainActivity extends Activity {
         myGame = new GameView(this, this.GAME_WIDTH, this.GAME_HEIGHT, isPlayerDetsSet);
         setContentView(myGame);
 
-
+        //startingEmailIntent = new HowToPlayState(MainActivity.this);
+        //startingEmailIntent.sendHelpEmail();
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mediaPlayer = new MediaPlayer();
 

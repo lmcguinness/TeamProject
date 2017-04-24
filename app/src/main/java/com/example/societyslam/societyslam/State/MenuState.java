@@ -95,6 +95,7 @@ public class MenuState extends State {
                 Assets.playSound(Assets.buttonClickID);
                 howToPlayButton.cancel();
                 //Log.d("MENU STATE", "HOW TO PLAY BUTTON PRESSED");
+                //setCurrentState(new HowToPlayState(this));
                 setCurrentState(new HowToPlayState());
 
             } else if (SettingsButton.isPressed(scaledX, scaledY)) {
