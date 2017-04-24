@@ -1,6 +1,7 @@
 package com.example.societyslam.societyslam.ai;
 
 
+import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.GameObjects.Deck;
 import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.GameObjects.SocietyCard;
@@ -26,8 +27,8 @@ public class CPU extends Player {
     public static ArrayList<SocietyCard> inOrderOfAttackDamage = new ArrayList<SocietyCard>();
     public static ArrayList<SocietyCard> inOrderOfOverallPosition = new ArrayList<SocietyCard>();
     SocietyCard cardOfChoice;
-    private static boolean isTalking = true;
-    private  static int whichStatement = 6;
+    private static boolean isTalking = false;
+    private static int urgencyLevel;
 
     /**
      * This constructor creates a player object
@@ -55,13 +56,6 @@ public class CPU extends Player {
      * */
     public static void setIsTalking(boolean isTalking1){
         isTalking = isTalking1;
-    }
-    /**
-     *This method is implemented in to return the current state of the whichStatement variable
-     * @return  isTalking
-     * */
-    public static int getWhichStatement(){
-        return whichStatement;
     }
     /**
      * implemented in superclass
@@ -174,7 +168,6 @@ public class CPU extends Player {
     @Override
     public void attack(Player opponent) {
         super.attack(opponent);
-        isTalking = true;
     }
     /**
      * This method is implemented to allow the CPU to retreat a chosen card
@@ -182,6 +175,7 @@ public class CPU extends Player {
      */
     public void retreat(CPU cpu1){
         cpu1.getActiveCard().retreat(cpu1);
+        Assets.currentCardInPlay2 = null;
     }
     /**
      * This method  is implemented to allow the CPU to move a card from the bench to the active slot
@@ -197,7 +191,7 @@ public class CPU extends Player {
         }
         cpu1.setActiveCard(cpu1.getBench().remove(position));
         // PlayState.setCurrentCardInPlay(cpu1.getActiveCard());
-
+        Assets.currentCardInPlay2 = cpu1.getActiveCard();
     }
     /**
      * this method is implemented and called from super class
@@ -229,33 +223,49 @@ public class CPU extends Player {
     /**
      * This method is implemented to allow the CPU to give feedback to the opponent
      */
-    public void talk(Player opponent, CPU cpu1) {
+    public int talk(Player opponent, CPU cpu1, int n) {
         isTalking = true;
-        if(opponent.getActiveCard() == null && cpu1.getActiveCard() == null){
-            whichStatement = 6;
-            System.out.println("Hi my name is Berty, hope you're better than the last one!");
+        switch(n) {
+            case 1:
+                    System.out.println("Hi my name is Berty, hope you're better than the last one!");
+                    return 6;
+
+            case 2:
+                if (opponent.getAttackDamage() < 20) {
+                    System.out.println("Is that all you got?");
+                    return 0;
+                } else if (opponent.getAttackDamage() >= 20 && opponent.getAttackDamage() <= 40) {
+                    System.out.println("Good Move");
+                    return 1;
+                } else if (opponent.getAttackDamage() > 40) {
+                    System.out.println("Finally a bit of competition, great move");
+                    return 2;
+                }
+            case 3:
+                if (cpu1.getActiveCard().getAttackStrength() > 20) {
+                    System.out.println("Are you ready for this?");
+                    return 3;
+                }
+            case 4:
+                if (opponent.isWinner()) {
+                    System.out.println("Well done, good game!");
+                    return 4;
+                } else if (cpu1.isWinner()) {
+                    System.out.println("Better luck next time");
+                    return 5;
+                }
+            case 5:
+                if(cpu1.getActiveCard().getAttackStrength()<15){
+                    System.out.println("Next time, you wont get off as easy!");
+                    return 7;
+                }else{
+                    System.out.println("There is more where that came from!");
+                    return 8;
+                }
+            default:
+                System.out.println("Invalid option");
         }
-        if (opponent.getAttackDamage() < 20) {
-            whichStatement=0;
-            System.out.println("Is that all you got?");
-        } else if (opponent.getAttackDamage() >= 20 && opponent.getAttackDamage() <=40) {
-            whichStatement=1;
-            System.out.println("Good Move");
-        }else{
-            whichStatement=2;
-            System.out.println("Finally a bit of competition, great move");
-        }
-        if(cpu1.getActiveCard().getAttackStrength() > 20){
-            whichStatement=3;
-            System.out.println("Are you ready for this?");
-        }
-        if(opponent.isWinner()){
-            whichStatement=4;
-            System.out.println("Well done, good game!");
-        }else if(cpu1.isWinner()){
-            whichStatement=5;
-            System.out.println("Better luck next time");
-        }
+        return 9;
     }
     /**
      * This method is implemented and allows the CPU to scan their current cards and sort them in order to make a
@@ -263,54 +273,82 @@ public class CPU extends Player {
      * @param cpu1
      * @param opponent
      */
-    public void scanCards(CPU cpu1, Player opponent){
-
+    public void scanCards(CPU cpu1, Player opponent) {
         //initialise arrays
         // add current active card to array
         inOrderOfHpLevel.add(cpu1.getActiveCard());
-        inOrderOfAttackDamage.add( cpu1.getActiveCard());
-        inOrderOfOverallPosition.add( cpu1.getActiveCard());
+        inOrderOfAttackDamage.add(cpu1.getActiveCard());
+        inOrderOfOverallPosition.add(cpu1.getActiveCard());
         //add cards in bench to array
-        for(int i =1; i < 5 ; i++) {
-            inOrderOfHpLevel.add(cpu1.getBench().get(i-1));
-            inOrderOfAttackDamage.add(cpu1.getBench().get(i-1));
-            inOrderOfOverallPosition.add(cpu1.getBench().get(i-1));
+        for (int i = 1; i < 5; i++) {
+            inOrderOfHpLevel.add(cpu1.getBench().get(i - 1));
+            inOrderOfAttackDamage.add(cpu1.getBench().get(i - 1));
+            inOrderOfOverallPosition.add(cpu1.getBench().get(i - 1));
+        }
+        for(int i =0; i<5;i++){
+            inOrderOfHpLevel.get(i).setIdentifier(i);
+        }
+        for (int i = 0; i < 5; i++) {
+            System.out.println(i + "\t" + inOrderOfHpLevel.get(i).getName()+ "\t" + inOrderOfHpLevel.get(i).getIdentifier() + "\n");
+        }
+        for (int i = 0; i < 5; i++) {
+            System.out.println(i + "\t" + inOrderOfAttackDamage.get(i).getName() + "\t" + inOrderOfAttackDamage.get(i).getIdentifier() +"\n");
         }
         //calculate each cards current attack damage against opponents current card in play
         // i.e. what would the attack damage be if CPU used this card to attack
-        for(int i =0; i<5;i++){
-            if(inOrderOfAttackDamage.get(i).getType() == opponent.getActiveCard().getResistance()){
-                inOrderOfAttackDamage.get(i).setPotentialAttackDamage(inOrderOfAttackDamage.get(i).getAttackStrength()/2);
-            }else if(inOrderOfAttackDamage.get(i).getType() == opponent.getActiveCard().getWeakness()){
-                inOrderOfAttackDamage.get(i).setPotentialAttackDamage(inOrderOfAttackDamage.get(i).getAttackStrength()*2);
-            }else{
+        for (int i = 0; i < 5; i++) {
+            if (inOrderOfAttackDamage.get(i).getType() == opponent.getActiveCard().getResistance()) {
+                inOrderOfAttackDamage.get(i).setPotentialAttackDamage(inOrderOfAttackDamage.get(i).getAttackStrength() / 2);
+            } else if (inOrderOfAttackDamage.get(i).getType() == opponent.getActiveCard().getWeakness()) {
+                inOrderOfAttackDamage.get(i).setPotentialAttackDamage(inOrderOfAttackDamage.get(i).getAttackStrength() * 2);
+            } else {
                 inOrderOfAttackDamage.get(i).setPotentialAttackDamage(inOrderOfAttackDamage.get(i).getAttackStrength());
             }
         }
 
         //sort respective arrays in ascending order of respective characteristics
-        for(int i =0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             SocietyCard temp;
-            for(int j =i+1; j<5;j++){
-                if(inOrderOfAttackDamage.get(i).getPotentialAttackDamage() > inOrderOfAttackDamage.get(j).getPotentialAttackDamage()){
+            for (int j =i+1; j < 5; j++) {
+                if (inOrderOfAttackDamage.get(i).getPotentialAttackDamage() > inOrderOfAttackDamage.get(j).getPotentialAttackDamage()) {
                     temp = inOrderOfAttackDamage.get(i);
-                    inOrderOfAttackDamage.set(j,inOrderOfAttackDamage.get(i));
-                    inOrderOfAttackDamage.set(i, temp);
+                    inOrderOfAttackDamage.set(i, inOrderOfAttackDamage.get(j));
+                    inOrderOfAttackDamage.set(j, temp);
                 }
             }
         }
-        for(int i =0; i < 5; i++){
-            SocietyCard temp;
-            for(int j =i+1; j<5;j++){
-                if(inOrderOfHpLevel.get(i).getHp() > inOrderOfHpLevel.get(j).getHp()){
-                    temp = inOrderOfHpLevel.get(i);
-                    inOrderOfHpLevel.set(j,inOrderOfHpLevel.get(i));
-                    inOrderOfHpLevel.set(i, temp);
+        for (int i = 0; i < 5; i++) {
+            SocietyCard temp1;
+            for (int j = i + 1; j < 5; j++) {
+                if (inOrderOfHpLevel.get(i).getHp() > inOrderOfHpLevel.get(j).getHp()) {
+                    temp1 = inOrderOfHpLevel.get(i);
+                    inOrderOfHpLevel.set(i, inOrderOfHpLevel.get(j));
+                    inOrderOfHpLevel.set(j, temp1);
                 }
             }
+        }
+    for (int i = 0; i < 5; i++) {
+        System.out.println(i + "\t" + inOrderOfHpLevel.get(i).getName()+ "\t" + inOrderOfHpLevel.get(i).getHp() + "\n");
+    }
+    for (int i = 0; i < 5; i++) {
+        System.out.println(i + "\t" + inOrderOfAttackDamage.get(i).getName() +"\t" + inOrderOfAttackDamage.get(i).getPotentialAttackDamage() + "\n");
+    }
+    }
+    public void calculateLevelOfUrgency(Player opponent, CPU cpu){
+        urgencyLevel=0;
+       if(opponent.getRoundWins() >= 5){
+           urgencyLevel+=1;
+       }
+        if((opponent.getRoundWins() - cpu.getRoundWins()) >= 3){
+            urgencyLevel+=1;
+        }
+        if(opponent.getActiveCard().getAttackStrength() >= inOrderOfOverallPosition.get(inOrderOfAttackDamage.size() - 1).getPotentialAttackDamage()){
+            urgencyLevel+=3;
+        }
+        if((cpu.getRoundWins() - opponent.getRoundWins()) >= 3){
+            urgencyLevel+=-2;
         }
     }
-
 
     /**
      * This method  implements which card the CPU chooses to play in which scenario
@@ -335,12 +373,12 @@ public class CPU extends Player {
         }
         //sort cards now, in ascending order of overall standing
         for(int i =0; i < 5; i++){
-            SocietyCard temp;
+            SocietyCard temp2;
             for(int j =i+1; j<5;j++){
                 if(inOrderOfOverallPosition.get(i).getOverallPosition() > inOrderOfOverallPosition.get(j).getOverallPosition()){
-                    temp = inOrderOfOverallPosition.get(i);
-                    inOrderOfOverallPosition.set(j,inOrderOfOverallPosition.get(i));
-                    inOrderOfOverallPosition.set(i, temp);
+                    temp2 = inOrderOfOverallPosition.get(i);
+                    inOrderOfOverallPosition.set(i,inOrderOfOverallPosition.get(j));
+                    inOrderOfOverallPosition.set(j, temp2);
                 }
             }
         }
@@ -400,17 +438,15 @@ public class CPU extends Player {
             cpu1.stall(3000);
             isTalking = false;
             attack(opponent);
-            cpu1.talk(opponent, cpu1);
         }else{
             cpu1.stall(3000);
-            retreat(cpu1);
+            cpu1.retreat(cpu1);
             isTalking=false;
-            moveCard(cpu1, cardOfChoice);
+            cpu1.moveCard(cpu1, cardOfChoice);
             stall(3000);
             evolveOrUseStudentBehaviourCard(opponent,cpu1);
             stall(3000);
             attack(opponent);
-            cpu1.talk(opponent,cpu1);
         }
     }
 

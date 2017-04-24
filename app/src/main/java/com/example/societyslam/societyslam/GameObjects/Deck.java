@@ -44,8 +44,6 @@ public class Deck {
         randomGenerator = new Random();
         int index = randomGenerator.nextInt(myDeck.size());
         SocietyCard card =  myDeck.get(index);
-        myDeck.get(index).setIdentifier(identifier);
-        identifier++;
         return card;
 
     }

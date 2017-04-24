@@ -18,10 +18,8 @@ public class GameOverState extends State {
 
     private String player1Name = "";
     private String player2Name = "";
-    private Button playAgainButton;
-    private Button homeButton;
-    private int player1Wins;
-    private int player2Wins;
+    private Button playAgainButton, homeButton, shareButton;
+    private int player1Wins,player2Wins;
     private String endScore;
     private String winnersName = " ";
 
@@ -52,7 +50,7 @@ public class GameOverState extends State {
 
         playAgainButton = new Button(316, 245, 484, 285, Assets.playAgainButton);
         homeButton = new Button(316, 305, 484, 350, Assets.homeButton);
-
+        shareButton = new Button(316,365,484,415, Assets.shareButton);
         player1Wins = PlayState.getPlayer1Wins();
         player2Wins = PlayState.getPlayer2Wins();
 
@@ -82,6 +80,7 @@ public class GameOverState extends State {
         g.drawImage(Assets.coinTossBackground,0,0);
         playAgainButton.render(g);
         homeButton.render(g);
+        shareButton.render(g);
         g.setFont(Typeface.DEFAULT_BOLD, 40);
            g.drawString(winnersName + " has won the game!", 210, 140);
            winnersName = player2Name;
@@ -101,7 +100,7 @@ public class GameOverState extends State {
         if(e.getAction() == MotionEvent.ACTION_DOWN) {
             playAgainButton.onTouchDown(scaledX, scaledY);
             homeButton.onTouchDown(scaledX,scaledY);
-
+            shareButton.onTouchDown(scaledX,scaledY);
         }
         if(e.getAction() == MotionEvent.ACTION_UP) {
             if(playAgainButton.isPressed(scaledX, scaledY)) {
@@ -112,6 +111,9 @@ public class GameOverState extends State {
                 Assets.playSound(Assets.buttonClickID);
                 homeButton.cancel();
                 setCurrentState(new MenuState());
+            } else if(shareButton.isPressed(scaledX,scaledY)){
+                Assets.playSound(Assets.buttonClickID);
+                shareButton.cancel();
             }
         }
 

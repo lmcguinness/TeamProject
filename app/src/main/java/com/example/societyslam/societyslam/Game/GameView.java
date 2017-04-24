@@ -15,9 +15,13 @@ import android.view.ViewGroup;
 import com.example.societyslam.societyslam.R;
 import com.example.societyslam.societyslam.State.CoinTossState;
 import com.example.societyslam.societyslam.State.LoadState;
+import com.example.societyslam.societyslam.State.MenuState;
+import com.example.societyslam.societyslam.State.OnePlayerState;
+import com.example.societyslam.societyslam.State.PlayState;
 import com.example.societyslam.societyslam.State.State;
 import com.example.societyslam.societyslam.Util.InputHandler;
 import com.example.societyslam.societyslam.Util.Painter;
+import com.example.societyslam.societyslam.ai.CPU;
 
 /**
  * Created by Aoife Brown on 21/11/2016.
@@ -122,7 +126,48 @@ public class GameView extends SurfaceView implements Runnable {
         gameThread.start();
 
     }
+    public void restartGame(){
+        Assets.playersCards.clear();
+        Assets.deckOfCards.clear();
+        Assets.energyCards.clear();
+        Assets.player2Cards.clear();
+        Assets.prizeCardDeck2.clear();
+        Assets.prizeCardDeck1.clear();
+        Assets.currentCardInPlay2 = null;
+        Assets.currentCardInPlay = null;
+        CPU.setIsTalking(false);
 
+        if(MenuState.getIsTwoPlayer()){
+            PlayState.setPlayer1Wins(0);
+            PlayState.setPlayer2Wins(0);
+        setCurrentState(new CoinTossState());
+    }else {
+            OnePlayerState.setPlayer1Wins(0);
+            OnePlayerState.setPlayer2Wins(0);
+            setCurrentState(new OnePlayerState());
+        }
+        }
+public void quitGame(){
+    Assets.playersCards.clear();
+    Assets.deckOfCards.clear();
+    Assets.energyCards.clear();
+    Assets.player2Cards.clear();
+    Assets.prizeCardDeck2.clear();
+    Assets.prizeCardDeck1.clear();
+    Assets.currentCardInPlay2 = null;
+    Assets.currentCardInPlay = null;
+    CPU.setIsTalking(false);
+
+    if(MenuState.getIsTwoPlayer()){
+        PlayState.setPlayer1Wins(0);
+        PlayState.setPlayer2Wins(0);
+        setCurrentState(new MenuState());
+    }else {
+        OnePlayerState.setPlayer1Wins(0);
+        OnePlayerState.setPlayer2Wins(0);
+        setCurrentState(new MenuState());
+    }
+}
     public void pauseGame() {
         running = false;
         while (gameThread.isAlive()) {
@@ -136,7 +181,6 @@ public class GameView extends SurfaceView implements Runnable {
     }
     public void resumeGame(){
         running = true;
-
         gameThread = new Thread(this);
         gameThread.start();
     }

@@ -16,6 +16,8 @@ import com.example.societyslam.societyslam.ai.CPU;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
+
 /**
  * Created by James on 20/04/2017.
  */
@@ -31,7 +33,7 @@ public class OnePlayerState extends State {
             p1Card4, currentCard1Button, playButton, dealButton, attackButton, retreatButton,
             evolveButton,useStudentBehaviourCardButton;
 
-    private static int STARTING_CARD_NUMBER = 5;
+    private static int STARTING_CARD_NUMBER = 5,  whichStatement;
     int dealCardSound =1, cardMove =1,player1Score, player2Score;
     static int player1Wins=0, player2Wins=0;
     private int positionOfCardChosen;
@@ -51,8 +53,8 @@ public class OnePlayerState extends State {
     @Override
     public void init() {
         Assets.InitialiseCards();
-        player1 = new Player(Assets.myDeck,Assets.currentCardInPlay,Assets.playersCards,Assets.prizeCardDeck1, CoinTossState.getIsPlayer1Turn(),0);
-        cpu1 = new CPU(Assets.myDeck, Assets.currentCardInPlay2, Assets.player2Cards, Assets.prizeCardDeck2, CoinTossState.getIsPlayer2Turn(),0);
+        player1 = new Player(Assets.myDeck,Assets.currentCardInPlay,Assets.playersCards,Assets.prizeCardDeck1, true,0);
+        cpu1 = new CPU(Assets.myDeck, Assets.currentCardInPlay2, Assets.player2Cards, Assets.prizeCardDeck2,false,0);
 
         //Set the players names
         player1Name = "Player 1";
@@ -98,6 +100,14 @@ public class OnePlayerState extends State {
     @Override
     public void update(float delta) {
 
+        if (areCardsDrawn && Assets.currentCardInPlay != null && isFirstTurn) {
+            whichStatement = cpu1.talk(player1, cpu1, 1);
+        }
+        if(cpu1.isWinner()){
+            whichStatement = cpu1.talk(player1, cpu1, 4);
+        }else if(player1.isWinner()){
+            whichStatement = cpu1.talk(player1, cpu1, 4);
+        }
     }
 
     /**
@@ -129,22 +139,27 @@ public class OnePlayerState extends State {
             p1Card3.render(g);
             p1Card4.render(g);
         }
-        if(CPU.getIsTalking()){
-            super.getPainter().drawImage(Assets.robot, 575, 60, 125,100);
-            if(CPU.getWhichStatement() == 6){
-                super.getPainter().drawImage(Assets.speechBubble1,380,10,355,100);
-            }else if(CPU.getWhichStatement() == 0){
-                super.getPainter().drawImage(Assets.speechBubble2,480,10,200,100);
-            }else if(CPU.getWhichStatement() == 1){
-                super.getPainter().drawImage(Assets.speechBubble3,480,10,200,100);
-            }else if(CPU.getWhichStatement() == 2){
-                super.getPainter().drawImage(Assets.speechBubble4,380,10,355,100);
-            }else if(CPU.getWhichStatement() == 3){
-                super.getPainter().drawImage(Assets.speechBubble5,480,10,200,100);
-            }else if(CPU.getWhichStatement() == 4){
-                super.getPainter().drawImage(Assets.speechBubble6,480,10,200,100);
-            }else if(CPU.getWhichStatement() == 5) {
-                super.getPainter().drawImage(Assets.speechBubble7,480,10,200,100);
+        if(CPU.getIsTalking()) {
+            super.getPainter().drawImage(Assets.robot, 535, 100, 125, 100);
+            if (whichStatement == 6) {
+                super.getPainter().drawImage(Assets.speechBubble1, 330, 50, 355, 100);
+            } else if (whichStatement == 0) {
+                super.getPainter().drawImage(Assets.speechBubble2, 430, 50, 200, 100);
+            } else if (whichStatement == 1) {
+                super.getPainter().drawImage(Assets.speechBubble3, 430, 50, 200, 100);
+            } else if (whichStatement == 2) {
+                super.getPainter().drawImage(Assets.speechBubble4, 330, 50, 355, 100);
+            } else if (whichStatement == 3) {
+                super.getPainter().drawImage(Assets.speechBubble5, 430, 50, 200, 100);
+            } else if (whichStatement == 4) {
+                super.getPainter().drawImage(Assets.speechBubble6, 430, 50, 200, 100);
+            } else if (whichStatement == 5) {
+                super.getPainter().drawImage(Assets.speechBubble7, 430, 50, 200, 100);
+            } else if (whichStatement == 7) {
+                super.getPainter().drawImage(Assets.speechBubble8, 330, 50, 355, 100);
+            } else if (whichStatement == 8) {
+                super.getPainter().drawImage(Assets.speechBubble9, 330, 50, 355, 100);
+
             }
         }
 
@@ -198,6 +213,7 @@ public class OnePlayerState extends State {
                     displayWin1 = true;
                     if(player2Wins >= cpu1.getPrizeCards().size()) {
                         setPlayer2Winner(true);
+                        cpu1.setWinner(true);
                         setCurrentState(new GameOverState(player2Wins, player2Name));
                     }
                 }
@@ -237,6 +253,7 @@ public class OnePlayerState extends State {
                     displayWin2 = true;
                     if(player1Wins >= player1.getPrizeCards().size()){
                         setPlayer1Winner(true);
+                        player1.setWinner(true);
                         setCurrentState(new GameOverState(player1Wins, player1Name));
                     }
                 }
@@ -264,7 +281,7 @@ public class OnePlayerState extends State {
             drawCards(g);
 
         }
-
+/*
         //If player one clicks attack, display their attack and how many points player2 loses on the board
         if(attackPlayer1){
             g.setFont(Typeface.DEFAULT_BOLD,22);
@@ -277,8 +294,8 @@ public class OnePlayerState extends State {
             g.drawString("You attacked with "+ cpu1.getActiveCard().getAttackName(), 270, 60);
             g.drawString("minus "+ cpu1.getAttackDamage()+ " points " + player1Name, 315,80);
         }
-
-
+*/
+/*
         if(evolvePlayer1) {
             g.drawString(player1.getActiveCard().getName() + " evolved to " + player1.getActiveCard().getLevel(), 270, 60);
         }
@@ -286,7 +303,7 @@ public class OnePlayerState extends State {
         if(evolvePlayer2) {
             g.drawString(cpu1.getActiveCard().getName() + " evolved to " + cpu1.getActiveCard().getLevel(), 270, 60);
         }
-
+*/
         if (isMenu) {
             g.drawImage(Assets.menubg, 100, 50);
             attackButton.render(g);
@@ -304,7 +321,7 @@ public class OnePlayerState extends State {
             quitButton.render(g);
             instructionsButton.render(g);
         }
-        //If player ones score falls below zero
+     /*   //If player ones score falls below zero
         if(displayWin1){
             g.drawString(player2Name + " wins this round!", 300,115);
             g.drawString(player1Name + " you have been given another card ", 245, 130);
@@ -313,7 +330,7 @@ public class OnePlayerState extends State {
         if(displayWin2){
             g.drawString(player1Name + " wins this round!", 300,115);
             g.drawString(player2Name + " you have been given another card ", 245, 130);
-        }
+        }*/
         // screen which pops up to allow player to look at cards in more detail before choosing which one to play with
         if(isChooseCard){
             super.getPainter().drawImage(Assets.chooseCardMenu,75, 95, 685 , 235);
@@ -373,7 +390,7 @@ public class OnePlayerState extends State {
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         //If it is the start of the game then this touch event is registered as inital setup.
-        if(e.getAction() == MotionEvent.ACTION_DOWN) {
+        if(e.getAction() == MotionEvent.ACTION_DOWN && !isPause) {
             //current cards in plays
             currentCard1Button.onTouchDown(scaledX, scaledY);
 
@@ -405,15 +422,18 @@ public class OnePlayerState extends State {
                 // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
                 if (attackButton.isPressed(scaledX, scaledY) && isMenu) {
                     isMenu = false;
+                    isFirstTurn = false;
+                    cpu1.setIsTalking(false);
                     attackButton.cancel();
                     if (player1.isMyTurn()) {
                         //checkPrizeCardState(player2, player1);
                         //call the attack method
                         player1.attack(cpu1);
+                        whichStatement = cpu1.talk(player1,cpu1, 2);
                         //set to true to display the attack which was used and how many points lost
                         attackPlayer1 = true;
-                        cpu1.talk(player1, cpu1);
                         cpu1.makeMove(cpu1, player1);
+                        whichStatement = cpu1.talk(player1, cpu1, 5);
                     } else {
                         // checkPrizeCardState(player1, player2);
                         //call the attack method
@@ -480,12 +500,6 @@ public class OnePlayerState extends State {
             dealButton.onTouchDown(scaledX,scaledY);
             playButton.onTouchDown(scaledX, scaledY);
             if(dealButton.isPressed(scaledX,scaledY)) {
-                if(CoinTossState.getIsPlayer2Turn() && isFirstTurn){
-                    isFirstTurn =false;
-                    cpu1.makeMove(cpu1, player1);
-                }else{
-                    isFirstTurn = false;
-                }
                 dealButton.cancel();
                 if (!isStart && dealCards) {
                     //TO DO: move cards currently in the middle of screen to dump pile
@@ -506,6 +520,7 @@ public class OnePlayerState extends State {
                             for (int i = 0; i < STARTING_CARD_NUMBER; i++) {
                                 player1.getBench().add(Assets.myDeck.randomCard());
                                 cpu1.getBench().add(Assets.myDeck.randomCard());
+                               // cpu1.getBench().get(i).setIdentifier(i);
                                 //start game button now shows
                                 isStart = false;
                                 areCardsDrawn = true;
@@ -542,20 +557,21 @@ public class OnePlayerState extends State {
             if (restartButton.isPressed(scaledX, scaledY)  && isPause) {
                 isPause=false;
                 //start a new game
-                setCurrentState(new CoinTossState());
+               // super.onRestart();
+                myGame.restartGame();
             }else{
                 restartButton.cancel();
             }
             if (instructionsButton.isPressed(scaledX, scaledY) && isPause) {
                 isPause=false;
-                isChooseCard = true;
+
             }else{
                 instructionsButton.cancel();
             }
             if (quitButton.isPressed(scaledX, scaledY)  && isPause) {
                 isPause=false;
                 //Takes player back the games start menu
-                setCurrentState(new MenuState());
+                myGame.quitGame();
             }else{
                 quitButton.cancel();
             }
@@ -575,12 +591,6 @@ public class OnePlayerState extends State {
                     //give player 1 a new card of their choice and retreat their old card
                     player1.setActiveCard(player1.getBench().remove(positionOfCardChosen));
                     Assets.currentCardInPlay = player1.getActiveCard();
-                    isCardRetreated = false;
-                    isChooseCard = false;
-                }else{
-                    //give player 2 a new card of their choice and retreat their old card
-                    cpu1.setActiveCard(cpu1.getBench().remove(positionOfCardChosen));
-                    Assets.currentCardInPlay2 = cpu1.getActiveCard();
                     isCardRetreated = false;
                     isChooseCard = false;
                 }
@@ -738,7 +748,12 @@ public class OnePlayerState extends State {
     public static int getPlayer2Wins() {
         return player2Wins;
     }
-
+    public static void setPlayer1Wins(int player1W){
+        player1Wins = player1W;
+    }
+    public static void setPlayer2Wins(int player2W){
+        player1Wins = player2W;
+    }
 }
 
 

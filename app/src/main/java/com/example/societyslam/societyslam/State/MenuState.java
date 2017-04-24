@@ -13,7 +13,7 @@ import com.example.societyslam.societyslam.Util.Painter;
  */
 
 public class MenuState extends State {
-    private Button startButton, howToPlayButton, SettingsButton, scoreButton, onePlayerButton, twoPlayerButton, hardButton, easyButton, startButtonPolish, howToPlayButtonPolish, settingsButtonPolish, scoreButtonPolish;
+    private Button startButton, howToPlayButton, SettingsButton, scoreButton, onePlayerButton, twoPlayerButton, hardButton, easyButton, startButtonPolish, howToPlayButtonPolish, settingsButtonPolish, scoreButtonPolish, backArrowButton;
     private static boolean isTwoPlayer , hard, easy;
     private boolean isStartPressed = false, isModeChosen = false;
     public static boolean getIsTwoPlayer(){
@@ -22,9 +22,7 @@ public class MenuState extends State {
     public static boolean isHard(){
         return hard;
     }
-    public static boolean isEasy(){
-        return easy;
-    }
+
     @Override
     public void init() {
         howToPlayButton = new Button(85, 360, 225, 420, Assets.howToPlay);
@@ -39,6 +37,7 @@ public class MenuState extends State {
         twoPlayerButton = new Button(405,380,545,440,Assets.twoPlayerButton);
         easyButton = new Button(240,380, 380, 440,Assets.easyButton);
         hardButton = new Button(405,380,545,440,Assets.hardButton);
+        backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton);
     }
 
     @Override
@@ -67,6 +66,7 @@ public class MenuState extends State {
             twoPlayerButton.render(g);
             g.setFont(Typeface.DEFAULT_BOLD, 30);
             g.drawString("Choose which mode you would like to play", 120, 375);
+            backArrowButton.render(g);
         }
         if(isModeChosen){
             super.getPainter().drawImage(Assets.welcome,0,0);
@@ -74,6 +74,7 @@ public class MenuState extends State {
             g.drawString("Choose which difficulty level you would like to play against: ", 120, 375);
             easyButton.render(g);
             hardButton.render(g);
+            backArrowButton.render(g);
         }
     }
 
@@ -97,7 +98,6 @@ public class MenuState extends State {
                 //Log.d("MENU STATE", "HOW TO PLAY BUTTON PRESSED");
                 //setCurrentState(new HowToPlayState(this));
                 setCurrentState(new HowToPlayState());
-
             } else if (SettingsButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
                 SettingsButton.cancel();
@@ -115,6 +115,7 @@ public class MenuState extends State {
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             onePlayerButton.onTouchDown(scaledX, scaledY);
             twoPlayerButton.onTouchDown(scaledX, scaledY);
+            backArrowButton.onTouchDown(scaledX, scaledY);
         }
             if (e.getAction() == MotionEvent.ACTION_UP && !isModeChosen) {
                 if (onePlayerButton.isPressed(scaledX, scaledY) && isStartPressed) {
@@ -130,23 +131,34 @@ public class MenuState extends State {
                     Intent i = new Intent(this.getContext(), PlayerDetailsActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     this.getContext().startActivity(i);
+                }else if (backArrowButton.isPressed(scaledX, scaledY) && isStartPressed) {
+                    isStartPressed = false;
+                    Assets.playSound(Assets.buttonClickID);
+                    backArrowButton.cancel();
                 }
             }
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             easyButton.onTouchDown(scaledX, scaledY);
             hardButton.onTouchDown(scaledX, scaledY);
+            backArrowButton.onTouchDown(scaledX, scaledY);
         }
         if (e.getAction() == MotionEvent.ACTION_UP) {
             if (easyButton.isPressed(scaledX, scaledY) && isModeChosen && !isTwoPlayer) {
                 Assets.playSound(Assets.buttonClickID);
                 easy = true;
                 easyButton.cancel();
-               // setCurrentState(new CoinTossState());
+                setCurrentState(new OnePlayerState());
             } else if (hardButton.isPressed(scaledX, scaledY) && isModeChosen &&!isTwoPlayer ) {
                 Assets.playSound(Assets.buttonClickID);
                 hard = true;
                 hardButton.cancel();
-               // setCurrentState(new CoinTossState());
+               setCurrentState(new OnePlayerState());
+            }else if (backArrowButton.isPressed(scaledX, scaledY) && isModeChosen) {
+                Assets.playSound(Assets.buttonClickID);
+                backArrowButton.cancel();
+                isStartPressed = true;
+                isModeChosen = false;
+                return  true;
             }
         }
         return true;

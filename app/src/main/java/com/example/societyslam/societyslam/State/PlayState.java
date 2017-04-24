@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
+import com.example.societyslam.societyslam.Game.GameView;
 import com.example.societyslam.societyslam.Game.MainActivity;
 import com.example.societyslam.societyslam.GameObjects.Deck;
 import com.example.societyslam.societyslam.GameObjects.EnergyCard;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static com.example.societyslam.societyslam.Game.MainActivity.mediaPlayer;
+import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 /**
  * The playstate acts as the games play screen for society slam, it displays the board and the cards for the game,
@@ -383,7 +385,7 @@ public class PlayState extends State {
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         //If it is the start of the game then this touch event is registered as inital setup.
-        if(e.getAction() == MotionEvent.ACTION_DOWN) {
+        if(e.getAction() == MotionEvent.ACTION_DOWN && !isPause) {
             //current cards in plays
             currentCard1Button.onTouchDown(scaledX, scaledY);
             currentCard2Button.onTouchDown(scaledX, scaledY);
@@ -577,20 +579,21 @@ public class PlayState extends State {
             if (restartButton.isPressed(scaledX, scaledY)  && isPause) {
                 isPause=false;
                 //start a new game
-                setCurrentState(new CoinTossState());
+                myGame.restartGame();
+                super.onRestart();
             }else{
                 restartButton.cancel();
             }
             if (instructionsButton.isPressed(scaledX, scaledY) && isPause) {
                 isPause=false;
-                isChooseCard = true;
+
             }else{
                 instructionsButton.cancel();
             }
             if (quitButton.isPressed(scaledX, scaledY)  && isPause) {
                 isPause=false;
                 //Takes player back the games start menu
-                setCurrentState(new MenuState());
+
                 //resume the back ground music
                 int currentVol = MainActivity.settings.getVolume("musicValue");
                 if(mediaPlayer != null){
@@ -599,6 +602,7 @@ public class PlayState extends State {
                     }
                     mediaPlayer.start();
                 }
+                myGame.quitGame();
             }else{
                 quitButton.cancel();
             }
@@ -819,7 +823,12 @@ public class PlayState extends State {
     public static int getPlayer1Wins() {
         return player1Wins;
     }
-
+    public static void setPlayer1Wins(int player1W){
+        player1Wins = player1W;
+    }
+    public static void setPlayer2Wins(int player2W){
+        player1Wins = player2W;
+    }
     /**
      * This method is called when player 2 wins the game
      * @return player2Wins - the number of rounds player 2 has won

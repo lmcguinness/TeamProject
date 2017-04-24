@@ -3,6 +3,7 @@ package com.example.societyslam.societyslam.Game;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
@@ -10,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.societyslam.societyslam.State.HowToPlayState;
 import com.example.societyslam.societyslam.io.Settings;
@@ -75,7 +77,6 @@ public class MainActivity extends Activity {
         settings = new Settings(getApplicationContext());
     }
 
-
     /**
      * Method called when the players score is greater than the saved high score
      * @param highScore - the new highest score
@@ -132,6 +133,10 @@ public class MainActivity extends Activity {
         return highScorePlayer;
     }
 
+    @Override
+    public void onRestart() {
+        super.onRestart();
+    }
 
     @Override
     protected void onResume() {
