@@ -591,6 +591,14 @@ public class PlayState extends State {
                 isPause=false;
                 //Takes player back the games start menu
                 setCurrentState(new MenuState());
+                //resume the back ground music
+                int currentVol = MainActivity.settings.getVolume("musicValue");
+                if(mediaPlayer != null){
+                    if (currentVol == 0) {
+                        mediaPlayer.setVolume(currentVol/10.0f, currentVol/10.0f);
+                    }
+                    mediaPlayer.start();
+                }
             }else{
                 quitButton.cancel();
             }

@@ -50,6 +50,7 @@ public class MainActivity extends Activity {
 
         //startingEmailIntent = new HowToPlayState(MainActivity.this);
         //startingEmailIntent.sendHelpEmail();
+
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mediaPlayer = new MediaPlayer();
 
