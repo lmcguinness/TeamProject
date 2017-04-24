@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
+import com.example.societyslam.societyslam.Game.MainActivity;
 import com.example.societyslam.societyslam.GameObjects.Deck;
 import com.example.societyslam.societyslam.GameObjects.EnergyCard;
 import com.example.societyslam.societyslam.GameObjects.Level;
@@ -18,6 +19,9 @@ import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 import java.util.ArrayList;
 import java.util.Random;
+
+import static com.example.societyslam.societyslam.Game.MainActivity.mediaPlayer;
+
 /**
  * The playstate acts as the games play screen for society slam, it displays the board and the cards for the game,
  * it extends state
@@ -297,6 +301,14 @@ public class PlayState extends State {
         }
         if(isPause){
             super.getPainter().drawImage(Assets.pauseMenu,100,50);
+            //pause the background music when the game is paused
+            if(mediaPlayer != null){
+                mediaPlayer.pause();
+                if(isFinishing()){
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                }
+            }
             resumeButton.render(g);
             restartButton.render(g);
             quitButton.render(g);
@@ -551,6 +563,14 @@ public class PlayState extends State {
             if (resumeButton.isPressed(scaledX, scaledY)  && isPause) {
                 //resume playing the game
                 isPause=false;
+                //resume the back ground music
+                int currentVol = MainActivity.settings.getVolume("musicValue");
+                if(mediaPlayer != null){
+                    if (currentVol == 0) {
+                        mediaPlayer.setVolume(currentVol/10.0f, currentVol/10.0f);
+                    }
+                    mediaPlayer.start();
+                }
             }else{
                 resumeButton.cancel();
             }

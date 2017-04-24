@@ -185,7 +185,6 @@ public class Assets {
 
         coinAnim = new Animation(f1,f2,f3,f2,f1);
 
-
     }
     /**
      * This method is used to load Bitmaps into the Assets class to be used throughout the game
@@ -233,17 +232,18 @@ public class Assets {
      * @param soundID - ID of sound to be played
      */
     public static void playSound(int soundID){
-        soundPool.play(soundID,1,1,1,0,1);
-
+        if(soundPool !=null) {
+            soundPool.play(soundID, 1, 1, 1, 0, 1);
+        }
     }
     /**
      * This method is used to play Sounds that loop continuously throughout the game i.e. backgroung music
      * @param soundID - ID of sound to be played
      */
     public static void playBackground(int soundID) {
-        soundPool.play(soundID, 1, 1, 1, -1, 1);
-
+            soundPool.play(soundID, 1, 1, 1, -1, 1);
     }
+
     /**
      * This method is used to initialise the cards used in the playstate, promotes code reusability
      * This method also adds these cards to the deck, players prize cards and enrgy cards

@@ -12,11 +12,12 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+//import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+
 
 /**
  * Created by ChloeMullan on 19/04/2017.
