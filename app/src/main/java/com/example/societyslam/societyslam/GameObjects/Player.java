@@ -1,5 +1,6 @@
 package com.example.societyslam.societyslam.GameObjects;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 
 import com.example.societyslam.societyslam.Game.Assets;
@@ -218,8 +219,8 @@ public class Player {
 
     public void renderAttack(Painter g, Player opponent) {
         g.setFont(Typeface.DEFAULT, textSize);
-        g.drawString("You attacked with " + this.getActiveCard().getAttackName(), textX, textY);
-        g.drawString("minus " + this.getActiveCard().getAttackStrength() + " points " + opponent.getName(), text2X, text2Y );
+        g.drawString("You attacked with " + this.getActiveCard().getAttackName(), textX, textY, Color.WHITE);
+        g.drawString("minus " + this.getActiveCard().getAttackStrength() + " points " + opponent.getName(), text2X, text2Y, Color.WHITE );
     }
 
     public void retreat() {
@@ -234,9 +235,9 @@ public class Player {
 
     public void renderRetreat(Painter g) {
         if (this.retreatError) {
-            g.drawString("Sorry, there must be a card in play in order to retreat!", textX, textY);
+            g.drawString("Sorry, there must be a card in play in order to retreat!", textX, textY, Color.WHITE);
         } else {
-            g.drawString(this.getActiveCard().getName() + " has retreated", textX, textY);
+            g.drawString(this.getActiveCard().getName() + " has retreated", textX, textY, Color.WHITE);
         }
     }
 
@@ -252,6 +253,7 @@ public class Player {
      * @param opponent the other player
      */
     public void useStudentBehaviourCard(StudentBehaviourCard card, Player opponent) {
+
         System.out.println("You used " + card.getName());
         int newHP;
         int opponentNewHP;
@@ -263,6 +265,8 @@ public class Player {
             opponent.getActiveCard().setHp(opponentNewHP);
         }
     }
+
+
 
     /**
       * This method checks if anyone has won the game after a player finishes their turn
@@ -287,8 +291,8 @@ public class Player {
     }
 
     public void renderWinRound(Painter g, Player opponent) {
-        g.drawString(this.getName() + " wins the round!", winRoundTextX, winRoundTextY);
-        g.drawString(opponent.getName() + " has been given another card ", winRoundText2X, winRoundText2Y);
+        g.drawString(this.getName() + " wins the round!", winRoundTextX, winRoundTextY, Color.WHITE);
+        g.drawString(opponent.getName() + " has been given another card ", winRoundText2X, winRoundText2Y, Color.WHITE);
     }
 
     /**
@@ -322,5 +326,19 @@ public class Player {
                 break;
             }
         }
+    }
+
+    public boolean checkIfPlayerHasFlippedPrizeCards(Player player) {
+        boolean isFlipped = false;
+        for (StudentBehaviourCard s : player.getPrizeCards()) {
+            if (s.isFlipped()) {
+                isFlipped = true;
+                return isFlipped;
+            } else {
+                isFlipped = false;
+            }
+        }
+
+        return isFlipped;
     }
 }

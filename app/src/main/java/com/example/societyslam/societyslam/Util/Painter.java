@@ -44,7 +44,8 @@ public class Painter {
         paint.setTextSize(textSize);
     }
 
-    public void drawString(String str, int x, int y) {
+    public void drawString(String str, int x, int y, int color) {
+        paint.setColor(color);
         canvas.drawText(str,x,y,paint);
     }
 

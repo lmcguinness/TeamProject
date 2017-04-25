@@ -1,6 +1,7 @@
 package com.example.societyslam.societyslam.State;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
@@ -124,15 +125,15 @@ public class OnePlayerState extends State {
         g.drawImage(Assets.ssb, 0, 0);
         //Displaying both of the players on the board
         g.setFont(Typeface.DEFAULT_BOLD, 25);
-        g.drawString(player1Name, 303, 20);
-        g.drawString(player2Name, 425,20);
+        g.drawString(player1Name, 303, 20, Color.WHITE);
+        g.drawString(player2Name, 425,20, Color.WHITE);
 
         //Display how many rounds each player has won throughout the game
         g.setFont(Typeface.DEFAULT, 20);
-        g.drawString("Rounds won ", 150,150);
-        g.drawString(player1Wins + " ", 200,175);
-        g.drawString("Rounds won ", 535,300);
-        g.drawString(" "+ player2Wins, 585,317);
+        g.drawString("Rounds won ", 150,150, Color.WHITE);
+        g.drawString(player1Wins + " ", 200,175, Color.WHITE);
+        g.drawString("Rounds won ", 535,300, Color.WHITE);
+        g.drawString(" "+ player2Wins, 585,317, Color.WHITE);
 
         pauseButton.render(g);
         // when card has been retreated - render buttons
@@ -205,7 +206,7 @@ public class OnePlayerState extends State {
                 //Set HP levels of the active cards to the players score on the screen
                 player1Score = player1.getActiveCard().getHp();
                 g.setFont(Typeface.DEFAULT_BOLD, 25);
-                g.drawString("  "+ player1Score, 320,40 );
+                g.drawString("  "+ player1Score, 320,40, Color.WHITE );
 
                 //If player ones score falls below zero tell them that player 2 has won this round
                 //change the card in the middle for player1 and give player 2 a prize card
@@ -245,7 +246,7 @@ public class OnePlayerState extends State {
                 //Set HP levels of the active cards to the players score on the screen
                 player2Score = cpu1.getActiveCard().getHp();
                 g.setFont(Typeface.DEFAULT_BOLD, 25);
-                g.drawString("  "+ player2Score,440,40);
+                g.drawString("  "+ player2Score,440,40, Color.WHITE);
 
                 //If player 2 score falls below zero tell them that player 1 has won this round
                 //give player 2 a new card in the middle and give player 1 a prize card

@@ -1,6 +1,7 @@
 package com.example.societyslam.societyslam.State;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
@@ -95,9 +96,9 @@ public class GameOverState extends State {
         homeButton.render(g);
         shareButton.render(g);
         g.setFont(Typeface.DEFAULT_BOLD, textSize);
-           g.drawString(winnersName + " has won the game!", nameX, nameY);
+           g.drawString(winnersName + " has won the game!", nameX, nameY, Color.WHITE);
 
-       g.drawString(score, scoreX, scoreY);
+       g.drawString(score, scoreX, scoreY, Color.WHITE);
     }
 
     /**

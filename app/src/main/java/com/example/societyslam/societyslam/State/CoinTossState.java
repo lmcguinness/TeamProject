@@ -79,7 +79,7 @@ public class CoinTossState extends State {
         g.drawImage(Assets.coinTossBackground, 0, 0);
         g.setFont(Typeface.DEFAULT_BOLD, 25);
         g.setColor(Color.WHITE);
-        g.drawString(player1Name + ", choose heads or tails", 230, 140);
+        g.drawString(player1Name + ", choose heads or tails", 230, 140, Color.WHITE);
         chooseHeadsButton.render(g);
         chooseTailsButton.render(g);
 // when player 1 has decided either heads or tails i.e. if(decided) then display clearly which player is heads/tails
@@ -90,15 +90,15 @@ public class CoinTossState extends State {
             // display who is assigned to what side of coin
             g.setFont(Typeface.DEFAULT_BOLD, 25);
             if (!isFirstToss) {
-                g.drawString(player1Name + " is ", 213, 108);
-                g.drawString("and  " + player2Name + " is ", 385, 108);
+                g.drawString(player1Name + " is ", 213, 108, Color.WHITE);
+                g.drawString("and  " + player2Name + " is ", 385, 108, Color.WHITE);
 
                 if (isPlayer1Heads) {
-                    g.drawString(" heads", 300, 108);
-                    g.drawString(" tails", 515, 108);
+                    g.drawString(" heads", 300, 108, Color.WHITE);
+                    g.drawString(" tails", 515, 108, Color.WHITE);
                 } else {
-                    g.drawString(" tails", 300, 108);
-                    g.drawString(" heads", 515, 108);
+                    g.drawString(" tails", 300, 108, Color.WHITE);
+                    g.drawString(" heads", 515, 108, Color.WHITE);
                 }
             }
 
@@ -112,14 +112,14 @@ public class CoinTossState extends State {
                 if (coin.result == 0 && isPlayer1Heads) {
                     super.getPainter().drawImage(Assets.coin4,  185, 165, 415, 195);
                     //player 1 is heads, player1s go
-                    g.drawString("Heads! " + player1Name +  " goes first!", 270, 130);
+                    g.drawString("Heads! " + player1Name +  " goes first!", 270, 130, Color.WHITE);
                     //set respective variables to true/false
                     isPlayer1Turn = true;
                     isPlayer2Turn = false;
                 }else if(coin.result == 0 && !isPlayer1Heads){
                     super.getPainter().drawImage(Assets.coin4,  185, 165, 415, 195);
                     //player 2 is heads, player 2s go
-                    g.drawString("Heads! " + player2Name +  " goes first!", 270, 130);
+                    g.drawString("Heads! " + player2Name +  " goes first!", 270, 130, Color.WHITE);
                     //set respective variables to true/false
                     isPlayer2Turn =true;
                     isPlayer1Turn = false;
@@ -128,14 +128,14 @@ public class CoinTossState extends State {
                if (coin.result == 1 && !isPlayer1Heads) {
                     super.getPainter().drawImage(Assets.coin3,  185, 165, 415, 195);
                     // player 1 is tails, player 1s go
-                   g.drawString("Tails! " + player1Name +  " goes first!", 270, 130);
+                   g.drawString("Tails! " + player1Name +  " goes first!", 270, 130, Color.WHITE);
                    //set respective variables to true/false
                    isPlayer1Turn = true;
                    isPlayer2Turn = false;
                 }else if(coin.result == 1 && isPlayer1Heads){
                    super.getPainter().drawImage(Assets.coin3,  185, 165, 415, 195);
                    // player 2 is tails, player 2s go
-                   g.drawString("Tails! " + player2Name +  " goes first!", 270, 130);
+                   g.drawString("Tails! " + player2Name +  " goes first!", 270, 130, Color.WHITE);
                    //set respective variables to true/false
                    isPlayer2Turn = true;
                    isPlayer1Turn = false;

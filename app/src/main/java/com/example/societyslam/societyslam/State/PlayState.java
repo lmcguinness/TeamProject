@@ -1,6 +1,7 @@
 package com.example.societyslam.societyslam.State;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
@@ -30,7 +31,7 @@ public class PlayState extends State {
     private boolean isPause = false,isChooseCard =false,areCardsDrawn = false,isCardRetreated = false;
     public static boolean player1Winner, player2Winner;
 
-    private Button pauseButton, restartButton, resumeButton, quitButton, instructionsButton,useCardButton, cancelButton, p1Card0,p1Card1, p1Card2,p1Card3,
+    private Button pauseButton, continueButton, restartButton, resumeButton, quitButton, instructionsButton,useCardButton, cancelButton, p1Card0,p1Card1, p1Card2,p1Card3,
                    p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4, currentCard1Button, currentCard2Button, playButton, dealButton, attackButton, retreatButton,
                     evolveButton,useStudentBehaviourCardButton;
 
@@ -73,6 +74,8 @@ public class PlayState extends State {
     private int attackTextX = 270, attackTextY = 60,attackText2X = 315,attackText2Y = 80  ;
 
     private int roundWonTextX = 300, roundWonTextY = 115, roundWonText2X = 245, roundWonText2Y = 130;
+
+    private boolean prizeCardError = false;
 
     private static int STARTING_CARD_NUMBER = 5;
     int dealCardSound =1, cardMove =1,player1Score, player2Score;
@@ -133,15 +136,15 @@ public class PlayState extends State {
         g.drawImage(Assets.ssb, 0, 0);
         //Displaying both of the players on the board
         g.setFont(Typeface.DEFAULT_BOLD, nameTextSize);
-        g.drawString(player1Name, player1NameX, playerNameY);
-        g.drawString(player2Name, player2NameX,playerNameY);
+        g.drawString(player1Name, player1NameX, playerNameY, Color.WHITE);
+        g.drawString(player2Name, player2NameX,playerNameY, Color.WHITE);
 
         //Display how many rounds each player has won throughout the game
         g.setFont(Typeface.DEFAULT, scoreTextSize);
-        g.drawString("Rounds won ", player1TextX,player1TextY);
-        g.drawString(player1Wins + " ", player1WinsX,player1WinsY);
-        g.drawString("Rounds won ", player2TextX,player2TextY);
-        g.drawString(" "+ player2Wins, player2WinsX,player2WinsY);
+        g.drawString("Rounds won ", player1TextX,player1TextY, Color.WHITE);
+        g.drawString(player1Wins + " ", player1WinsX,player1WinsY, Color.WHITE);
+        g.drawString("Rounds won ", player2TextX,player2TextY, Color.WHITE);
+        g.drawString(" "+ player2Wins, player2WinsX,player2WinsY, Color.WHITE);
 
         pauseButton.render(g);
         // when card has been retreated - render buttons
@@ -169,7 +172,12 @@ public class PlayState extends State {
                     dealCardSound--;
                     Assets.playSound(Assets.dealingCardsID);
                 }
+            } else if (!dealCards && !isStart) {
+                continueButton.render(g);
+
             }
+
+
 
             //Now that we have references to the cards that have to be moved, we can change the
             //location of them on the screen. Done here as opposed to update();
@@ -197,7 +205,7 @@ public class PlayState extends State {
                 //Set HP levels of the active cards to the players score on the screen
                 player1Score = player1.getActiveCard().getHp();
                 g.setFont(Typeface.DEFAULT_BOLD, nameTextSize);
-                g.drawString("  "+ player1Score, player1ScoreX, scoreY);
+                g.drawString("  "+ player1Score, player1ScoreX, scoreY, Color.WHITE);
 
                 //If player ones score falls below zero tell them that player 2 has won this round
                 //change the card in the middle for player1 and give player 2 a prize card
@@ -221,7 +229,7 @@ public class PlayState extends State {
                 //Set HP levels of the active cards to the players score on the screen
                 player2Score = player2.getActiveCard().getHp();
                 g.setFont(Typeface.DEFAULT_BOLD, nameTextSize);
-                g.drawString("  "+ player2Score, player2ScoreX, scoreY);
+                g.drawString("  "+ player2Score, player2ScoreX, scoreY, Color.WHITE);
 
                 //If player 2 score falls below zero tell them that player 1 has won this round
                 //give player 2 a new card in the middle and give player 1 a prize card
@@ -300,16 +308,18 @@ public class PlayState extends State {
             retreatButton.onTouchDown(scaledX, scaledY);
             evolveButton.onTouchDown(scaledX, scaledY);
             useStudentBehaviourCardButton.onTouchDown(scaledX, scaledY);
+            continueButton.onTouchDown(scaledX, scaledY);
 
             //Check to see which button has been pressed
             if (!isStart && !dealCards) {
+                isMenu = true;
                 if (currentCard1Button.isPressed(scaledX, scaledY) && player1.isMyTurn()  || currentCard2Button.isPressed(scaledX, scaledY) && player2.isMyTurn()) {
                     //play sound effect
                     Assets.playSound(Assets.buttonClickID);
                     displayWin1=false;
                     displayWin2 = false;
                     retreatError = false;
-                    isMenu = true;
+                    //isMenu = true;
                     attackPlayer1 = false;
                     attackPlayer2=false;
                     evolvePlayer1 = false;
@@ -323,6 +333,7 @@ public class PlayState extends State {
                 }
                 // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
                 if (attackButton.isPressed(scaledX, scaledY) && isMenu) {
+                    prizeCardError = false;
                     isMenu = false;
                     attackButton.cancel();
                     if (player1.isMyTurn()) {
@@ -344,6 +355,7 @@ public class PlayState extends State {
                 }
                 // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
                 if (retreatButton.isPressed(scaledX, scaledY) && isMenu) {
+                    prizeCardError = false;
                     isMenu = false;
                     //retreatButton.cancel();
                     if (player1.isMyTurn()) {
@@ -386,6 +398,7 @@ public class PlayState extends State {
                 }
                 // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
                 if (evolveButton.isPressed(scaledX, scaledY) && isMenu) {
+                    prizeCardError = false;
                     isMenu = false;
                     evolveButton.cancel();
                     if (player1.isMyTurn()) {
@@ -403,13 +416,26 @@ public class PlayState extends State {
                 }
                 // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
                 if (useStudentBehaviourCardButton.isPressed(scaledX, scaledY) && isMenu) {
-                    isMenu = false;
-                    useStudentBehaviourCardButton.cancel();
-                    if (player1.isMyTurn()) {
-                        player1.useStudentBehaviourCard(player1.getPrizeCards().get(0), player2);
 
+                    if (player1.isMyTurn()) {
+                        if (player1.checkIfPlayerHasFlippedPrizeCards(player1)) {
+                            player1.useStudentBehaviourCard(player1.getPrizeCards().get(0), player2);
+                            isMenu = false;
+                            prizeCardError = false;
+                            useStudentBehaviourCardButton.cancel();
+                        } else {
+                                prizeCardError = true;
+                        }
                     } else {
-                        player2.useStudentBehaviourCard(player2.getPrizeCards().get(0), player1);
+                        if (player2.checkIfPlayerHasFlippedPrizeCards(player2)) {
+                            player2.useStudentBehaviourCard(player2.getPrizeCards().get(0), player1);
+                            isMenu = false;
+                            prizeCardError = false;
+                            useStudentBehaviourCardButton.cancel();
+                        }
+                        else{
+                            prizeCardError = true;
+                        }
                     }
                 } else {
                     useStudentBehaviourCardButton.cancel();
@@ -636,6 +662,7 @@ public class PlayState extends State {
 
     public void initialiseButtons() {
         playButton = new Button(buttonLeft, buttonTop, buttonRight, buttonBottom, Assets.start);
+        continueButton = new Button(buttonLeft, buttonTop, buttonRight, buttonBottom, Assets.continueButton);
         dealButton = new Button(buttonLeft, buttonTop, buttonRight, buttonBottom, Assets.dealButton);
         attackButton = new Button(menuButtonLeft, menuButton1Top, menuButtonRight, menuButton1Bottom, Assets.attackButton);
         retreatButton = new Button(menuButtonLeft, menuButton2Top, menuButtonRight, menuButton2Bottom, Assets.retreatButton);
@@ -716,7 +743,15 @@ public class PlayState extends State {
             retreatButton.render(g);
             evolveButton.render(g);
             useStudentBehaviourCardButton.render(g);
+
+            if (prizeCardError) {
+                g.drawString("You Have No PrizeCards Yet!", 235, 400, Color.RED);
+            }
         }
+
+
+
+
     }
 
     public void renderPauseMenu(Painter g) {

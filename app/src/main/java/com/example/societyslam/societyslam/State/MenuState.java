@@ -1,6 +1,7 @@
 package com.example.societyslam.societyslam.State;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
 import com.example.societyslam.societyslam.Game.Assets;
@@ -88,12 +89,12 @@ public class MenuState extends State {
             onePlayerButton.render(g);
             twoPlayerButton.render(g);
             g.setFont(Typeface.DEFAULT_BOLD, textSize);
-            g.drawString("Choose which mode you would like to play", textX, textY);
+            g.drawString("Choose which mode you would like to play", textX, textY, Color.WHITE);
         }
         if(isModeChosen){
             super.getPainter().drawImage(Assets.welcome,0,0);
             g.setFont(Typeface.DEFAULT_BOLD, textSize2);
-            g.drawString("Choose which difficulty level you would like to play against: ", textX, textY);
+            g.drawString("Choose which difficulty level you would like to play against: ", textX, textY, Color.WHITE);
             easyButton.render(g);
             hardButton.render(g);
             backArrowButton.render(g);

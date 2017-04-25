@@ -77,9 +77,9 @@ public class SettingsState extends State {
             polishButton.render(g);
             g.setFont(Typeface.DEFAULT_BOLD, 25);
             g.setColor(Color.WHITE);
-            g.drawString(String.valueOf(musicVol),385,178);
-            g.drawString("Volume: ", 120,170);
-            g.drawString("Language: ", 120,250);
+            g.drawString(String.valueOf(musicVol),385,178, Color.WHITE);
+            g.drawString("Volume: ", 120,170, Color.WHITE);
+            g.drawString("Language: ", 120,250, Color.WHITE);
 
         } else if (currentLanguage == "Polish") {
             g.drawImage(Assets.coinTossBackground, 0,0);
@@ -90,9 +90,9 @@ public class SettingsState extends State {
             polishButton.render(g);
             g.setFont(Typeface.DEFAULT_BOLD, 25);
             g.setColor(Color.WHITE);
-            g.drawString(String.valueOf(musicVol),385,178);
-            g.drawString("głośność: ", 120,170);
-            g.drawString("Język: ", 120,250);
+            g.drawString(String.valueOf(musicVol),385,178, Color.WHITE);
+            g.drawString("głośność: ", 120,170, Color.WHITE);
+            g.drawString("Język: ", 120,250, Color.WHITE);
         }
 
 
