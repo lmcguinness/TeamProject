@@ -39,8 +39,8 @@ public class CPU extends Player {
      * @param myTurn Set to true if it is this player's turn, a player's turn ends after they attack
      * @param roundWins This players number of rounds won
      */
-    public CPU(Deck myCards, SocietyCard activeCard, ArrayList<SocietyCard> bench, ArrayList<StudentBehaviourCard> prizeCards, boolean myTurn, int roundWins) {
-        super(myCards, activeCard, bench, prizeCards, myTurn, roundWins);
+    public CPU(Deck myCards, SocietyCard activeCard, ArrayList<SocietyCard> bench, ArrayList<StudentBehaviourCard> prizeCards, boolean myTurn, int roundWins, String name) {
+        super(myCards, activeCard, bench, prizeCards, myTurn, roundWins, name);
     }
     /**
      *This method is implemented in to return the current state of the isTalking variable
@@ -117,8 +117,8 @@ public class CPU extends Player {
      * this method is implemented and called from super class
      */
     @Override
-    public boolean checkIfWinner(Player opponent) {
-        return super.checkIfWinner(opponent);
+    public boolean checkIfWinner() {
+        return super.checkIfWinner();
     }
     /**
      * this method is implemented and called from super class
@@ -165,7 +165,7 @@ public class CPU extends Player {
     /**
      * this method is implemented and called from super class
      */
-    @Override
+    //@Override
     public void attack(Player opponent) {
         super.attack(opponent);
     }
@@ -174,7 +174,7 @@ public class CPU extends Player {
      * @param cpu1
      */
     public void retreat(CPU cpu1){
-        cpu1.getActiveCard().retreat(cpu1);
+        cpu1.retreat();
         Assets.currentCardInPlay2 = null;
     }
     /**

@@ -3,6 +3,7 @@ package com.example.societyslam.societyslam.GameObjects;
 import android.graphics.Bitmap;
 
 import com.example.societyslam.societyslam.Game.Assets;
+import com.example.societyslam.societyslam.Util.Painter;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,8 @@ public class SocietyCard extends Card {
     private int identifier;
     private int potentialAttackDamage;
     private int overallPosition;
+    private boolean evolvedMax;
+    private int textX = 270, textY = 60;
 
    
 
@@ -38,6 +41,7 @@ public class SocietyCard extends Card {
         this.weakness = weakness;
         this.resistance = resistance;
         this.level = Level.Basic;
+        this.evolvedMax = false;
 
     }
 
@@ -119,14 +123,6 @@ public class SocietyCard extends Card {
     }
 
 
-    public void retreat(Player player) {
-
-            Assets.playSound(Assets.oneCardID);
-            System.out.println(this.getName() + " has retreated");
-            player.getBench().add(this);
-            player.setActiveCard(null);
-    }
-
     public void evolve() {
         if(this.getLevel().equals(Level.Basic)) {
             this.setLevel(Level.Level1);
@@ -146,10 +142,18 @@ public class SocietyCard extends Card {
             int newHp = currentHp -= 10;
             this.setHp(newHp);
         } else if(this.getLevel().equals(Level.Level2)) {
-            System.out.println("This card cannot be evolved anymore");
+            evolvedMax = true;
         }
 
 
+    }
+
+    public void renderEvolve(Painter g) {
+       if(this.evolvedMax) {
+           g.drawString("This card cannot be evolved anymore", textX, textY);
+       } else {
+           g.drawString(this.getName() + " evolved to " + this.getLevel(), textX, textY);
+       }
     }
 
     @Override

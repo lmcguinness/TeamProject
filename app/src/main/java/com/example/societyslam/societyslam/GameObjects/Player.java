@@ -1,6 +1,10 @@
 package com.example.societyslam.societyslam.GameObjects;
 
+import android.graphics.Typeface;
+
 import com.example.societyslam.societyslam.Game.Assets;
+import com.example.societyslam.societyslam.State.GameOverState;
+import com.example.societyslam.societyslam.Util.Painter;
 
 import java.util.ArrayList;
 
@@ -19,6 +23,11 @@ public class Player {
     private  int roundWins;
     private boolean winner;
     private static int attackDamage = 0;
+    private String name;
+    private float textSize = 20;
+    private int textX = 270, textY = 60, text2X = 314, text2Y = 80;
+    private int winRoundTextX = 300, winRoundTextY = 115, winRoundText2X = 245, winRoundText2Y = 130;
+    private boolean retreatError;
 
     /**
      * This constructor creates a player object
@@ -31,7 +40,7 @@ public class Player {
      */
 
 
-    public Player(Deck myCards, SocietyCard activeCard, ArrayList<SocietyCard> bench, ArrayList<StudentBehaviourCard> prizeCards, boolean myTurn, int roundWins) {
+    public Player(Deck myCards, SocietyCard activeCard, ArrayList<SocietyCard> bench, ArrayList<StudentBehaviourCard> prizeCards, boolean myTurn, int roundWins, String name) {
         this.myCards = myCards;
         this.activeCard = activeCard;
         this.bench = bench;
@@ -39,6 +48,8 @@ public class Player {
         this.myTurn = myTurn;
         this.winner = false;
         this.roundWins = roundWins;
+        this.name = name;
+        this.retreatError = false;
     }
     /**
      * This method returns the player's attack damage
@@ -167,6 +178,14 @@ public class Player {
         this.myTurn = myTurn;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * This method checks if the player's active card can attack, it then checks if the opponent's card has
      * a weakness or resistance to this player's active card's type, if it does it adjusts the attack strength accordingly.
@@ -177,9 +196,7 @@ public class Player {
     public void attack(Player opponent) {
         //Play attack sound effect
         Assets.playSound(Assets.attackID);
-
-            System.out.println(this.getActiveCard().getName() + " used " + this.getActiveCard().getAttackName());
-            int opponentNewHP;
+        int opponentNewHP;
             if (opponent.getActiveCard().getWeakness() == this.getActiveCard().getType()) {
                 attackDamage = (2 * this.getActiveCard().getAttackStrength());
                 opponentNewHP = opponent.getActiveCard().getHp() - attackDamage;
@@ -191,14 +208,36 @@ public class Player {
                 opponentNewHP = (opponent.getActiveCard().getHp() - attackDamage);
             }
             opponent.getActiveCard().setHp(opponentNewHP);
-            System.out.println(opponent.getActiveCard().getName() + " 's HP is now " + opponent.getActiveCard().getHp());
-            if(checkIfWinner(opponent)) {
-                System.out.println("End of game");
-            } else {
-                this.myTurn = false;
-                opponent.setMyTurn(true);
-            }
 
+
+        this.myTurn = false;
+        opponent.setMyTurn(true);
+
+
+    }
+
+    public void renderAttack(Painter g, Player opponent) {
+        g.setFont(Typeface.DEFAULT, textSize);
+        g.drawString("You attacked with " + this.getActiveCard().getAttackName(), textX, textY);
+        g.drawString("minus " + this.getActiveCard().getAttackStrength() + " points " + opponent.getName(), text2X, text2Y );
+    }
+
+    public void retreat() {
+        if(this.getActiveCard() == null) {
+            this.retreatError = true;
+        } else {
+            Assets.playSound(Assets.oneCardID);
+            this.getBench().add(this.getActiveCard());
+            this.setActiveCard(null);
+        }
+    }
+
+    public void renderRetreat(Painter g) {
+        if (this.retreatError) {
+            g.drawString("Sorry, there must be a card in play in order to retreat!", textX, textY);
+        } else {
+            g.drawString(this.getActiveCard().getName() + " has retreated", textX, textY);
+        }
     }
 
 
@@ -227,26 +266,61 @@ public class Player {
 
     /**
       * This method checks if anyone has won the game after a player finishes their turn
-     * It check if the player has received all its prize cards, if it has this player
+     * It checks if the player has received all its prize cards, if it has this player
      * is the winner.
-     * It check if the opponent's deck is empty, if it is then this player is the
-     * winner.
-     * It check if the opponent's bench is empty, if it is then this player is the winner.
-     * @param opponent other player
      * @return true if this player is the winner, false if they are not the winner
      */
-    public boolean checkIfWinner(Player opponent) {
-        if(this.getPrizeCards().isEmpty()) {
-            this.setWinner(true);
-            return true;
-        } else if(opponent.getMyCards().getMyDeck().isEmpty()) {
-            this.setWinner(true);
-            return true;
-        } else if(opponent.getBench().isEmpty()) {
-            this.setWinner(true);
-            return true;
-        } else {
-            return false;
+    public boolean checkIfWinner() {
+        if(this.getRoundWins() == this.getPrizeCards().size()) {
+            this.winner = true;
+        }
+        return this.winner;
+    }
+
+    public void winRound(Player opponent) {
+        if(opponent.getActiveCard().getHp() <= 0) {
+            this.roundWins ++;
+            checkPrizeCardState(opponent);
+
+
+        }
+    }
+
+    public void renderWinRound(Painter g, Player opponent) {
+        g.drawString(this.getName() + " wins the round!", winRoundTextX, winRoundTextY);
+        g.drawString(opponent.getName() + " has been given another card ", winRoundText2X, winRoundText2Y);
+    }
+
+    /**
+     * This method checks to see if a player should be awarded a prize card
+     * @param opponent- the losing player of the round
+     */
+    public void checkPrizeCardState(Player opponent) {
+        if (opponent.getActiveCard().getHp() <= 0) {
+            // If the hp of the active card gets below zero, retreat it
+            opponent.retreat();
+            //move another card from the bench to replace it
+            opponent.setActiveCard(opponent.getBench().remove(0));
+            Assets.currentCardInPlay = opponent.getActiveCard();
+            //give a prize card to the winner of the round
+            flipPrizeCard();
+        }
+    }
+
+
+
+
+    /**
+     * This method flips over a prize card for the winning player each time that player wins a round
+     */
+    public void flipPrizeCard() {
+        for (int i= 0; i <this.getPrizeCards().size(); i++) {
+            if (!this.getPrizeCards().get(i).isFlipped()) {
+                this.getPrizeCards().get(i).flipCard();
+                //play sound of card being flipped over
+                Assets.playSound(Assets.prizeID);
+                break;
+            }
         }
     }
 }

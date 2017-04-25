@@ -48,6 +48,10 @@ public class StudentBehaviourCard extends Card {
         return flipped;
     }
 
+    public void setFlipped(boolean flipped) {
+        this.flipped = flipped;
+    }
+
     public void flipCard() {
         flipped = true;
     }

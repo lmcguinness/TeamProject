@@ -10,6 +10,8 @@ import com.example.societyslam.societyslam.Game.MainActivity;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 
+import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
+
 /**
  * This class displays a game over state on screen once a player has won the game
  */
@@ -20,20 +22,35 @@ public class GameOverState extends State {
     private String player2Name = "";
     private Button playAgainButton, homeButton, shareButton;
     private int player1Wins,player2Wins;
-    private String endScore;
+    private int buttonLeft = 316, buttonRight = 484, playAgainButtonTop = 245, playAgainButtonBottom = 285,homeButtonTop = 305,homeButtonBottom = 350;
+    private int winnerScore;
+    private String score;
     private String winnersName = " ";
+    private float textSize = 40;
+    private int nameX = 210,nameY = 140,scoreX = 350,scoreY = 225;
+
 
     /**
      * This is the constructor for the gameOverState
-     * @param playerScore- the score the  winning player has received
+     * @param player1Wins- the number of rounds player 1 won
+     * @param player2Wins - the number of rounds player 2 won
      * @param winnerPlayer- the player with the highest score
      */
-    public GameOverState(int playerScore, String winnerPlayer){
-        endScore = playerScore + ""; //conver int to string
+    public GameOverState(int player1Wins, int player2Wins, String winnerPlayer){
+
+        this.player1Wins = player1Wins;
+        this.player2Wins = player2Wins;
+
+        if(player1Wins > player2Wins) {
+            winnerScore = player1Wins;
+        } else if (player2Wins > player1Wins) {
+            winnerScore = player2Wins;
+        }
+        score = winnerScore + ""; //conver int to string
         winnersName = winnerPlayer;
         //check to see if the new score is higher than the saved highest score
-        if(playerScore >= MainActivity.getHighScore()){
-            MainActivity.setHighScore(playerScore);
+        if(winnerScore >= MainActivity.getHighScore()){
+            MainActivity.setHighScore(winnerScore);
             MainActivity.setHighScorePlayer(winnersName);
         }
     }
@@ -48,18 +65,14 @@ public class GameOverState extends State {
         player1Name = sharedPreferences.getString("player1name", "");
         player2Name = sharedPreferences.getString("player2name", "");
 
-        playAgainButton = new Button(316, 245, 484, 285, Assets.playAgainButton);
-        homeButton = new Button(316, 305, 484, 350, Assets.homeButton);
+        playAgainButton = new Button(buttonLeft, playAgainButtonTop, buttonRight, playAgainButtonBottom, Assets.playAgainButton);
+        homeButton = new Button(buttonLeft, homeButtonTop, buttonRight, homeButtonBottom, Assets.homeButton);
         shareButton = new Button(316,365,484,415, Assets.shareButton);
-        player1Wins = PlayState.getPlayer1Wins();
-        player2Wins = PlayState.getPlayer2Wins();
 
-        if(PlayState.isPlayer1Winner()) {
-            winnersName = player1Name;
-        } else if (PlayState.isPlayer2Winner()) {
-            winnersName = player2Name;
-        }
-        endScore = (player1Wins + " - " + player2Wins);
+
+
+
+        score = (player1Wins + " - " + player2Wins);
 
 
 
@@ -81,10 +94,10 @@ public class GameOverState extends State {
         playAgainButton.render(g);
         homeButton.render(g);
         shareButton.render(g);
-        g.setFont(Typeface.DEFAULT_BOLD, 40);
-           g.drawString(winnersName + " has won the game!", 210, 140);
-           winnersName = player2Name;
-       g.drawString(endScore, 350, 225);
+        g.setFont(Typeface.DEFAULT_BOLD, textSize);
+           g.drawString(winnersName + " has won the game!", nameX, nameY);
+
+       g.drawString(score, scoreX, scoreY);
     }
 
     /**
@@ -106,6 +119,7 @@ public class GameOverState extends State {
             if(playAgainButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
                 playAgainButton.cancel();
+                myGame.restartGame();
                 setCurrentState(new CoinTossState());
             } else if (homeButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);

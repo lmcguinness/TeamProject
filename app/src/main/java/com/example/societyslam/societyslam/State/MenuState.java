@@ -13,7 +13,29 @@ import com.example.societyslam.societyslam.Util.Painter;
  */
 
 public class MenuState extends State {
-    private Button startButton, howToPlayButton, SettingsButton, scoreButton, onePlayerButton, twoPlayerButton, hardButton, easyButton, startButtonPolish, howToPlayButtonPolish, settingsButtonPolish, scoreButtonPolish, backArrowButton;
+
+    private Button startButton, howToPlayButton, SettingsButton, scoreButton, onePlayerButton,
+                   twoPlayerButton, hardButton, easyButton, startButtonPolish,
+                   howToPlayButtonPolish, settingsButtonPolish, scoreButtonPolish,  backArrowButton;
+
+    private int buttonTop = 360;
+    private int buttonBottom = 420;
+    private int howToPlayButtonLeft = 85;
+    private int howToPlayButtonRight = 225;
+    private int startButtonLeft = 240;
+    private int startButtonRight = 380;
+    private int scoreButtonLeft = 405;
+    private int scoreButtonRight = 545;
+    private int settingsButtonLeft = 560;
+    private int settingButtonRight = 680;
+    private int chooseModeButtonTop = 380;
+    private int chooseModeButtonBottom = 440;
+
+    private float textSize = 30;
+    private float textSize2 = 20;
+    private int textX = 120;
+    private int textY = 375;
+
     private static boolean isTwoPlayer , hard, easy;
     private boolean isStartPressed = false, isModeChosen = false;
     public static boolean getIsTwoPlayer(){
@@ -25,19 +47,20 @@ public class MenuState extends State {
 
     @Override
     public void init() {
-        howToPlayButton = new Button(85, 360, 225, 420, Assets.howToPlay);
-        startButton = new Button(240, 360, 380, 420, Assets.start);
-        scoreButton = new Button(405, 360, 545, 420, Assets.highScoreButton);
-        SettingsButton = new Button(560, 360, 680, 420, Assets.SettingsButton);
-        howToPlayButtonPolish = new Button(85,360,225,420, Assets.HowToPlayButton_Polish);
-        startButtonPolish = new Button(240,360,380,420, Assets.startButton_Polish);
-        scoreButtonPolish = new Button(405,360,545,420, Assets.highScoresButton_Polish);
-        settingsButtonPolish = new Button(560,360,680,420, Assets.SettingsButton_Polish);
-        onePlayerButton = new Button(240,380, 380, 440,Assets.onePlayerButton);
-        twoPlayerButton = new Button(405,380,545,440,Assets.twoPlayerButton);
-        easyButton = new Button(240,380, 380, 440,Assets.easyButton);
-        hardButton = new Button(405,380,545,440,Assets.hardButton);
+        howToPlayButton = new Button(howToPlayButtonLeft, buttonTop, howToPlayButtonRight, buttonBottom, Assets.howToPlay);
+        startButton = new Button(startButtonLeft, buttonTop, startButtonRight, buttonBottom, Assets.start);
+        scoreButton = new Button(scoreButtonLeft, buttonTop, scoreButtonRight, buttonBottom, Assets.highScoreButton);
+        SettingsButton = new Button(settingsButtonLeft, buttonTop, settingButtonRight, buttonBottom, Assets.SettingsButton);
+        howToPlayButtonPolish = new Button(howToPlayButtonLeft,buttonTop,howToPlayButtonRight,buttonBottom, Assets.HowToPlayButton_Polish);
+        startButtonPolish = new Button(startButtonLeft,buttonTop,startButtonRight,buttonBottom, Assets.startButton_Polish);
+        scoreButtonPolish = new Button(scoreButtonLeft,buttonTop,scoreButtonRight,buttonBottom, Assets.highScoresButton_Polish);
+        settingsButtonPolish = new Button(settingsButtonLeft,buttonTop,settingButtonRight,buttonBottom, Assets.SettingsButton_Polish);
+        onePlayerButton = new Button(startButtonLeft,chooseModeButtonTop, startButtonRight, chooseModeButtonBottom,Assets.onePlayerButton);
+        twoPlayerButton = new Button(scoreButtonLeft,chooseModeButtonTop,scoreButtonRight,chooseModeButtonBottom,Assets.twoPlayerButton);
+        easyButton = new Button(startButtonLeft,chooseModeButtonTop, startButtonRight, chooseModeButtonBottom,Assets.easyButton);
+        hardButton = new Button(scoreButtonLeft,chooseModeButtonTop,scoreButtonRight,chooseModeButtonBottom,Assets.hardButton);
         backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton);
+
     }
 
     @Override
@@ -64,14 +87,13 @@ public class MenuState extends State {
             super.getPainter().drawImage(Assets.welcome,0,0);
             onePlayerButton.render(g);
             twoPlayerButton.render(g);
-            g.setFont(Typeface.DEFAULT_BOLD, 30);
-            g.drawString("Choose which mode you would like to play", 120, 375);
-            backArrowButton.render(g);
+            g.setFont(Typeface.DEFAULT_BOLD, textSize);
+            g.drawString("Choose which mode you would like to play", textX, textY);
         }
         if(isModeChosen){
             super.getPainter().drawImage(Assets.welcome,0,0);
-            g.setFont(Typeface.DEFAULT_BOLD, 20);
-            g.drawString("Choose which difficulty level you would like to play against: ", 120, 375);
+            g.setFont(Typeface.DEFAULT_BOLD, textSize2);
+            g.drawString("Choose which difficulty level you would like to play against: ", textX, textY);
             easyButton.render(g);
             hardButton.render(g);
             backArrowButton.render(g);
@@ -98,6 +120,7 @@ public class MenuState extends State {
                 //Log.d("MENU STATE", "HOW TO PLAY BUTTON PRESSED");
                 //setCurrentState(new HowToPlayState(this));
                 setCurrentState(new HowToPlayState());
+
             } else if (SettingsButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
                 SettingsButton.cancel();
@@ -152,13 +175,7 @@ public class MenuState extends State {
                 Assets.playSound(Assets.buttonClickID);
                 hard = true;
                 hardButton.cancel();
-               setCurrentState(new OnePlayerState());
-            }else if (backArrowButton.isPressed(scaledX, scaledY) && isModeChosen) {
-                Assets.playSound(Assets.buttonClickID);
-                backArrowButton.cancel();
-                isStartPressed = true;
-                isModeChosen = false;
-                return  true;
+               // setCurrentState(new CoinTossState());
             }
         }
         return true;

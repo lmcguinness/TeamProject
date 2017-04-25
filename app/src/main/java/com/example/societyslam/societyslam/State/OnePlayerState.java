@@ -53,12 +53,14 @@ public class OnePlayerState extends State {
     @Override
     public void init() {
         Assets.InitialiseCards();
-        player1 = new Player(Assets.myDeck,Assets.currentCardInPlay,Assets.playersCards,Assets.prizeCardDeck1, true,0);
-        cpu1 = new CPU(Assets.myDeck, Assets.currentCardInPlay2, Assets.player2Cards, Assets.prizeCardDeck2,false,0);
+
 
         //Set the players names
         player1Name = "Player 1";
         player2Name = "CPU1";
+
+        player1 = new Player(Assets.myDeck,Assets.currentCardInPlay,Assets.playersCards,Assets.prizeCardDeck1, true,0, player1Name);
+        cpu1 = new CPU(Assets.myDeck, Assets.currentCardInPlay2, Assets.player2Cards, Assets.prizeCardDeck2,false,0, player2Name);
 
         //Set the background music to keep playing
         Assets.playBackground(Assets.backgroundMusicID);
@@ -214,7 +216,7 @@ public class OnePlayerState extends State {
                     if(player2Wins >= cpu1.getPrizeCards().size()) {
                         setPlayer2Winner(true);
                         cpu1.setWinner(true);
-                        setCurrentState(new GameOverState(player2Wins, player2Name));
+                        setCurrentState(new GameOverState(player1Wins, player2Wins, player2Name));
                     }
                 }
                 //will attach matching energyCard to the activeCard
@@ -254,7 +256,7 @@ public class OnePlayerState extends State {
                     if(player1Wins >= player1.getPrizeCards().size()){
                         setPlayer1Winner(true);
                         player1.setWinner(true);
-                        setCurrentState(new GameOverState(player1Wins, player1Name));
+                        setCurrentState(new GameOverState(player1Wins, player2Wins, player1Name));
                     }
                 }
 
@@ -452,7 +454,7 @@ public class OnePlayerState extends State {
                     if (player1.isMyTurn()) {
                         if (Assets.currentCardInPlay != null) {
                             // move the current card back to bench
-                            player1.getActiveCard().retreat(player1);
+                            player1.retreat();
                             // remove previous active card from board
                             Assets.currentCardInPlay = null;
                             retreatError = false;
@@ -677,7 +679,7 @@ public class OnePlayerState extends State {
     public void checkPrizeCardState(Player winner, Player loser) {
         if (loser.getActiveCard().getHp() <= 0) {
             // If the hp of the active card gets below zero, retreat it
-            loser.getActiveCard().retreat(loser);
+            loser.retreat();
             //move another card from the bench to replace it
             loser.setActiveCard(loser.getBench().remove(0));
             Assets.currentCardInPlay = loser.getActiveCard();
