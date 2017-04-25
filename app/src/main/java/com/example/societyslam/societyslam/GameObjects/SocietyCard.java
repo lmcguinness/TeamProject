@@ -125,8 +125,6 @@ public class SocietyCard extends Card {
             System.out.println(this.getName() + " has retreated");
             player.getBench().add(this);
             player.setActiveCard(null);
-
-
     }
 
     public void evolve() {

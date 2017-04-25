@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Game.MainActivity;
+import com.example.societyslam.societyslam.GameObjects.Player;
+import com.example.societyslam.societyslam.GameObjects.SocietyCard;
+import com.example.societyslam.societyslam.State.CoinTossState;
 import com.example.societyslam.societyslam.State.PlayState;
 
 import junit.framework.Assert;
@@ -25,11 +28,13 @@ import android.content.SharedPreferences;
 @RunWith(MockitoJUnitRunner.class)
 public class PlayState_test {
 
+    Player mockPlayer1 = new Player(Assets.myDeck,Assets.currentCardInPlay,Assets.playersCards,Assets.prizeCardDeck1, CoinTossState.getIsPlayer1Turn(),0);
+    Player mockPlayer2 = new Player(Assets.myDeck, Assets.currentCardInPlay2, Assets.player2Cards, Assets.prizeCardDeck2, CoinTossState.getIsPlayer2Turn(),0);
+
     @Test
     public void setPlayer1Winner_SetPlayer1WinnerToTrue() {
         PlayState playState = new PlayState();
         playState.setPlayer1Winner(true);
-
         Assert.assertEquals(true, PlayState.player1Winner);
 
     }
@@ -60,4 +65,5 @@ public class PlayState_test {
         Assert.assertEquals(false, PlayState.player2Winner);
 
     }
+
 }
