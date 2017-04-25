@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
+import com.example.societyslam.societyslam.Game.MainActivity;
 import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.GameObjects.StudentBehaviourCard;
 import com.example.societyslam.societyslam.GameObjects.Type;
@@ -16,6 +17,7 @@ import com.example.societyslam.societyslam.ai.CPU;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.example.societyslam.societyslam.Game.MainActivity.mediaPlayer;
 import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 /**
@@ -63,7 +65,7 @@ public class OnePlayerState extends State {
         cpu1 = new CPU(Assets.myDeck, Assets.currentCardInPlay2, Assets.player2Cards, Assets.prizeCardDeck2,false,0, player2Name);
 
         //Set the background music to keep playing
-        Assets.playBackground(Assets.backgroundMusicID);
+       // Assets.playBackground(Assets.backgroundMusicID);
 
         //initializing buttons
         playButton = new Button(336, 385, 504, 444, Assets.start);
@@ -318,6 +320,14 @@ public class OnePlayerState extends State {
         }
         if(isPause){
             super.getPainter().drawImage(Assets.pauseMenu,100,50);
+            //pause the background music when the game is paused
+            if(mediaPlayer != null){
+                mediaPlayer.pause();
+                if(isFinishing()){
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                }
+            }
             resumeButton.render(g);
             restartButton.render(g);
             quitButton.render(g);
@@ -553,6 +563,13 @@ public class OnePlayerState extends State {
             if (resumeButton.isPressed(scaledX, scaledY)  && isPause) {
                 //resume playing the game
                 isPause=false;
+                int currentVol = MainActivity.settings.getVolume("musicValue");
+                if(mediaPlayer != null){
+                    if (currentVol == 0) {
+                        mediaPlayer.setVolume(currentVol/10.0f, currentVol/10.0f);
+                    }
+                    mediaPlayer.start();
+                }
             }else{
                 resumeButton.cancel();
             }
@@ -572,6 +589,16 @@ public class OnePlayerState extends State {
             }
             if (quitButton.isPressed(scaledX, scaledY)  && isPause) {
                 isPause=false;
+
+                //resume the back ground music
+                int currentVol = MainActivity.settings.getVolume("musicValue");
+                if(mediaPlayer != null){
+                    if (currentVol == 0) {
+                        mediaPlayer.setVolume(currentVol/10.0f, currentVol/10.0f);
+                    }
+                    mediaPlayer.start();
+                }
+
                 //Takes player back the games start menu
                 myGame.quitGame();
             }else{
