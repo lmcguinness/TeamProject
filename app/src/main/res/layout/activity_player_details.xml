@@ -41,10 +41,10 @@
         android:id="@+id/editText2" />
 
     <Button
-        android:text="Continue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FF0000"
-        android:textColor="#ffffff"
-        android:id="@+id/Continue" />
+    android:text="Continue"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FF0000"
+    android:textColor="#ffffff"
+    android:id="@+id/Continue" />
 </LinearLayout>

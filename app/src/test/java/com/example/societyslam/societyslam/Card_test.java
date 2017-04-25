@@ -1,27 +1,15 @@
 package com.example.societyslam.societyslam;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-
 import com.example.societyslam.societyslam.Game.Assets;
-import com.example.societyslam.societyslam.Game.MainActivity;
-import com.example.societyslam.societyslam.GameObjects.Card;
 import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.GameObjects.SocietyCard;
 import com.example.societyslam.societyslam.GameObjects.Type;
 import com.example.societyslam.societyslam.State.CoinTossState;
-import com.example.societyslam.societyslam.State.PlayState;
 
 import junit.framework.Assert;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.*;
-import static org.mockito.Mockito.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import android.content.SharedPreferences;
 
 @RunWith(MockitoJUnitRunner.class)
 public class Card_test {
