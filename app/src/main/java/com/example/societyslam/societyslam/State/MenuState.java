@@ -175,7 +175,13 @@ public class MenuState extends State {
                 Assets.playSound(Assets.buttonClickID);
                 hard = true;
                 hardButton.cancel();
-               // setCurrentState(new CoinTossState());
+                setCurrentState(new OnePlayerState());
+            }else if (backArrowButton.isPressed(scaledX, scaledY) && isModeChosen) {
+                Assets.playSound(Assets.buttonClickID);
+                backArrowButton.cancel();
+                isStartPressed = true;
+                isModeChosen = false;
+                return  true;
             }
         }
         return true;
