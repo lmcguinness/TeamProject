@@ -213,6 +213,7 @@ public class PlayState extends State {
                 if(player1Score <=0){
 
                     player2.winRound(player1);
+
                     player2Wins++;
                     displayWin1 = true;
                     if(player2.checkIfWinner()) {
@@ -247,7 +248,7 @@ public class PlayState extends State {
 
                 //Attach matching energyCard to player2 active society Card
                 attachEnergyCard(player2,g);
-                super.getPainter().drawImage(Assets.currentCardInPlay2.getPicture(), player2ActiveCardLeft, activeCardTop, cardWidth , cardHeight);
+                g.drawImage(Assets.currentCardInPlay2.getPicture(), player2ActiveCardLeft, activeCardTop, cardWidth , cardHeight);
             }
         }
         if(player1.getMyCards().getMyDeck().size()>0){
@@ -846,10 +847,12 @@ public class PlayState extends State {
         //If player ones score falls below zero
         if(displayWin1){
             player2.renderWinRound(g, player1);
+
         }
         //If player twos score fall below zero
          else if(displayWin2){
             player1.renderWinRound(g, player2);
+
         }
     }
 

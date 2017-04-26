@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.State.GameOverState;
+import com.example.societyslam.societyslam.State.PlayState;
 import com.example.societyslam.societyslam.Util.Painter;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
  *
  */
 public class Player {
+   // public static PlayState playState;
 
    private  Deck myCards;
     private SocietyCard activeCard;
@@ -306,6 +308,7 @@ public class Player {
             //move another card from the bench to replace it
             opponent.setActiveCard(opponent.getBench().remove(0));
             Assets.currentCardInPlay = opponent.getActiveCard();
+           // playState.attachEnergyCard(opponent, Painter g);
             //give a prize card to the winner of the round
             flipPrizeCard();
         }

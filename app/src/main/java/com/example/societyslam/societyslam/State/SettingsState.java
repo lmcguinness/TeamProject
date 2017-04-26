@@ -21,6 +21,26 @@ import java.util.ArrayList;
 
 public class SettingsState extends State {
 
+    private int buttonTop = 120;
+    private int buttonTop2 = 260;
+    private int buttonBottom = 219;
+    private int buttonButtom2= 428;
+    private int minusButtonLeft = 260;
+    private int minusButtonRight = 364;
+    private int plusButtonLeft = 430;
+    private int plusButtonRight = 534;
+    private int englishButtonLeft = 264;
+    private int englishButtonRight = 220;
+    private int polishButtonLeft = 319;
+    private int polishButtonRight = 275;
+
+    private float textSize = 25;
+    private int textX = 120;
+    private int textY = 170;
+    private int textY2 = 250;
+    private int textX2 = 385;
+    private int textY3= 178;
+
     public Button backArrowButton;
     public Button minusButton;
     public Button plusButton;
@@ -43,11 +63,11 @@ public class SettingsState extends State {
 
     @Override
     public void init() {
-        backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton);
-        minusButton = new Button(260, 120, 364, 219, Assets.minusButton);
-        plusButton = new Button(430, 120, 534, 219, Assets.plusButton);
-        englishButton = new Button(260, 220, 428, 264, Assets.english_Button);
-        polishButton = new Button(260, 275, 428, 319, Assets.polish_Button);
+        backArrowButton = new Button(-8, -10, buttonTop, 100, Assets.backArrowButton);
+        minusButton = new Button(minusButtonLeft, buttonTop, minusButtonRight, buttonBottom, Assets.minusButton);
+        plusButton = new Button(plusButtonLeft, buttonTop, plusButtonRight, buttonBottom, Assets.plusButton);
+        englishButton = new Button(buttonTop2, englishButtonRight, buttonButtom2, englishButtonLeft, Assets.english_Button);
+        polishButton = new Button(buttonTop2, polishButtonRight, buttonButtom2, polishButtonLeft, Assets.polish_Button);
         musicVol = MainActivity.settings.getVolume("musicValue");
 
     }
@@ -75,11 +95,11 @@ public class SettingsState extends State {
             plusButton.render(g);
             englishButton.render(g);
             polishButton.render(g);
-            g.setFont(Typeface.DEFAULT_BOLD, 25);
+            g.setFont(Typeface.DEFAULT_BOLD, textSize);
             g.setColor(Color.WHITE);
-            g.drawString(String.valueOf(musicVol),385,178, Color.WHITE);
-            g.drawString("Volume: ", 120,170, Color.WHITE);
-            g.drawString("Language: ", 120,250, Color.WHITE);
+            g.drawString(String.valueOf(musicVol),textX2,textY3, Color.WHITE);
+            g.drawString("Volume: ", textX,textY, Color.WHITE);
+            g.drawString("Language: ", textX,textY2, Color.WHITE);
 
         } else if (currentLanguage == "Polish") {
             g.drawImage(Assets.coinTossBackground, 0,0);
@@ -88,11 +108,11 @@ public class SettingsState extends State {
             plusButton.render(g);
             englishButton.render(g);
             polishButton.render(g);
-            g.setFont(Typeface.DEFAULT_BOLD, 25);
+            g.setFont(Typeface.DEFAULT_BOLD, textSize);
             g.setColor(Color.WHITE);
-            g.drawString(String.valueOf(musicVol),385,178, Color.WHITE);
-            g.drawString("głośność: ", 120,170, Color.WHITE);
-            g.drawString("Język: ", 120,250, Color.WHITE);
+            g.drawString(String.valueOf(musicVol),textX2,textY3, Color.WHITE);
+            g.drawString("głośność: ", textX,textY, Color.WHITE);
+            g.drawString("Język: ", textX,textY2, Color.WHITE);
         }
 
 
