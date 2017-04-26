@@ -90,6 +90,7 @@ public class MenuState extends State {
             twoPlayerButton.render(g);
             g.setFont(Typeface.DEFAULT_BOLD, textSize);
             g.drawString("Choose which mode you would like to play", textX, textY, Color.WHITE);
+            backArrowButton.render(g);
         }
         if(isModeChosen){
             super.getPainter().drawImage(Assets.welcome,0,0);

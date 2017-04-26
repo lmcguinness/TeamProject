@@ -229,7 +229,6 @@ public class CPU extends Player {
             case 1:
                     System.out.println("Hi my name is Berty, hope you're better than the last one!");
                     return 6;
-
             case 2:
                 if (opponent.getAttackDamage() < 20) {
                     System.out.println("Is that all you got?");
@@ -327,6 +326,7 @@ public class CPU extends Player {
                 }
             }
         }
+        //print sorted arrays to console
     for (int i = 0; i < 5; i++) {
         System.out.println(i + "\t" + inOrderOfHpLevel.get(i).getName()+ "\t" + inOrderOfHpLevel.get(i).getHp() + "\n");
     }
@@ -334,19 +334,36 @@ public class CPU extends Player {
         System.out.println(i + "\t" + inOrderOfAttackDamage.get(i).getName() +"\t" + inOrderOfAttackDamage.get(i).getPotentialAttackDamage() + "\n");
     }
     }
+    /**
+     * This method is used to set the variable urgency level to a certain value
+     * @param opponent
+     * @param cpu
+    */
     public void calculateLevelOfUrgency(Player opponent, CPU cpu){
         urgencyLevel=0;
+        //if opponent only needs to win one more round
        if(opponent.getRoundWins() >= 5){
            urgencyLevel+=1;
        }
+        // if cpu i getting beat by three rounds
         if((opponent.getRoundWins() - cpu.getRoundWins()) >= 3){
-            urgencyLevel+=1;
+            urgencyLevel+=2;
         }
-        if(opponent.getActiveCard().getAttackStrength() >= inOrderOfOverallPosition.get(inOrderOfAttackDamage.size() - 1).getPotentialAttackDamage()){
+        //if opponent's active card has a attack strength greater than the 'best card' the CPU has to offer
+        if(opponent.getActiveCard().getAttackStrength() > inOrderOfOverallPosition.get(inOrderOfAttackDamage.size() - 1).getPotentialAttackDamage()){
             urgencyLevel+=3;
         }
+        //if cpu is winning by three rounds decrease urgency level
         if((cpu.getRoundWins() - opponent.getRoundWins()) >= 3){
             urgencyLevel+=-2;
+        }
+        //if opponent's active card has a attack strength greater than CPU's hp
+        if(opponent.getActiveCard().getAttackStrength() >= cpu.getActiveCard().getHp()){
+            urgencyLevel+=2;
+        }
+        //if opponent's active card has a attack strength greater than 20
+        if(opponent.getActiveCard().getAttackStrength()>=20){
+            urgencyLevel+=1;
         }
     }
 
@@ -384,11 +401,9 @@ public class CPU extends Player {
         }
         //if mode chosen is hard
         if(MenuState.isHard()) {
-            // if opponent is in last round or
-            // if opponent is winning by three or more rounds
-            // if opponent has an active card with a better attack damage than that of the lat card in our array
+            //if urgency level is greater than three
             // use card with best attack damage
-            if (opponent.getRoundWins() >= 5 || (opponent.getRoundWins() - cpu1.getRoundWins()) >= 3 || opponent.getActiveCard().getAttackStrength() >= inOrderOfOverallPosition.get(inOrderOfAttackDamage.size() - 1).getPotentialAttackDamage()) {
+            if (urgencyLevel>=3) {
                 return inOrderOfAttackDamage.get(inOrderOfAttackDamage.size() - 1);
             } else {
                 //if the card chosen has a weakness to the opponents current card in play choose the second best card
@@ -400,11 +415,9 @@ public class CPU extends Player {
             }
             //else: mode chosen is easy
         }else {
-            // if opponent is in last round or
-            // if opponent is winning by three or more rounds
-            // if opponent has an active card with a better attack damage than that of the third last card in our array
+            //if urgency level is greater than three
             // use card with best attack damage
-            if (opponent.getRoundWins() >= 5 || (opponent.getRoundWins() - cpu1.getRoundWins()) >= 3 || opponent.getActiveCard().getAttackStrength() >= inOrderOfOverallPosition.get(inOrderOfAttackDamage.size() - 3).getPotentialAttackDamage()) {
+            if (urgencyLevel>=3) {
                 return inOrderOfAttackDamage.get(inOrderOfAttackDamage.size() - 3);
             } else {
                 //if the card chosen has a weakness to the opponents current card in play choose the second best card
@@ -431,8 +444,8 @@ public class CPU extends Player {
      * @param cpu1
      */
     public void makeMove(CPU cpu1, Player opponent){
-        //  talk(opponent, cpu1);
         scanCards(cpu1, opponent);
+        calculateLevelOfUrgency(opponent, cpu1);
         cardOfChoice = chooseCard(opponent, cpu1);
         if(cardOfChoice == cpu1.getActiveCard()){
             cpu1.stall(3000);

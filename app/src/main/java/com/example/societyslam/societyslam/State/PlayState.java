@@ -86,6 +86,7 @@ public class PlayState extends State {
     private Player player1,player2;
 
     //The names of the players
+
     private String player1Name, player2Name;
 
 
@@ -337,7 +338,6 @@ public class PlayState extends State {
                     isMenu = false;
                     attackButton.cancel();
                     if (player1.isMyTurn()) {
-
                         //call the attack method
                         player1.attack(player2);
                         //set to true to display the attack which was used and how many points lost

@@ -21,7 +21,7 @@ import com.example.societyslam.societyslam.Util.Painter;
 
 public class CoinTossState extends State {
     private Button flipCoinButton , continueButton, chooseHeadsButton, chooseTailsButton;
-    private Coin coin;
+    private Coin coin1;
     private boolean isPlayer1Heads, decided =false, isFirstToss = false;
     private static boolean  isPlayer1Turn, isPlayer2Turn;
     private String player1Name = "";
@@ -37,7 +37,6 @@ public class CoinTossState extends State {
         continueButton = new Button(316, 15, 484, 65, Assets.continueButton);
         chooseHeadsButton = new Button(116, 225, 284, 324 , Assets.coin4);
         chooseTailsButton = new Button(516, 225, 684, 324 , Assets.coin3);
-        coin = new Coin();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         if(MenuState.getIsTwoPlayer()) {
             player1Name = sharedPreferences.getString("player1name", "");
@@ -109,34 +108,42 @@ public class CoinTossState extends State {
                 Assets.coinAnim.render(g, 185, 165, 415, 195);
             } else {
                 //Result of Coin Flip: heads
-                if (coin.result == 0 && isPlayer1Heads) {
-                    super.getPainter().drawImage(Assets.coin4,  185, 165, 415, 195);
+                if(coin1 == Coin.HEADS && isPlayer1Heads) {
+                    // if (coin.result == 0 && isPlayer1Heads) {
+                   g.drawImage(Assets.coin4, 185, 165, 415, 195);
                     //player 1 is heads, player1s go
-                    g.drawString("Heads! " + player1Name +  " goes first!", 270, 130, Color.WHITE);
+                    g.drawString("Heads! " + player1Name + " goes first!", 270, 130, Color.WHITE);
                     //set respective variables to true/false
                     isPlayer1Turn = true;
+                    System.out.println("ayo");
                     isPlayer2Turn = false;
-                }else if(coin.result == 0 && !isPlayer1Heads){
-                    super.getPainter().drawImage(Assets.coin4,  185, 165, 415, 195);
+                    //Result of Coin Flip: heads
+                }else if(coin1 == Coin.HEADS && !isPlayer1Heads){
+                   g.drawImage(Assets.coin4,  185, 165, 415, 195);
                     //player 2 is heads, player 2s go
                     g.drawString("Heads! " + player2Name +  " goes first!", 270, 130, Color.WHITE);
                     //set respective variables to true/false
                     isPlayer2Turn =true;
+                    System.out.println("ayo");
                     isPlayer1Turn = false;
                 }
                 //Result of Coin Flip: tails
-               if (coin.result == 1 && !isPlayer1Heads) {
-                    super.getPainter().drawImage(Assets.coin3,  185, 165, 415, 195);
+                if(coin1 == Coin.TAILS && !isPlayer1Heads) {
+                    // if (coin.result == 1 && !isPlayer1Heads) {
+                    g.drawImage(Assets.coin3, 185, 165, 415, 195);
                     // player 1 is tails, player 1s go
-                   g.drawString("Tails! " + player1Name +  " goes first!", 270, 130, Color.WHITE);
-                   //set respective variables to true/false
-                   isPlayer1Turn = true;
-                   isPlayer2Turn = false;
-                }else if(coin.result == 1 && isPlayer1Heads){
-                   super.getPainter().drawImage(Assets.coin3,  185, 165, 415, 195);
+                    g.drawString("Tails! " + player1Name + " goes first!", 270, 130, Color.WHITE);
+                    //set respective variables to true/false
+                    isPlayer1Turn = true;
+                    isPlayer2Turn = false;
+                    System.out.println("ayo");
+                    //Result of Coin Flip: tails
+                }else if(coin1 == Coin.TAILS && isPlayer1Heads){
+                   g.drawImage(Assets.coin3,  185, 165, 415, 195);
                    // player 2 is tails, player 2s go
                    g.drawString("Tails! " + player2Name +  " goes first!", 270, 130, Color.WHITE);
                    //set respective variables to true/false
+                    System.out.println("ayo");
                    isPlayer2Turn = true;
                    isPlayer1Turn = false;
                }
@@ -163,8 +170,8 @@ public class CoinTossState extends State {
             Assets.playSound(Assets.coinID);
             flipCoinButton.cancel();
             isFirstToss= true;
-            coin.flip();
-
+            coin1 = coin1.flip();
+            System.out.println(coin1);
         } else {
             flipCoinButton.cancel();
         }

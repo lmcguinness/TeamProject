@@ -1,41 +1,26 @@
 package com.example.societyslam.societyslam.GameObjects;
 
-import com.example.societyslam.societyslam.Game.Assets;
-import com.example.societyslam.societyslam.Util.Animation;
-
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
- * Created by James on 09/02/2017.
+ * Created by James on 26/04/2017.
  */
-
 /**
- * The Coin object is created as we need to determine who goes first
+ * The Coin enum is created as we need to determine who goes first
  */
+public enum Coin {
+    HEADS, TAILS;
 
-public class Coin {
-    Random randomNum = new Random();
-    public int result;
-
-    /**
-     * Here we set the variable isHeads =0, therefore if the flip method returns 0 the coin flipped heads hence,
-     * Heads = 0
-     * Tails = 1
-     */
-    private int isHeads = 0;
-
+    private static final List<Coin> SIDES =  Collections.unmodifiableList(Arrays.asList(values()));
+    private static final int SIZE = SIDES.size();
+    private static final Random RANDOM = new Random();
     /**
      * The flip method is used to simulate a fair coin toss
      */
-    public void flip() {
-        result = randomNum.nextInt(2);
-        if (result == isHeads)  {
-            System.out.println("You flipped Heads!");
-        } else {
-            System.out.println("You flipped Tails!");
-        }
+    public static Coin flip() {
+        return SIDES.get(RANDOM.nextInt(SIZE));
     }
 }
-
-
-
