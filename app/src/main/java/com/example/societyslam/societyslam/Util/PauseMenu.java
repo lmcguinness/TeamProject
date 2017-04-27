@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Game.MainActivity;
 import com.example.societyslam.societyslam.State.PlayState;
+import com.example.societyslam.societyslam.State.SettingsState;
 
 import static com.example.societyslam.societyslam.Game.MainActivity.mediaPlayer;
 import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
@@ -16,10 +17,12 @@ import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 public class PauseMenu extends Menu {
 
+    private boolean instructionsScreen = false;
     private Button resumeButton;
     private Button restartButton;
     private Button instructionsButton;
     private Button quitButton;
+    private Button backArrowButton;
     private int buttonLeft = 316,buttonRight = 484;
     private int resumeButtonTop = 125,  resumeButtonBottom = 165;
     private int restartButtonTop = 185, restartButtonBottom = 225;
@@ -49,6 +52,7 @@ public class PauseMenu extends Menu {
         restartButton = new Button(buttonLeft, restartButtonTop, buttonRight, restartButtonBottom, Assets.restart);
         instructionsButton = new Button(buttonLeft, instructionsButtonTop, buttonRight, instructionsButtonBottom, Assets.instructions);
         quitButton = new Button(buttonLeft, quitButtonTop, buttonRight, quitButtonBottom, Assets.quit);
+        backArrowButton = new Button(-8,-10,120,100, Assets.backArrowButton);
     }
 
     /**
@@ -62,6 +66,13 @@ public class PauseMenu extends Menu {
         restartButton.render(g);
         instructionsButton.render(g);
         quitButton.render(g);
+        if(SettingsState.getCurrentLanguage() == "English" && instructionsScreen){
+            g.drawImage(Assets.howToPlayBackground, 0, 0);
+            backArrowButton.render(g);
+        } else if(SettingsState.getCurrentLanguage() == "Polish" && instructionsScreen){
+            g.drawImage(Assets.howToPlayBackground_Polish,0,0);
+            backArrowButton.render(g);
+        }
 
     }
 
@@ -79,17 +90,27 @@ public class PauseMenu extends Menu {
         restartButton.onTouchDown(scaledX, scaledY);
         instructionsButton.onTouchDown(scaledX, scaledY);
         quitButton.onTouchDown(scaledX, scaledY);
+        backArrowButton.onTouchDown(scaledX,scaledY);
 
         resumeButtonOnTouch(scaledX, scaledY, playState);
         restartButtonOnTouch(scaledX, scaledY, playState);
         instructionsButtonOnTouch(scaledX, scaledY, playState);
         quitButtonOnTouch(scaledX, scaledY, playState);
+        backArrowButtonOnTouch(scaledX, scaledY, playState);
 
+    }
 
+    /**
+     * This method will take the user back to the play state once they have read the instructions
+     * @param scaledX - the X coordinate of the touch event
+     * @param scaledY - the Y coordinate of the touch event
+     * @param playState - the play state where the menu is displayed
+     */
 
-
-
-
+    public void backArrowButtonOnTouch(int scaledX, int scaledY, PlayState playState){
+        if(backArrowButton.isPressed(scaledX, scaledY)){
+            instructionsScreen = false;
+        }
     }
 
     /**
@@ -143,7 +164,7 @@ public class PauseMenu extends Menu {
      */
     public void instructionsButtonOnTouch(int scaledX, int scaledY, PlayState playState) {
         if (instructionsButton.isPressed(scaledX, scaledY) && playState.isPause()) {
-            playState.setPause(false);
+            instructionsScreen = true;
 
         }else{
             instructionsButton.cancel();
