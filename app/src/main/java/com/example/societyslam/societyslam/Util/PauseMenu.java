@@ -24,6 +24,7 @@ public class PauseMenu extends Menu {
     private int resumeButtonTop = 125,  resumeButtonBottom = 165;
     private int restartButtonTop = 185, restartButtonBottom = 225;
     private int instructionsButtonTop = 245,instructionsButtonBottom = 285;
+
     private int quitButtonTop = 305, quitButtonBottom = 350;
 
 
@@ -74,15 +75,15 @@ public class PauseMenu extends Menu {
     public void onTouch(int scaledX, int scaledY, PlayState playState) {
 
 
-            resumeButton.onTouchDown(scaledX, scaledY);
-            restartButton.onTouchDown(scaledX, scaledY);
-            instructionsButton.onTouchDown(scaledX, scaledY);
-            quitButton.onTouchDown(scaledX, scaledY);
+        resumeButton.onTouchDown(scaledX, scaledY);
+        restartButton.onTouchDown(scaledX, scaledY);
+        instructionsButton.onTouchDown(scaledX, scaledY);
+        quitButton.onTouchDown(scaledX, scaledY);
 
-            resumeButtonOnTouch(scaledX, scaledY, playState);
-            restartButtonOnTouch(scaledX, scaledY, playState);
-            instructionsButtonOnTouch(scaledX, scaledY, playState);
-            quitButtonOnTouch(scaledX, scaledY, playState);
+        resumeButtonOnTouch(scaledX, scaledY, playState);
+        restartButtonOnTouch(scaledX, scaledY, playState);
+        instructionsButtonOnTouch(scaledX, scaledY, playState);
+        quitButtonOnTouch(scaledX, scaledY, playState);
 
 
 

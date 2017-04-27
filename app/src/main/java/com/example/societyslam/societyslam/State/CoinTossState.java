@@ -20,6 +20,31 @@ import com.example.societyslam.societyslam.Util.Painter;
  */
 
 public class CoinTossState extends State {
+
+    private int buttonTop = 316;
+    private int buttonTop2 = 225;
+    private int buttonBottom = 484;
+    private int buttonBottom2 = 324;
+    private int flipCoinButtonLeft = 385;
+    private int flipCoinButtonRight = 424;
+    private int continueButtonLeft = 15;
+    private int continueButtonRight = 65;
+    private int chooseHeadsButtonLeft = 116;
+    private int chooseHeadsButtonRight = 284;
+    private int chooseTailsButtonLeft = 516;
+    private int chooseTailsButtonRight = 684;
+    private int coinAnimTop = 185;
+    private int coinAnimBottom = 415;
+    private int coinAnimLeft = 165;
+    private int coinAnimRight = 195;
+
+    private float textSize = 25;
+    private int textX = 270;
+    private int textY = 130;
+    private int textX2 = 300;
+    private int textY2 = 108;
+    private int textX3 = 515;
+
     private Button flipCoinButton , continueButton, chooseHeadsButton, chooseTailsButton;
     private Coin coin1;
     private boolean isPlayer1Heads, decided =false, isFirstToss = false;
@@ -33,10 +58,10 @@ public class CoinTossState extends State {
      */
     @Override
     public void init() {
-        flipCoinButton = new Button(316, 385, 484, 424, Assets.flipCoin);
-        continueButton = new Button(316, 15, 484, 65, Assets.continueButton);
-        chooseHeadsButton = new Button(116, 225, 284, 324 , Assets.coin4);
-        chooseTailsButton = new Button(516, 225, 684, 324 , Assets.coin3);
+        flipCoinButton = new Button(buttonTop, flipCoinButtonLeft, buttonBottom, flipCoinButtonRight, Assets.flipCoin);
+        continueButton = new Button(buttonTop, continueButtonLeft, buttonBottom, continueButtonRight, Assets.continueButton);
+        chooseHeadsButton = new Button(chooseHeadsButtonLeft, buttonTop2, chooseHeadsButtonRight, buttonBottom2 , Assets.coin4);
+        chooseTailsButton = new Button(chooseTailsButtonLeft, buttonTop2, chooseTailsButtonRight, buttonBottom2 , Assets.coin3);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         if(MenuState.getIsTwoPlayer()) {
             player1Name = sharedPreferences.getString("player1name", "");
@@ -76,7 +101,7 @@ public class CoinTossState extends State {
     public void render(Painter g) {
 
         g.drawImage(Assets.coinTossBackground, 0, 0);
-        g.setFont(Typeface.DEFAULT_BOLD, 25);
+        g.setFont(Typeface.DEFAULT_BOLD, textSize);
         g.setColor(Color.WHITE);
         g.drawString(player1Name + ", choose heads or tails", 230, 140, Color.WHITE);
         chooseHeadsButton.render(g);
@@ -87,17 +112,17 @@ public class CoinTossState extends State {
             chooseTailsButton.cancel();
             chooseHeadsButton.cancel();
             // display who is assigned to what side of coin
-            g.setFont(Typeface.DEFAULT_BOLD, 25);
+            g.setFont(Typeface.DEFAULT_BOLD, textSize);
             if (!isFirstToss) {
                 g.drawString(player1Name + " is ", 213, 108, Color.WHITE);
                 g.drawString("and  " + player2Name + " is ", 385, 108, Color.WHITE);
 
                 if (isPlayer1Heads) {
-                    g.drawString(" heads", 300, 108, Color.WHITE);
-                    g.drawString(" tails", 515, 108, Color.WHITE);
+                    g.drawString(" heads", textX2, textY2, Color.WHITE);
+                    g.drawString(" tails", textX3, textY2, Color.WHITE);
                 } else {
-                    g.drawString(" tails", 300, 108, Color.WHITE);
-                    g.drawString(" heads", 515, 108, Color.WHITE);
+                    g.drawString(" tails", textX2, textY2, Color.WHITE);
+                    g.drawString(" heads", textX3, textY2, Color.WHITE);
                 }
             }
 
@@ -105,22 +130,22 @@ public class CoinTossState extends State {
                 //render button to flip coin
                 flipCoinButton.render(g);
                 //Coin animation added to the screen
-                Assets.coinAnim.render(g, 185, 165, 415, 195);
+                Assets.coinAnim.render(g, coinAnimTop, coinAnimLeft, coinAnimBottom, coinAnimRight);
             } else {
                 //Result of Coin Flip: heads
                 if(coin1 == Coin.HEADS && isPlayer1Heads) {
                     // if (coin.result == 0 && isPlayer1Heads) {
-                   g.drawImage(Assets.coin4, 185, 165, 415, 195);
+                   g.drawImage(Assets.coin4, coinAnimTop, coinAnimLeft, coinAnimBottom, coinAnimRight);
                     //player 1 is heads, player1s go
-                    g.drawString("Heads! " + player1Name + " goes first!", 270, 130, Color.WHITE);
+                    g.drawString("Heads! " + player1Name + " goes first!", textX, textY, Color.WHITE);
                     //set respective variables to true/false
                     isPlayer1Turn = true;
                     isPlayer2Turn = false;
                     //Result of Coin Flip: heads
                 }else if(coin1 == Coin.HEADS && !isPlayer1Heads){
-                   g.drawImage(Assets.coin4,  185, 165, 415, 195);
+                   g.drawImage(Assets.coin4,  coinAnimTop, coinAnimLeft, coinAnimBottom, coinAnimRight);
                     //player 2 is heads, player 2s go
-                    g.drawString("Heads! " + player2Name +  " goes first!", 270, 130, Color.WHITE);
+                    g.drawString("Heads! " + player2Name +  " goes first!", textX, textY, Color.WHITE);
                     //set respective variables to true/false
                     isPlayer2Turn =true;
                     isPlayer1Turn = false;
@@ -128,17 +153,17 @@ public class CoinTossState extends State {
                 //Result of Coin Flip: tails
                 if(coin1 == Coin.TAILS && !isPlayer1Heads) {
                     // if (coin.result == 1 && !isPlayer1Heads) {
-                    g.drawImage(Assets.coin3, 185, 165, 415, 195);
+                    g.drawImage(Assets.coin3, coinAnimTop, coinAnimLeft, coinAnimBottom, coinAnimRight);
                     // player 1 is tails, player 1s go
-                    g.drawString("Tails! " + player1Name + " goes first!", 270, 130, Color.WHITE);
+                    g.drawString("Tails! " + player1Name + " goes first!", textX, textY, Color.WHITE);
                     //set respective variables to true/false
                     isPlayer1Turn = true;
                     isPlayer2Turn = false;
                     //Result of Coin Flip: tails
                 }else if(coin1 == Coin.TAILS && isPlayer1Heads){
-                   g.drawImage(Assets.coin3,  185, 165, 415, 195);
+                   g.drawImage(Assets.coin3,  coinAnimTop, coinAnimLeft, coinAnimBottom, coinAnimRight);
                    // player 2 is tails, player 2s go
-                   g.drawString("Tails! " + player2Name +  " goes first!", 270, 130, Color.WHITE);
+                   g.drawString("Tails! " + player2Name +  " goes first!", textX, textY, Color.WHITE);
                    //set respective variables to true/false
                    isPlayer2Turn = true;
                    isPlayer1Turn = false;

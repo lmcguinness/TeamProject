@@ -29,10 +29,10 @@ public class SettingsState extends State {
     private int minusButtonRight = 364;
     private int plusButtonLeft = 430;
     private int plusButtonRight = 534;
-    private int englishButtonLeft = 264;
-    private int englishButtonRight = 220;
-    private int polishButtonLeft = 319;
-    private int polishButtonRight = 275;
+    private int englishButtonRight = 264;
+    private int englishButtonLeft = 220;
+    private int polishButtonRight = 319;
+    private int polishButtonLeft = 275;
 
     private float textSize = 25;
     private int textX = 120;
@@ -66,8 +66,8 @@ public class SettingsState extends State {
         backArrowButton = new Button(-8, -10, buttonTop, 100, Assets.backArrowButton);
         minusButton = new Button(minusButtonLeft, buttonTop, minusButtonRight, buttonBottom, Assets.minusButton);
         plusButton = new Button(plusButtonLeft, buttonTop, plusButtonRight, buttonBottom, Assets.plusButton);
-        englishButton = new Button(buttonTop2, englishButtonRight, buttonButtom2, englishButtonLeft, Assets.english_Button);
-        polishButton = new Button(buttonTop2, polishButtonRight, buttonButtom2, polishButtonLeft, Assets.polish_Button);
+        englishButton = new Button(buttonTop2, englishButtonLeft, buttonButtom2, englishButtonRight, Assets.english_Button);
+        polishButton = new Button(buttonTop2, polishButtonLeft, buttonButtom2, polishButtonRight, Assets.polish_Button);
         musicVol = MainActivity.settings.getVolume("musicValue");
 
     }
