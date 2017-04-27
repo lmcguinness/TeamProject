@@ -2,6 +2,7 @@ package com.example.societyslam.societyslam.GameObjects;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.provider.Settings;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.State.GameOverState;
@@ -211,7 +212,6 @@ public class Player {
                 opponentNewHP = (opponent.getActiveCard().getHp() - attackDamage);
             }
             opponent.getActiveCard().setHp(opponentNewHP);
-
 
         this.myTurn = false;
         opponent.setMyTurn(true);

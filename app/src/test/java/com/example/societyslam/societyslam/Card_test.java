@@ -15,7 +15,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class Card_test {
 
     SocietyCard mockCard = new SocietyCard("Mock name", 20, 20,34,22, Assets.cardBack, 60, "MockAttackName", 10, Type.water,Type.fighting,Type.earth);
-    Player mockPlayer1 = new Player(Assets.myDeck,Assets.currentCardInPlay,Assets.playersCards,Assets.prizeCardDeck1, CoinTossState.getIsPlayer1Turn(),0,"mock name");
 
     @Test
     public void setWidthTest(){
@@ -44,12 +43,6 @@ public class Card_test {
         mockCard.setAttackStrength(mockAttackStrength);
         Assert.assertEquals(mockAttackStrength, mockCard.getAttackStrength());
 
-    }
-
-    @Test
-    public void retreatTest(){
-        mockCard.retreat(mockPlayer1);
-        Assert.assertEquals(null, mockPlayer1.getActiveCard());
     }
 
 }
