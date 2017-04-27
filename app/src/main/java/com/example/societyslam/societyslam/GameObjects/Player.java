@@ -277,7 +277,7 @@ public class Player {
      * @return true if this player is the winner, false if they are not the winner
      */
     public boolean checkIfWinner() {
-        if(this.getRoundWins() == this.getPrizeCards().size()) {
+        if(this.getRoundWins() == this.getPrizeCards().size()-1) {
             this.winner = true;
         }
         return this.winner;

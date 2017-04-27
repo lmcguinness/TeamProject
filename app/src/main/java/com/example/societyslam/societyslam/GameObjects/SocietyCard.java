@@ -2,6 +2,7 @@ package com.example.societyslam.societyslam.GameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Util.Painter;
@@ -27,6 +28,7 @@ public class SocietyCard extends Card {
     private int overallPosition;
     private boolean evolvedMax;
     private int textX = 270, textY = 60;
+    private int textSize = 20;
 
    
 
@@ -150,6 +152,7 @@ public class SocietyCard extends Card {
     }
 
     public void renderEvolve(Painter g) {
+        g.setFont(Typeface.DEFAULT, textSize);
        if(this.evolvedMax) {
            g.drawString("This card cannot be evolved anymore", textX, textY, Color.WHITE);
        } else {

@@ -197,8 +197,8 @@ public class PlayState extends State {
             }
             // has to be separate from above as when retreat method is called and it is player 2s turn, both cards are removed
             //from the middle as the above if statement is not satisfied.
-           renderActiveCard(g, player1, player2, player1ScoreX, scoreY, player1Wins, player1ActiveCardLeft);
-            renderActiveCard(g, player2, player1, player2ScoreX, scoreY, player2Wins, player2ActiveCardLeft);
+           renderActiveCard(g, player1, player2, player1ScoreX, scoreY, player1.getRoundWins(), player1ActiveCardLeft);
+            renderActiveCard(g, player2, player1, player2ScoreX, scoreY, player2.getRoundWins(), player2ActiveCardLeft);
         }
         if(player1.getMyCards().getMyDeck().size()>0){
             drawCards(g);
@@ -473,7 +473,7 @@ public class PlayState extends State {
                 displayWin1 = true;
                 if(p.checkIfWinner()) {
                     p.setWinner(true);
-                    setCurrentState(new GameOverState(player1Wins, player2Wins,p.getName()));
+                    setCurrentState(new GameOverState(player1.getRoundWins(), player2.getRoundWins(),p.getName()));
                 }
             }
             //will attach matching energyCard to the activeCard
