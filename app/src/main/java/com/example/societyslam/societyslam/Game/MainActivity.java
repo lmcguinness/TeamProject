@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.societyslam.societyslam.State.HowToPlayState;
+import com.example.societyslam.societyslam.ai.CPU;
 import com.example.societyslam.societyslam.io.Settings;
 import java.io.IOException;
 
@@ -162,8 +163,20 @@ public class MainActivity extends Activity {
         }
     }
 
-
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println();
+        Assets.playersCards.clear();
+        Assets.deckOfCards.clear();
+        Assets.energyCards.clear();
+        Assets.player2Cards.clear();
+        Assets.prizeCardDeck2.clear();
+        Assets.prizeCardDeck1.clear();
+        Assets.currentCardInPlay2 = null;
+        Assets.currentCardInPlay = null;
+        CPU.setIsTalking(false);
+    }
 }
 
 

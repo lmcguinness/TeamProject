@@ -115,7 +115,6 @@ public class CoinTossState extends State {
                     g.drawString("Heads! " + player1Name + " goes first!", 270, 130, Color.WHITE);
                     //set respective variables to true/false
                     isPlayer1Turn = true;
-                    System.out.println("ayo");
                     isPlayer2Turn = false;
                     //Result of Coin Flip: heads
                 }else if(coin1 == Coin.HEADS && !isPlayer1Heads){
@@ -124,7 +123,6 @@ public class CoinTossState extends State {
                     g.drawString("Heads! " + player2Name +  " goes first!", 270, 130, Color.WHITE);
                     //set respective variables to true/false
                     isPlayer2Turn =true;
-                    System.out.println("ayo");
                     isPlayer1Turn = false;
                 }
                 //Result of Coin Flip: tails
@@ -136,14 +134,12 @@ public class CoinTossState extends State {
                     //set respective variables to true/false
                     isPlayer1Turn = true;
                     isPlayer2Turn = false;
-                    System.out.println("ayo");
                     //Result of Coin Flip: tails
                 }else if(coin1 == Coin.TAILS && isPlayer1Heads){
                    g.drawImage(Assets.coin3,  185, 165, 415, 195);
                    // player 2 is tails, player 2s go
                    g.drawString("Tails! " + player2Name +  " goes first!", 270, 130, Color.WHITE);
                    //set respective variables to true/false
-                    System.out.println("ayo");
                    isPlayer2Turn = true;
                    isPlayer1Turn = false;
                }

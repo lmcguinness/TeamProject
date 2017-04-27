@@ -127,16 +127,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
     public void restartGame(){
-        Assets.playersCards.clear();
-        Assets.deckOfCards.clear();
-        Assets.energyCards.clear();
-        Assets.player2Cards.clear();
-        Assets.prizeCardDeck2.clear();
-        Assets.prizeCardDeck1.clear();
-        Assets.currentCardInPlay2 = null;
-        Assets.currentCardInPlay = null;
-        CPU.setIsTalking(false);
-
+       resetCards();
         if(MenuState.getIsTwoPlayer()){
             PlayState.setPlayer1Wins(0);
             PlayState.setPlayer2Wins(0);
@@ -148,16 +139,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
         }
 public void quitGame(){
-    Assets.playersCards.clear();
-    Assets.deckOfCards.clear();
-    Assets.energyCards.clear();
-    Assets.player2Cards.clear();
-    Assets.prizeCardDeck2.clear();
-    Assets.prizeCardDeck1.clear();
-    Assets.currentCardInPlay2 = null;
-    Assets.currentCardInPlay = null;
-    CPU.setIsTalking(false);
-
+   resetCards();
     if(MenuState.getIsTwoPlayer()){
         PlayState.setPlayer1Wins(0);
         PlayState.setPlayer2Wins(0);
@@ -168,6 +150,17 @@ public void quitGame(){
         setCurrentState(new MenuState());
     }
 }
+    public void resetCards(){
+        Assets.playersCards.clear();
+        Assets.deckOfCards.clear();
+        Assets.energyCards.clear();
+        Assets.player2Cards.clear();
+        Assets.prizeCardDeck2.clear();
+        Assets.prizeCardDeck1.clear();
+        Assets.currentCardInPlay2 = null;
+        Assets.currentCardInPlay = null;
+        CPU.setIsTalking(false);
+    }
     public void pauseGame() {
         running = false;
         while (gameThread.isAlive()) {
