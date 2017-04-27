@@ -304,17 +304,17 @@ public class Player {
     public void checkPrizeCardState(Player opponent) {
         if (opponent.getActiveCard().getHp() <= 0) {
             // If the hp of the active card gets below zero, retreat it
-            opponent.retreat();
+            opponent.setActiveCard(null);
             //move another card from the bench to replace it
             opponent.setActiveCard(opponent.getBench().remove(0));
             Assets.currentCardInPlay = opponent.getActiveCard();
            // playState.attachEnergyCard(opponent, Painter g);
             //give a prize card to the winner of the round
             flipPrizeCard();
+            //add a new card to bench
+            opponent.getBench().add(opponent.getMyCards().randomCard());
         }
     }
-
-
 
 
     /**
