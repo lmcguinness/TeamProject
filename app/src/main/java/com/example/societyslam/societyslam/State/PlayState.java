@@ -146,9 +146,9 @@ public class PlayState extends State {
         //Display how many rounds each player has won throughout the game
         g.setFont(Typeface.DEFAULT, scoreTextSize);
         g.drawString("Rounds won ", player1TextX,player1TextY, Color.WHITE);
-        g.drawString(player1Wins + " ", player1WinsX,player1WinsY, Color.WHITE);
+        g.drawString(player1.getRoundWins() + " ", player1WinsX,player1WinsY, Color.WHITE);
         g.drawString("Rounds won ", player2TextX,player2TextY, Color.WHITE);
-        g.drawString(" "+ player2Wins, player2WinsX,player2WinsY, Color.WHITE);
+        g.drawString(" "+ player2.getRoundWins(), player2WinsX,player2WinsY, Color.WHITE);
 
         pauseButton.render(g);
         // when card has been retreated - render buttons
@@ -469,6 +469,7 @@ public class PlayState extends State {
 
                 opponent.winRound(p);
                 playerWins++;
+
                 displayWin1 = true;
                 if(p.checkIfWinner()) {
                     p.setWinner(true);
@@ -478,6 +479,7 @@ public class PlayState extends State {
             //will attach matching energyCard to the activeCard
             attachEnergyCard(p,g);
             g.drawImage(p.getActiveCard().getBitmap(),activeCardX, activeCardTop, cardWidth , cardHeight);
+
         }
     }
 
