@@ -18,30 +18,33 @@ import com.example.societyslam.societyslam.ai.CPU;
 import com.example.societyslam.societyslam.io.Settings;
 import java.io.IOException;
 
-//Changed to activity by Leanne McGuinness 26/11/16
+/**
+ * This is the starting point for our game, contains onCreate method which sets our game into motion
+ */
 public class MainActivity extends Activity {
 
     //HowToPlayState startingEmailIntent;
-
     public static MediaPlayer mediaPlayer;
     public static Settings settings;
     public static String language;
-
     public static AssetManager assets;
-    public static final int GAME_WIDTH = 800;
-    public static final int GAME_HEIGHT = 450;
+    public static final int GAME_WIDTH = 800, GAME_HEIGHT = 450;
     public static GameView myGame;
+
     private static SharedPreferences prefs;
-    private static final String highScoreKey = "highScoreKey";
+    private static final String highScoreKey = "highScoreKey",highScorePlayerKey = "highScorePlayerKey";
     private static int highScore;
-    private static final String highScorePlayerKey = "highScorePlayerKey";
     private static String highScorePlayer;
 
+    /**
+     * method OnCreate is overridden from super class Activity
+     * method is implemented to start the activity
+     * @param savedInstanceState
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         prefs = getPreferences(Activity.MODE_PRIVATE);
         highScore = retrieveHighScore();
         highScorePlayer = retrieveHighScorePlayer();
@@ -134,11 +137,18 @@ public class MainActivity extends Activity {
         return highScorePlayer;
     }
 
+    /**
+     * Method is implemented from superclass
+     * used to restart activity
+     */
     @Override
     public void onRestart() {
         super.onRestart();
     }
-
+    /**
+     * Method is overridden from superclass
+     * used to resume activity
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -150,7 +160,10 @@ public class MainActivity extends Activity {
             mediaPlayer.start();
         }
     }
-
+    /**
+     * Method is overridden from superclass
+     * used to pause activity
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -162,7 +175,11 @@ public class MainActivity extends Activity {
             }
         }
     }
-
+    /**
+     * Method is overridden from superclass
+     * used to stop activity
+     * on stopping cards are cleared for starting a new game
+     */
     @Override
     protected void onStop() {
         super.onStop();

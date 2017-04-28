@@ -361,14 +361,4 @@ public class Assets {
 
        energyCards.add(waterEnergy);
    }
-
-
 }
-
-
-
-
-
-
-
-

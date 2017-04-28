@@ -122,7 +122,6 @@ public class MenuState extends State {
                 //Log.d("MENU STATE", "HOW TO PLAY BUTTON PRESSED");
                 //setCurrentState(new HowToPlayState(this));
                 setCurrentState(new HowToPlayState());
-
             } else if (SettingsButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
                 SettingsButton.cancel();
