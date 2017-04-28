@@ -165,7 +165,6 @@ public class CPU extends Player {
     /**
      * this method is implemented and called from super class
      */
-    //@Override
     public void attack(Player opponent) {
         super.attack(opponent);
     }

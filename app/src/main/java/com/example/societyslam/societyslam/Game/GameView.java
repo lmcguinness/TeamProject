@@ -27,20 +27,24 @@ import com.example.societyslam.societyslam.ai.CPU;
  * Created by Aoife Brown on 21/11/2016.
  */
 
+/**
+ * This is the central class for our game, this class hosts our game loop, and has methods to start
+ * and exit out of the game
+ */
+
 public class GameView extends SurfaceView implements Runnable {
 
     private Bitmap gameImage;
-    private Rect gameImageSrc;
-    private Rect gameImageDst;
+    private Rect gameImageSrc, gameImageDst;
     private Canvas gameCanvas;
     private Painter graphics;
     private Context context;
-
     private Thread gameThread;
     private volatile boolean running = false;
-    private volatile State currentState;
+    private volatile State currentState, temp;
     private InputHandler inputHandler;
-    boolean isPlayerDetailsSet;
+    private boolean isPlayerDetailsSet;
+
 
     public GameView(Context context, int gameWidth, int gameHeight, final boolean isPlayerDetailsSet) {
         super(context);
@@ -81,20 +85,19 @@ public class GameView extends SurfaceView implements Runnable {
         });
     }
 
+    /**
+     * Run method implemented to allow the game to run
+     */
     public void run() {
         Looper.prepare();
-
         long updateDurationMillis = 0;
         long sleepDurationMillis = 0;
-
         while(running) {
             long beforeUpdateRender = System.nanoTime();
             long deltaMillis = sleepDurationMillis + updateDurationMillis;
             updateAndRender(deltaMillis);
-
             updateDurationMillis = (System.nanoTime() - beforeUpdateRender) /1000000L;
             sleepDurationMillis = Math.max(2,17-updateDurationMillis);
-
             try {
                 Thread.sleep(sleepDurationMillis);
             } catch(Exception e) {
@@ -103,6 +106,33 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    /**
+     * change states method implemented in order to be able to change states whilst storing an instance of the previous state
+     * @param currentState
+     * @param newState
+     */
+    public void changeStates(State currentState, State newState){
+        temp = currentState;
+        newState.setContext(this.context);
+        newState.init();
+        currentState = newState;
+        currentState.setPainter(graphics);
+        inputHandler.setCurrentState(currentState);
+    }
+
+    /**
+     * method implemented to go back to a previous state
+     */
+    public void changeBack(){
+        currentState=temp;
+        currentState.setPainter(graphics);
+        inputHandler.setCurrentState(currentState);
+    }
+
+    /**
+     * method implemented to set current state to a new state
+     * @param newState
+     */
     public void setCurrentState(State newState) {
         System.gc();
         newState.setContext(this.context);
@@ -112,20 +142,28 @@ public class GameView extends SurfaceView implements Runnable {
         inputHandler.setCurrentState(currentState);
     }
 
+    /**
+     * method used to initialise input
+     */
     private void initInput() {
         if (inputHandler == null) {
             inputHandler = new InputHandler();
         }
         setOnTouchListener(inputHandler);
-
     }
 
+    /**
+     * method used to initialise the game thread and start the game loop
+     */
     private void initGame() {
         running = true;
         gameThread = new Thread(this,"Game Thread");
         gameThread.start();
-
     }
+
+    /**
+     * method used to restart the game
+     */
     public void restartGame(){
        resetCards();
         if(MenuState.getIsTwoPlayer()){
@@ -137,19 +175,28 @@ public class GameView extends SurfaceView implements Runnable {
             OnePlayerState.setPlayer2Wins(0);
             setCurrentState(new OnePlayerState());
         }
-        }
-public void quitGame(){
-   resetCards();
-    if(MenuState.getIsTwoPlayer()){
-        PlayState.setPlayer1Wins(0);
-        PlayState.setPlayer2Wins(0);
-        setCurrentState(new MenuState());
-    }else {
-        OnePlayerState.setPlayer1Wins(0);
-        OnePlayerState.setPlayer2Wins(0);
-        setCurrentState(new MenuState());
+    }
+
+    /**
+     * method used to quit game
+     */
+    public void quitGame(){
+       resetCards();
+         if(MenuState.getIsTwoPlayer()){
+             PlayState.setPlayer1Wins(0);
+             PlayState.setPlayer2Wins(0);
+             setCurrentState(new MenuState());
+         }else {
+             OnePlayerState.setPlayer1Wins(0);
+             OnePlayerState.setPlayer2Wins(0);
+             setCurrentState(new MenuState());
     }
 }
+
+    /**
+     * method implemented to reset all cards and their arrays
+     * used when game is quit or restarted
+     */
     public void resetCards(){
         Assets.playersCards.clear();
         Assets.deckOfCards.clear();
@@ -161,6 +208,10 @@ public void quitGame(){
         Assets.currentCardInPlay = null;
         CPU.setIsTalking(false);
     }
+
+    /**
+     * method implemented to pause game
+     */
     public void pauseGame() {
         running = false;
         while (gameThread.isAlive()) {
@@ -172,14 +223,20 @@ public void quitGame(){
             }
         }
     }
+
+    /**
+     * method implemented to resume game
+     */
     public void resumeGame(){
         running = true;
         gameThread = new Thread(this);
         gameThread.start();
     }
+
     public boolean isRunning() {
         return running;
     }
+
     private void updateAndRender(long delta) {
         currentState.update(delta / 1000f);
         currentState.render(graphics);
