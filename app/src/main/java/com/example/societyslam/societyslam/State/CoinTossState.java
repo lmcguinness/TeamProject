@@ -92,7 +92,6 @@ public class CoinTossState extends State {
     public static boolean getIsPlayer2Turn() {
         return isPlayer2Turn;
     }
-
     /**
      * The render method draws to the screen
      * @param g- The painter
@@ -220,9 +219,8 @@ public class CoinTossState extends State {
             Assets.playSound(Assets.coinID);
             chooseHeadsButton.cancel();
             isPlayer1Heads = true;
-            System.out.println(player1Name + " " +
-                    " is heads");
             decided =true;
+            System.out.println(player1Name + " " + " is heads");
         } else {
             chooseHeadsButton.cancel();
         }

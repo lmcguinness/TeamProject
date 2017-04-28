@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.GameObjects.Player;
+import com.example.societyslam.societyslam.State.OnePlayerState;
 import com.example.societyslam.societyslam.State.PlayState;
+import com.example.societyslam.societyslam.ai.CPU;
 
 /**
  * This class is for a choose card menu object
@@ -120,6 +122,66 @@ public class ChooseCardMenu extends Menu {
         if (cancelButton.isPressed(scaledX, scaledY)&& playState.isChooseCard()) {
 
             playState.setChooseCard(false);
+            cancelButton.cancel();
+        } else {
+            cancelButton.cancel();
+        }
+    }
+
+
+    public void onTouch1(int scaledX, int scaledY, OnePlayerState oneplayerstate, int positionOfCardChosen) {
+        useCardButton.onTouchDown(scaledX, scaledY);
+        cancelButton.onTouchDown(scaledX, scaledY);
+
+        useCardButtonOnTouch1(scaledX, scaledY, oneplayerstate, positionOfCardChosen);
+        cancelButtonOnTouch1(scaledX, scaledY, oneplayerstate);
+
+    }
+
+    /**
+     * This method assigns the selected card as the players active card when the use card button is pressed
+     * @param scaledX - the X coordinate of the touch event
+     * @param scaledY - the Y coordinate of the touch event
+     * @param oneplayerstate - the play state where the menu is displayed
+     * @param positionOfCardChosen - position in bench of card chosen
+     */
+    public void useCardButtonOnTouch1(int scaledX, int scaledY, OnePlayerState oneplayerstate, int positionOfCardChosen) {
+        Player player1 = oneplayerstate.getPlayer1();
+        CPU cpu1 = oneplayerstate.getPlayer2();
+        if (useCardButton.isPressed(scaledX, scaledY)&& oneplayerstate.isChooseCard()) {
+            if (player1.isMyTurn()) {
+                //give player 1 a new card of their choice and retreat their old card
+                player1.setActiveCard(player1.getBench().remove(positionOfCardChosen));
+                Assets.currentCardInPlay = player1.getActiveCard();
+                oneplayerstate.setCardRetreated(false);
+
+                oneplayerstate.setChooseCard(false);
+            }else{
+                //give player 2 a new card of their choice and retreat their old card
+                cpu1.setActiveCard(cpu1.getBench().remove(positionOfCardChosen));
+                Assets.currentCardInPlay2 = cpu1.getActiveCard();
+                oneplayerstate.setCardRetreated(false);
+                oneplayerstate.setChooseCard(false);
+            }
+            oneplayerstate.setChooseCard(false);
+            useCardButton.cancel();
+
+        } else {
+            useCardButton.cancel();
+        }
+    }
+
+
+    /**
+     * This button cancels selection of the card allowing another card to be chosed as the active card
+     * @param scaledX - the X coordinate of the touch event
+     * @param scaledY - the Y coordinate of the touch event
+     * @param oneplayerstate - the play state where the menu is displayed
+     */
+    public void cancelButtonOnTouch1(int scaledX, int scaledY, OnePlayerState oneplayerstate) {
+        if (cancelButton.isPressed(scaledX, scaledY)&& oneplayerstate.isChooseCard()) {
+
+            oneplayerstate.setChooseCard(false);
             cancelButton.cancel();
         } else {
             cancelButton.cancel();

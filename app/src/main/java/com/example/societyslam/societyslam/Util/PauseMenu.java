@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Game.MainActivity;
+import com.example.societyslam.societyslam.State.OnePlayerState;
 import com.example.societyslam.societyslam.State.PlayState;
 import com.example.societyslam.societyslam.State.SettingsState;
 
@@ -180,6 +181,125 @@ public class PauseMenu extends Menu {
     public void quitButtonOnTouch(int scaledX, int scaledY, PlayState playState) {
         if (quitButton.isPressed(scaledX, scaledY)  && playState.isPause()) {
             playState.setPause(false);
+            //Takes player back the games start menu
+
+            //resume the back ground music
+            int currentVol = MainActivity.settings.getVolume("musicValue");
+            if(mediaPlayer != null){
+                if (currentVol == 0) {
+                    mediaPlayer.setVolume(currentVol/10.0f, currentVol/10.0f);
+                }
+                mediaPlayer.start();
+            }
+            myGame.quitGame();
+        }else{
+            quitButton.cancel();
+        }
+    }
+
+    /**
+     * This method determines what happens when the buttons are pressed
+     * @param scaledX - the X coordinate of the touch event
+     * @param scaledY - the Y coordinate of the touch event
+     * @param oneplayerstate - the play state where the menu is displayed
+     */
+    public void onTouch1(int scaledX, int scaledY, OnePlayerState oneplayerstate) {
+
+
+        resumeButton.onTouchDown(scaledX, scaledY);
+        restartButton.onTouchDown(scaledX, scaledY);
+        instructionsButton.onTouchDown(scaledX, scaledY);
+        quitButton.onTouchDown(scaledX, scaledY);
+        backArrowButton.onTouchDown(scaledX,scaledY);
+
+        resumeButtonOnTouch1(scaledX, scaledY, oneplayerstate);
+        restartButtonOnTouch1(scaledX, scaledY, oneplayerstate);
+        instructionsButtonOnTouch1(scaledX, scaledY, oneplayerstate);
+        quitButtonOnTouch1(scaledX, scaledY, oneplayerstate);
+        backArrowButtonOnTouch1(scaledX, scaledY, oneplayerstate);
+
+    }
+
+    /**
+     * This method will take the user back to the play state once they have read the instructions
+     * @param scaledX - the X coordinate of the touch event
+     * @param scaledY - the Y coordinate of the touch event
+     * @param oneplayerstate - the play state where the menu is displayed
+     */
+
+    public void backArrowButtonOnTouch1(int scaledX, int scaledY, OnePlayerState oneplayerstate){
+        if(backArrowButton.isPressed(scaledX, scaledY)){
+            instructionsScreen = false;
+        }
+    }
+
+    /**
+     * The method resumes the game when the resume button is pressed
+     * @param scaledX - the X coordinate of the touch event
+     * @param scaledY - the Y coordinate of the touch event
+     * @param oneplayerstate - the play state where the menu is displayed
+     */
+    public void resumeButtonOnTouch1(int scaledX, int scaledY, OnePlayerState oneplayerstate) {
+        if (resumeButton.isPressed(scaledX, scaledY)  && oneplayerstate.isPause()) {
+            //resume playing the game
+            oneplayerstate.setPause(false);
+            //isPause=false;
+            //resume the back ground music
+            int currentVol = MainActivity.settings.getVolume("musicValue");
+            if(mediaPlayer != null){
+                if (currentVol == 0) {
+                    mediaPlayer.setVolume(currentVol/10.0f, currentVol/10.0f);
+                }
+                mediaPlayer.start();
+            }
+        }else{
+            resumeButton.cancel();
+        }
+
+
+    }
+
+    /**
+     * This method determines what happens when the restart button is pressed
+     * @param scaledX - the X coordinate of the touch event
+     * @param scaledY - the Y coordinate of the touch event
+     * @param oneplayerstate - the play state where the menu is displayed
+     */
+    public void restartButtonOnTouch1(int scaledX, int scaledY, OnePlayerState oneplayerstate) {
+        if (restartButton.isPressed(scaledX, scaledY)  && oneplayerstate.isPause()) {
+            oneplayerstate.setPause(false);
+            //start a new game
+            myGame.restartGame();
+            //super.onRestart();
+        }else{
+            restartButton.cancel();
+        }
+    }
+
+    /**
+     * This method determines what happens when the instructions button is pressed
+     * @@param scaledX - the X coordinate of the touch event
+     * @param scaledY - the Y coordinate of the touch event
+     * @param oneplayerstate - the play state where the menu is displayed
+     */
+    public void instructionsButtonOnTouch1(int scaledX, int scaledY, OnePlayerState oneplayerstate) {
+        if (instructionsButton.isPressed(scaledX, scaledY) && oneplayerstate.isPause()) {
+            instructionsScreen = true;
+
+        }else{
+            instructionsButton.cancel();
+        }
+    }
+
+    /**
+     * This method detemines what happens when the quit button is pressed
+     * @@param scaledX - the X coordinate of the touch event
+     * @param scaledY - the Y coordinate of the touch event
+     */
+
+    public void quitButtonOnTouch1(int scaledX, int scaledY, OnePlayerState oneplayerstate) {
+        if (quitButton.isPressed(scaledX, scaledY)  && oneplayerstate.isPause()) {
+            oneplayerstate.setPause(false);
             //Takes player back the games start menu
 
             //resume the back ground music
