@@ -277,7 +277,7 @@ public class Player {
      * @return true if this player is the winner, false if they are not the winner
      */
     public boolean checkIfWinner() {
-        if(this.getRoundWins() == this.getPrizeCards().size()-1) {
+        if(this.getRoundWins() == this.getPrizeCards().size()) {
             this.winner = true;
         }
         return this.winner;
@@ -285,7 +285,7 @@ public class Player {
 
     public void winRound(Player opponent) {
         if(opponent.getActiveCard().getHp() <= 0) {
-            this.roundWins ++;
+            this.roundWins++;
             checkPrizeCardState(opponent);
 
 
@@ -331,6 +331,11 @@ public class Player {
         }
     }
 
+    /**
+     * This method checks if a player has prize cards that have been flipped
+     * @param player - the player whose prize cards are checked
+     * @return true - if prize cards are flipped
+     */
     public boolean checkIfPlayerHasFlippedPrizeCards(Player player) {
         boolean isFlipped = false;
         for (StudentBehaviourCard s : player.getPrizeCards()) {
