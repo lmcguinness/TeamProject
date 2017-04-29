@@ -1,6 +1,7 @@
 package com.example.societyslam.societyslam;
 
 import com.example.societyslam.societyslam.Game.Assets;
+import com.example.societyslam.societyslam.GameObjects.Level;
 import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.GameObjects.SocietyCard;
 import com.example.societyslam.societyslam.GameObjects.Type;
@@ -45,4 +46,9 @@ public class Card_test {
 
     }
 
+    @Test
+    public void evolveTest() {
+        mockCard.evolve();
+        Assert.assertEquals(Level.Level1, mockCard.getLevel());
+    }
 }

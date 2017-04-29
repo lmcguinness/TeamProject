@@ -79,9 +79,6 @@ public class ChooseMoveMenu extends Menu {
         evolveButtonOnTouch(scaledX,scaledY,playState);
         useStudentBehaviourCardButtonOnTouch(scaledX,scaledY,playState);
 
-
-
-
     }
 
     /**

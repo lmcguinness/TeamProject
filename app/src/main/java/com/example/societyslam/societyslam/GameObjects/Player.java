@@ -212,7 +212,6 @@ public class Player {
                 opponentNewHP = (opponent.getActiveCard().getHp() - attackDamage);
             }
             opponent.getActiveCard().setHp(opponentNewHP);
-
         this.myTurn = false;
         opponent.setMyTurn(true);
 
@@ -287,8 +286,6 @@ public class Player {
         if(opponent.getActiveCard().getHp() <= 0) {
             this.roundWins++;
             checkPrizeCardState(opponent);
-
-
         }
     }
 

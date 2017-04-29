@@ -125,7 +125,7 @@ public class GameOverState extends State {
             } else if (homeButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
                 homeButton.cancel();
-                setCurrentState(new MenuState());
+                myGame.quitGame();
             } else if(shareButton.isPressed(scaledX,scaledY)){
                 Assets.playSound(Assets.buttonClickID);
                 shareButton.cancel();
