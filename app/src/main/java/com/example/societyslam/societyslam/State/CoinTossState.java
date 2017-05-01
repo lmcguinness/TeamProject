@@ -98,7 +98,6 @@ public class CoinTossState extends State {
      */
     @Override
     public void render(Painter g) {
-
         g.drawImage(Assets.coinTossBackground, 0, 0);
         g.setFont(Typeface.DEFAULT_BOLD, textSize);
         g.setColor(Color.WHITE);
@@ -113,19 +112,11 @@ public class CoinTossState extends State {
             // display who is assigned to what side of coin
             g.setFont(Typeface.DEFAULT_BOLD, textSize);
             if (!isFirstToss) {
-                g.drawString(player1Name + " is ", 213, 108, Color.WHITE);
-                g.drawString("and  " + player2Name + " is ", 385, 108, Color.WHITE);
-
                 if (isPlayer1Heads) {
-                    g.drawString(" heads", textX2, textY2, Color.WHITE);
-                    g.drawString(" tails", textX3, textY2, Color.WHITE);
+                    g.drawString(player1Name + " is heads and " + player2Name + " is tails", 213, 108, Color.WHITE);
                 } else {
-                    g.drawString(" tails", textX2, textY2, Color.WHITE);
-                    g.drawString(" heads", textX3, textY2, Color.WHITE);
+                    g.drawString(player1Name + " is tails and " + player2Name + " is heads", 213, 108, Color.WHITE);
                 }
-            }
-
-            if (!isFirstToss) {
                 //render button to flip coin
                 flipCoinButton.render(g);
                 //Coin animation added to the screen

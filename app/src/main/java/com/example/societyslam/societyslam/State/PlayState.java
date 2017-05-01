@@ -505,7 +505,7 @@ public class PlayState extends State {
         if (isMenu) {
             chooseMoveMenu.render(g);
             if (prizeCardError) {
-                g.drawString("You Have No PrizeCards Yet!", 235, 400, Color.RED);
+                g.drawString("You Have No PrizeCards in Play!", 225, 400, Color.RED);
             }
         }
     }
@@ -540,22 +540,28 @@ public class PlayState extends State {
         for (int i = 0; i< 6; i++) {
             Random generator = new Random();
             int random = generator.nextInt(10) + 1;
-            randoms1.add(random);
-            if (checkDuplicates(randoms1, random)) {
-                random = generator.nextInt(10) + 1;
+            if (!checkDuplicates(randoms1, random)) {
+                randoms1.add(random);
                 player1PrizeCards.add(Assets.prizeCardDeck1.get(random));
             } else {
+                do {
+                    random = generator.nextInt(10) + 1;
+                } while (checkDuplicates(randoms1, random));
+                randoms1.add(random);
                 player1PrizeCards.add(Assets.prizeCardDeck1.get(random));
             }
         }
         for (int i = 0; i< 6; i++) {
             Random generator = new Random();
             int random = generator.nextInt(10) + 1;
-            randoms2.add(random);
-            if (checkDuplicates(randoms2, random)) {
-                random = generator.nextInt(10) + 1;
+            if (!checkDuplicates(randoms2, random)) {
+                randoms2.add(random);
                 player2PrizeCards.add(Assets.prizeCardDeck2.get(random));
             } else {
+                do {
+                    random = generator.nextInt(10) + 1;
+                } while (checkDuplicates(randoms2, random));
+                randoms2.add(random);
                 player2PrizeCards.add(Assets.prizeCardDeck2.get(random));
             }
         }
