@@ -21,31 +21,13 @@ import java.util.ArrayList;
 
 public class SettingsState extends State {
 
-    private int buttonTop = 120;
-    private int buttonTop2 = 260;
-    private int buttonBottom = 219;
-    private int buttonButtom2= 428;
-    private int minusButtonLeft = 260;
-    private int minusButtonRight = 364;
-    private int plusButtonLeft = 430;
-    private int plusButtonRight = 534;
-    private int englishButtonRight = 264;
-    private int englishButtonLeft = 220;
-    private int polishButtonRight = 319;
-    private int polishButtonLeft = 275;
+    private int buttonTop = 120, buttonTop2 = 260, buttonBottom = 219, buttonButtom2= 428;
+    private int minusButtonLeft = 260, minusButtonRight = 364, plusButtonLeft = 430, plusButtonRight = 534, englishButtonRight = 264, englishButtonLeft = 220, polishButtonRight = 319, polishButtonLeft = 275;
 
     private float textSize = 25;
-    private int textX = 120;
-    private int textY = 170;
-    private int textY2 = 250;
-    private int textX2 = 385;
-    private int textY3= 178;
+    private int textX = 120, textY = 170, textY2 = 250, textX2 = 385, textY3= 178;
 
-    public Button backArrowButton;
-    public Button minusButton;
-    public Button plusButton;
-    public Button englishButton;
-    public Button polishButton;
+    public Button backArrowButton, minusButton, plusButton, englishButton, polishButton;
     public int musicVol;
     private boolean minusImage = true;
     private boolean plusImage = true;

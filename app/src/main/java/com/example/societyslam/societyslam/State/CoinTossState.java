@@ -21,29 +21,12 @@ import com.example.societyslam.societyslam.Util.Painter;
 
 public class CoinTossState extends State {
 
-    private int buttonTop = 316;
-    private int buttonTop2 = 225;
-    private int buttonBottom = 484;
-    private int buttonBottom2 = 324;
-    private int flipCoinButtonLeft = 385;
-    private int flipCoinButtonRight = 424;
-    private int continueButtonLeft = 15;
-    private int continueButtonRight = 65;
-    private int chooseHeadsButtonLeft = 116;
-    private int chooseHeadsButtonRight = 284;
-    private int chooseTailsButtonLeft = 516;
-    private int chooseTailsButtonRight = 684;
-    private int coinAnimTop = 185;
-    private int coinAnimBottom = 415;
-    private int coinAnimLeft = 165;
-    private int coinAnimRight = 195;
+    private int buttonTop = 316, buttonTop2 = 225, buttonBottom = 484, buttonBottom2 = 324;
+    private int flipCoinButtonLeft = 385, flipCoinButtonRight = 424, continueButtonLeft = 15, continueButtonRight = 65, chooseHeadsButtonLeft = 116, chooseHeadsButtonRight = 284, chooseTailsButtonLeft = 516, chooseTailsButtonRight = 684;
+    private int coinAnimTop = 185, coinAnimBottom = 415, coinAnimLeft = 165, coinAnimRight = 195;
 
     private float textSize = 25;
-    private int textX = 270;
-    private int textY = 130;
-    private int textX2 = 300;
-    private int textY2 = 108;
-    private int textX3 = 515;
+    private int textX = 270, textY = 130;
 
     private Button flipCoinButton , continueButton, chooseHeadsButton, chooseTailsButton;
     private Coin coin1;
