@@ -1,5 +1,6 @@
 package com.example.societyslam.societyslam.State;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -8,6 +9,8 @@ import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Game.MainActivity;
+import com.example.societyslam.societyslam.PlayerDetailsActivity;
+import com.example.societyslam.societyslam.ShareScoreActivity;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 
@@ -129,6 +132,9 @@ public class GameOverState extends State {
             } else if(shareButton.isPressed(scaledX,scaledY)){
                 Assets.playSound(Assets.buttonClickID);
                 shareButton.cancel();
+                Intent i = new Intent(this.getContext(), ShareScoreActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                this.getContext().startActivity(i);
             }
         }
 

@@ -39,6 +39,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".PlayerDetailsActivity" />
+        <activity android:name=".ShareScoreActivity" />
         <activity android:name=".WelcomeActivity"
             android:screenOrientation="sensorLandscape">
             <intent-filter>

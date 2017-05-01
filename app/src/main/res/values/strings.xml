@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">Society Slam</string>
-
-
+    <string name="send_to">Choose an application!</string>
 </resources>

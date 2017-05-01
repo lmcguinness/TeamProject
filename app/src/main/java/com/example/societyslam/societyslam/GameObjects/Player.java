@@ -212,6 +212,7 @@ public class Player {
                 opponentNewHP = (opponent.getActiveCard().getHp() - attackDamage);
             }
             opponent.getActiveCard().setHp(opponentNewHP);
+        PlayState.setRenderAnimation(true);
         this.myTurn = false;
         opponent.setMyTurn(true);
 

@@ -36,7 +36,7 @@ public class PlayState extends State {
     private boolean isStart = true, dealCards = true, retreatError;
     boolean isMenu,attackPlayer1, attackPlayer2,evolvePlayer1,evolvePlayer2, displayWin1 = false,displayWin2 = false;
     private boolean isPause = false,isChooseCard =false,areCardsDrawn = false,isCardRetreated = false;
-    public static boolean player1Winner, player2Winner;
+    public static boolean player1Winner, player2Winner, renderAnimation;
 
     private Button pauseButton, useCardButton, cancelButton, p1Card0,p1Card1, p1Card2,p1Card3,
                    p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4, currentCard1Button, currentCard2Button, playButton, dealButton;
@@ -127,7 +127,7 @@ public class PlayState extends State {
      */
     @Override
     public void update(float delta) {
-
+        Assets.attackAnim.update(delta);
     }
 
     /**
@@ -206,6 +206,7 @@ public class PlayState extends State {
         }
 
         renderAttack(g);
+        renderAnimation(g);
         renderEvolve(g);
         renderMenu(g);
         renderWinRound(g);
@@ -242,9 +243,9 @@ public class PlayState extends State {
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         //If it is the start of the game then this touch event is registered as inital setup.
-
         if(e.getAction() == MotionEvent.ACTION_DOWN && !isPause) {
             //current cards in plays
+            renderAnimation=false;
             currentCard1Button.onTouchDown(scaledX, scaledY);
             currentCard2Button.onTouchDown(scaledX, scaledY);
 
@@ -502,15 +503,10 @@ public class PlayState extends State {
     public void renderMenu(Painter g) {
         if (isMenu) {
             chooseMoveMenu.render(g);
-
             if (prizeCardError) {
                 g.drawString("You Have No PrizeCards Yet!", 235, 400, Color.RED);
             }
         }
-
-
-
-
     }
 
     /**
@@ -597,13 +593,21 @@ public class PlayState extends State {
     public void renderAttack(Painter g) {
         //If player one clicks attack, display their attack and how many points player2 loses on the board
         //If player two attacks, display their attack and how many points player1 loses
-        if(attackPlayer1){
+        if (attackPlayer1) {
             player1.renderAttack(g, player2);
-        } else if(attackPlayer2){
+        } else if (attackPlayer2) {
             player2.renderAttack(g, player1);
         }
     }
-
+    public void renderAnimation(Painter g) {
+        if (renderAnimation) {
+            if (attackPlayer1) {
+                Assets.attackAnim.render(g, player2ActiveCardLeft, activeCardTop, player2ActiveCardRight-player2ActiveCardLeft, activeCardBottom-activeCardTop);
+            } else if (attackPlayer2) {
+                Assets.attackAnim.render(g, player1ActiveCardLeft, activeCardTop, player1ActiveCardRight-player1ActiveCardLeft, activeCardBottom-activeCardTop);
+            }
+        }
+    }
     /**
      * This method render the text when a player evolves their card
      * @param g - the painter
@@ -779,7 +783,7 @@ public class PlayState extends State {
      * This method gets player 2
      * @return - player 2
      */
-    public Player getPlayer2() {
+    public  Player getPlayer2() {
         return player2;
     }
 
@@ -845,6 +849,9 @@ public class PlayState extends State {
      */
     public boolean isChooseCard() {
         return isChooseCard;
+    }
+    public static void setRenderAnimation(boolean renderAnimation1){
+        renderAnimation= renderAnimation1;
     }
 }
 
