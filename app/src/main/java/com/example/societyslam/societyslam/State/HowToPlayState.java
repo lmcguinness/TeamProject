@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Game.MainActivity;
+import com.example.societyslam.societyslam.NeedMoreHelpActivity;
+import com.example.societyslam.societyslam.R;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 import com.example.societyslam.societyslam.io.Settings;
@@ -25,7 +27,7 @@ public class HowToPlayState extends State {
 
     public Button backArrowButton;
     public Button needMoreHelp;
-    public Context context;
+    //public Context context;
 
     /*public HowToPlayState(Context context) {
         this.context = context;
@@ -76,39 +78,27 @@ public class HowToPlayState extends State {
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
 
-        if (e.getAction()== MotionEvent.ACTION_UP){
+        if (e.getAction()== MotionEvent.ACTION_DOWN){
             backArrowButton.onTouchDown(scaledX, scaledY);
             needMoreHelp.onTouchDown(scaledX, scaledY);
 
-        } if(backArrowButton.isPressed(scaledX, scaledY)){
+        }
+        if(e.getAction() == MotionEvent.ACTION_UP)
+             if(backArrowButton.isPressed(scaledX, scaledY)){
             Assets.playSound(Assets.buttonClickID);
             backArrowButton.cancel();
             setCurrentState(new MenuState());
-        } else {
-            backArrowButton.cancel();
-        } if(needMoreHelp.isPressed(scaledX,scaledY)){
-            Assets.playSound(Assets.buttonClickID);
-            needMoreHelp.cancel();
-            sendHelpEmail();
-
-
-        } else {
-            needMoreHelp.cancel();
-        }
+        } else if(needMoreHelp.isPressed(scaledX,scaledY)) {
+                 Assets.playSound(Assets.buttonClickID);
+                 needMoreHelp.cancel();
+                 Intent i = new Intent(this.getContext(), NeedMoreHelpActivity.class);
+                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                 this.getContext().startActivity(i);
+             }
 
         return true;
     }
 
-    public void sendHelpEmail(){
-        System.out.println("ENTERING FUNTION");
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/html");
-        intent.putExtra(Intent.EXTRA_EMAIL, "emailaddress@emailaddress.com");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Please give me more details on how to play this game");
-        intent.putExtra(Intent.EXTRA_TEXT, "Email body.");
-        context.startActivity(Intent.createChooser(intent, "Send email"));
-
-    }
 
 
 
