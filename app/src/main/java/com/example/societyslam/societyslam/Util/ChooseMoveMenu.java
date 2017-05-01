@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.GameObjects.Player;
+import com.example.societyslam.societyslam.GameObjects.StudentBehaviourCard;
 import com.example.societyslam.societyslam.State.PlayState;
 
 /**
@@ -218,7 +219,14 @@ public class ChooseMoveMenu extends Menu {
         if (useStudentBehaviourCardButton.isPressed(scaledX, scaledY) && playState.isMenu()) {
             if (player1.isMyTurn()) {
                 if (player1.checkIfPlayerHasFlippedPrizeCards(player1)) {
-                    player1.useStudentBehaviourCard(player1.getPrizeCards().get(0), player2);
+                    int index = 0;
+                    for (int i = 0; i< player1.getPrizeCards().size(); i++) {
+                        if (!player1.getPrizeCards().get(i).isBeenUsed()) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    player1.useStudentBehaviourCard(player1.getPrizeCards().get(index), player2);
                     playState.setMenu(false);
                     playState.setPrizeCardError(false);
                     useStudentBehaviourCardButton.cancel();
@@ -228,7 +236,14 @@ public class ChooseMoveMenu extends Menu {
                 }
             } else {
                 if (player2.checkIfPlayerHasFlippedPrizeCards(player2)) {
-                    player2.useStudentBehaviourCard(player2.getPrizeCards().get(0), player1);
+                    int index = 0;
+                    for (int i = 0; i< player2.getPrizeCards().size(); i++) {
+                        if (!player2.getPrizeCards().get(i).isBeenUsed()) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    player2.useStudentBehaviourCard(player2.getPrizeCards().get(index), player1);
 
                     playState.setMenu(false);
                     playState.setPrizeCardError(false);

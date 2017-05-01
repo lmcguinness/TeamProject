@@ -259,6 +259,7 @@ public class Player {
         System.out.println("You used " + card.getName());
         int newHP;
         int opponentNewHP;
+        card.setBeenUsed(true);
         if(card.hasPositiveEffect()) {
             newHP = this.getActiveCard().getHp() + card.getCardPoints();
             this.getActiveCard().setHp(newHP);
@@ -337,7 +338,7 @@ public class Player {
     public boolean checkIfPlayerHasFlippedPrizeCards(Player player) {
         boolean isFlipped = false;
         for (StudentBehaviourCard s : player.getPrizeCards()) {
-            if (s.isFlipped()) {
+            if (s.isFlipped() && !s.isBeenUsed()) {
                 isFlipped = true;
                 return isFlipped;
             } else {
