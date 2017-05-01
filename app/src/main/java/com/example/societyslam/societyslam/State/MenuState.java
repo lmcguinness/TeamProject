@@ -3,6 +3,7 @@ package com.example.societyslam.societyslam.State;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.annotation.RequiresApi;
 import android.view.MotionEvent;
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.PlayerDetailsActivity;
@@ -15,10 +16,16 @@ import com.example.societyslam.societyslam.Util.Painter;
 
 public class MenuState extends State {
 
+    /*
+        * buttons that have been declared in the MenuState class
+     */
     private Button startButton, howToPlayButton, SettingsButton, scoreButton, onePlayerButton,
                    twoPlayerButton, hardButton, easyButton, startButtonPolish,
                    howToPlayButtonPolish, settingsButtonPolish, scoreButtonPolish,  backArrowButton;
 
+    /*
+            * variables outlining different co-ordinates for each button on the screen
+     */
     private int buttonTop = 360;
     private int buttonBottom = 420;
     private int howToPlayButtonLeft = 85;
@@ -32,6 +39,9 @@ public class MenuState extends State {
     private int chooseModeButtonTop = 380;
     private int chooseModeButtonBottom = 440;
 
+    /*
+    variables outlining the different textsizes for the buttons on screen
+     */
     private float textSize = 30;
     private float textSize2 = 20;
     private int textX = 120;
@@ -46,6 +56,11 @@ public class MenuState extends State {
         return hard;
     }
 
+    /**
+     * This method will be called when we transition into the MenuState
+     * It initializes any game objects that will be used throughout the MenuState
+     * this method is loading the buttons that are to be displayed
+     * */
     @Override
     public void init() {
         howToPlayButton = new Button(howToPlayButtonLeft, buttonTop, howToPlayButtonRight, buttonBottom, Assets.howToPlay);
@@ -63,15 +78,27 @@ public class MenuState extends State {
         backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton);
 
     }
-
+    /**
+     *
+     *This method will be called by the game loop on every frame
+     * @param delta - time since last position
+     *
+     */
     @Override
     public void update(float delta) {
     }
 
+
+    /*
+    * This render method draws to the screen
+    * this method is drawing objects, graphics, buttons and text to the screen
+    * @param g - draws to the screen
+     */
     @Override
     public void render(Painter g) {
         g.drawImage(Assets.welcome,0,0);
 
+        //depending on language, drawing buttons in english or buttons in polish
         if(SettingsState.getCurrentLanguage() == "English"){
             startButton.render(g);
             howToPlayButton.render(g);
@@ -83,6 +110,11 @@ public class MenuState extends State {
             settingsButtonPolish.render(g);
             scoreButtonPolish.render(g);
         }
+
+        /*
+            * if isStartPressed is true then different objects will display for the user to
+            * choose one player or two player
+         */
 
         if(isStartPressed) {
             super.getPainter().drawImage(Assets.welcome,0,0);
@@ -102,6 +134,13 @@ public class MenuState extends State {
         }
     }
 
+    /**
+     * This method checks where the screen has be touched
+     * @param e - motion event(object used to report movement)
+     * @param scaledX- the scaled x coordinate
+     * @param scaledY- the scaled y coordinate
+     * @return true when object is pressed
+     */
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
 

@@ -19,6 +19,7 @@ import com.example.societyslam.societyslam.Util.ChooseMoveMenu;
 
 import com.example.societyslam.societyslam.Util.Painter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static com.example.societyslam.societyslam.Game.MainActivity.mediaPlayer;
@@ -517,22 +518,47 @@ public class PlayState extends State {
         //creates two separate decks for each players prize cards to type student behaviour card
         ArrayList<StudentBehaviourCard> player1PrizeCards = new ArrayList<StudentBehaviourCard>();
         ArrayList<StudentBehaviourCard> player2PrizeCards = new ArrayList<StudentBehaviourCard>();
+        ArrayList<Integer> randoms1 = new ArrayList<Integer>();
+        ArrayList<Integer> randoms2 = new ArrayList<Integer>();
 
         //Each player should be given 6 random student behaviour cards
         for (int i = 0; i< 6; i++) {
             Random generator = new Random();
             int random = generator.nextInt(10) + 1;
-            player1PrizeCards.add(Assets.prizeCardDeck1.get(random));
+            randoms1.add(random);
+            if (checkDuplicates(randoms1, random)) {
+                random = generator.nextInt(10) + 1;
+                player1PrizeCards.add(Assets.prizeCardDeck1.get(random));
+            } else {
+                player1PrizeCards.add(Assets.prizeCardDeck1.get(random));
+            }
         }
         for (int i = 0; i< 6; i++) {
             Random generator = new Random();
             int random = generator.nextInt(10) + 1;
-            player2PrizeCards.add(Assets.prizeCardDeck1.get(random));
+            randoms2.add(random);
+            if (checkDuplicates(randoms2, random)) {
+                random = generator.nextInt(10) + 1;
+                player2PrizeCards.add(Assets.prizeCardDeck2.get(random));
+            } else {
+                player2PrizeCards.add(Assets.prizeCardDeck2.get(random));
+            }
         }
         //set both players prize cards
         player1.setPrizeCards(player1PrizeCards);
         player2.setPrizeCards(player2PrizeCards);
     }
+
+    private boolean checkDuplicates(List<Integer> randoms, Integer num) {
+        for (Integer i: randoms) {
+            if (num == i) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
 
     /**
