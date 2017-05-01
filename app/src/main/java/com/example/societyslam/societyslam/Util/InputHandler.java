@@ -7,17 +7,25 @@ import com.example.societyslam.societyslam.Game.MainActivity;
 import com.example.societyslam.societyslam.State.State;
 
 /**
- * Created by Aoife Brown on 21/11/2016.
+ * This is the Input Handler class
  */
 
 public class InputHandler implements View.OnTouchListener{
 
     private State currentState;
 
+    /**
+     * This method changes the current state
+     * @param currentState - the state to be set to
+     */
     public void setCurrentState(State currentState) {
         this.currentState = currentState;
     }
     @Override
+
+    /**
+     * This method creates a touch event whenever the screen is touched
+     */
     public boolean onTouch(View v, MotionEvent event) {
         int scaledX = (int)((event.getX()/ v.getWidth()) * MainActivity.GAME_WIDTH);
         int scaledY = (int)((event.getY()/v.getHeight()) * MainActivity.GAME_HEIGHT);

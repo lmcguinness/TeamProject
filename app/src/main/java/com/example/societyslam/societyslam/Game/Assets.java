@@ -17,6 +17,7 @@ import com.example.societyslam.societyslam.GameObjects.SocietyCard;
 import com.example.societyslam.societyslam.GameObjects.StudentBehaviourCard;
 import com.example.societyslam.societyslam.GameObjects.StudentBehaviourType;
 import com.example.societyslam.societyslam.GameObjects.Type;
+import com.example.societyslam.societyslam.State.PlayState;
 import com.example.societyslam.societyslam.Util.Animation;
 import com.example.societyslam.societyslam.Util.Frame;
 
@@ -28,7 +29,7 @@ public class Assets {
     /**
      * Create variables used in this class
      */
-    public static Bitmap shareButton,easyButton, hardButton,speechBubble1,speechBubble2,speechBubble3,speechBubble4,speechBubble5,speechBubble6,speechBubble7, speechBubble8, speechBubble9, robot, twoPlayerButton, onePlayerButton, yourTurn,chooseCardMenu, useCard, cancel, restart, resume, quit, instructions, pauseMenu, pause, player1T, player2H, headsText, tailsText, choose, retreatError, coinTossBackground, heads, tails, player1, player2, continueDown, continueButton, flipCoin, flipCoinDown, welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
+    public static Bitmap cardAttacked, shareButton,easyButton, hardButton,speechBubble1,speechBubble2,speechBubble3,speechBubble4,speechBubble5,speechBubble6,speechBubble7, speechBubble8, speechBubble9, robot, twoPlayerButton, onePlayerButton, yourTurn,chooseCardMenu, useCard, cancel, restart, resume, quit, instructions, pauseMenu, pause, player1T, player2H, headsText, tailsText, choose, retreatError, coinTossBackground, heads, tails, player1, player2, continueDown, continueButton, flipCoin, flipCoinDown, welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
             electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
             karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
             disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library, howToPlay, howToPlayDown, howToPlayBackground, backArrowButton,
@@ -39,7 +40,7 @@ public class Assets {
 
     public static int coinID, dealingCardsID, oneCardID, attackID, backgroundMusicID, buttonClickID, prizeID, musicAtBeginning;
 
-    public static Animation coinAnim;
+    public static Animation coinAnim, attackAnim;
 
 
     public static SocietyCard currentCardInPlay, currentCardInPlay2;
@@ -61,7 +62,7 @@ public class Assets {
      */
     public static void load() {
         //load images
-        shareButton = loadBitmap("shareScore.png",true);
+        shareButton = loadBitmap("sharing.png",true);
         needMoreHelp = loadBitmap("needMoreHelp.png", true);
         howToPlayBackground_Polish = loadBitmap("howToPlayBackground_Polish.png", true);
         startButton_Polish = loadBitmap("startButton_Polish.png", true);
@@ -187,7 +188,14 @@ public class Assets {
         Frame f3 = new Frame(coin4, .1f);
 
         coinAnim = new Animation(f1,f2,f3,f2,f1);
+        // animation showing an attack
 
+        cardAttacked = loadBitmap("cardAttacked.png",true);
+        Frame f4 = new Frame(cardBack, .1f);
+        Frame f5 = new Frame(cardAttacked, .1f);
+        Frame f6 = new Frame(null, .1f);
+
+        attackAnim = new Animation(f4,f5,f6,f5,f4);
     }
     /**
      * This method is used to load Bitmaps into the Assets class to be used throughout the game
@@ -195,7 +203,7 @@ public class Assets {
      * @param transparency
      * @return bitmap
      */
-    private static Bitmap loadBitmap(String filename, boolean transparency) {
+    public static Bitmap loadBitmap(String filename, boolean transparency) {
         InputStream inputStream = null;
         try {
             inputStream = MainActivity.assets.open(filename);

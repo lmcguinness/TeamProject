@@ -18,7 +18,6 @@ public class Frame {
     public Frame(Bitmap image, double duration){
         this.image = image;
         this.duration = duration;
-
     }
 
     /**

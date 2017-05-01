@@ -28,7 +28,7 @@ public class SocietyCard extends Card {
     private int overallPosition;
     private boolean evolvedMax;
     private int textX = 270, textY = 60;
-    private int textSize = 20;
+    private float textSize = 20;
 
    
 /*

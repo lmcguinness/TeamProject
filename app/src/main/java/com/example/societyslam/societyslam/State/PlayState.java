@@ -37,7 +37,7 @@ public class PlayState extends State {
     private boolean isStart = true, dealCards = true, retreatError;
     boolean isMenu,attackPlayer1, attackPlayer2,evolvePlayer1,evolvePlayer2, displayWin1 = false,displayWin2 = false;
     private boolean isPause = false,isChooseCard =false,areCardsDrawn = false,isCardRetreated = false;
-    public static boolean player1Winner, player2Winner;
+    public static boolean player1Winner, player2Winner, renderAnimation;
 
     private Button pauseButton, useCardButton, cancelButton, p1Card0,p1Card1, p1Card2,p1Card3,
                    p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4, currentCard1Button, currentCard2Button, playButton, dealButton;
@@ -128,7 +128,7 @@ public class PlayState extends State {
      */
     @Override
     public void update(float delta) {
-
+        Assets.attackAnim.update(delta);
     }
 
     /**
@@ -207,6 +207,7 @@ public class PlayState extends State {
         }
 
         renderAttack(g);
+        renderAnimation(g);
         renderEvolve(g);
         renderMenu(g);
         renderWinRound(g);
@@ -243,9 +244,9 @@ public class PlayState extends State {
     @Override
     public boolean onTouch(MotionEvent e, int scaledX, int scaledY) {
         //If it is the start of the game then this touch event is registered as inital setup.
-
         if(e.getAction() == MotionEvent.ACTION_DOWN && !isPause) {
             //current cards in plays
+            renderAnimation=false;
             currentCard1Button.onTouchDown(scaledX, scaledY);
             currentCard2Button.onTouchDown(scaledX, scaledY);
 
@@ -386,6 +387,10 @@ public class PlayState extends State {
         return false;
     }
 
+
+    /**
+     * This method inititalises the buttons
+     */
     public void initialiseButtons() {
         playButton = new Button(buttonLeft, buttonTop, buttonRight, buttonBottom, Assets.start);
         dealButton = new Button(buttonLeft, buttonTop, buttonRight, buttonBottom, Assets.dealButton);
@@ -393,6 +398,9 @@ public class PlayState extends State {
 
     }
 
+    /**
+     * This method initalises the card positions as buttons
+     */
     public void initaliseCardButtons() {
         // placing buttons in the position of where player 1's cards are on the bench so they can choose which card to attack with
         p1Card0 = new Button(player1Cardleft, player1Card0Top, player1CardRight, player1Card0Bottom, null);
@@ -451,13 +459,19 @@ public class PlayState extends State {
         }
     }
 
+    /**
+     * This method renders a players active card in the allocated space on the screen
+     * @param g - the painter
+     * @param p - the player
+     * @param opponent - the other player
+     * @param scoreX - the X coordinate of the player's score
+     * @param scoreY - the Y coordinate of the player's score
+     * @param playerWins - how many rounds the player has won
+     * @param activeCardX - the X coordinate of the players active card
+     */
     public void renderActiveCard(Painter g, Player p, Player opponent, int scoreX, int scoreY, int playerWins, int activeCardX ) {
         int playerScore;
         if(p.getActiveCard() != null){
-            //g.drawImage(player1.getActiveCard().getBitmap(), player1ActiveCardLeft, activeCardTop, cardWidth , cardHeight);
-
-            // TEST TO FIND OUT THE TYPE OF THE ACTIVE SOCIETY CARD WHEN MOVED TO SCREEN
-            //g.drawString(" " + player1.getActiveCard().getType(), 320, 40);
 
             //Set HP levels of the active cards to the players score on the screen
             playerScore = p.getActiveCard().getHp();
@@ -469,12 +483,11 @@ public class PlayState extends State {
             if(playerScore <=0){
 
                 opponent.winRound(p);
-                playerWins++;
 
-                displayWin1 = true;
-                if(p.checkIfWinner()) {
-                    p.setWinner(true);
-                    setCurrentState(new GameOverState(player1.getRoundWins(), player2.getRoundWins(),p.getName()));
+               displayWin1 = true;
+                if(opponent.checkIfWinner()) {
+                    opponent.setWinner(true);
+                    setCurrentState(new GameOverState(player1.getRoundWins(), player2.getRoundWins(),opponent.getName()));
                 }
             }
             //will attach matching energyCard to the activeCard
@@ -484,21 +497,23 @@ public class PlayState extends State {
         }
     }
 
-
+    /**
+     * This method renders the menu
+     * @param g - the painter
+     */
     public void renderMenu(Painter g) {
         if (isMenu) {
             chooseMoveMenu.render(g);
-
             if (prizeCardError) {
                 g.drawString("You Have No PrizeCards Yet!", 235, 400, Color.RED);
             }
         }
-
-
-
-
     }
 
+    /**
+     * This method renders the choose card menu
+     * @param g - the painter
+     */
     public void renderChooseCardMenu(Painter g) {
         // screen which pops up to allow player to look at cards in more detail before choosing which one to play with
         if(isChooseCard){
@@ -597,16 +612,32 @@ public class PlayState extends State {
     }
 
 
+    /**
+     * This method renders the text when a player is attacked
+     * @param g - the painter
+     */
     public void renderAttack(Painter g) {
         //If player one clicks attack, display their attack and how many points player2 loses on the board
         //If player two attacks, display their attack and how many points player1 loses
-        if(attackPlayer1){
+        if (attackPlayer1) {
             player1.renderAttack(g, player2);
-        } else if(attackPlayer2){
+        } else if (attackPlayer2) {
             player2.renderAttack(g, player1);
         }
     }
-
+    public void renderAnimation(Painter g) {
+        if (renderAnimation) {
+            if (attackPlayer1) {
+                Assets.attackAnim.render(g, player2ActiveCardLeft, activeCardTop, player2ActiveCardRight-player2ActiveCardLeft, activeCardBottom-activeCardTop);
+            } else if (attackPlayer2) {
+                Assets.attackAnim.render(g, player1ActiveCardLeft, activeCardTop, player1ActiveCardRight-player1ActiveCardLeft, activeCardBottom-activeCardTop);
+            }
+        }
+    }
+    /**
+     * This method render the text when a player evolves their card
+     * @param g - the painter
+     */
     public void renderEvolve(Painter g) {
         if(evolvePlayer1) {
             player1.getActiveCard().renderEvolve(g);
@@ -616,6 +647,10 @@ public class PlayState extends State {
         }
     }
 
+    /**
+     * This method renders the text when a player wins a round
+     * @param g - the painter
+     */
     public void renderWinRound(Painter g) {
         //If player ones score falls below zero
         if(displayWin1){
@@ -629,6 +664,11 @@ public class PlayState extends State {
         }
     }
 
+    /**
+     * This method determines what happens when the deal button is pressed
+     * @param scaledX - the X coordinate of where the screen is pressed
+     * @param scaledY - the Y coordinate of where the screen is pressed
+     */
     public void dealButtonOnTouch(int scaledX, int scaledY) {
         if(dealButton.isPressed(scaledX,scaledY)) {
             dealButton.cancel();
@@ -652,6 +692,11 @@ public class PlayState extends State {
         }
     }
 
+    /**
+     * This method determines what happens when the play button is pressed
+     * @param scaledX - the X coordinate of where the screen is pressed
+     * @param scaledY - the Y coordinate of where the screen is pressed
+     */
     public void playButtonOnTouch(int scaledX, int scaledY) {
         if (playButton.isPressed(scaledX, scaledY)) {
             playButton.cancel();
@@ -669,6 +714,11 @@ public class PlayState extends State {
         }
     }
 
+    /**
+     * This method determines what happens when the play button is pressed
+     * @param scaledX - the X coordinate of where the screen is pressed
+     * @param scaledY - the Y coordinate of where the screen is pressed
+     */
     public void pauseButtonOnTouch(int scaledX, int scaledY) {
         if (pauseButton.isPressed(scaledX, scaledY)) {
             //pause the game
@@ -682,117 +732,152 @@ public class PlayState extends State {
     }
 
     /**
-     * Checks to see if player 1 has won the game
-     * @return- true if they have won
-     */
-    public static boolean isPlayer1Winner() {
-        return player1Winner;
-    }
-
-    /**
-     * Checks to see if player 2 has won the game
-     * @return - true if the have won
-     */
-    public static boolean isPlayer2Winner() {
-        return player2Winner;
-    }
-
-    /**
-     * sets Player 1 as the games winner
-     * @param player1Winner - boolean value ture = winner
+     * This method sets if player 1 has won the game
+     * @param player1Winner - true if they have won
      */
     public static void setPlayer1Winner(boolean player1Winner) {
         PlayState.player1Winner = player1Winner;
     }
 
     /**
-     * sets Player 2 as the games winner
-     * @param player2Winner - boolean value ture = winner
+     * This method sets if player 1 has won the game
+     * @param player2Winner - true if they have won
      */
     public static void setPlayer2Winner(boolean player2Winner) {
         PlayState.player2Winner = player2Winner;
     }
 
-    /**
-     * This method is called when player 1 wins
-     * @return player1Wins- the number of rounds that player 1 has won
-     */
-    public static int getPlayer1Wins() {
-        return player1Wins;
-    }
+
     public static void setPlayer1Wins(int player1W){
         player1Wins = player1W;
     }
     public static void setPlayer2Wins(int player2W){
         player1Wins = player2W;
     }
+
+
     /**
-     * This method is called when player 2 wins the game
-     * @return player2Wins - the number of rounds player 2 has won
+     * This method sets if the game is paused
+     * @param pause - true if the game is paused
      */
-    public static int getPlayer2Wins() {
-        return player2Wins;
-    }
-
-
     public void setPause(boolean pause) {
         isPause = pause;
     }
 
-    public boolean isMenu() {
-        return isMenu;
-    }
-
-    public void setMenu(boolean menu) {
-        isMenu = menu;
-    }
-
+    /**
+     * This menu returns whether the game is paused or not
+     * @return - true if the game is paused
+     */
     public boolean isPause() {
         return isPause;
     }
 
+    /**
+     * This method returns whether the menu is displayed or not
+     * @return true if menu is displayed
+     */
+    public boolean isMenu() {
+        return isMenu;
+    }
+
+    /**
+     * This method sets whether the menu is to be displayed or not
+     * @param menu - true if menu is to be displayed
+     */
+    public void setMenu(boolean menu) {
+        isMenu = menu;
+    }
+
+    /**
+     * This method sets whether there is a prize card error or not
+     * @param prizeCardError - true if the player has not won any prize cards
+     */
     public void setPrizeCardError(boolean prizeCardError) {
         this.prizeCardError = prizeCardError;
     }
+
+    /**
+     * This method gets player 1
+     * @return - player 1
+     */
 
     public Player getPlayer1() {
         return player1;
     }
 
-    public Player getPlayer2() {
+    /**
+     * This method gets player 2
+     * @return - player 2
+     */
+    public  Player getPlayer2() {
         return player2;
     }
 
+    /**
+     * This method sets if player 1 has attacked
+     * @param attackPlayer1 - true if player one has attacked
+     */
     public void setAttackPlayer1(boolean attackPlayer1) {
         this.attackPlayer1 = attackPlayer1;
     }
 
+    /**
+     * This method sets if player 1 has attacked
+     * @param attackPlayer2 - true if player one has attacked
+     */
     public void setAttackPlayer2(boolean attackPlayer2) {
         this.attackPlayer2 = attackPlayer2;
     }
 
+    /**
+     * This method sets if there is a retreat error
+     * @param retreatError - true if there is no active card to retreat
+     */
     public void setRetreatError(boolean retreatError) {
         this.retreatError = retreatError;
     }
 
+    /**
+     * This method sets if a card has retreated
+     * @param cardRetreated - true if card has retreated
+     */
     public void setCardRetreated(boolean cardRetreated) {
         isCardRetreated = cardRetreated;
     }
 
+    /**
+     * This method sets if player 1 has evolved their active card
+     * @param evolvePlayer1 - true if player 1 has evolved
+     */
     public void setEvolvePlayer1(boolean evolvePlayer1) {
         this.evolvePlayer1 = evolvePlayer1;
     }
 
+    /**
+     * This method sets if player 2 has evolved their active card
+     * @param evolvePlayer2 - true if player 2 has evolved
+     */
     public void setEvolvePlayer2(boolean evolvePlayer2) {
         this.evolvePlayer2 = evolvePlayer2;
     }
 
+    /**
+     * This  method sets if it is time to choose a card
+     * @param chooseCard - true if it is time to choose a card
+     */
     public void setChooseCard(boolean chooseCard) {
         isChooseCard = chooseCard;
     }
 
+    /**
+     * This method returns if it is time to choose a card
+     * @return - true if it is time to choose a card
+     */
     public boolean isChooseCard() {
         return isChooseCard;
+    }
+    public static void setRenderAnimation(boolean renderAnimation1){
+        renderAnimation= renderAnimation1;
     }
 }
 

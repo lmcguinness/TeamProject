@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * Created by Aoife Brown on 21/11/2016.
+ * This is the Painter class, it is used to control the games graphics
  */
 
 public class Painter {
@@ -25,6 +25,10 @@ public class Painter {
     private Rect dstRect;
     private RectF dstRectF;
 
+    /**
+     * This constructs a painter object
+     * @param canvas - the canvas
+     */
     public Painter(Canvas canvas) {
         this.canvas = canvas;
         paint = new Paint();
@@ -34,31 +38,54 @@ public class Painter {
     }
 
 
-
+    /**
+     * This method sets the color
+     * @param color - the color being set
+     */
     public void setColor(int color) {
         paint.setColor(color);
     }
 
+    /**
+     * This method sets the font
+     * @param typeface - the font to be set
+     * @param textSize - the size of the font
+     */
     public void setFont(Typeface typeface, float textSize) {
         paint.setTypeface(typeface);
         paint.setTextSize(textSize);
     }
 
+    /**
+     * This method draws a string to the screen
+     * @param str - the string to be drawn
+     * @param x - the X coordinate of the string
+     * @param y - the Y coordinate of the string
+     * @param color - the color of the string
+     */
     public void drawString(String str, int x, int y, int color) {
         paint.setColor(color);
         canvas.drawText(str,x,y,paint);
     }
 
-    public void fillRect(int x, int y, int width, int height) {
-        dstRect.set(x,y,x+width, y+height);
-        paint.setStyle(Paint.Style.FILL);
-        canvas.drawRect(dstRect, paint);
-    }
-
+    /**
+     * This method draws an image to the screen
+     * @param bitmap - the image to be drawn
+     * @param x - the X coordinate of the image
+     * @param y - the Y coordinate of the image
+     */
     public void drawImage(Bitmap bitmap, int x, int y) {
         canvas.drawBitmap(bitmap,x,y,paint);
     }
 
+    /**
+     * This method draws an image to the screen
+     * @param bitmap - the image to be drawn
+     * @param x - the x coordinate of the image
+     * @param y - the y coordinate of the image
+     * @param width - the width of the image
+     * @param height - the height of the image
+     */
 
     public void drawImage(Bitmap bitmap, int x, int y, int width, int height) {
         try {
