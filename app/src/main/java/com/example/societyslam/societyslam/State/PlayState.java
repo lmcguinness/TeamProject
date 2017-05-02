@@ -886,5 +886,3 @@ public class PlayState extends State {
         renderAnimation= renderAnimation1;
     }
 }
-
-

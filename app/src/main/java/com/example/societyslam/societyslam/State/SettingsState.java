@@ -164,4 +164,3 @@ public class SettingsState extends State {
         SettingsState.currentLanguage = currentLanguage;
     }
 }
-

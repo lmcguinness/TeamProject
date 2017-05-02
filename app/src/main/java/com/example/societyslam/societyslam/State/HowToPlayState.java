@@ -98,9 +98,4 @@ public class HowToPlayState extends State {
 
         return true;
     }
-
-
-
-
-
 }
