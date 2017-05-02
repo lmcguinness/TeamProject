@@ -14,8 +14,6 @@ import java.util.ArrayList;
  */
 
 public class SocietyCard extends Card {
-
-
     private int hp;
     private String attackName;
     private int attackStrength;

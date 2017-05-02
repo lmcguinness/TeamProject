@@ -17,12 +17,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class Player_test {
-
     Player mockPlayer1 = new Player(Assets.myDeck,Assets.currentCardInPlay,Assets.playersCards,Assets.prizeCardDeck1, CoinTossState.getIsPlayer1Turn(),0,"mock name");
     Player mockPlayer2 = new Player(Assets.myDeck,Assets.currentCardInPlay,Assets.playersCards,Assets.prizeCardDeck2, CoinTossState.getIsPlayer2Turn(),0,"mock name2");
     SocietyCard mockCard = new SocietyCard("Mock name", 20, 20,34,22, Assets.cardBack, 60, "MockAttackName", 10, Type.water,null,null);
     SocietyCard mockCard2 = new SocietyCard("Mock name2", 20, 20,34,22, Assets.cardBack, 60, "MockAttackName", 10, Type.water,null,null);
-    StudentBehaviourCard mockSBC = new StudentBehaviourCard("MockSBC name ", 20, 20 , 34, 22, Assets.cardBack, StudentBehaviourType.item,false );
+    StudentBehaviourCard mockSBC = new StudentBehaviourCard("MockSBC name ", 20, 20 , 34, 22, Assets.cardBack, StudentBehaviourType.item,false, 10 );
 
     @Test
     public void retreatTest(){
@@ -30,10 +29,6 @@ public class Player_test {
         Assert.assertEquals(null, mockPlayer1.getActiveCard());
     }
 
-    @Test
-    public void checkIfWinnerTest(){
-        Assert.assertEquals(false, mockPlayer1.checkIfWinner());
-    }
 
     @Test
     public void attackTest(){
