@@ -222,7 +222,7 @@ public class Player {
     public void renderAttack(Painter g, Player opponent) {
         g.setFont(Typeface.DEFAULT, textSize);
         g.drawString("You attacked with " + this.getActiveCard().getAttackName(), textX, textY, Color.WHITE);
-        g.drawString("minus " + this.getActiveCard().getAttackStrength() + " points " + opponent.getName(), text2X, text2Y, Color.WHITE );
+        g.drawString("minus " + attackDamage + " points " + opponent.getName(), text2X, text2Y, Color.WHITE );
     }
 
     public void retreat() {
