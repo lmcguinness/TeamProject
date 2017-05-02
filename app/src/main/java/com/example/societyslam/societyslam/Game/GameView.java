@@ -21,6 +21,7 @@ import com.example.societyslam.societyslam.State.PlayState;
 import com.example.societyslam.societyslam.State.State;
 import com.example.societyslam.societyslam.Util.InputHandler;
 import com.example.societyslam.societyslam.Util.Painter;
+import com.example.societyslam.societyslam.Util.PauseMenu;
 import com.example.societyslam.societyslam.ai.CPU;
 
 /**
@@ -137,6 +138,7 @@ public class GameView extends SurfaceView implements Runnable {
      */
     public void setCurrentState(State newState) {
         System.gc();
+        resetCards();
         newState.setContext(this.context);
         newState.init();
         currentState = newState;
@@ -209,6 +211,7 @@ public class GameView extends SurfaceView implements Runnable {
         Assets.currentCardInPlay2 = null;
         Assets.currentCardInPlay = null;
         CPU.setIsTalking(false);
+        PauseMenu.setLoadGame(false);
     }
 
     /**

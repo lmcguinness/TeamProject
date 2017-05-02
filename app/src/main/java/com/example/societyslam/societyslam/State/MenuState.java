@@ -9,6 +9,9 @@ import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.PlayerDetailsActivity;
 import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
+import com.example.societyslam.societyslam.Util.PauseMenu;
+
+import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 /**
  * Created by Aoife Brown on 21/11/2016.
@@ -20,7 +23,7 @@ public class MenuState extends State {
         * buttons that have been declared in the MenuState class
      */
     private Button startButton, howToPlayButton, SettingsButton, scoreButton, onePlayerButton,
-                   twoPlayerButton, hardButton, easyButton, startButtonPolish,
+                   twoPlayerButton, hardButton, easyButton, startButtonPolish,newGameButton,loadGameButton,
                    howToPlayButtonPolish, settingsButtonPolish, scoreButtonPolish,  backArrowButton;
 
     /*
@@ -48,7 +51,7 @@ public class MenuState extends State {
     private int textY = 375;
 
     private static boolean isTwoPlayer , hard, easy;
-    private boolean isStartPressed = false, isModeChosen = false;
+    private boolean isStartPressed = false, isModeChosen = false, isNewGame=false;
     public static boolean getIsTwoPlayer(){
         return isTwoPlayer;
     }
@@ -76,6 +79,8 @@ public class MenuState extends State {
         easyButton = new Button(startButtonLeft,chooseModeButtonTop, startButtonRight, chooseModeButtonBottom,Assets.easyButton);
         hardButton = new Button(scoreButtonLeft,chooseModeButtonTop,scoreButtonRight,chooseModeButtonBottom,Assets.hardButton);
         backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton);
+        loadGameButton = new Button(startButtonLeft,chooseModeButtonTop, startButtonRight, chooseModeButtonBottom,Assets.loadGameButton);
+        newGameButton = new Button(scoreButtonLeft,chooseModeButtonTop,scoreButtonRight,chooseModeButtonBottom,Assets.newGameButton);
 
     }
     /**
@@ -110,13 +115,19 @@ public class MenuState extends State {
             settingsButtonPolish.render(g);
             scoreButtonPolish.render(g);
         }
-
+        if(PauseMenu.getLoadGame() && isStartPressed){
+            g.drawImage(Assets.welcome,0,0);
+            newGameButton.render(g);
+            loadGameButton.render(g);
+            backArrowButton.render(g);
+        }
         /*
             * if isStartPressed is true then different objects will display for the user to
             * choose one player or two player
          */
 
-        if(isStartPressed) {
+
+        if(isNewGame || !PauseMenu.getLoadGame() && isStartPressed) {
             super.getPainter().drawImage(Assets.welcome,0,0);
             onePlayerButton.render(g);
             twoPlayerButton.render(g);
@@ -158,8 +169,6 @@ public class MenuState extends State {
             } else if (howToPlayButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
                 howToPlayButton.cancel();
-                //Log.d("MENU STATE", "HOW TO PLAY BUTTON PRESSED");
-                //setCurrentState(new HowToPlayState(this));
                 setCurrentState(new HowToPlayState());
             } else if (SettingsButton.isPressed(scaledX, scaledY)) {
                 Assets.playSound(Assets.buttonClickID);
@@ -176,26 +185,50 @@ public class MenuState extends State {
             }
         }
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
+            loadGameButton.onTouchDown(scaledX, scaledY);
+            newGameButton.onTouchDown(scaledX, scaledY);
+            backArrowButton.onTouchDown(scaledX, scaledY);
+        }
+        if(PauseMenu.getLoadGame()) {
+            if (e.getAction() == MotionEvent.ACTION_UP && !isNewGame) {
+                if (loadGameButton.isPressed(scaledX, scaledY) && isStartPressed) {
+                    myGame.changeBack();
+                    Assets.playSound(Assets.buttonClickID);
+                    loadGameButton.cancel();
+                } else if (newGameButton.isPressed(scaledX, scaledY) && isStartPressed) {
+                    isNewGame = true;
+                    Assets.playSound(Assets.buttonClickID);
+                    newGameButton.cancel();
+                    return true;
+                } else if (backArrowButton.isPressed(scaledX, scaledY) && isStartPressed) {
+                    isStartPressed = false;
+                    Assets.playSound(Assets.buttonClickID);
+                    backArrowButton.cancel();
+                }
+            }
+        }
+        if (e.getAction() == MotionEvent.ACTION_DOWN) {
             onePlayerButton.onTouchDown(scaledX, scaledY);
             twoPlayerButton.onTouchDown(scaledX, scaledY);
             backArrowButton.onTouchDown(scaledX, scaledY);
         }
-            if (e.getAction() == MotionEvent.ACTION_UP && !isModeChosen) {
-                if (onePlayerButton.isPressed(scaledX, scaledY) && isStartPressed) {
+            if (e.getAction() == MotionEvent.ACTION_UP && !isModeChosen && isStartPressed ){
+                if (onePlayerButton.isPressed(scaledX, scaledY) && isNewGame ||onePlayerButton.isPressed(scaledX, scaledY)  &&!PauseMenu.getLoadGame()) {
                     Assets.playSound(Assets.buttonClickID);
                     isTwoPlayer = false;
                     isModeChosen =true;
                     onePlayerButton.cancel();
                     return true;
-                } else if (twoPlayerButton.isPressed(scaledX, scaledY) && isStartPressed) {
+                } else if (twoPlayerButton.isPressed(scaledX, scaledY)&& isNewGame||twoPlayerButton.isPressed(scaledX, scaledY)  &&!PauseMenu.getLoadGame()) {
                     isTwoPlayer = true;
                     Assets.playSound(Assets.buttonClickID);
                     twoPlayerButton.cancel();
                     Intent i = new Intent(this.getContext(), PlayerDetailsActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     this.getContext().startActivity(i);
-                }else if (backArrowButton.isPressed(scaledX, scaledY) && isStartPressed) {
-                    isStartPressed = false;
+                }else if (backArrowButton.isPressed(scaledX, scaledY) && isNewGame||backArrowButton.isPressed(scaledX, scaledY)  &&!PauseMenu.getLoadGame()) {
+                    isNewGame = false;
+                    isStartPressed =false;
                     Assets.playSound(Assets.buttonClickID);
                     backArrowButton.cancel();
                 }
@@ -219,7 +252,6 @@ public class MenuState extends State {
             }else if (backArrowButton.isPressed(scaledX, scaledY) && isModeChosen) {
                 Assets.playSound(Assets.buttonClickID);
                 backArrowButton.cancel();
-                isStartPressed = true;
                 isModeChosen = false;
                 return  true;
             }

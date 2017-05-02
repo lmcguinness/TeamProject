@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.societyslam.societyslam.State.HowToPlayState;
+import com.example.societyslam.societyslam.Util.PauseMenu;
 import com.example.societyslam.societyslam.ai.CPU;
 import com.example.societyslam.societyslam.io.Settings;
 import java.io.IOException;
@@ -193,6 +194,7 @@ public class MainActivity extends Activity {
         Assets.currentCardInPlay2 = null;
         Assets.currentCardInPlay = null;
         CPU.setIsTalking(false);
+        PauseMenu.setLoadGame(false);
     }
 }
 

@@ -45,7 +45,7 @@ public class PlayState extends State {
     private int buttonTop = 385,buttonBottom = 444,buttonLeft = 336,buttonRight = 504;
     private int pauseButtonTop = 385,  pauseButtonBottom = 444, pauseButtonLeft = 266,pauseButtonRight = 326;
 
-    private int menuX = 100, menuY = 50;
+    private int menuX = 120, menuY = 50;
     private int chooseCardMenuX = 75, chooseCardMenuY = 95;
 
     private int player1Cardleft = 20,player1CardRight = 125;

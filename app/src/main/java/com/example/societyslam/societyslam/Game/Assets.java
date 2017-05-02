@@ -29,12 +29,12 @@ public class Assets {
     /**
      * Create variables used in this class
      */
-    public static Bitmap cardAttacked, shareButton,easyButton, hardButton,speechBubble1,speechBubble2,speechBubble3,speechBubble4,speechBubble5,speechBubble6,speechBubble7, speechBubble8, speechBubble9, robot, twoPlayerButton, onePlayerButton, yourTurn,chooseCardMenu, useCard, cancel, restart, resume, quit, instructions, pauseMenu, pause, player1T, player2H, headsText, tailsText, choose, retreatError, coinTossBackground, heads, tails, player1, player2, continueDown, continueButton, flipCoin, flipCoinDown, welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
+    public static Bitmap cardAttacked, shareButton,easyButton, hardButton,speechBubble1,speechBubble2,speechBubble3,speechBubble4,speechBubble5,speechBubble6,speechBubble7, speechBubble8, speechBubble9, robot, twoPlayerButton, onePlayerButton, yourTurn,chooseCardMenu, useCard, cancel, restart, resume,saveGame, quit, instructions, pauseMenu, pause, player1T, player2H, headsText, tailsText, choose, retreatError, coinTossBackground, heads, tails, player1, player2, continueDown, continueButton, flipCoin, flipCoinDown, welcome, start, startDown, boxingSociety, cardBack, cavingSociety, computerSociety, divingSociety, earthEnergy,
             electricEnergy, engineeringSociety, fencingSociety, fightEngery, friendsOfEarth, gardeningSociety, geographySociety, judoSociety,
             karateSociety, physicsSociety, rowingSociety, surfingSociety, swimmingSociety, waterEnergy, background, ssb, ssb1, artificialIntel,
             disruptve, environmentalSociety, fail, freeEntry, freeShots, greenPeace, hangover, jujistoSociety, late, lecture, library, howToPlay, howToPlayDown, howToPlayBackground, backArrowButton,
             paddle, redBull, roboticsSociety, sailingSociety, taekwando, untidy, water, gamingSociety, dealButton, menubg, attackButton, retreatButton, evolveButton,
-            societyCardButton, SettingsButton,needMoreHelp, SettingsButton_down, minusButton, plusButton, english_Button, polish_Button, polish_Button_Down, english_Button_down, coin2, coin3, coin4, playAgainButton, homeButton, highScoreButton, highScoresButton_Polish, HowToPlayButton_Polish, SettingsButton_Polish, startButton_Polish, howToPlayBackground_Polish;
+            societyCardButton, SettingsButton,needMoreHelp, SettingsButton_down, minusButton, plusButton, english_Button, polish_Button, polish_Button_Down, english_Button_down, coin2, coin3, coin4, playAgainButton, homeButton, highScoreButton, highScoresButton_Polish, HowToPlayButton_Polish, SettingsButton_Polish, startButton_Polish, howToPlayBackground_Polish,loadGameButton, newGameButton;
 
     private static SoundPool soundPool;
 
@@ -62,6 +62,8 @@ public class Assets {
      */
     public static void load() {
         //load images
+        newGameButton = loadBitmap("newGameButton.png",true);
+        loadGameButton=loadBitmap("loadGame.png",true);
         shareButton = loadBitmap("sharing.png",true);
         needMoreHelp = loadBitmap("needMoreHelp.png", true);
         howToPlayBackground_Polish = loadBitmap("howToPlayBackground_Polish.png", true);
@@ -122,6 +124,7 @@ public class Assets {
         restart =loadBitmap("restart.png", true);
         resume = loadBitmap("resume.png", true);
         quit = loadBitmap("quit.png", true);
+        saveGame = loadBitmap("saveGameButton.png", true);
         instructions = loadBitmap("instructions.png", true);
         welcome = loadBitmap("menu-background.png", false);
         start = loadBitmap("start-button.png", true);

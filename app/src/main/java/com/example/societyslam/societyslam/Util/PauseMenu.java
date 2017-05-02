@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 
 import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Game.MainActivity;
+import com.example.societyslam.societyslam.State.MenuState;
 import com.example.societyslam.societyslam.State.OnePlayerState;
 import com.example.societyslam.societyslam.State.PlayState;
 import com.example.societyslam.societyslam.State.SettingsState;
@@ -18,18 +19,19 @@ import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 public class PauseMenu extends Menu {
 
-    private boolean instructionsScreen = false;
+    private static boolean instructionsScreen = false, loadGame = false;
     private Button resumeButton;
+    private Button saveGameButton;
     private Button restartButton;
     private Button instructionsButton;
     private Button quitButton;
     private Button backArrowButton;
-    private int buttonLeft = 316,buttonRight = 484;
+    private int buttonLeft = 336,buttonRight = 504;
     private int resumeButtonTop = 125,  resumeButtonBottom = 165;
     private int restartButtonTop = 185, restartButtonBottom = 225;
     private int instructionsButtonTop = 245,instructionsButtonBottom = 285;
-
-    private int quitButtonTop = 305, quitButtonBottom = 350;
+    private int saveGameButtonTop=305,saveGameButtonBottom=345;
+    private int quitButtonTop = 365, quitButtonBottom = 405;
 
 
     /**
@@ -54,6 +56,7 @@ public class PauseMenu extends Menu {
         instructionsButton = new Button(buttonLeft, instructionsButtonTop, buttonRight, instructionsButtonBottom, Assets.instructions);
         quitButton = new Button(buttonLeft, quitButtonTop, buttonRight, quitButtonBottom, Assets.quit);
         backArrowButton = new Button(-8,-10,120,100, Assets.backArrowButton);
+        saveGameButton = new Button(buttonLeft,saveGameButtonTop,buttonRight,saveGameButtonBottom,Assets.saveGame);
     }
 
     /**
@@ -66,6 +69,7 @@ public class PauseMenu extends Menu {
         resumeButton.render(g);
         restartButton.render(g);
         instructionsButton.render(g);
+        saveGameButton.render(g);
         quitButton.render(g);
         if(SettingsState.getCurrentLanguage() == "English" && instructionsScreen){
             g.drawImage(Assets.howToPlayBackground, 0, 0);
@@ -90,12 +94,14 @@ public class PauseMenu extends Menu {
         resumeButton.onTouchDown(scaledX, scaledY);
         restartButton.onTouchDown(scaledX, scaledY);
         instructionsButton.onTouchDown(scaledX, scaledY);
+        saveGameButton.onTouchDown(scaledX,scaledY);
         quitButton.onTouchDown(scaledX, scaledY);
         backArrowButton.onTouchDown(scaledX,scaledY);
 
         resumeButtonOnTouch(scaledX, scaledY, playState);
         restartButtonOnTouch(scaledX, scaledY, playState);
         instructionsButtonOnTouch(scaledX, scaledY, playState);
+        saveGameButtonOnTouch(scaledX, scaledY, playState);
         quitButtonOnTouch(scaledX, scaledY, playState);
         backArrowButtonOnTouch(scaledX, scaledY, playState);
 
@@ -171,6 +177,14 @@ public class PauseMenu extends Menu {
             instructionsButton.cancel();
         }
     }
+    public void saveGameButtonOnTouch(int scaledX, int scaledY, PlayState playState) {
+        if (saveGameButton.isPressed(scaledX, scaledY) && playState.isPause()) {
+            myGame.changeStates(playState,new MenuState());
+            loadGame = true;
+        }else{
+            saveGameButton.cancel();
+        }
+    }
 
     /**
      * This method detemines what happens when the quit button is pressed
@@ -209,12 +223,14 @@ public class PauseMenu extends Menu {
         resumeButton.onTouchDown(scaledX, scaledY);
         restartButton.onTouchDown(scaledX, scaledY);
         instructionsButton.onTouchDown(scaledX, scaledY);
+        saveGameButton.onTouchDown(scaledX, scaledY);
         quitButton.onTouchDown(scaledX, scaledY);
         backArrowButton.onTouchDown(scaledX,scaledY);
 
         resumeButtonOnTouch1(scaledX, scaledY, oneplayerstate);
         restartButtonOnTouch1(scaledX, scaledY, oneplayerstate);
         instructionsButtonOnTouch1(scaledX, scaledY, oneplayerstate);
+        saveGameButtonOnTouch1(scaledX, scaledY, oneplayerstate);
         quitButtonOnTouch1(scaledX, scaledY, oneplayerstate);
         backArrowButtonOnTouch1(scaledX, scaledY, oneplayerstate);
 
@@ -290,7 +306,14 @@ public class PauseMenu extends Menu {
             instructionsButton.cancel();
         }
     }
-
+    public void saveGameButtonOnTouch1(int scaledX, int scaledY, OnePlayerState oneplayerState) {
+        if (saveGameButton.isPressed(scaledX, scaledY) && oneplayerState.isPause()) {
+            myGame.changeStates(oneplayerState,new MenuState());
+            loadGame = true;
+        }else{
+            saveGameButton.cancel();
+        }
+    }
     /**
      * This method detemines what happens when the quit button is pressed
      * @@param scaledX - the X coordinate of the touch event
@@ -316,5 +339,10 @@ public class PauseMenu extends Menu {
         }
     }
 
-
+    public static boolean getLoadGame() {
+        return loadGame;
+    }
+    public static void setLoadGame(boolean loadGame1){
+        loadGame = loadGame1;
+    }
 }

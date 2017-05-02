@@ -43,7 +43,7 @@ public class OnePlayerState extends State {
     private int buttonTop = 385,buttonBottom = 444,buttonLeft = 336,buttonRight = 504;
     private int pauseButtonTop = 385,  pauseButtonBottom = 444, pauseButtonLeft = 266,pauseButtonRight = 326;
 
-    private int menuX = 100, menuY = 50;
+    private int menuX = 120, menuY = 50;
     private int chooseCardMenuX = 75, chooseCardMenuY = 95;
 
     private int player1Cardleft = 20,player1CardRight = 125;
@@ -93,23 +93,13 @@ public class OnePlayerState extends State {
     @Override
     public void init() {
         Assets.InitialiseCards();
-
-
         //Set the players names
         player1Name = "Player 1";
         player2Name = "CPU1";
-
         player1 = new Player(Assets.myDeck,Assets.currentCardInPlay,Assets.playersCards,Assets.prizeCardDeck1, true,0, player1Name);
         cpu1 = new CPU(Assets.myDeck, Assets.currentCardInPlay2, Assets.player2Cards, Assets.prizeCardDeck2,false,0, player2Name);
-
         pauseMenu = new PauseMenu(Assets.pauseMenu, menuX, menuY);
         chooseCardMenu = new ChooseCardMenu(Assets.chooseCardMenu, chooseCardMenuX, chooseCardMenuY);
-
-
-        //Set the background music to keep playing
-        //Assets.playBackground(Assets.backgroundMusicID);
-
-        //initialising buttons
         initialiseButtons();
         initaliseCardButtons();
         setUpPrizeCards();
@@ -122,7 +112,6 @@ public class OnePlayerState extends State {
      */
     @Override
     public void update(float delta) {
-
         if (areCardsDrawn && Assets.currentCardInPlay != null && isFirstTurn) {
             whichStatement = cpu1.talk(player1, cpu1, 1);
         }
@@ -132,7 +121,6 @@ public class OnePlayerState extends State {
             whichStatement = cpu1.talk(player1, cpu1, 4);
         }
     }
-
     /**
      * The render method draws to the screen
      * @param g- The painter
@@ -145,7 +133,6 @@ public class OnePlayerState extends State {
         g.setFont(Typeface.DEFAULT_BOLD, nameTextSize);
         g.drawString(player1Name, player1NameX, playerNameY, Color.WHITE);
         g.drawString(player2Name, player2NameX,playerNameY, Color.WHITE);
-
         //Display how many rounds each player has won throughout the game
         g.setFont(Typeface.DEFAULT, scoreTextSize);
         g.drawString("Rounds won ", player1TextX,player1TextY, Color.WHITE);
@@ -218,7 +205,6 @@ public class OnePlayerState extends State {
             drawCards(g);
 
         }
-
         if (isMenu) {
             g.drawImage(Assets.menubg, 100, 50);
             attackButton.render(g);
@@ -226,7 +212,6 @@ public class OnePlayerState extends State {
             evolveButton.render(g);
             useStudentBehaviourCardButton.render(g);
         }
-        renderWinRound(g);
         if(retreatError){
             super.getPainter().drawImage(Assets.retreatError, 75, 85, 685 , 65);
         }
@@ -239,7 +224,6 @@ public class OnePlayerState extends State {
                     mediaPlayer.release();
                 }
             }
-
             pauseMenu.render(g);
         }
         renderChooseCardMenu(g);
@@ -371,6 +355,7 @@ public class OnePlayerState extends State {
             pauseButton.onTouchDown(scaledX, scaledY);
             pauseButtonOnTouch(scaledX, scaledY);
             pauseMenu.onTouch1(scaledX, scaledY, this);
+
         }
 
         if (e.getAction() == MotionEvent.ACTION_DOWN  ) {
@@ -553,7 +538,6 @@ public class OnePlayerState extends State {
      * @param p - the player whose active card needs an energy card
      * @param g - the painter
      */
-
     public void attachEnergyCard(Player p, Painter g) {
         Type type = p.getActiveCard().getType();
         if(p.equals(player1)) {
@@ -582,19 +566,6 @@ public class OnePlayerState extends State {
             }
         }
     }
-    public void renderWinRound(Painter g) {
-        //If player ones score falls below zero
-        if(displayWin1){
-            cpu1.renderWinRound(g, player1);
-
-        }
-        //If player twos score fall below zero
-        else if(displayWin2){
-            player1.renderWinRound(g, cpu1);
-
-        }
-    }
-
     public void dealButtonOnTouch(int scaledX, int scaledY) {
         if(dealButton.isPressed(scaledX,scaledY)) {
             dealButton.cancel();
@@ -617,7 +588,6 @@ public class OnePlayerState extends State {
             dealButton.cancel();
         }
     }
-
     public void playButtonOnTouch(int scaledX, int scaledY) {
         if (playButton.isPressed(scaledX, scaledY)) {
             playButton.cancel();
@@ -634,17 +604,16 @@ public class OnePlayerState extends State {
             playButton.cancel();
         }
     }
-
-    public void pauseButtonOnTouch(int scaledX, int scaledY) {
+    public boolean pauseButtonOnTouch(int scaledX, int scaledY) {
         if (pauseButton.isPressed(scaledX, scaledY)) {
             //pause the game
             isPause = true;
-
             pauseButton.cancel();
-
+            return  true;
         } else {
             pauseButton.cancel();
         }
+        return  false;
     }
 
     /**
@@ -761,5 +730,3 @@ public class OnePlayerState extends State {
         return isChooseCard;
     }
 }
-
-

@@ -303,7 +303,6 @@ public class CPU extends Player {
                 inOrderOfAttackDamage.get(i).setPotentialAttackDamage(inOrderOfAttackDamage.get(i).getAttackStrength());
             }
         }
-
         //sort respective arrays in ascending order of respective characteristics
         for (int i = 0; i < 5; i++) {
             SocietyCard temp;
@@ -365,7 +364,6 @@ public class CPU extends Player {
             urgencyLevel+=1;
         }
     }
-
     /**
      * This method  implements which card the CPU chooses to play in which scenario
      * @param cpu1
