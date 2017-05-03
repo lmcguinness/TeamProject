@@ -197,7 +197,6 @@ public class PlayState extends State {
         }
 
         renderAttack(g);
-        renderAnimation(g);
         renderEvolve(g);
         renderMenu(g);
         renderChooseCardMenu(g);
@@ -533,21 +532,17 @@ public class PlayState extends State {
     public void renderAttack(Painter g) {
         //If player one clicks attack, display their attack and how many points player2 loses on the board
         //If player two attacks, display their attack and how many points player1 loses
-        if (attackPlayer1) {
-            player1.renderAttack(g, player2);
-        } else if (attackPlayer2) {
-            player2.renderAttack(g, player1);
-        }
-    }
-    public void renderAnimation(Painter g) {
-        if (renderAnimation) {
+        if(renderAnimation) {
             if (attackPlayer1) {
+                player1.renderAttack(g, player2);
                 Assets.attackAnim.render(g, player2ActiveCardLeft, activeCardTop, player2ActiveCardRight-player2ActiveCardLeft, activeCardBottom-activeCardTop);
             } else if (attackPlayer2) {
+                player2.renderAttack(g, player1);
                 Assets.attackAnim.render(g, player1ActiveCardLeft, activeCardTop, player1ActiveCardRight-player1ActiveCardLeft, activeCardBottom-activeCardTop);
             }
         }
     }
+
     /**
      * This method render the text when a player evolves their card
      * @param g - the painter
@@ -710,6 +705,14 @@ public class PlayState extends State {
         isMenu = menu;
     }
 
+
+    /**
+     * This method returns whether or not there is a prize card error
+     * @return - true if there is a prize card error
+     */
+    public boolean isPrizeCardError() {
+        return prizeCardError;
+    }
     /**
      * This method sets whether there is a prize card error or not
      * @param prizeCardError - true if the player has not won any prize cards
@@ -735,12 +738,28 @@ public class PlayState extends State {
         return player2;
     }
 
+
+    /**
+     * This method returns if player 1 has attacked
+     * @return - true if player 1 has attacked
+     */
+    public boolean isAttackPlayer1() {
+        return attackPlayer1;
+    }
     /**
      * This method sets if player 1 has attacked
      * @param attackPlayer1 - true if player one has attacked
      */
     public void setAttackPlayer1(boolean attackPlayer1) {
         this.attackPlayer1 = attackPlayer1;
+    }
+
+    /**
+     * This method returns if player 2 has attacked
+     * @return - true if player 2 has attacked
+     */
+    public boolean isAttackPlayer2() {
+        return attackPlayer2;
     }
 
     /**
@@ -801,4 +820,6 @@ public class PlayState extends State {
     public static void setRenderAnimation(boolean renderAnimation1){
         renderAnimation= renderAnimation1;
     }
+
+    
 }

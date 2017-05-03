@@ -35,7 +35,7 @@ public class StudentBehaviourCard extends Card {
         * This method will return if the card has been used or not
         * @return beenUsed
      */
-    public boolean isBeenUsed() {
+    public boolean hasBeenUsed() {
         return beenUsed;
     }
 

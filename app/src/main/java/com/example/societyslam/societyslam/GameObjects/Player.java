@@ -338,7 +338,7 @@ public class Player {
     public boolean checkIfPlayerHasFlippedPrizeCards(Player player) {
         boolean isFlipped = false;
         for (StudentBehaviourCard s : player.getPrizeCards()) {
-            if (s.isFlipped() && !s.isBeenUsed()) {
+            if (s.isFlipped() && !s.hasBeenUsed()) {
                 isFlipped = true;
                 return isFlipped;
             } else {

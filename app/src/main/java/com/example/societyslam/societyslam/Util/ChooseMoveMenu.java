@@ -103,12 +103,15 @@ public class ChooseMoveMenu extends Menu {
                 //set to true to display the attack which was used and how many points lost
 
                 playState.setAttackPlayer1(true);
+
+
             } else {
 
                 //call the attack method
                 player2.attack(player1);
                 //set to true to display the attack which was used and how many points lost
                 playState.setAttackPlayer2(true);
+
 
             }
         } else {
@@ -138,6 +141,7 @@ public class ChooseMoveMenu extends Menu {
                     player1.retreat();
                     // remove previous active card from board
                     Assets.currentCardInPlay = null;
+
 
                     playState.setRetreatError(false);
                     playState.setCardRetreated(true);
@@ -221,7 +225,7 @@ public class ChooseMoveMenu extends Menu {
                 if (player1.checkIfPlayerHasFlippedPrizeCards(player1)) {
                     int index = 0;
                     for (int i = 0; i< player1.getPrizeCards().size(); i++) {
-                        if (!player1.getPrizeCards().get(i).isBeenUsed()) {
+                        if (!player1.getPrizeCards().get(i).hasBeenUsed()) {
                             index = i;
                             break;
                         }
@@ -238,7 +242,7 @@ public class ChooseMoveMenu extends Menu {
                 if (player2.checkIfPlayerHasFlippedPrizeCards(player2)) {
                     int index = 0;
                     for (int i = 0; i< player2.getPrizeCards().size(); i++) {
-                        if (!player2.getPrizeCards().get(i).isBeenUsed()) {
+                        if (!player2.getPrizeCards().get(i).hasBeenUsed()) {
                             index = i;
                             break;
                         }
