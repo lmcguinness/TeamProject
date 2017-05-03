@@ -5,10 +5,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
-
 import com.example.societyslam.societyslam.Game.Assets;
-import com.example.societyslam.societyslam.Game.GameView;
-import com.example.societyslam.societyslam.Game.MainActivity;
 import com.example.societyslam.societyslam.GameObjects.Player;
 import com.example.societyslam.societyslam.GameObjects.StudentBehaviourCard;
 import com.example.societyslam.societyslam.GameObjects.Type;
@@ -16,14 +13,11 @@ import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.ChooseCardMenu;
 import com.example.societyslam.societyslam.Util.PauseMenu;
 import com.example.societyslam.societyslam.Util.ChooseMoveMenu;
-
 import com.example.societyslam.societyslam.Util.Painter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import static com.example.societyslam.societyslam.Game.MainActivity.mediaPlayer;
-import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 /**
  * The playstate acts as the games play screen for society slam, it displays the board and the cards for the game,
@@ -35,12 +29,15 @@ public class PlayState extends State {
     private ChooseMoveMenu chooseMoveMenu;
     private ChooseCardMenu chooseCardMenu;
     private boolean isStart = true, dealCards = true, retreatError;
-    boolean isMenu,attackPlayer1, attackPlayer2,evolvePlayer1,evolvePlayer2, displayWin1 = false,displayWin2 = false;
+    boolean isMenu,attackPlayer1, attackPlayer2,evolvePlayer1,evolvePlayer2, displayWin = false;
     private boolean isPause = false,isChooseCard =false,areCardsDrawn = false,isCardRetreated = false;
     public static boolean player1Winner, player2Winner, renderAnimation;
 
-    private Button pauseButton, useCardButton, cancelButton, p1Card0,p1Card1, p1Card2,p1Card3,
+    private Button pauseButton, p1Card0,p1Card1, p1Card2,p1Card3,
                    p1Card4, p2Card0, p2Card1,p2Card2, p2Card3, p2Card4, currentCard1Button, currentCard2Button, playButton, dealButton;
+
+    private ArrayList<Button> player1Bench;
+    private ArrayList<Button> player2Bench;
 
     private int buttonTop = 385,buttonBottom = 444,buttonLeft = 336,buttonRight = 504;
     private int pauseButtonTop = 385,  pauseButtonBottom = 444, pauseButtonLeft = 266,pauseButtonRight = 326;
@@ -79,8 +76,8 @@ public class PlayState extends State {
     private boolean prizeCardError = false;
 
     private static int STARTING_CARD_NUMBER = 5;
-    int dealCardSound =1, cardMove =1,player1Score, player2Score;
-    static int player1Wins=0, player2Wins=0;
+    int dealCardSound =1, cardMove =1;
+    private static int player1Wins=0, player2Wins=0;
     private int positionOfCardChosen;
 
     //players
@@ -112,6 +109,8 @@ public class PlayState extends State {
         chooseCardMenu = new ChooseCardMenu(Assets.chooseCardMenu, chooseCardMenuX, chooseCardMenuY);
 
 
+
+
         //Set the background music to keep playing
         //Assets.playBackground(Assets.backgroundMusicID);
 
@@ -137,6 +136,7 @@ public class PlayState extends State {
      */
     @Override
     public void render(Painter g) {
+
         //drawing the game board
         g.drawImage(Assets.ssb, 0, 0);
         //Displaying both of the players on the board
@@ -154,16 +154,10 @@ public class PlayState extends State {
         pauseButton.render(g);
         // when card has been retreated - render buttons
         if(isCardRetreated) {
-            p1Card0.render(g);
-            p1Card1.render(g);
-            p1Card2.render(g);
-            p1Card3.render(g);
-            p1Card4.render(g);
-            p2Card0.render(g);
-            p2Card1.render(g);
-            p2Card2.render(g);
-            p2Card3.render(g);
-            p2Card4.render(g);
+           for(int i = 0; i < player1Bench.size(); i++) {
+               player1Bench.get(i).render(g);
+               player2Bench.get(i).render(g);
+           }
         }
 
         if (isStart == true) {
@@ -179,11 +173,7 @@ public class PlayState extends State {
                 }
             }
 
-
-
-            //Now that we have references to the cards that have to be moved, we can change the
-            //location of them on the screen. Done here as opposed to update();
-            if (Assets.currentCardInPlay != null && Assets.currentCardInPlay2 != null) {
+            if (player1.getActiveCard() != null && player2.getActiveCard() != null) {
                 while (cardMove == 1) {
                     cardMove--;
                     Assets.playSound(Assets.oneCardID);
@@ -210,7 +200,7 @@ public class PlayState extends State {
         renderAnimation(g);
         renderEvolve(g);
         renderMenu(g);
-        renderWinRound(g);
+        renderChooseCardMenu(g);
 
         if(retreatError){
             g.drawImage(Assets.retreatError, 75, 85, 685 , 65);
@@ -227,10 +217,6 @@ public class PlayState extends State {
 
             pauseMenu.render(g);
         }
-
-        renderChooseCardMenu(g);
-
-
     }
 
 
@@ -250,22 +236,20 @@ public class PlayState extends State {
             currentCard1Button.onTouchDown(scaledX, scaledY);
             currentCard2Button.onTouchDown(scaledX, scaledY);
 
-
-
             //Check to see which button has been pressed
             if (!isStart && !dealCards) {
 
                 if (currentCard1Button.isPressed(scaledX, scaledY) && player1.isMyTurn() || currentCard2Button.isPressed(scaledX, scaledY) && player2.isMyTurn()) {
                     //play sound effect
                     Assets.playSound(Assets.buttonClickID);
-                    displayWin1 = false;
-                    displayWin2 = false;
                     retreatError = false;
                     isMenu = true;
                     attackPlayer1 = false;
                     attackPlayer2 = false;
                     evolvePlayer1 = false;
                     evolvePlayer2 = false;
+
+
                     currentCard1Button.cancel();
                     currentCard2Button.cancel();
                     return true;
@@ -276,114 +260,26 @@ public class PlayState extends State {
                 // added "&& isMenu = true" to differentiate between buttons on pause screen and this one
                chooseMoveMenu.onTouch(scaledX,scaledY,this);
             }
-
         }
+
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             dealButton.onTouchDown(scaledX,scaledY);
             playButton.onTouchDown(scaledX, scaledY);
             dealButtonOnTouch(scaledX, scaledY);
-
         }
 
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             pauseButton.onTouchDown(scaledX, scaledY);
             pauseButtonOnTouch(scaledX, scaledY);
             pauseMenu.onTouch(scaledX, scaledY, this);
-
         }
 
         if (e.getAction() == MotionEvent.ACTION_DOWN  ) {
             chooseCardMenu.onTouch(scaledX,scaledY,this,positionOfCardChosen);
-
-
+            chooseCardOnTouch(e, scaledX, scaledY, player1, player1Bench);
+            chooseCardOnTouch(e, scaledX, scaledY, player2, player2Bench);
         }
-        if (e.getAction() == MotionEvent.ACTION_DOWN && player1.isMyTurn() && isCardRetreated ) {
-            //find out which card player 1  has chosen as their new card
-            p1Card0.onTouchDown(scaledX, scaledY);
-            p1Card1.onTouchDown(scaledX, scaledY);
-            p1Card2.onTouchDown(scaledX, scaledY);
-            p1Card3.onTouchDown(scaledX, scaledY);
-            p1Card4.onTouchDown(scaledX, scaledY);
-            if (p1Card0.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 0;
-                p1Card0.cancel();
-            } else {
-                p1Card0.cancel();
-            }
-            if (p1Card1.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 1;
-                p1Card1.cancel();
-            } else {
-                p1Card1.cancel();
-            }
-            if (p1Card2.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 2;
-                p1Card2.cancel();
-            } else {
-                p1Card2.cancel();
-            }
-            if (p1Card3.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 3;
-                p1Card3.cancel();
-            } else {
-                p1Card3.cancel();
-            }
-            if (p1Card4.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 4;
-                p1Card4.cancel();
-            } else {
-                p1Card4.cancel();
-            }
 
-        }
-        if (e.getAction() == MotionEvent.ACTION_DOWN && player2.isMyTurn() &&isCardRetreated ) {
-            //find out which card player 2 has chosen as their new card
-            p2Card0.onTouchDown(scaledX, scaledY);
-            p2Card1.onTouchDown(scaledX, scaledY);
-            p2Card2.onTouchDown(scaledX, scaledY);
-            p2Card3.onTouchDown(scaledX, scaledY);
-            p2Card4.onTouchDown(scaledX, scaledY);
-            if (p2Card0.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null &&player2.isMyTurn()) {
-                isChooseCard = true;
-                positionOfCardChosen = 0;
-                p2Card0.cancel();
-            } else {
-                p2Card0.cancel();
-            }
-            if (p2Card1.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 1;
-                p2Card1.cancel();
-            } else {
-                p2Card1.cancel();
-            }
-            if (p2Card2.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 2;
-                p2Card2.cancel();
-            } else {
-                p2Card2.cancel();
-            }
-            if (p2Card3.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 3;
-                p2Card3.cancel();
-            } else {
-                p2Card3.cancel();
-            }
-            if (p2Card4.isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && Assets.currentCardInPlay2 == null) {
-                isChooseCard = true;
-                positionOfCardChosen = 4;
-                p2Card4.cancel();
-            } else {
-                p2Card4.cancel();
-            }
-        }
         return false;
     }
 
@@ -395,13 +291,13 @@ public class PlayState extends State {
         playButton = new Button(buttonLeft, buttonTop, buttonRight, buttonBottom, Assets.start);
         dealButton = new Button(buttonLeft, buttonTop, buttonRight, buttonBottom, Assets.dealButton);
         pauseButton = new Button(pauseButtonLeft,pauseButtonTop,pauseButtonRight,pauseButtonBottom,Assets.pause);
-
     }
 
     /**
      * This method initalises the card positions as buttons
      */
     public void initaliseCardButtons() {
+
         // placing buttons in the position of where player 1's cards are on the bench so they can choose which card to attack with
         p1Card0 = new Button(player1Cardleft, player1Card0Top, player1CardRight, player1Card0Bottom, null);
         p1Card1 = new Button(player1Cardleft, player1Card0Bottom, player1CardRight, player1Card1Bottom, null);
@@ -409,12 +305,26 @@ public class PlayState extends State {
         p1Card3 = new Button(player1Cardleft, player1Card2Bottom, player1CardRight, player1Card3Bottom, null);
         p1Card4 = new Button(player1Cardleft, player1Card3Bottom, player1CardRight,player1Card4Bottom, null);
 
+        player1Bench = new ArrayList<Button>();
+        player1Bench.add(p1Card0);
+        player1Bench.add(p1Card1);
+        player1Bench.add(p1Card2);
+        player1Bench.add(p1Card3);
+        player1Bench.add(p1Card4);
+
         // placing buttons in the position of where player 2's cards are on the bench so they can choose which card to attack with
         p2Card0 = new Button(player2Cardleft, player2Card0Top, player2CardRight , player2Card0Bottom, null);
         p2Card1 = new Button(player2Cardleft, player2Card0Bottom, player2CardRight , player2Card1Bottom, null);
         p2Card2 = new Button(player2Cardleft, player2Card1Bottom, player2CardRight , player2Card2Bottom, null);
         p2Card3 = new Button(player2Cardleft, player2Card2Bottom, player2CardRight , player2Card3Bottom, null);
         p2Card4 = new Button(player2Cardleft, player2Card3Bottom, player2CardRight , player2Card4Bottom, null);
+
+        player2Bench = new ArrayList<Button>();
+        player2Bench.add(p2Card0);
+        player2Bench.add(p2Card1);
+        player2Bench.add(p2Card2);
+        player2Bench.add(p2Card3);
+        player2Bench.add(p2Card4);
 
         //placing buttons in the position of where current card in play is
         currentCard1Button = new Button(player1ActiveCardLeft, activeCardTop, player1ActiveCardRight, activeCardBottom,null);
@@ -481,10 +391,10 @@ public class PlayState extends State {
             //If player ones score falls below zero tell them that player 2 has won this round
             //change the card in the middle for player1 and give player 2 a prize card
             if(playerScore <=0){
-
                 opponent.winRound(p);
+                displayWin = true;
+                renderWinRound(g,opponent, p);
 
-               displayWin1 = true;
                 if(opponent.checkIfWinner()) {
                     opponent.setWinner(true);
                     setCurrentState(new GameOverState(player1.getRoundWins(), player2.getRoundWins(),opponent.getName()));
@@ -503,6 +413,7 @@ public class PlayState extends State {
      */
     public void renderMenu(Painter g) {
         if (isMenu) {
+            displayWin = false;
             chooseMoveMenu.render(g);
             if (prizeCardError) {
                 g.drawString("You Have No PrizeCards in Play!", 225, 400, Color.RED);
@@ -576,11 +487,8 @@ public class PlayState extends State {
                 return true;
             }
         }
-
         return false;
     }
-
-
 
     /**
      * This method attaches the appropriate energy card to the player's active card
@@ -657,16 +565,10 @@ public class PlayState extends State {
      * This method renders the text when a player wins a round
      * @param g - the painter
      */
-    public void renderWinRound(Painter g) {
+    public void renderWinRound(Painter g, Player p, Player opponent) {
         //If player ones score falls below zero
-        if(displayWin1){
-            player2.renderWinRound(g, player1);
-
-        }
-        //If player twos score fall below zero
-         else if(displayWin2){
-            player1.renderWinRound(g, player2);
-
+        if(displayWin){
+            p.renderWinRound(g, opponent);
         }
     }
 
@@ -729,11 +631,27 @@ public class PlayState extends State {
         if (pauseButton.isPressed(scaledX, scaledY)) {
             //pause the game
             isPause = true;
-
             pauseButton.cancel();
-
         } else {
             pauseButton.cancel();
+        }
+    }
+
+    public void chooseCardOnTouch(MotionEvent e, int scaledX, int scaledY, Player p, ArrayList<Button> playerBench) {
+        if (e.getAction() == MotionEvent.ACTION_DOWN && p.isMyTurn() && isCardRetreated ) {
+            //find out which card player 1  has chosen as their new card
+            for(int i = 0; i <playerBench.size(); i++) {
+                playerBench.get(i).onTouchDown(scaledX, scaledY);
+            }
+            for(int i = 0; i < playerBench.size(); i++) {
+                if(playerBench.get(i).isPressed(scaledX, scaledY) && !isChooseCard && areCardsDrawn && p.getActiveCard() == null) {
+                    isChooseCard = true;
+                    positionOfCardChosen = i;
+                    playerBench.get(i).cancel();
+                } else {
+                    playerBench.get(i).cancel();
+                }
+            }
         }
     }
 
@@ -753,14 +671,12 @@ public class PlayState extends State {
         PlayState.player2Winner = player2Winner;
     }
 
-
     public static void setPlayer1Wins(int player1W){
         player1Wins = player1W;
     }
     public static void setPlayer2Wins(int player2W){
-        player1Wins = player2W;
+        player2Wins = player2W;
     }
-
 
     /**
      * This method sets if the game is paused

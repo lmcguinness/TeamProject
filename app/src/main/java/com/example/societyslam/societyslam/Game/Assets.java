@@ -62,7 +62,7 @@ public class Assets {
      */
     public static void load() {
         //load images
-        newGameButton = loadBitmap("newGameButton.png",true);
+        newGameButton = loadBitmap("newGame.png",true);
         loadGameButton=loadBitmap("loadGame.png",true);
         shareButton = loadBitmap("sharing.png",true);
         needMoreHelp = loadBitmap("needMoreHelp.png", true);

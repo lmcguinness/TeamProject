@@ -35,6 +35,7 @@ public class Painter {
         srcRect = new Rect();
         dstRect = new Rect();
         dstRectF = new RectF();
+
     }
 
 
