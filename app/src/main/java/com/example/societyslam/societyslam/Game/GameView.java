@@ -115,7 +115,7 @@ public class GameView extends SurfaceView implements Runnable {
      * @param newState
      * @Author James Vint
      */
-    public void changeStates(State previousState, State newState){
+    public void saveState(State previousState, State newState){
         System.gc();
         temp = previousState;
         newState.setContext(this.context);
@@ -129,7 +129,7 @@ public class GameView extends SurfaceView implements Runnable {
      * method implemented to go back to a previous state
      * @Author James Vint
      */
-    public void changeBack(){
+    public void goToSavedState(){
         System.gc();
         currentState=temp;
         currentState.setContext(this.context);

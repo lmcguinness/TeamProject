@@ -14,7 +14,7 @@ import com.example.societyslam.societyslam.Util.PauseMenu;
 import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 /**
- * Created by Aoife Brown,Leanne McGuinness, Chloe Mc Ateer on 21/11/2016.
+ * Created by Chloe Mullan, James Vint,Aoife Brown,Leanne McGuinness, Chloe Mc Ateer on 21/11/2016.
  */
 
 public class MenuState extends State {
@@ -187,7 +187,7 @@ public class MenuState extends State {
         if(PauseMenu.getLoadGame()) {
             if (e.getAction() == MotionEvent.ACTION_UP && !isNewGame) {
                 if (loadGameButton.isPressed(scaledX, scaledY) && isStartPressed) {
-                    myGame.changeBack();
+                    myGame.goToSavedState();
                     Assets.playSound(Assets.buttonClickID);
                     loadGameButton.cancel();
                 } else if (newGameButton.isPressed(scaledX, scaledY) && isStartPressed) {

@@ -176,7 +176,7 @@ public class PauseMenu extends Menu {
     }
     public void saveGameButtonOnTouch(int scaledX, int scaledY, PlayState playState) {
         if (saveGameButton.isPressed(scaledX, scaledY) && playState.isPause()) {
-            myGame.changeStates(playState,new MenuState());
+            myGame.saveState(playState,new MenuState());
             loadGame = true;
         }else{
             saveGameButton.cancel();
@@ -301,7 +301,7 @@ public class PauseMenu extends Menu {
     }
     public void saveGameButtonOnTouch1(int scaledX, int scaledY, OnePlayerState oneplayerState) {
         if (saveGameButton.isPressed(scaledX, scaledY) && oneplayerState.isPause()) {
-            myGame.changeStates(oneplayerState,new MenuState());
+            myGame.saveState(oneplayerState,new MenuState());
             loadGame = true;
         }else{
             saveGameButton.cancel();
