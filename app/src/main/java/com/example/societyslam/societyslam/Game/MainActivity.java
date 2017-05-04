@@ -24,7 +24,6 @@ import java.io.IOException;
  */
 public class MainActivity extends Activity {
 
-    //HowToPlayState startingEmailIntent;
     public static MediaPlayer mediaPlayer;
     public static Settings settings;
     public static String language;
@@ -54,9 +53,6 @@ public class MainActivity extends Activity {
         boolean isPlayerDetsSet = intent.getBooleanExtra("isPlayerDetsSet", false);
         myGame = new GameView(this, this.GAME_WIDTH, this.GAME_HEIGHT, isPlayerDetsSet);
         setContentView(myGame);
-
-        //startingEmailIntent = new HowToPlayState(MainActivity.this);
-        //startingEmailIntent.sendHelpEmail();
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mediaPlayer = new MediaPlayer();

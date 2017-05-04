@@ -779,6 +779,14 @@ public class PlayState extends State {
     }
 
     /**
+     * This method returns whether or not there is a retreat error
+     * @return true if there is a retreatError
+     */
+    public boolean isRetreatError() {
+        return retreatError;
+    }
+
+    /**
      * This method sets if a card has retreated
      * @param cardRetreated - true if card has retreated
      */
@@ -787,11 +795,35 @@ public class PlayState extends State {
     }
 
     /**
+     * This method returns whether the card has been retreated or not
+     * @return true if card has been retreated
+     */
+    public boolean isCardRetreated() {
+        return isCardRetreated;
+    }
+
+    /**
      * This method sets if player 1 has evolved their active card
      * @param evolvePlayer1 - true if player 1 has evolved
      */
     public void setEvolvePlayer1(boolean evolvePlayer1) {
         this.evolvePlayer1 = evolvePlayer1;
+    }
+
+    /**
+     * This method returns whether or not player 1 has evolved their card
+     * @return true if card has been evolved
+     */
+    public boolean isEvolvePlayer1() {
+        return evolvePlayer1;
+    }
+
+    /**
+     * This method returns whether or not player 2 has evolved their card
+     * @return true if card has been evolved
+     */
+    public boolean isEvolvePlayer2() {
+        return evolvePlayer2;
     }
 
     /**
@@ -817,9 +849,20 @@ public class PlayState extends State {
     public boolean isChooseCard() {
         return isChooseCard;
     }
+
+    /**
+     * This method sets if the animation has to be rendered
+     * @param renderAnimation1 true if the animation is to be rendered
+     */
     public static void setRenderAnimation(boolean renderAnimation1){
         renderAnimation= renderAnimation1;
     }
 
-    
+    /**
+     * This method returns if the animation has to be rendered
+     * @return true if the animation is to be rendered
+     */
+    public static boolean isRenderAnimation() {
+        return renderAnimation;
+    }
 }

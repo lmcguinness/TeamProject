@@ -116,4 +116,93 @@ public class PlayState_test {
         Assert.assertEquals(false, playState.isAttackPlayer2());
     }
 
+    @Test
+    public void setChooseCard_setChooseCardToTrue()  {
+        PlayState playstate = new PlayState();
+        playstate.setChooseCard(true);
+        Assert.assertEquals(true, playstate.isChooseCard());
+
+    }
+
+    @Test
+    public void setChooseCard_setChooseCardToFalse()  {
+        PlayState playstate = new PlayState();
+        playstate.setChooseCard(false);
+        Assert.assertEquals(false, playstate.isChooseCard());
+    }
+
+    @Test
+    public void setEvolvePlayer1_setEvolvePlayer1ToTrue()  {
+        PlayState playstate = new PlayState();
+        playstate.setEvolvePlayer1(true);
+        Assert.assertEquals(true, playstate.isEvolvePlayer1());
+    }
+
+    @Test
+    public void setEvolvePlayer1_setEvolvePlayer1ToFalse()  {
+        PlayState playstate = new PlayState();
+        playstate.setEvolvePlayer1(false);
+        Assert.assertEquals(false, playstate.isEvolvePlayer1());
+    }
+
+    @Test
+    public void setEvolvePlayer2_setEvolvePlayer2ToTrue()  {
+        PlayState playstate = new PlayState();
+        playstate.setEvolvePlayer2(true);
+        Assert.assertEquals(true, playstate.isEvolvePlayer2());
+    }
+
+    @Test
+    public void setEvolvePlayer2_setEvolvePlayer2ToFalse()  {
+        PlayState playstate = new PlayState();
+        playstate.setEvolvePlayer2(false);
+        Assert.assertEquals(false, playstate.isEvolvePlayer2());
+    }
+
+    @Test
+    public void setCardRetreated_setCardRetreatedToTrue() {
+        PlayState playstate = new PlayState();
+        playstate.setCardRetreated(true);
+        Assert.assertEquals(true, playstate.isCardRetreated());
+
+    }
+    @Test
+    public void setCardRetreated_setCardRetreatedToFalse() {
+        PlayState playstate = new PlayState();
+        playstate.setCardRetreated(false);
+        Assert.assertEquals(false, playstate.isCardRetreated());
+
+    }
+
+    @Test
+    public void setRetreatError_setRetreatErrorToTrue() {
+        PlayState playstate = new PlayState();
+        playstate.setRetreatError(true);
+        Assert.assertEquals(true, playstate.isRetreatError());
+
+    }
+
+    @Test
+    public void setRetreatError_setRetreatErrorToFalse() {
+        PlayState playstate = new PlayState();
+        playstate.setRetreatError(false);
+        Assert.assertEquals(false, playstate.isRetreatError());
+
+    }
+
+    @Test
+    public void setRenderAnimation_setRenderAnimationToTrue()  {
+        PlayState playstate = new PlayState();
+        playstate.setRenderAnimation(true);
+        Assert.assertEquals(true, playstate.isRenderAnimation());
+
+    }
+
+    @Test
+    public void setRenderAnimation_setRenderAnimationToFalse()  {
+        PlayState playstate = new PlayState();
+        playstate.setRenderAnimation(false);
+        Assert.assertEquals(false, playstate.isRenderAnimation());
+
+    }
 }

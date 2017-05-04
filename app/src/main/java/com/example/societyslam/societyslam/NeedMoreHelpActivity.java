@@ -14,6 +14,10 @@ import com.example.societyslam.societyslam.Game.MainActivity;
 
 import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
+/**
+ * Created by Leanne on 1/05/17
+ */
+
 public class NeedMoreHelpActivity extends AppCompatActivity {
     ImageView imageView;
     @Override

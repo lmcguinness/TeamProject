@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.example.societyslam.societyslam.Game.MainActivity;
 
 /**
+ * Created by Leanne on 24/04/17
  * This activity is first displayed when the app opens
  *
  */
