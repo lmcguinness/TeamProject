@@ -16,10 +16,11 @@ import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 /**
  * Created by Leanne on 1/05/17
+ * This class allows users to send an email requesting more information about the game
  */
 
 public class NeedMoreHelpActivity extends AppCompatActivity {
-    ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

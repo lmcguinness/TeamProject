@@ -21,7 +21,6 @@ public class LoadState extends State {
         Assets.load();
     }
 
-
     /**
      *This method will be called by the game loop on every frame
      * this update method is setting the new state to MenuState
@@ -31,7 +30,6 @@ public class LoadState extends State {
     @Override
     public void update(float delta) {
         setCurrentState(new MenuState());
-
     }
 
     /*
@@ -44,7 +42,7 @@ public class LoadState extends State {
     }
 
     /**
-     * This method determins what happens when the user touches the screen
+     * This method determines what happens when the user touches the screen
      * @param e  - motion event(object used to report movement)
      * @param scaledX- the scaled x coordinate
      * @param scaledY- the scaled y coordinate

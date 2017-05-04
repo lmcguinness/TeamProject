@@ -18,6 +18,8 @@ import static com.example.societyslam.societyslam.Game.MainActivity.mediaPlayer;
 
 /**
  * Created by James on 20/04/2017.
+ * The playstate acts as the games play screen for  a two player game of society slam, it displays the board and the cards for the game,
+ * it extends state
  */
 
 public class OnePlayerState extends State {
@@ -355,6 +357,9 @@ public class OnePlayerState extends State {
         return false;
     }
 
+    /**
+     * This method initialised the buttons
+     */
     public void initialiseButtons() {
         playButton = new Button(buttonLeft, buttonTop, buttonRight, buttonBottom, Assets.start);
         dealButton = new Button(buttonLeft, buttonTop, buttonRight, buttonBottom, Assets.dealButton);
@@ -365,6 +370,9 @@ public class OnePlayerState extends State {
         useStudentBehaviourCardButton = new Button(316, 305, 484, 350, Assets.societyCardButton);
     }
 
+    /**
+     * This method initialises the card positions as buttons
+     */
     public void initaliseCardButtons() {
         // placing buttons in the position of where player 1's cards are on the bench so they can choose which card to attack with
         p1Card0 = new Button(player1Cardleft, player1Card0Top, player1CardRight, player1Card0Bottom, null);
@@ -423,6 +431,16 @@ public class OnePlayerState extends State {
         }
     }
 
+    /**
+     * This method renders a players active card in the allocated space on the screen
+     * @param g - the painter
+     * @param p - the player
+     * @param opponent - the other player
+     * @param scoreX - the X coordinate of the player's score
+     * @param scoreY - the Y coordinate of the player's score
+     * @param playerWins - how many rounds the player has won
+     * @param activeCardX - the X coordinate of the players active card
+     */
     public void renderActiveCard(Painter g, Player p, Player opponent, int scoreX, int scoreY, int playerWins, int activeCardX ) {
         int playerScore;
         if(p.getActiveCard() != null){
@@ -455,6 +473,10 @@ public class OnePlayerState extends State {
 
         }
     }
+    /**
+     * This method renders the choose card menu
+     * @param g - the painter
+     */
     public void renderChooseCardMenu(Painter g) {
         // screen which pops up to allow player to look at cards in more detail before choosing which one to play with
         if(isChooseCard){
@@ -522,6 +544,12 @@ public class OnePlayerState extends State {
             }
         }
     }
+
+    /**
+     * This method determines what happens when the deal button is pressed
+     * @param scaledX - the X coordinate of where the screen is pressed
+     * @param scaledY - the Y coordinate of where the screen is pressed
+     */
     public void dealButtonOnTouch(int scaledX, int scaledY) {
         if(dealButton.isPressed(scaledX,scaledY)) {
             dealButton.cancel();
@@ -544,6 +572,12 @@ public class OnePlayerState extends State {
             dealButton.cancel();
         }
     }
+
+    /**
+     * This method determines what happens when the play button is pressed
+     * @param scaledX - the X coordinate of where the screen is pressed
+     * @param scaledY - the Y coordinate of where the screen is pressed
+     */
     public void playButtonOnTouch(int scaledX, int scaledY) {
         if (playButton.isPressed(scaledX, scaledY)) {
             playButton.cancel();
@@ -560,6 +594,12 @@ public class OnePlayerState extends State {
             playButton.cancel();
         }
     }
+
+    /**
+     * This method determines what happens when the play button is pressed
+     * @param scaledX - the X coordinate of where the screen is pressed
+     * @param scaledY - the Y coordinate of where the screen is pressed
+     */
     public boolean pauseButtonOnTouch(int scaledX, int scaledY) {
         if (pauseButton.isPressed(scaledX, scaledY)) {
             //pause the game
@@ -571,6 +611,15 @@ public class OnePlayerState extends State {
         }
         return  false;
     }
+
+    /**
+     * This method determines what happens when the player clicks a card on the bench to be their active card
+     * @param e - the motion event
+     * @param scaledX - the x coordinate of where the screen is touched
+     * @param scaledY - the y coordinate of where the screen is touched
+     * @param p - the player who is choosing the card
+     * @param playerBench - the array list of buttons which are the cards on the bench
+     */
     public void chooseCardOnTouch(MotionEvent e, int scaledX, int scaledY, Player p, ArrayList<Button> playerBench) {
         if (e.getAction() == MotionEvent.ACTION_DOWN && p.isMyTurn() && isCardRetreated ) {
             //find out which card player 1  has chosen as their new card
@@ -642,63 +691,75 @@ public class OnePlayerState extends State {
         return player2Wins;
     }
 
-
+    /**
+     * This method sets if the game is paused
+     * @param pause - true if the game is paused
+     */
     public void setPause(boolean pause) {
         isPause = pause;
     }
 
+    /**
+     * This method returns whether the menu is displayed or not
+     * @return true if menu is displayed
+     */
     public boolean isMenu() {
         return isMenu;
     }
 
+    /**
+     * This method sets whether the menu is to be displayed or not
+     * @param menu - true if menu is to be displayed
+     */
     public void setMenu(boolean menu) {
         isMenu = menu;
     }
 
+    /**
+     * This menu returns whether the game is paused or not
+     * @return - true if the game is paused
+     */
     public boolean isPause() {
         return isPause;
     }
 
-    public void setPrizeCardError(boolean prizeCardError) {
-        this.prizeCardError = prizeCardError;
-    }
-
+    /**
+     * This method gets player 1
+     * @return - player 1
+     */
     public Player getPlayer1() {
         return player1;
     }
 
+    /**
+     * This method gets player 2
+     * @return - player 2
+     */
     public CPU getPlayer2() {
         return cpu1;
     }
 
-    public void setAttackPlayer1(boolean attackPlayer1) {
-        this.attackPlayer1 = attackPlayer1;
-    }
-
-    public void setAttackPlayer2(boolean attackPlayer2) {
-        this.attackPlayer2 = attackPlayer2;
-    }
-
-    public void setRetreatError(boolean retreatError) {
-        this.retreatError = retreatError;
-    }
-
+    /**
+     * This method sets if a card has retreated
+     * @param cardRetreated - true if card has retreated
+     */
     public void setCardRetreated(boolean cardRetreated) {
         isCardRetreated = cardRetreated;
     }
 
-    public void setEvolvePlayer1(boolean evolvePlayer1) {
-        this.evolvePlayer1 = evolvePlayer1;
-    }
 
-    public void setEvolvePlayer2(boolean evolvePlayer2) {
-        this.evolvePlayer2 = evolvePlayer2;
-    }
-
+    /**
+     * This  method sets if it is time to choose a card
+     * @param chooseCard - true if it is time to choose a card
+     */
     public void setChooseCard(boolean chooseCard) {
         isChooseCard = chooseCard;
     }
 
+    /**
+     * This method returns if it is time to choose a card
+     * @return - true if it is time to choose a card
+     */
     public boolean isChooseCard() {
         return isChooseCard;
     }

@@ -13,7 +13,6 @@ public abstract class Menu {
     private int xPos;
     private int yPos;
 
-
     /**
      * This method constructs a menu object
      * @param menuBackground - the bitmap that is the menu background
@@ -21,11 +20,9 @@ public abstract class Menu {
      * @param yPos - the Y coordinate where the menu will be displayed on screen
      */
     public Menu(Bitmap menuBackground, int xPos, int yPos) {
-
         this.menuBackground = menuBackground;
         this.xPos = xPos;
         this.yPos = yPos;
-
     }
 
     /**
@@ -55,7 +52,6 @@ public abstract class Menu {
     public int getxPos() {
         return xPos;
     }
-
 
     /**
      * This method returns the Y coordinate of the menu

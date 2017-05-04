@@ -96,4 +96,3 @@ public class ScoreState extends State {
         return true;
     }
 }
-

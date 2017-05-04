@@ -66,6 +66,4 @@ public abstract class State extends AppCompatActivity {
     public void setPainter(Painter painter) {
         this.painter = painter;
     }
-
-
 }

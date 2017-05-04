@@ -38,4 +38,3 @@ public class Frame {
         return image;
     }
 }
-

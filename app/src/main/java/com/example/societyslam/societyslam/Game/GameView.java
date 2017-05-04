@@ -26,6 +26,7 @@ import com.example.societyslam.societyslam.ai.CPU;
 
 /**
  * Created by Aoife Brown and James Vint on 21/11/2016.
+ * Adapted from Android Game Development - J.Cho
  */
 
 /**

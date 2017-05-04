@@ -74,13 +74,7 @@ public class GameOverState extends State {
         homeButton = new Button(buttonLeft, homeButtonTop, buttonRight, homeButtonBottom, Assets.homeButton);
         shareButton = new Button(316,365,484,415, Assets.shareButton);
 
-
-
-
         score = (player1Wins + " - " + player2Wins);
-
-
-
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.graphics.Rect;
 /**
  * Created by Aoife
  * This is a class for a button object
+ * Adapted from Android Game Development - J.Cho
  */
 
 public class Button {
@@ -12,6 +13,7 @@ public class Button {
     private Rect buttonRect;
     private boolean buttonDown = false;
     private Bitmap buttonImage;
+
 
     /**
      * This constructor creates a button object
@@ -71,5 +73,4 @@ public class Button {
     public boolean isPressed(int touchX, int touchY) {
         return buttonDown && buttonRect.contains(touchX, touchY);
     }
-
-    }
+ }

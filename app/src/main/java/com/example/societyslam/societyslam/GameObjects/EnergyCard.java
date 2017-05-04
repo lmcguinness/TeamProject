@@ -19,14 +19,13 @@ public class EnergyCard extends Card {
      * @param name This is the name of the energy cards
      * @param x This is the x co-ord of the energy card
      * @param y This is the y co-ord of the energy card
-     * @param height This is the height of the energy card
-     * @param width This is the width of the energy card
      * @param bitmap This is image of the energy card
      * @param type This is the specfic type of the energy card. eg water, earth, electric, fighting
      */
-    public EnergyCard(String name, float x, float y, float height, float width, Bitmap bitmap, Type type) {
-        super(name, x, y, height, width, bitmap);
+    public EnergyCard(String name, int x, int y, Bitmap bitmap, Type type) {
+        super(name, x, y, bitmap);
         this.type = type;
+        this.setY(160);
     }
 
     /**
@@ -44,16 +43,4 @@ public class EnergyCard extends Card {
     public void setType(Type type) {
         this.type = type;
     }
-
-
-    @Override
-    public void draw() {
-
-    }
-
-    @Override
-    public void discard() {
-
-    }
 }
-

@@ -15,15 +15,11 @@ import com.example.societyslam.societyslam.ai.CPU;
 
 public class ChooseCardMenu extends Menu {
 
-
     private Button useCardButton;
     private Button cancelButton;
     private int buttonLeft = 456, buttonRight = 634;
     private int useCardButtonTop = 165, useCardButtonBottom = 205;
     private int cancelButtonTop = 225, cancelButtonBottom = 265;
-
-
-
 
     /**
      * This method constructs a menu object and calls the initalise buttons method
@@ -48,7 +44,6 @@ public class ChooseCardMenu extends Menu {
 
     }
 
-
     /**
      * This method renders the choose card menu background and the choose card menu buttons
      * @param g - the painter
@@ -60,7 +55,6 @@ public class ChooseCardMenu extends Menu {
         cancelButton.render(g);
 
     }
-
 
     /**
      *

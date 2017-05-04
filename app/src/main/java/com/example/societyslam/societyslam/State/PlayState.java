@@ -21,7 +21,7 @@ import static com.example.societyslam.societyslam.Game.MainActivity.mediaPlayer;
 
 /**
  * Created by Leanne McGuinness, Chloe Mc Ateer, Chloe Mullan and Aoife Brown
- * The playstate acts as the games play screen for society slam, it displays the board and the cards for the game,
+ * The playstate acts as the games play screen for  a two player game of society slam, it displays the board and the cards for the game,
  * it extends state
  */
 public class PlayState extends State {
@@ -248,6 +248,7 @@ public class PlayState extends State {
                     attackPlayer2 = false;
                     evolvePlayer1 = false;
                     evolvePlayer2 = false;
+                    displayWin = false;
 
 
                     currentCard1Button.cancel();
@@ -339,13 +340,13 @@ public class PlayState extends State {
         //gives player 1 society cards on their bench
         for (int i = 0; i < player1.getBench().size(); i++) {
             int player1CardY = 100 + (i+1) * 45;
-            g.drawImage(player1.getBench().get(i).getPicture(), player1Cardleft,player1CardY , cardWidth , cardHeight);
+            g.drawImage(player1.getBench().get(i).getPicture(), player1Cardleft,player1CardY , player1.getBench().get(i).getWidth() , player1.getBench().get(i).getHeight());
         }
 
         //gives player 2 society cards in their bench
         for (int i = 0; i < player2.getBench().size(); i++) {
             int player2CardY = (i+1) *40;
-            g.drawImage(player2.getBench().get(i).getPicture(), player2Cardleft, player2CardY , cardWidth , cardHeight);
+            g.drawImage(player2.getBench().get(i).getPicture(), player2Cardleft, player2CardY , player2.getBench().get(i).getWidth() , player2.getBench().get(i).getHeight());
         }
 
         //draw player 1 prize cards
@@ -402,7 +403,7 @@ public class PlayState extends State {
             }
             //will attach matching energyCard to the activeCard
             attachEnergyCard(p,g);
-            g.drawImage(p.getActiveCard().getBitmap(),activeCardX, activeCardTop, cardWidth , cardHeight);
+            g.drawImage(p.getActiveCard().getBitmap(),activeCardX, activeCardTop, p.getActiveCard().getWidth() , p.getActiveCard().getHeight());
 
         }
     }
@@ -413,7 +414,7 @@ public class PlayState extends State {
      */
     public void renderMenu(Painter g) {
         if (isMenu) {
-            displayWin = false;
+
             chooseMoveMenu.render(g);
             if (prizeCardError) {
                 g.drawString("You Have No PrizeCards in Play!", 225, 400, Color.RED);
@@ -481,6 +482,12 @@ public class PlayState extends State {
         player2.setPrizeCards(player2PrizeCards);
     }
 
+    /**
+     * This method checks if a list of numbers contains a  certain number
+     * @param randoms - the list to be checked
+     * @param num - the number that the list of numbers is compared to
+     * @return - true if randoms contains num
+     */
     private boolean checkDuplicates(List<Integer> randoms, Integer num) {
         for (Integer i: randoms) {
             if (num == i) {
@@ -499,28 +506,16 @@ public class PlayState extends State {
     public void attachEnergyCard(Player p, Painter g) {
         Type type = p.getActiveCard().getType();
        if(p.equals(player1)) {
-           switch(type){
-               case earth: g.drawImage(Assets.earthEnergy, player1EnergyCardX, energyCardY, cardWidth, cardHeight);
-                   break;
-               case electric: g.drawImage(Assets.electricEnergy, player1EnergyCardX, energyCardY,cardWidth,cardHeight);
-                   break;
-               case water: g.drawImage(Assets.waterEnergy, player1EnergyCardX, energyCardY, cardWidth, cardHeight);
-                   break;
-               case fighting: g.drawImage(Assets.fightEngery, player1EnergyCardX, energyCardY, cardWidth, cardHeight);
-                   break;
-
+           for(int i=0; i < Assets.energyCards.size(); i++) {
+               if(Assets.energyCards.get(i).getType() == type) {
+                   g.drawImage(Assets.energyCards.get(i).getBitmap(), player1EnergyCardX, Assets.energyCards.get(i).getY(), Assets.energyCards.get(i).getWidth(), Assets.energyCards.get(i).getHeight() );
+               }
            }
        } else if(p.equals(player2)) {
-           switch(type){
-               case earth: g.drawImage(Assets.earthEnergy, player2EnergyCardX, energyCardY, cardWidth, cardHeight);
-                   break;
-               case electric: g.drawImage(Assets.electricEnergy, player2EnergyCardX, energyCardY,cardWidth,cardHeight);
-                   break;
-               case water: g.drawImage(Assets.waterEnergy, player2EnergyCardX, energyCardY, cardWidth, cardHeight);
-                   break;
-               case fighting: g.drawImage(Assets.fightEngery, player2EnergyCardX, energyCardY, cardWidth, cardHeight);
-                   break;
-
+           for(int i=0; i < Assets.energyCards.size(); i++) {
+               if(Assets.energyCards.get(i).getType() == type) {
+                   g.drawImage(Assets.energyCards.get(i).getBitmap(), player2EnergyCardX, Assets.energyCards.get(i).getY(), Assets.energyCards.get(i).getWidth(), Assets.energyCards.get(i).getHeight() );
+               }
            }
        }
     }
@@ -633,6 +628,14 @@ public class PlayState extends State {
         }
     }
 
+    /**
+     * This method determines what happens when the player clicks a card on the bench to be their active card
+     * @param e - the motion event
+     * @param scaledX - the x coordinate of where the screen is touched
+     * @param scaledY - the y coordinate of where the screen is touched
+     * @param p - the player who is choosing the card
+     * @param playerBench - the array list of buttons which are the cards on the bench
+     */
     public void chooseCardOnTouch(MotionEvent e, int scaledX, int scaledY, Player p, ArrayList<Button> playerBench) {
         if (e.getAction() == MotionEvent.ACTION_DOWN && p.isMyTurn() && isCardRetreated ) {
             //find out which card player 1  has chosen as their new card
@@ -667,9 +670,18 @@ public class PlayState extends State {
         PlayState.player2Winner = player2Winner;
     }
 
+    /**
+     * This method sets the number of rounds player 1 has won
+     * @param player1W - the number of rounds
+     */
     public static void setPlayer1Wins(int player1W){
         player1Wins = player1W;
     }
+
+    /**
+     * This method sets the number of rounds player 2 has won
+     * @param player2W - the number of rounds
+     */
     public static void setPlayer2Wins(int player2W){
         player2Wins = player2W;
     }
@@ -705,7 +717,6 @@ public class PlayState extends State {
     public void setMenu(boolean menu) {
         isMenu = menu;
     }
-
 
     /**
      * This method returns whether or not there is a prize card error

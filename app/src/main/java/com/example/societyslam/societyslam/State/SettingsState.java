@@ -41,8 +41,6 @@ public class SettingsState extends State {
      * a button to change the language to polish
      * a button to change the language back to english
      */
-
-
     @Override
     public void init() {
         backArrowButton = new Button(-8, -10, buttonTop, 100, Assets.backArrowButton);
@@ -151,9 +149,7 @@ public class SettingsState extends State {
                 polishButton.cancel();
             }
         }
-
         return true;
-
     }
 
     public static String getCurrentLanguage() {

@@ -104,16 +104,11 @@ public class ChooseMoveMenu extends Menu {
                 //set to true to display the attack which was used and how many points lost
 
                 playState.setAttackPlayer1(true);
-
-
             } else {
-
                 //call the attack method
                 player2.attack(player1);
                 //set to true to display the attack which was used and how many points lost
                 playState.setAttackPlayer2(true);
-
-
             }
         } else {
             //cancel attack button
@@ -263,6 +258,4 @@ public class ChooseMoveMenu extends Menu {
         }
 
     }
-
-
 }

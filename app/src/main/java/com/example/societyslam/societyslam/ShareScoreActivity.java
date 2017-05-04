@@ -25,6 +25,7 @@ import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 /**
  * Created by James on 28/04/2017.
+ * This class allows users to share their score on social media
  */
 
 public class ShareScoreActivity extends AppCompatActivity {

@@ -218,10 +218,4 @@ public class CoinTossState extends State {
         }
         return false;
     }
-
-
-
-
-
-
 }

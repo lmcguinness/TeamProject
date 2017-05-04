@@ -21,8 +21,8 @@ public class StudentBehaviourCard extends Card {
       @param flipped = if the card has been flipped or not
     */
 
-    public StudentBehaviourCard(String name, float x, float y, float height, float width, Bitmap bitmap, StudentBehaviourType type, boolean positiveEffect, int cardPoints) {
-        super(name, x, y, height, width, bitmap);
+    public StudentBehaviourCard(String name, int x, int y,  Bitmap bitmap, StudentBehaviourType type, boolean positiveEffect, int cardPoints) {
+        super(name, x, y, bitmap);
 
         this.type = type;
         this.positiveEffect = positiveEffect;
@@ -121,13 +121,4 @@ public class StudentBehaviourCard extends Card {
         flipped = true;
     }
 
-    @Override
-    public void draw() {
-
-    }
-
-    @Override
-    public void discard() {
-
-    }
 }

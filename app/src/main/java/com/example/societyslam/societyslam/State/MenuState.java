@@ -29,16 +29,13 @@ public class MenuState extends State {
     /*
             * variables outlining different co-ordinates for each button on the screen
      */
+    private int buttonHeight = 60;
+    private int buttonWidth = 140;
     private int buttonTop = 360;
-    private int buttonBottom = 420;
     private int howToPlayButtonLeft = 85;
-    private int howToPlayButtonRight = 225;
     private int startButtonLeft = 240;
-    private int startButtonRight = 380;
     private int scoreButtonLeft = 405;
-    private int scoreButtonRight = 545;
     private int settingsButtonLeft = 560;
-    private int settingButtonRight = 680;
     private int chooseModeButtonTop = 380;
     private int chooseModeButtonBottom = 440;
 
@@ -66,21 +63,21 @@ public class MenuState extends State {
      * */
     @Override
     public void init() {
-        howToPlayButton = new Button(howToPlayButtonLeft, buttonTop, howToPlayButtonRight, buttonBottom, Assets.howToPlay);
-        startButton = new Button(startButtonLeft, buttonTop, startButtonRight, buttonBottom, Assets.start);
-        scoreButton = new Button(scoreButtonLeft, buttonTop, scoreButtonRight, buttonBottom, Assets.highScoreButton);
-        SettingsButton = new Button(settingsButtonLeft, buttonTop, settingButtonRight, buttonBottom, Assets.SettingsButton);
-        howToPlayButtonPolish = new Button(howToPlayButtonLeft,buttonTop,howToPlayButtonRight,buttonBottom, Assets.HowToPlayButton_Polish);
-        startButtonPolish = new Button(startButtonLeft,buttonTop,startButtonRight,buttonBottom, Assets.startButton_Polish);
-        scoreButtonPolish = new Button(scoreButtonLeft,buttonTop,scoreButtonRight,buttonBottom, Assets.highScoresButton_Polish);
-        settingsButtonPolish = new Button(settingsButtonLeft,buttonTop,settingButtonRight,buttonBottom, Assets.SettingsButton_Polish);
-        onePlayerButton = new Button(startButtonLeft,chooseModeButtonTop, startButtonRight, chooseModeButtonBottom,Assets.onePlayerButton);
-        twoPlayerButton = new Button(scoreButtonLeft,chooseModeButtonTop,scoreButtonRight,chooseModeButtonBottom,Assets.twoPlayerButton);
-        easyButton = new Button(startButtonLeft,chooseModeButtonTop, startButtonRight, chooseModeButtonBottom,Assets.easyButton);
-        hardButton = new Button(scoreButtonLeft,chooseModeButtonTop,scoreButtonRight,chooseModeButtonBottom,Assets.hardButton);
+        howToPlayButton = new Button(howToPlayButtonLeft, buttonTop, howToPlayButtonLeft + buttonWidth, buttonTop + buttonHeight, Assets.howToPlay);
+        startButton = new Button(startButtonLeft, buttonTop, startButtonLeft + buttonWidth, buttonTop + buttonHeight, Assets.start);
+        scoreButton = new Button(scoreButtonLeft, buttonTop, scoreButtonLeft + buttonWidth, buttonTop + buttonHeight, Assets.highScoreButton);
+        SettingsButton = new Button(settingsButtonLeft, buttonTop, settingsButtonLeft + buttonWidth, buttonTop + buttonHeight, Assets.SettingsButton);
+        howToPlayButtonPolish = new Button(howToPlayButtonLeft,buttonTop,howToPlayButtonLeft + buttonWidth,buttonTop + buttonHeight, Assets.HowToPlayButton_Polish);
+        startButtonPolish = new Button(startButtonLeft,buttonTop,startButtonLeft + buttonWidth,buttonTop + buttonHeight, Assets.startButton_Polish);
+        scoreButtonPolish = new Button(scoreButtonLeft,buttonTop,scoreButtonLeft + buttonWidth,buttonTop + buttonHeight, Assets.highScoresButton_Polish);
+        settingsButtonPolish = new Button(settingsButtonLeft,buttonTop,settingsButtonLeft + buttonWidth,buttonTop + buttonHeight, Assets.SettingsButton_Polish);
+        onePlayerButton = new Button(startButtonLeft,chooseModeButtonTop, startButtonLeft + buttonWidth, chooseModeButtonTop + buttonHeight,Assets.onePlayerButton);
+        twoPlayerButton = new Button(scoreButtonLeft,chooseModeButtonTop,scoreButtonLeft + buttonWidth,chooseModeButtonTop + buttonHeight,Assets.twoPlayerButton);
+        easyButton = new Button(startButtonLeft,chooseModeButtonTop, startButtonLeft + buttonWidth, chooseModeButtonTop + buttonHeight,Assets.easyButton);
+        hardButton = new Button(scoreButtonLeft,chooseModeButtonTop,scoreButtonLeft + buttonWidth,chooseModeButtonTop + buttonHeight,Assets.hardButton);
         backArrowButton = new Button(-8, -10, 120, 100, Assets.backArrowButton);
-        loadGameButton = new Button(startButtonLeft,chooseModeButtonTop, startButtonRight, chooseModeButtonBottom,Assets.loadGameButton);
-        newGameButton = new Button(scoreButtonLeft,chooseModeButtonTop,scoreButtonRight,chooseModeButtonBottom,Assets.newGameButton);
+        loadGameButton = new Button(startButtonLeft,chooseModeButtonTop, startButtonLeft + buttonWidth, chooseModeButtonBottom,Assets.loadGameButton);
+        newGameButton = new Button(scoreButtonLeft,chooseModeButtonTop,scoreButtonLeft + buttonWidth,chooseModeButtonBottom,Assets.newGameButton);
 
     }
     /**
@@ -92,7 +89,6 @@ public class MenuState extends State {
     @Override
     public void update(float delta) {
     }
-
 
     /*
     * This render method draws to the screen
@@ -125,7 +121,6 @@ public class MenuState extends State {
             * if isStartPressed is true then different objects will display for the user to
             * choose one player or two player
          */
-
 
         if(isNewGame || !PauseMenu.getLoadGame() && isStartPressed) {
             super.getPainter().drawImage(Assets.welcome,0,0);

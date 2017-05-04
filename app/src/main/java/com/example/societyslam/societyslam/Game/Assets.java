@@ -271,62 +271,62 @@ public class Assets {
      */
    public static void InitialiseCards(){
 
-       SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, 3, 2, Assets.computerSociety, 100, "Virus Strike", 30, Type.electric, Type.water, null);
-       SocietyCard artificialInt = new SocietyCard("Artificial Intelligence", 0, 0, 3, 2, Assets.artificialIntel, 150, "Mind Swap", 40, Type.electric, Type.water, Type.fighting);
-       SocietyCard gamingSociety = new SocietyCard("Gaming Society", 0, 0, 3, 2, Assets.gamingSociety, 80, "Zap Cannon", 25, Type.electric, Type.water, Type.fighting);
-       SocietyCard physicsSociety = new SocietyCard("Physics Society", 0, 0, 3, 2, Assets.physicsSociety, 120, "Acid Spray",  30, Type.electric, null, Type.water);
-       SocietyCard engineeringSociety = new SocietyCard("Engineering Society", 0, 0, 3, 2, Assets.engineeringSociety, 90, "Shift Gear", 25, Type.electric, null, null);
-       SocietyCard roboticsSociety = new SocietyCard("roboticsSociety", 0, 0, 3, 2, Assets.roboticsSociety, 100, "Electric Shock", 30, Type.electric, Type.water, Type.fighting);
-       SocietyCard boxingSociety = new SocietyCard("Boxing Society", 0, 0, 3, 2, Assets.boxingSociety, 120, "Force Punce", 40, Type.fighting, Type.electric, Type.water);
-       SocietyCard karateSociety = new SocietyCard("Karate Society", 0, 0, 3, 2, Assets.karateSociety, 100, "Karate Chop", 20, Type.fighting, null, null);
-       SocietyCard fencingSociety = new SocietyCard("Fencing Society", 0, 0, 3, 2, Assets.fencingSociety, 120, "Low Sweep", 25, Type.fighting, null, null);
-       SocietyCard judoSociety = new SocietyCard("Judo Society", 0, 0, 3, 2, Assets.judoSociety, 90, "Arm Trust", 25, Type.fighting, Type.water, null);
-       SocietyCard jujistoSociety = new SocietyCard("jujisto Society", 0, 0, 3, 2, Assets.jujistoSociety, 90, "Shoulder Lock", 25, Type.fighting, Type.water, null);
-       SocietyCard taekwandoSociety = new SocietyCard("TaekwandoSociety", 0, 0, 3, 2, Assets.taekwando, 60, "Side Kick", 25, Type.fighting, Type.water, null);
-       SocietyCard rowingSociety = new SocietyCard("Rowing Society", 0, 0, 3, 2, Assets.rowingSociety, 100, "Paddle Pound", 20, Type.water, Type.electric, Type.fighting);
-       SocietyCard divingSociety = new SocietyCard("Diving Society", 0, 0, 3, 2, Assets.divingSociety, 75, "Dive", 10, Type.water, Type.electric, null);
-       SocietyCard surfingSociety = new SocietyCard("Surfing Society ", 0, 0, 3, 2, Assets.surfingSociety, 90, "Surf", 20, Type.water, null, null);
-       SocietyCard swimmingSociety = new SocietyCard("Swimming Society ", 0, 0, 3, 2, Assets.swimmingSociety, 110, "Bubble Bust", 30, Type.water, Type.electric, null);
-       SocietyCard paddleSociety = new SocietyCard("Paddle Society", 0, 0, 3, 2, Assets.paddle, 65, "Paddle Strike", 15, Type.water, null, null);
-       SocietyCard sailingSociety = new SocietyCard("SailingSociety", 0, 0, 3, 2, Assets.sailingSociety, 60, "AnchorDrop",  10, Type.water, Type.electric, null);
-       SocietyCard gardeningSociety = new SocietyCard("Gardening Society", 0, 0, 3, 2, Assets.gardeningSociety, 60, "Magical Leaf", 10, Type.earth, null, Type.water);
-       SocietyCard geographySociety = new SocietyCard("Geography Society", 0, 0, 3, 2, Assets.geographySociety, 55, "Leaf Storm", 15, Type.earth, null, Type.water);
-       SocietyCard friendsOfTheEarth = new SocietyCard("Friends of the Earth", 0, 0, 3, 2, Assets.friendsOfEarth, 75, "Cotton Guard", 25, Type.earth, Type.fighting, null);
-       SocietyCard cavingSociety = new SocietyCard("Caving Society", 0, 0, 3, 2, Assets.cavingSociety, 85, "Drill Run",30, Type.earth, null, Type.fighting);
-       SocietyCard environmentalSociety = new SocietyCard("Environmental Society", 0, 0, 3, 2, Assets.environmentalSociety, 70, "Worry Seed",10, Type.earth, null, null);
-       SocietyCard greenPeace = new SocietyCard("Green Peace", 0, 0, 3, 2, Assets.greenPeace, 70, "Flower Shield", 10, Type.earth, null, null);
+       SocietyCard computerSociety = new SocietyCard("Computer Society", 0, 0, Assets.computerSociety, 100, "Virus Strike", 30, Type.electric, Type.water, null);
+       SocietyCard artificialInt = new SocietyCard("Artificial Intelligence", 0, 0, Assets.artificialIntel, 150, "Mind Swap", 40, Type.electric, Type.water, Type.fighting);
+       SocietyCard gamingSociety = new SocietyCard("Gaming Society", 0, 0, Assets.gamingSociety, 80, "Zap Cannon", 25, Type.electric, Type.water, Type.fighting);
+       SocietyCard physicsSociety = new SocietyCard("Physics Society", 0, 0,  Assets.physicsSociety, 120, "Acid Spray",  30, Type.electric, null, Type.water);
+       SocietyCard engineeringSociety = new SocietyCard("Engineering Society", 0, 0, Assets.engineeringSociety, 90, "Shift Gear", 25, Type.electric, null, null);
+       SocietyCard roboticsSociety = new SocietyCard("roboticsSociety", 0, 0, Assets.roboticsSociety, 100, "Electric Shock", 30, Type.electric, Type.water, Type.fighting);
+       SocietyCard boxingSociety = new SocietyCard("Boxing Society", 0, 0, Assets.boxingSociety, 120, "Force Punce", 40, Type.fighting, Type.electric, Type.water);
+       SocietyCard karateSociety = new SocietyCard("Karate Society", 0, 0, Assets.karateSociety, 100, "Karate Chop", 20, Type.fighting, null, null);
+       SocietyCard fencingSociety = new SocietyCard("Fencing Society", 0, 0,Assets.fencingSociety, 120, "Low Sweep", 25, Type.fighting, null, null);
+       SocietyCard judoSociety = new SocietyCard("Judo Society", 0, 0,Assets.judoSociety, 90, "Arm Trust", 25, Type.fighting, Type.water, null);
+       SocietyCard jujistoSociety = new SocietyCard("jujisto Society", 0, 0,  Assets.jujistoSociety, 90, "Shoulder Lock", 25, Type.fighting, Type.water, null);
+       SocietyCard taekwandoSociety = new SocietyCard("TaekwandoSociety", 0, 0, Assets.taekwando, 60, "Side Kick", 25, Type.fighting, Type.water, null);
+       SocietyCard rowingSociety = new SocietyCard("Rowing Society", 0, 0,  Assets.rowingSociety, 100, "Paddle Pound", 20, Type.water, Type.electric, Type.fighting);
+       SocietyCard divingSociety = new SocietyCard("Diving Society", 0, 0,  Assets.divingSociety, 75, "Dive", 10, Type.water, Type.electric, null);
+       SocietyCard surfingSociety = new SocietyCard("Surfing Society ", 0, 0,  Assets.surfingSociety, 90, "Surf", 20, Type.water, null, null);
+       SocietyCard swimmingSociety = new SocietyCard("Swimming Society ", 0, 0,  Assets.swimmingSociety, 110, "Bubble Bust", 30, Type.water, Type.electric, null);
+       SocietyCard paddleSociety = new SocietyCard("Paddle Society", 0, 0, Assets.paddle, 65, "Paddle Strike", 15, Type.water, null, null);
+       SocietyCard sailingSociety = new SocietyCard("SailingSociety", 0, 0,  Assets.sailingSociety, 60, "AnchorDrop",  10, Type.water, Type.electric, null);
+       SocietyCard gardeningSociety = new SocietyCard("Gardening Society", 0, 0, Assets.gardeningSociety, 60, "Magical Leaf", 10, Type.earth, null, Type.water);
+       SocietyCard geographySociety = new SocietyCard("Geography Society", 0, 0,  Assets.geographySociety, 55, "Leaf Storm", 15, Type.earth, null, Type.water);
+       SocietyCard friendsOfTheEarth = new SocietyCard("Friends of the Earth", 0, 0,  Assets.friendsOfEarth, 75, "Cotton Guard", 25, Type.earth, Type.fighting, null);
+       SocietyCard cavingSociety = new SocietyCard("Caving Society", 0, 0, Assets.cavingSociety, 85, "Drill Run",30, Type.earth, null, Type.fighting);
+       SocietyCard environmentalSociety = new SocietyCard("Environmental Society", 0, 0,  Assets.environmentalSociety, 70, "Worry Seed",10, Type.earth, null, null);
+       SocietyCard greenPeace = new SocietyCard("Green Peace", 0, 0, Assets.greenPeace, 70, "Flower Shield", 10, Type.earth, null, null);
 
        //Student behaviour cards
-       StudentBehaviourCard disruptive = new StudentBehaviourCard("Disruptive in class", 0, 0, 3, 2, Assets.disruptve, StudentBehaviourType.stadium, false, 10);
-       StudentBehaviourCard fail = new StudentBehaviourCard("Fail Assignment", 0, 0, 3, 2, Assets.fail, StudentBehaviourType.support, false, 5);
-       StudentBehaviourCard freeEntry = new StudentBehaviourCard("Free Entry", 0, 0, 3, 2, Assets.freeEntry, StudentBehaviourType.support, true, 25);
-       StudentBehaviourCard freeShots = new StudentBehaviourCard("Free Shots", 0, 0, 3, 2, Assets.freeShots, StudentBehaviourType.item, true, 15);
-       StudentBehaviourCard hangover = new StudentBehaviourCard("hangover", 0, 0, 3, 2, Assets.hangover, StudentBehaviourType.stadium, false, 15);
-       StudentBehaviourCard late = new StudentBehaviourCard("Late to class", 0, 0, 3, 2, Assets.late, StudentBehaviourType.item, false, 25);
-       StudentBehaviourCard lecture = new StudentBehaviourCard("Go to a lecture", 0, 0, 3, 2, Assets.lecture, StudentBehaviourType.item, true, 5);
-       StudentBehaviourCard library = new StudentBehaviourCard("Go to library", 0, 0, 3, 2, Assets.library, StudentBehaviourType.stadium, true, 10);
-       StudentBehaviourCard redBull = new StudentBehaviourCard("Drink Red Bull", 0, 0, 3, 2, Assets.redBull, StudentBehaviourType.support, true, 10);
-       StudentBehaviourCard untidy = new StudentBehaviourCard("Untidy Accommodation", 0, 0, 3, 2, Assets.untidy, StudentBehaviourType.stadium, false, 5);
-       StudentBehaviourCard water = new StudentBehaviourCard("Litre of water", 0, 0, 3, 2, Assets.water, StudentBehaviourType.support, true, 10);
+       StudentBehaviourCard disruptive = new StudentBehaviourCard("Disruptive in class", 0, 0, Assets.disruptve, StudentBehaviourType.stadium, false, 10);
+       StudentBehaviourCard fail = new StudentBehaviourCard("Fail Assignment", 0, 0,  Assets.fail, StudentBehaviourType.support, false, 5);
+       StudentBehaviourCard freeEntry = new StudentBehaviourCard("Free Entry", 0, 0,  Assets.freeEntry, StudentBehaviourType.support, true, 25);
+       StudentBehaviourCard freeShots = new StudentBehaviourCard("Free Shots", 0, 0, Assets.freeShots, StudentBehaviourType.item, true, 15);
+       StudentBehaviourCard hangover = new StudentBehaviourCard("hangover", 0, 0,  Assets.hangover, StudentBehaviourType.stadium, false, 15);
+       StudentBehaviourCard late = new StudentBehaviourCard("Late to class", 0, 0, Assets.late, StudentBehaviourType.item, false, 25);
+       StudentBehaviourCard lecture = new StudentBehaviourCard("Go to a lecture", 0, 0,  Assets.lecture, StudentBehaviourType.item, true, 5);
+       StudentBehaviourCard library = new StudentBehaviourCard("Go to library", 0, 0, Assets.library, StudentBehaviourType.stadium, true, 10);
+       StudentBehaviourCard redBull = new StudentBehaviourCard("Drink Red Bull", 0, 0,  Assets.redBull, StudentBehaviourType.support, true, 10);
+       StudentBehaviourCard untidy = new StudentBehaviourCard("Untidy Accommodation", 0, 0,  Assets.untidy, StudentBehaviourType.stadium, false, 5);
+       StudentBehaviourCard water = new StudentBehaviourCard("Litre of water", 0, 0,  Assets.water, StudentBehaviourType.support, true, 10);
 
        //Student behaviour cards
-       StudentBehaviourCard disruptive1 = new StudentBehaviourCard("Disruptive in class", 0, 0, 3, 2, Assets.disruptve, StudentBehaviourType.stadium, false, 10);
-       StudentBehaviourCard fail1 = new StudentBehaviourCard("Fail Assignment", 0, 0, 3, 2, Assets.fail, StudentBehaviourType.support, false, 5);
-       StudentBehaviourCard freeEntry1 = new StudentBehaviourCard("Free Entry", 0, 0, 3, 2, Assets.freeEntry, StudentBehaviourType.support, true, 25);
-       StudentBehaviourCard freeShots1 = new StudentBehaviourCard("Free Shots", 0, 0, 3, 2, Assets.freeShots, StudentBehaviourType.item, true, 15);
-       StudentBehaviourCard hangover1 = new StudentBehaviourCard("hangover", 0, 0, 3, 2, Assets.hangover, StudentBehaviourType.stadium, false, 15);
-       StudentBehaviourCard late1 = new StudentBehaviourCard("Late to class", 0, 0, 3, 2, Assets.late, StudentBehaviourType.item, false, 25);
-       StudentBehaviourCard lecture1 = new StudentBehaviourCard("Go to a lecture", 0, 0, 3, 2, Assets.lecture, StudentBehaviourType.item, true, 5);
-       StudentBehaviourCard library1 = new StudentBehaviourCard("Go to library", 0, 0, 3, 2, Assets.library, StudentBehaviourType.stadium, true, 10);
-       StudentBehaviourCard redBull1 = new StudentBehaviourCard("Drink Red Bull", 0, 0, 3, 2, Assets.redBull, StudentBehaviourType.support, true, 10);
-       StudentBehaviourCard untidy1 = new StudentBehaviourCard("Untidy Accommodation", 0, 0, 3, 2, Assets.untidy, StudentBehaviourType.stadium, false, 5);
-       StudentBehaviourCard water1 = new StudentBehaviourCard("Litre of water", 0, 0, 3, 2, Assets.water, StudentBehaviourType.support, true, 10);
+       StudentBehaviourCard disruptive1 = new StudentBehaviourCard("Disruptive in class", 0, 0,  Assets.disruptve, StudentBehaviourType.stadium, false, 10);
+       StudentBehaviourCard fail1 = new StudentBehaviourCard("Fail Assignment", 0, 0,  Assets.fail, StudentBehaviourType.support, false, 5);
+       StudentBehaviourCard freeEntry1 = new StudentBehaviourCard("Free Entry", 0, 0,  Assets.freeEntry, StudentBehaviourType.support, true, 25);
+       StudentBehaviourCard freeShots1 = new StudentBehaviourCard("Free Shots", 0, 0,  Assets.freeShots, StudentBehaviourType.item, true, 15);
+       StudentBehaviourCard hangover1 = new StudentBehaviourCard("hangover", 0, 0,  Assets.hangover, StudentBehaviourType.stadium, false, 15);
+       StudentBehaviourCard late1 = new StudentBehaviourCard("Late to class", 0, 0,  Assets.late, StudentBehaviourType.item, false, 25);
+       StudentBehaviourCard lecture1 = new StudentBehaviourCard("Go to a lecture", 0, 0,  Assets.lecture, StudentBehaviourType.item, true, 5);
+       StudentBehaviourCard library1 = new StudentBehaviourCard("Go to library", 0, 0,  Assets.library, StudentBehaviourType.stadium, true, 10);
+       StudentBehaviourCard redBull1 = new StudentBehaviourCard("Drink Red Bull", 0, 0,  Assets.redBull, StudentBehaviourType.support, true, 10);
+       StudentBehaviourCard untidy1 = new StudentBehaviourCard("Untidy Accommodation", 0, 0,  Assets.untidy, StudentBehaviourType.stadium, false, 5);
+       StudentBehaviourCard water1 = new StudentBehaviourCard("Litre of water", 0, 0,  Assets.water, StudentBehaviourType.support, true, 10);
 
        //Engery cards
-       EnergyCard waterEnergy = new EnergyCard("Water", 0, 0, 3, 2, Assets.waterEnergy, Type.water);
-       EnergyCard electricEnergy = new EnergyCard("Electric", 0, 0, 3, 2, Assets.electricEnergy, Type.electric);
-       EnergyCard earthEnergy = new EnergyCard("Earth", 0, 0, 3, 2, Assets.earthEnergy, Type.earth);
-       EnergyCard fightEngery = new EnergyCard("Fight", 0, 0, 3, 2, Assets.fightEngery, Type.fighting);
+       EnergyCard waterEnergy = new EnergyCard("Water", 0, 0,  Assets.waterEnergy, Type.water);
+       EnergyCard electricEnergy = new EnergyCard("Electric", 0, 0,  Assets.electricEnergy, Type.electric);
+       EnergyCard earthEnergy = new EnergyCard("Earth", 0, 0, Assets.earthEnergy, Type.earth);
+       EnergyCard fightEngery = new EnergyCard("Fight", 0, 0,  Assets.fightEngery, Type.fighting);
        deckOfCards.add(computerSociety);
        deckOfCards.add(artificialInt);
        deckOfCards.add(gamingSociety);
@@ -378,5 +378,8 @@ public class Assets {
        prizeCardDeck2.add(water1);
 
        energyCards.add(waterEnergy);
+       energyCards.add(electricEnergy);
+       energyCards.add(earthEnergy);
+       energyCards.add(fightEngery);
    }
 }

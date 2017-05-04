@@ -16,6 +16,7 @@ import android.widget.TextView;
 /**
  * Created by Aoife Brown
  * This is the Painter class, it is used to control the games graphics
+ * Adapted from Android Game Development - J.Cho
  */
 
 public class Painter {
@@ -98,5 +99,4 @@ public class Painter {
             System.out.println(bitmap);
         }
     }
-
 }

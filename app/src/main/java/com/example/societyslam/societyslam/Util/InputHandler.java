@@ -9,6 +9,7 @@ import com.example.societyslam.societyslam.State.State;
 /**
  * Created by Aoife Brown
  * This is the Input Handler class
+ * Adapted from Android Game Development - J.Cho
  */
 
 public class InputHandler implements View.OnTouchListener{

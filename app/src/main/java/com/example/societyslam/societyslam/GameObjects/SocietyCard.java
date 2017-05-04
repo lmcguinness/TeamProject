@@ -39,10 +39,10 @@ public class SocietyCard extends Card {
         @param level = this is the level of the card
         @param evolvedMax = this is set to true if evolve limit of card is reached
  */
-    public SocietyCard(String name, float x, float y, float height, float width, Bitmap bitmap,
+    public SocietyCard(String name, int x, int y, Bitmap bitmap,
                        int hp, String attackName, int attackStrength, Type type,
                        Type weakness, Type resistance) {
-        super(name, x, y, height, width, bitmap);
+        super(name, x, y, bitmap);
 
         this.hp = hp;
         this.attackName = attackName;
@@ -272,15 +272,5 @@ public class SocietyCard extends Card {
        } else {
            g.drawString(this.getName() + " evolved to " + this.getLevel(), textX, textY, Color.WHITE);
        }
-    }
-
-    @Override
-    public void draw() {
-
-    }
-
-    @Override
-    public void discard() {
-
     }
 }

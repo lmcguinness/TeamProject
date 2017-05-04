@@ -27,11 +27,6 @@ public class HowToPlayState extends State {
 
     public Button backArrowButton;
     public Button needMoreHelp;
-    //public Context context;
-
-    /*public HowToPlayState(Context context) {
-        this.context = context;
-    }*/
 
     /**
      * This method initialises a button to return to the main menu

@@ -16,8 +16,10 @@ import com.example.societyslam.societyslam.Game.MainActivity;
 
 /**
  * Created by Chloe Mullan
+ * This is a class that allows players to enter their names which will be displayed on the screen while they play
  */
 public class PlayerDetailsActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

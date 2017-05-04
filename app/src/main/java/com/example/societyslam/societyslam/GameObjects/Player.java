@@ -13,14 +13,12 @@ import java.util.ArrayList;
 
 /**
  *This is a class for a Player object
- *
  */
 public class Player {
    // public static PlayState playState;
 
    private  Deck myCards;
     private SocietyCard activeCard;
-    private ArrayList<Card> hand;
     private ArrayList<SocietyCard> bench;
     private ArrayList<StudentBehaviourCard> prizeCards;
     private boolean myTurn;
@@ -65,11 +63,11 @@ public class Player {
     }
     /**
      * This method sets new information into the attackDamage variable
-     * @param attackDamage1
+     * @param attackDamage
      * @return attackDamage
      */
-    public static void setAttackDamage(int attackDamage1){
-        attackDamage = attackDamage1;
+    public static void setAttackDamage(int attackDamage){
+        attackDamage = attackDamage;
     }
     /**
      * This method returns the number of rounds each player has won
@@ -222,9 +220,11 @@ public class Player {
 
     /**
      * @Author Chloe Mc Ateer
-     * @param g
-     * @param opponent
+     * This method renders the text on the screen that describes who attacked and which attacked was used
+     * @param g - the painter
+     * @param opponent - the player being attacked
      */
+
     public void renderAttack(Painter g, Player opponent) {
         g.setFont(Typeface.DEFAULT, textSize);
         g.drawString("You attacked with " + this.getActiveCard().getAttackName(), textX, textY, Color.WHITE);
@@ -233,6 +233,7 @@ public class Player {
 
     /**
      * @Author James Vint
+     * This method retreats a players active card and adds it back to the bench
      */
     public void retreat() {
         if(this.getActiveCard() == null) {
@@ -245,8 +246,9 @@ public class Player {
     }
 
     /**
+     * This method renders the text on the screen that describes which card has retreated
      * @Author Aoife Brown
-     * @param g
+     * @param g - the painter
      */
     public void renderRetreat(Painter g) {
         if (this.retreatError) {
@@ -290,7 +292,7 @@ public class Player {
      * It checks if the player has received all its prize cards, if it has this player
      * is the winner.
      * @return true if this player is the winner, false if they are not the winner
-     * @Author Aoide Brown
+     * @Author Aoife Brown
      */
     public boolean checkIfWinner() {
         if(this.getRoundWins() == this.getPrizeCards().size()) {
@@ -300,8 +302,9 @@ public class Player {
     }
 
     /**
+     * This method increments the number of rounds the player has won if the other player's HP is less than 0
+     * @param opponent - the other player
      * @Author Aoife Brown and Chloe McAteer
-     * @param opponent
      */
 
     public void winRound(Player opponent) {
@@ -312,9 +315,10 @@ public class Player {
     }
 
     /**
+     * This method renders text to the screen which describes who won the round
+     * @param g - the painter
+     * @param opponent - the other player
      * @Author Aoife Brown and Chloe McAteer
-     * @param g
-     * @param opponent
      */
 
     public void renderWinRound(Painter g, Player opponent) {

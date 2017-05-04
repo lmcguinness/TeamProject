@@ -19,18 +19,18 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class Card_test {
 
-    SocietyCard mockCard = new SocietyCard("Mock name", 20, 20,34,22, Assets.cardBack, 60, "MockAttackName", 10, Type.water,Type.fighting,Type.earth);
+    SocietyCard mockCard = new SocietyCard("Mock name", 20, 20, Assets.cardBack, 60, "MockAttackName", 10, Type.water,Type.fighting,Type.earth);
 
     @Test
     public void setWidthTest(){
-        float mockWidth = 5;
+        int mockWidth = 5;
         mockCard.setWidth(mockWidth);
         Assert.assertEquals(mockWidth, mockCard.getWidth());
     }
 
     @Test
     public void setHeightTest(){
-        float mockHeight = 9;
+        int mockHeight = 9;
         mockCard.setHeight(mockHeight);
         Assert.assertEquals(mockHeight, mockCard.getHeight());
     }

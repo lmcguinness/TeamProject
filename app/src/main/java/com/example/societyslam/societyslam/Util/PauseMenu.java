@@ -49,7 +49,6 @@ public class PauseMenu extends Menu {
     /**
      * This method initialised the buttons needed for the pause menu
      */
-
     @Override
     public void initialiseButtons() {
         resumeButton = new Button(buttonLeft, resumeButtonTop, buttonRight, resumeButtonBottom, Assets.resume);
@@ -82,7 +81,6 @@ public class PauseMenu extends Menu {
 
     }
 
-
     /**
      * This method determines what happens when the buttons are pressed
      * @param scaledX - the X coordinate of the touch event
@@ -90,8 +88,6 @@ public class PauseMenu extends Menu {
      * @param playState - the play state where the menu is displayed
      */
     public void onTouch(int scaledX, int scaledY, PlayState playState) {
-
-
         resumeButton.onTouchDown(scaledX, scaledY);
         restartButton.onTouchDown(scaledX, scaledY);
         instructionsButton.onTouchDown(scaledX, scaledY);
@@ -189,7 +185,7 @@ public class PauseMenu extends Menu {
 
     /**
      * This method detemines what happens when the quit button is pressed
-     * @@param scaledX - the X coordinate of the touch event
+     * @param scaledX - the X coordinate of the touch event
      * @param scaledY - the Y coordinate of the touch event
      */
 
@@ -219,8 +215,6 @@ public class PauseMenu extends Menu {
      * @param oneplayerstate - the play state where the menu is displayed
      */
     public void onTouch1(int scaledX, int scaledY, OnePlayerState oneplayerstate) {
-
-
         resumeButton.onTouchDown(scaledX, scaledY);
         restartButton.onTouchDown(scaledX, scaledY);
         instructionsButton.onTouchDown(scaledX, scaledY);
@@ -272,8 +266,6 @@ public class PauseMenu extends Menu {
         }else{
             resumeButton.cancel();
         }
-
-
     }
 
     /**

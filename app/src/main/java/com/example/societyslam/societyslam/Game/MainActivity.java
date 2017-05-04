@@ -21,6 +21,7 @@ import java.io.IOException;
 
 /**
  * This is the starting point for our game, contains onCreate method which sets our game into motion
+ * Adapted from Android Game Development - J.Cho
  */
 public class MainActivity extends Activity {
 
@@ -204,6 +205,3 @@ public class MainActivity extends Activity {
         PauseMenu.setLoadGame(false);
     }
 }
-
-
-
