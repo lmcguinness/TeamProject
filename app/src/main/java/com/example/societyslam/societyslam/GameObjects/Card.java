@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 ;
 
 /**
- * Created by Aoife Brown on 15/11/2016.
+ * Created by Aoife Brown and Leanne McGuinness on 15/11/2016.
  * This is a class for a card object
  */
 

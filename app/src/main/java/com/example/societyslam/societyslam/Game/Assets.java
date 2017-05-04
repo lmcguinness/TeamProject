@@ -23,6 +23,7 @@ import com.example.societyslam.societyslam.Util.Frame;
 
 
 /**
+ * Created by Leanne McGuinness, Aoife Brown, Chloe Mullan, Chloe McAteer and James vint
  * This class allows us to load images and sounds into memory to be used throughout the game
  */
 public class Assets {
@@ -59,6 +60,7 @@ public class Assets {
 
     /**
      * This method initialises local variables declared previously
+     * @Author Leanne McGuinness, Aoife Brown, Chloe Mullan, Chloe McAteer and James Vint
      */
     public static void load() {
         //load images
@@ -205,6 +207,7 @@ public class Assets {
      * @param filename - file to be loaded in
      * @param transparency
      * @return bitmap
+     * @Author Aoife Brown
      */
     public static Bitmap loadBitmap(String filename, boolean transparency) {
         InputStream inputStream = null;
@@ -228,6 +231,7 @@ public class Assets {
      * This method is used to load Sounds into the Assets class to be used throughout the game
      * @param filename - file to be loaded in
      * @return soundID
+     * @Author Chloe McAteer
      */
     private static int loadSound(String filename){
         int soundID =0;
@@ -244,6 +248,7 @@ public class Assets {
     /**
      * This method is used to play Sounds that dont need to be looped
      * @param soundID - ID of sound to be played
+     *                @Author Chloe McAteer
      */
     public static void playSound(int soundID){
         if(soundPool !=null) {
@@ -253,6 +258,7 @@ public class Assets {
     /**
      * This method is used to play Sounds that loop continuously throughout the game i.e. backgroung music
      * @param soundID - ID of sound to be played
+     * @Author Chloe McAteer
      */
     public static void playBackground(int soundID) {
             soundPool.play(soundID, 1, 1, 1, -1, 1);
@@ -261,6 +267,7 @@ public class Assets {
     /**
      * This method is used to initialise the cards used in the playstate, promotes code reusability
      * This method also adds these cards to the deck, players prize cards and enrgy cards
+     * @Author Chloe McAteer,James Vint and Chloe Mullan
      */
    public static void InitialiseCards(){
 

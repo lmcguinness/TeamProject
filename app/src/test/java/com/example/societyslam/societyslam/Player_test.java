@@ -15,6 +15,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+/**
+ * Created by Chloe McAteer
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class Player_test {
     SocietyCard mockCard = new SocietyCard("Mock name", 20, 20,34,22, Assets.cardBack, 60, "MockAttackName", 10, Type.water,null,null);

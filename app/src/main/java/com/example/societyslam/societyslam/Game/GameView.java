@@ -25,7 +25,7 @@ import com.example.societyslam.societyslam.Util.PauseMenu;
 import com.example.societyslam.societyslam.ai.CPU;
 
 /**
- * Created by Aoife Brown on 21/11/2016.
+ * Created by Aoife Brown and James Vint on 21/11/2016.
  */
 
 /**
@@ -88,6 +88,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     /**
      * Run method implemented to allow the game to run
+     * @Author Aoife Brown
      */
     public void run() {
         Looper.prepare();
@@ -111,6 +112,7 @@ public class GameView extends SurfaceView implements Runnable {
      * change states method implemented in order to be able to change states whilst storing an instance of the previous state
      * @param previousState
      * @param newState
+     * @Author James Vint
      */
     public void changeStates(State previousState, State newState){
         System.gc();
@@ -124,6 +126,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     /**
      * method implemented to go back to a previous state
+     * @Author James Vint
      */
     public void changeBack(){
         System.gc();
@@ -135,6 +138,7 @@ public class GameView extends SurfaceView implements Runnable {
     /**
      * method implemented to set current state to a new state
      * @param newState
+     * @Author Aoife Brown
      */
     public void setCurrentState(State newState) {
         System.gc();
@@ -148,6 +152,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     /**
      * method used to initialise input
+     * @Author Aoife Brown
      */
     private void initInput() {
         if (inputHandler == null) {
@@ -158,6 +163,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     /**
      * method used to initialise the game thread and start the game loop
+     * @Author Aoife Brown
      */
     private void initGame() {
         running = true;
@@ -167,6 +173,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     /**
      * method used to restart the game
+     * @Author James Vint
      */
     public void restartGame(){
        resetCards();
@@ -183,6 +190,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     /**
      * method used to quit game
+     * @Author James Vint
      */
     public void quitGame(){
        resetCards();
@@ -200,6 +208,7 @@ public class GameView extends SurfaceView implements Runnable {
     /**
      * method implemented to reset all cards and their arrays
      * used when game is quit or restarted
+     * @Author James Vint
      */
     public void resetCards(){
         Assets.playersCards.clear();
@@ -216,6 +225,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     /**
      * method implemented to pause game
+     * @Author James Vint
      */
     public void pauseGame() {
         running = false;
@@ -231,6 +241,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     /**
      * method implemented to resume game
+     * @Author James Vint
      */
     public void resumeGame(){
         running = true;
@@ -242,11 +253,19 @@ public class GameView extends SurfaceView implements Runnable {
         return running;
     }
 
+    /**
+     * @Author Aoife Brown
+     * @param delta
+     */
     private void updateAndRender(long delta) {
         currentState.update(delta / 1000f);
         currentState.render(graphics);
         renderGameImage();
     }
+
+    /**
+     * @Author Aoife Brown
+     */
 
     private void renderGameImage() {
         Canvas screen = getHolder().lockCanvas();

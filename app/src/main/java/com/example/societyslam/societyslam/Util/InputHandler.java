@@ -7,6 +7,7 @@ import com.example.societyslam.societyslam.Game.MainActivity;
 import com.example.societyslam.societyslam.State.State;
 
 /**
+ * Created by Aoife Brown
  * This is the Input Handler class
  */
 

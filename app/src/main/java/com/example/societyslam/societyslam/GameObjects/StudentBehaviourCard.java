@@ -3,7 +3,7 @@ package com.example.societyslam.societyslam.GameObjects;
 import android.graphics.Bitmap;
 
 /**
- * Created by Aoife Brown on 15/11/2016.
+ * Created by Aoife Brown and Chloe McAteer on 15/11/2016.
  */
 
 public class StudentBehaviourCard extends Card {

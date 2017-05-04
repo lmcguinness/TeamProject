@@ -6,6 +6,7 @@ import com.example.societyslam.societyslam.Game.Assets;
 import com.example.societyslam.societyslam.Util.Painter;
 
 /**
+ * Created by Chloe Mullan
  * This class contains the players details
  */
 public class PLayerDetailsState extends State {

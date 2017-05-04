@@ -9,6 +9,7 @@ import com.example.societyslam.societyslam.State.PlayState;
 import com.example.societyslam.societyslam.ai.CPU;
 
 /**
+ * Created by Aoife Brown and James Vint
  * This class is for a choose card menu object
  */
 

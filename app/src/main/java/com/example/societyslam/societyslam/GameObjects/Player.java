@@ -196,6 +196,7 @@ public class Player {
      * It then subtracts this player's active card's attack strength from the opponent's active card's HP and sets this
      * player's turn to false.
      * @param opponent the player whose card is being attacked
+     * @Author Aoife Brown
      */
     public void attack(Player opponent) {
         //Play attack sound effect
@@ -219,12 +220,20 @@ public class Player {
 
     }
 
+    /**
+     * @Author Chloe Mc Ateer
+     * @param g
+     * @param opponent
+     */
     public void renderAttack(Painter g, Player opponent) {
         g.setFont(Typeface.DEFAULT, textSize);
         g.drawString("You attacked with " + this.getActiveCard().getAttackName(), textX, textY, Color.WHITE);
         g.drawString("minus " + attackDamage + " points " + opponent.getName(), text2X, text2Y, Color.WHITE );
     }
 
+    /**
+     * @Author James Vint
+     */
     public void retreat() {
         if(this.getActiveCard() == null) {
             this.retreatError = true;
@@ -235,6 +244,10 @@ public class Player {
         }
     }
 
+    /**
+     * @Author Aoife Brown
+     * @param g
+     */
     public void renderRetreat(Painter g) {
         if (this.retreatError) {
             g.drawString("Sorry, there must be a card in play in order to retreat!", textX, textY, Color.WHITE);
@@ -253,6 +266,7 @@ public class Player {
      *
      * @param card the student behaviour card to be used
      * @param opponent the other player
+     * @Author Chloe Mullan
      */
     public void useStudentBehaviourCard(StudentBehaviourCard card, Player opponent) {
 
@@ -276,6 +290,7 @@ public class Player {
      * It checks if the player has received all its prize cards, if it has this player
      * is the winner.
      * @return true if this player is the winner, false if they are not the winner
+     * @Author Aoide Brown
      */
     public boolean checkIfWinner() {
         if(this.getRoundWins() == this.getPrizeCards().size()) {
@@ -284,12 +299,23 @@ public class Player {
         return this.winner;
     }
 
+    /**
+     * @Author Aoife Brown and Chloe McAteer
+     * @param opponent
+     */
+
     public void winRound(Player opponent) {
         if(opponent.getActiveCard().getHp() <= 0) {
             this.roundWins++;
             checkPrizeCardState(opponent);
         }
     }
+
+    /**
+     * @Author Aoife Brown and Chloe McAteer
+     * @param g
+     * @param opponent
+     */
 
     public void renderWinRound(Painter g, Player opponent) {
         g.drawString(this.getName() + " wins the round!", winRoundTextX, winRoundTextY, Color.WHITE);
@@ -299,6 +325,7 @@ public class Player {
     /**
      * This method checks to see if a player should be awarded a prize card
      * @param opponent- the losing player of the round
+     * @Author Chloe Mullan
      */
     public void checkPrizeCardState(Player opponent) {
         if (opponent.getActiveCard().getHp() <= 0) {
@@ -318,6 +345,7 @@ public class Player {
 
     /**
      * This method flips over a prize card for the winning player each time that player wins a round
+     * @Author Chloe Mullan
      */
     public void flipPrizeCard() {
         for (int i= 0; i <this.getPrizeCards().size(); i++) {
@@ -334,6 +362,7 @@ public class Player {
      * This method checks if a player has prize cards that have been flipped
      * @param player - the player whose prize cards are checked
      * @return true - if prize cards are flipped
+     * @Author Chloe Mullan
      */
     public boolean checkIfPlayerHasFlippedPrizeCards(Player player) {
         boolean isFlipped = false;

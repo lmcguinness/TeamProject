@@ -3,6 +3,7 @@ package com.example.societyslam.societyslam.Util;
 import android.graphics.Bitmap;
 
 /**
+ * Created by Aoife Brown
  * This abstract class is for a menu object
  */
 

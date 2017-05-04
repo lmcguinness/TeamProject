@@ -9,6 +9,7 @@ import com.example.societyslam.societyslam.Util.Button;
 import com.example.societyslam.societyslam.Util.Painter;
 
 /**
+ * Created by Chloe McAteer and Leanne McGuinness
  * This class displays the name and score of the highest player ever
  */
 

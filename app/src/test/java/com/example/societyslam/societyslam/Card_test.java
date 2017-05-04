@@ -12,6 +12,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+/**
+ * Created by Chloe McAteer
+ */
+
 @RunWith(MockitoJUnitRunner.class)
 public class Card_test {
 

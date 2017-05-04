@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 /**
- * Created by ChloeMullan on 19/04/2017.
+ * Created by ChloeMullan, Aoife Brown, Leanne McGuinness, Chloe McAteer on 19/04/2017.
  */
 
 @RunWith(MockitoJUnitRunner.class)

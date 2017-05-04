@@ -3,6 +3,7 @@ package com.example.societyslam.societyslam.Util;
 import android.graphics.Bitmap;
 
 /**
+ * Created by Chloe McAteer
  * This is a class for a frame object
  */
 public class Frame {

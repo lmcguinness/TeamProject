@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
+ * Created by Chloe McAteer
  * The Deck object is a collection of cards
  */
 public class Deck {

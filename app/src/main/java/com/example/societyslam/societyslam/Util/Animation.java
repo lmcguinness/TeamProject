@@ -1,6 +1,7 @@
 package com.example.societyslam.societyslam.Util;
 
 /**
+ * Chloe Mc Ateer
  * The Animation class is a collection of associated frames
  * In implementation we create an Animation object for each desired animation
  */

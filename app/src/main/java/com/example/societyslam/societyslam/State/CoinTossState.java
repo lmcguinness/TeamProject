@@ -58,6 +58,11 @@ public class CoinTossState extends State {
  * @param delta - time since last position
  */
     }
+
+    /**
+     * @Author Chloe McAteer
+     * @param delta - time since last position
+     */
     @Override
     public void update(float delta) {
         //flip coin animation update

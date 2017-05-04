@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
      * method OnCreate is overridden from super class Activity
      * method is implemented to start the activity
      * @param savedInstanceState
+     * @Author Leanne McGuinness, Chloe McAteer, Chloe Mullan
      */
 
     @Override
@@ -54,6 +55,7 @@ public class MainActivity extends Activity {
         myGame = new GameView(this, this.GAME_WIDTH, this.GAME_HEIGHT, isPlayerDetsSet);
         setContentView(myGame);
 
+        //@Author Leanne Mc Guinness
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         mediaPlayer = new MediaPlayer();
 
@@ -68,19 +70,19 @@ public class MainActivity extends Activity {
             mediaPlayer = null;
         }
 
-        //ADDED BY Leanne McGuinness 26/11/2016
+        //@Author Leanne McGuinness 26/11/2016
         //this will return the window that activity is using
         Window window = getWindow();
         //Keeping the screen on during a game so it doesnt dim
         //We need to ask permission in android manifest
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
         settings = new Settings(getApplicationContext());
     }
 
     /**
      * Method called when the players score is greater than the saved high score
      * @param highScore - the new highest score
+     * @Author Chloe McAteer
      */
     public static void setHighScore(int highScore){
         MainActivity.highScore = highScore;
@@ -93,6 +95,7 @@ public class MainActivity extends Activity {
      * Method is called once when the application is started.
      * Its value is stored into memory as highScore for quicker access
      * @return highscoreKey- the saved highscore
+     * @Author Chloe McAteer
      */
     private int retrieveHighScore(){
         return prefs.getInt(highScoreKey,0);
@@ -101,6 +104,7 @@ public class MainActivity extends Activity {
     /**
      * Allows us to access the high score
      * @return highscore
+     * @Author Chloe McAteer
      */
     public static int getHighScore(){
         return highScore;
@@ -109,6 +113,7 @@ public class MainActivity extends Activity {
     /**
      * Method called when the player scores is greater than the saved high score
      * @param highScorePlayer - The name of player who scored highest
+     * @Author Chloe McAteer
      */
     public static void setHighScorePlayer(String highScorePlayer){
         MainActivity.highScorePlayer = highScorePlayer;
@@ -121,6 +126,7 @@ public class MainActivity extends Activity {
      * Method is called once the application is started
      * Its value is stored into the memory as highScorePlayer for quicker access
      * @return highScorePlayer - the name of the player with the highest score
+     * @Author Chloe McAteer
      */
     private String retrieveHighScorePlayer(){
         return  prefs.getString(highScorePlayerKey, " ");
@@ -129,6 +135,7 @@ public class MainActivity extends Activity {
     /**
      * Allows us to access the high score players name
      * @return
+     * @Author Chloe McAteer
      */
     public static String getHighScorePlayer(){
         return highScorePlayer;
@@ -137,6 +144,7 @@ public class MainActivity extends Activity {
     /**
      * Method is implemented from superclass
      * used to restart activity
+     * @Author Leanne McGuinness
      */
     @Override
     public void onRestart() {
@@ -145,6 +153,7 @@ public class MainActivity extends Activity {
     /**
      * Method is overridden from superclass
      * used to resume activity
+     * @Author Leanne McGuinness
      */
     @Override
     protected void onResume() {
@@ -160,6 +169,7 @@ public class MainActivity extends Activity {
     /**
      * Method is overridden from superclass
      * used to pause activity
+     * @Author Leanne McGuinness
      */
     @Override
     protected void onPause() {
@@ -176,6 +186,7 @@ public class MainActivity extends Activity {
      * Method is overridden from superclass
      * used to stop activity
      * on stopping cards are cleared for starting a new game
+     * @Author James Vint
      */
     @Override
     protected void onStop() {

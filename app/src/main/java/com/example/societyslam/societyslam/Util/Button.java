@@ -3,6 +3,7 @@ package com.example.societyslam.societyslam.Util;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 /**
+ * Created by Aoife
  * This is a class for a button object
  */
 

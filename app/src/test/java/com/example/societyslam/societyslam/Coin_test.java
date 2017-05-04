@@ -6,6 +6,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+/**
+ * Created by James Vint
+ */
+
 @RunWith(MockitoJUnitRunner.class)
 public class Coin_test {
     Coin mockCoin;

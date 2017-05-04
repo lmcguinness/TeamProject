@@ -14,6 +14,9 @@ import android.widget.EditText;
 
 import com.example.societyslam.societyslam.Game.MainActivity;
 
+/**
+ * Created by Chloe Mullan
+ */
 public class PlayerDetailsActivity extends AppCompatActivity {
 
     @Override

@@ -20,6 +20,7 @@ import java.util.Random;
 import static com.example.societyslam.societyslam.Game.MainActivity.mediaPlayer;
 
 /**
+ * Created by Leanne McGuinness, Chloe Mc Ateer, Chloe Mullan and Aoife Brown
  * The playstate acts as the games play screen for society slam, it displays the board and the cards for the game,
  * it extends state
  */

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
+ * Created by Aoife Brown
  * This is the Painter class, it is used to control the games graphics
  */
 

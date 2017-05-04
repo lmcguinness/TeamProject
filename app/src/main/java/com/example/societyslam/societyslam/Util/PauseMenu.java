@@ -14,6 +14,7 @@ import static com.example.societyslam.societyslam.Game.MainActivity.mediaPlayer;
 import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 /**
+ * Created by Aoife Brown, Leanne Mc Guinness and James Vint
  * This class is for a pause menu object
  */
 

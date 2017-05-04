@@ -14,7 +14,7 @@ import com.example.societyslam.societyslam.Util.PauseMenu;
 import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 /**
- * Created by Aoife Brown on 21/11/2016.
+ * Created by Aoife Brown,Leanne McGuinness, Chloe Mc Ateer on 21/11/2016.
  */
 
 public class MenuState extends State {

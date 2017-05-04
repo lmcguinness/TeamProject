@@ -17,6 +17,7 @@ import com.example.societyslam.societyslam.Util.Painter;
 import static com.example.societyslam.societyslam.Game.MainActivity.myGame;
 
 /**
+ * Created by Aoife Brown, Chloe Mullan
  * This class displays a game over state on screen once a player has won the game
  */
 
