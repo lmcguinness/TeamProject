@@ -22,6 +22,7 @@ import java.io.IOException;
 /**
  * This is the starting point for our game, contains onCreate method which sets our game into motion
  * Adapted from Android Game Development - J.Cho
+ * Adapted from Beginning Android Games – Mario Zechner
  */
 public class MainActivity extends Activity {
 
